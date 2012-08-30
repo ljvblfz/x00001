@@ -55,6 +55,7 @@ public class TwoWaySerialComm {
 			int len = -1;
 			try {
 				while ((len = this.in.read(buffer)) > -1) {
+//					System.out.println(new String(buffer, 0, len));
 					System.out.print(new String(buffer, 0, len));
 				}
 			} catch (IOException e) {

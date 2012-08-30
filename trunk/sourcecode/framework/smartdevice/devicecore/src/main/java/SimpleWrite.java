@@ -30,10 +30,11 @@
  * warrants that it will not use or redistribute the Software for such
  * purposes.
  */
-import java.io.*;
-import java.util.*;
-import javax.comm.*;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Enumeration;
 
+import gnu.io.*;
 /**
  * Class declaration
  *
@@ -44,10 +45,10 @@ import javax.comm.*;
 public class SimpleWrite {
     static Enumeration	      portList;
     static CommPortIdentifier portId;
-    static String	      		messageString = "Hello, world!";
+    static String	      messageString = "Hello, world!";
     static SerialPort	      serialPort;
     static OutputStream       outputStream;
-    static boolean	      	outputBufferEmptyFlag = false;
+    static boolean	      outputBufferEmptyFlag = false;
     /**
      * Method declaration
      *
@@ -86,26 +87,23 @@ public class SimpleWrite {
 		    } 
 
 		    try {
-				outputStream = serialPort.getOutputStream();
-		    } catch (IOException e) {
-			}
+			outputStream = serialPort.getOutputStream();
+		    } catch (IOException e) {}
 
 		    try {
 			serialPort.setSerialPortParams(9600, 
 						       SerialPort.DATABITS_8, 
 						       SerialPort.STOPBITS_1, 
 						       SerialPort.PARITY_NONE);
-		    } catch (UnsupportedCommOperationException e) {
-			
-			}
+		    } catch (UnsupportedCommOperationException e) {}
 	
 
 		    try {
 		    	serialPort.notifyOnOutputEmpty(true);
 		    } catch (Exception e) {
-				System.out.println("Error setting event notification");
-				System.out.println(e.toString());
-				System.exit(-1);
+			System.out.println("Error setting event notification");
+			System.out.println(e.toString());
+			System.exit(-1);
 		    }
 		    
 		    
@@ -114,7 +112,7 @@ public class SimpleWrite {
 			+serialPort.getName());
 
 		    try {
-				outputStream.write(messageString.getBytes());
+			outputStream.write(messageString.getBytes());
 		    } catch (IOException e) {}
 
 		    try {
@@ -122,18 +120,17 @@ public class SimpleWrite {
 		    } catch (Exception e) {}
 		    serialPort.close();
 		    System.exit(1);
-			} 
+		} 
 	    } 
-		} 
+	} 
 
-		if (!portFound) {
-			System.out.println("port " + defaultPort + " not found.");
-		} 
+	if (!portFound) {
+	    System.out.println("port " + defaultPort + " not found.");
+	} 
     } 
 
 
 }
-
 
 
 
