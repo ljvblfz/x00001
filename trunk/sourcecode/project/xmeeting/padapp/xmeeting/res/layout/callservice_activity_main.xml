@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@drawable/iphone" >
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1" >
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="呼叫服务" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_weight="1" >
+
+            <Button
+                android:id="@+id/btnnavpersonalinfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/coffee"
+                android:gravity="center"
+                android:text="茶、水" />
+
+            <Button
+                android:id="@+id/btnnavpersonalinfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/bookpen"
+                android:gravity="center"
+                android:text="纸笔" />
+
+            <Button
+                android:id="@+id/btnnavpersonalinfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/microphone"
+                android:gravity="center"
+                android:text="话筒" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow2" 
+            android:layout_weight="1" >
+
+            <Button
+                android:id="@+id/btnnavpersonalinfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/users"
+                android:gravity="center"
+                android:text="服务人员" />
+
+            <Button
+                android:id="@+id/btnnavpersonalinfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/message"
+                android:gravity="center"
+                android:text="其他" />
+        </TableRow>
+    </TableLayout>
+
+<!--     <RelativeLayout -->
+<!--         android:layout_width="fill_parent" -->
+<!--         android:layout_height="65dip" -->
+<!--         android:background="@color/DarkGreen" -->
+<!--         android:orientation="horizontal" > -->
+
+<!--         <Button -->
+<!--             android:id="@+id/btnnavhome" -->
+<!--             android:layout_width="wrap_content" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:layout_alignParentRight="true" -->
+<!--             android:drawableTop="@drawable/home3" -->
+<!--             android:gravity="center" -->
+<!--             android:text="主界面" /> -->
+
+<!--         <Button -->
+<!--             android:id="@+id/btnnavreturn" -->
+<!--             android:layout_width="wrap_content" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:layout_marginRight="10dp" -->
+<!--             android:layout_toLeftOf="@+id/btnnavhome" -->
+<!--             android:drawableTop="@drawable/back" -->
+<!--             android:gravity="center" -->
+<!--             android:text="返    回" /> -->
+<!--     </RelativeLayout> -->
+
+ 	<include layout="@layout/common_toolbar"/>  
+</LinearLayout>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/iphone"
+    android:orientation="vertical" >
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="100dip"
+        android:layout_marginTop="100dp"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btnnavbegintimer"
+            android:layout_width="300dip"
+            android:layout_height="100dip"
+            android:layout_marginLeft="200dp"
+            android:gravity="center"
+            android:text="开始计时"
+            android:textColor="@color/White"
+            android:textSize="60dp" />
+
+        <Button
+            android:id="@+id/btnnavendtimer"
+            android:layout_width="300dip"
+            android:layout_height="100dip"
+            android:layout_marginLeft="200dp"
+            android:gravity="center"
+            android:text="结束计时"
+            android:textColor="@color/White"
+            android:textSize="60dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/timercontent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1" 
+        android:orientation="horizontal" >
+
+        <!-- android:layout_marginTop="100dp" -->
+
+        <TextView
+            android:id="@+id/timingdisplaycontent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="00:00:00"
+            android:textColor="@color/White"
+            android:textSize="100dp" />
+    </LinearLayout>
+
+<!--     <RelativeLayout -->
+<!--         android:layout_width="fill_parent" -->
+<!--         android:layout_height="65dip" -->
+<!--         android:background="@color/DarkGreen" -->
+<!--         android:orientation="horizontal" > -->
+
+<!--         <Button -->
+<!--             android:id="@+id/btnnavhome" -->
+<!--             android:layout_width="wrap_content" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:layout_alignParentRight="true" -->
+<!--             android:drawableTop="@drawable/home3" -->
+<!--             android:gravity="center" -->
+<!--             android:text="主界面" /> -->
+
+<!--         <Button -->
+<!--             android:id="@+id/btnnavreturn" -->
+<!--             android:layout_width="wrap_content" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:layout_marginRight="10dp" -->
+<!--             android:layout_toLeftOf="@+id/btnnavhome" -->
+<!--             android:drawableTop="@drawable/back" -->
+<!--             android:gravity="center" -->
+<!--             android:text="返    回" /> -->
+<!--     </RelativeLayout> -->
+
+ 	<include layout="@layout/common_toolbar"/>  
+
+</LinearLayout>

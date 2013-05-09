@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/Grey"
+        android:stretchColumns="*" > 
+        <TableRow  > 
+            <TextView android:layout_margin="0.5dip"
+                android:id="@+id/meetingscheduleday1"   
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="2"
+                android:text="第一天(2012-12-28)" />
+ 
+        </TableRow>
+        <TableRow  > 
+            <TextView android:layout_margin="0.5dip"
+                android:id="@+id/meetingscheduletime1"  android:background="@color/White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="08:15" />
+
+            <TextView android:layout_margin="0.5dip"
+                android:id="@+id/meetingschedulecontent1"  android:background="@color/White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="3"
+                android:text="签到" />
+        </TableRow>
+        <TableRow  > 
+            <TextView android:layout_margin="0.5dip"
+                android:id="@+id/meetingscheduletime2"  android:background="@color/White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="09:00" />
+
+            <TextView android:layout_margin="0.5dip"
+                android:id="@+id/meetingschedulecontent2"  android:background="@color/White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="3"
+                android:text="欢迎致辞" />
+        </TableRow>
+        <TableRow  > 
+            <TextView android:layout_margin="0.5dip"
+                android:id="@+id/meetingscheduletime3"  android:background="@color/White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="09:10" />
+
+            <TextView android:layout_margin="0.5dip"
+                android:id="@+id/meetingschedulecontent3"  android:background="@color/White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="3"
+                android:text="开场主旨演讲: 数字时代，何为优化？\n Avinash Kaushik, 数字媒体营销布道师, 谷歌" />
+        </TableRow>
+        <TableRow  > 
+            <TextView android:layout_margin="0.5dip"
+                android:id="@+id/meetingscheduletime4"  android:background="@color/White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10:20" />
+
+            <TextView android:layout_margin="0.5dip"
+                android:id="@+id/meetingschedulecontent4"  android:background="@color/White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="3"
+                android:text="茶歇" />
+        </TableRow>
+        
+         <TableRow  > 
+            <TextView android:layout_margin="0.5dip"
+                android:id="@+id/meetingscheduleday1"   
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="2"
+                android:text="第二天(2012-12-29)" />
+ 
+        </TableRow>
+        <TableRow  > 
+            <TextView android:layout_margin="0.5dip"
+                android:id="@+id/meetingscheduletime1"  android:background="@color/White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="08:15" />
+
+            <TextView android:layout_margin="0.5dip"
+                android:id="@+id/meetingschedulecontent1"  android:background="@color/White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="3"
+                android:text="签到" />
+        </TableRow>
+        <TableRow  > 
+            <TextView android:layout_margin="0.5dip"
+                android:id="@+id/meetingscheduletime2"  android:background="@color/White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="09:00" />
+
+            <TextView android:layout_margin="0.5dip"
+                android:id="@+id/meetingschedulecontent2"  android:background="@color/White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="3"
+                android:text="主旨演讲: 如何利用客户关系管理数据才能将付费搜索效果最大化?" />
+        </TableRow>
+        <TableRow  > 
+            <TextView android:layout_margin="0.5dip"
+                android:id="@+id/meetingscheduletime3"  android:background="@color/White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="09:40" />
+
+            <TextView android:layout_margin="0.5dip"
+                android:id="@+id/meetingschedulecontent3"  android:background="@color/White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="3"
+                android:text="移动营销的必胜策略" />
+        </TableRow>
+        <TableRow  > 
+            <TextView android:layout_margin="0.5dip"
+                android:id="@+id/meetingscheduletime4"  android:background="@color/White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10:20" />
+
+            <TextView android:layout_margin="0.5dip"
+                android:id="@+id/meetingschedulecontent4"  android:background="@color/White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="3"
+                android:text="茶歇" />
+        </TableRow>
+          
+     </TableLayout>
+ 
+
+</LinearLayout>
