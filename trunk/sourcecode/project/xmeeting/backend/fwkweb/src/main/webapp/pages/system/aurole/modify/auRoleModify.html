@@ -1,0 +1,53 @@
+<h2 class="contentTitle" name="showTitle">Edit Type</h2>
+<form name="pageForm" method="post" class="required-validate pageForm" onsubmit="return validateCallback(this, navTabAjaxDone);">
+		<input type="hidden" name="guid" id="guid"/>
+		<input type="hidden" name="navTabId" value="auRole" />
+		<input type="hidden" name="callbackType" value="closeCurrent" />
+		<input type="hidden" name="callBackMethod" value="auRoleSearch" />
+	<div class="pageFormContent" layoutH="87">
+	 	<p>
+			<label>名称</label>
+			<input type="text" name="name"  domain="1"  validateRemote="/rs/auRoleValidate/" size="30" maxlength="20"/>
+	 	</p> 
+		<p>
+			<label>备注</label>
+			 	
+			<input type="text" name="memo"    maxlength="30" size="30"/>
+	 		</p>
+ 
+		 
+ 
+	</div>
+	
+	
+
+	
+	
+			
+	<div class="formBar"> 
+		<ul>
+			<li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div></li>
+			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
+		</ul>
+	</div>
+</form>
+<script type="text/javascript">
+	//通过tab url得到行主键，获取信息，自动填充form表单
+	$(function(){
+		var $form = findName("pageForm");
+
+		var url = navTab._getTabUrl();
+			 
+		var guid=navTab._getParam("guid");
+		 
+		if(guid){
+			findName('showTitle').html('修改角色');
+			findName('name').attr("disabled","disabled")
+			doGetAjax(CPATH.domain_1 + "/rs/auRole/" +guid ,null,function(data){$form.find("[name]").populate(data); });
+			$form.attr('action',CPATH.domain_1 + '/rs/auRole/'+guid+'?method=put');
+		}else{
+			findName('showTitle').html('新增角色');
+			$form.attr('action',CPATH.domain_1 + '/rs/auRole?method=post');
+		}
+	});
+</script>

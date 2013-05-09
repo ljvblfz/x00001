@@ -1,0 +1,125 @@
+<h2 class="contentTitle" name="showTitle">查看编码原则信息</h2>
+<form name="pageForm" method="post" class="required-validate pageForm" onsubmit="return false;">
+		<input type="hidden" name="navTabId" value="mwBasicEncodePrinciple" />
+		<input type="hidden" name="callbackType" value="closeCurrent" />
+		<input type="hidden" name="callBackMethod" value="mwBasicEncodePrincipleSearch" />
+		<input type="hidden" name="ucpGuid" id="ucpGuid"/>
+	<div class="pageFormContent" layoutH="87">
+	
+			<p>
+				 <label>编码原则代号：
+			     </label>
+			    <input type="text" name="ucpCode" id="ucpCode"  class=" " size="30" maxlength="20" readOnly="readOnly"/>
+			</p>
+			
+			<p>
+				 <label>编码原则名称：
+			  </label>
+				<input type="text" name="ucpName" id="ucpName"  class=" " size="30" maxlength="20" readOnly="readOnly" />
+			</p>
+
+			<p>
+				 <label>编码长度：
+			    </label>
+			    <input type="text" name="ucpCodeLength" id="ucpCodeLength"  class=" " size="30" maxlength="20" readOnly="readOnly"/>
+			</p>
+ 		
+			<p>
+				 <label>备注：
+			   </label>
+			    <input type="text" name="ucpComment" id="ucpComment"  class=" "  size="30" maxlength="20" readOnly="readOnly" />
+			</p>
+			<p>
+				 <label>原则类型：
+			   </label>
+			    <input type="text" name="ucpTypeName" id="ucpTypeName"  class=" "  size="30" maxlength="20" readOnly="readOnly" />
+			</p>
+  <div class="divider"></div>
+  
+  <div>
+	<table class="table" layoutH="278" width="100%">
+		<thead>
+			<tr  searchMethod="utilCodePrincipleDetailForViewArgsSearch">
+					 
+						 
+						<th width="19%" >项次</th>
+						<th width="19%" >起始位</th>
+						<th width="19%" >终止位</th>
+						<th width="19%" >表示字段</th>
+						<th width="19%" >格式</th>
+			 
+					 
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="utilCodePrincipleDetailForViewArgsTrTemplate" target="slt_uid">
+			 		 
+				 		<td name="ucpdOrder"></td>
+						<td name="ucpdStart"></td>
+						<td name="ucpdEnd"></td>
+						<td name="ucpdFieldName"></td>
+						<td name="ucpdFormatName"></td>
+			
+						 
+				
+			</tr>
+		</tbody>
+	</table>
+				</div>
+  
+		  </div>	
+	<div class="formBar">
+		<ul>
+ 
+			<li><div class="button"><div class="buttonContent">
+			  <button type="button" class="close">关闭</button>
+			</div></div></li>
+		</ul>
+	</div>
+</form>
+<script type="text/javascript">
+	
+	//通过tab url得到行主键，获取信息，自动填充form表单
+	function utilCodePrincipleDetailForViewArgsSearch(opt) {
+		//序列化表单值，并扩展到utilCodePrincipleDetailForViewArgsArgs对象中
+		var utilCodePrincipleDetailForViewArgs = {};
+		$.extend(utilCodePrincipleDetailForViewArgs,
+				findName('utilCodePrincipleDetailForViewArgsSearchForm')
+						.serializeJson(), opt ? opt : {});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_1, "/rs/utilCodePrinciple/"
+				+ navTab._getParam("ucpGuid") + "/detail"),
+				utilCodePrincipleDetailForViewArgs,
+				utilCodePrincipleDetailForViewArgsList);
+	}
+
+	//拼装
+	function utilCodePrincipleDetailForViewArgsList(data) {
+		var sampleRow = findName('utilCodePrincipleDetailForViewArgsTrTemplate');
+		pageResponse2Table(sampleRow, data);
+		// printPageBarDiv(findName('utilCodePrincipleDetailPageBar'),findName('utilCodePrincipleDetailCountDiv'),data.jsonData);
+	}
+
+	 
+	$(function() {
+		var $form = findName("pageForm");
+		var url = navTab._getTabUrl();
+		var ucpGuid = navTab._getParam("ucpGuid");
+		console.log(ucpGuid);
+		if (ucpGuid) {
+			findName('ucpGuid').val(ucpGuid);
+		 
+			findName('showTitle').html('查看物料编码原则信息');
+
+			doGetAjax(CPATH.domain_1 + "/rs/mwBasicEncodePrinciple/" + ucpGuid,
+					null, function(data) {
+						$form.find("[name]").populate(data);
+						findClass("sync").removeClass("sync").combox();
+					});
+
+			//查询方法
+
+			utilCodePrincipleDetailForViewArgsSearch();
+		}
+	});
+</script>

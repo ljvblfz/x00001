@@ -1,0 +1,36 @@
+ 
+ 
+ <h2 class="contentTitle" name="showTitle">查看角色权限</h2>
+ 
+		<input type="hidden" name="guid" id="guid"/>
+		<input type="hidden" name="modify" id="modify"/>
+		<input type="hidden" name="navTabId" value="authority" />
+		<input type="hidden" name="callbackType" value="closeCurrent" />
+		<input type="hidden" name="callBackMethod" value="search" />
+	<div class="pageFormContent" layoutH="87">
+		<div id="auRoleAuthorityTreeDiv"   />
+	</div>
+			
+	<div class="formBar">
+		<ul>
+		 
+			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
+		</ul>
+	</div>
+ 
+<script type="text/javascript">
+ 
+	$(function(){
+		var $form = jQuery(".pageFormContent");
+		var url = navTab._getTabUrl();
+		var guid=navTab._getParam("guid"); 
+		var id="auRoleAuthorityTreeDiv" ;
+	
+		if(guid){
+		 
+			createTree(CPATH.domain_1+ "/rs/auRole/"+guid+"/auAuthority",id,true,'authorityName','authorityId','sonAuthorities','authorityIds','isHave');
+	 	 
+		} 
+	});
+
+</script>

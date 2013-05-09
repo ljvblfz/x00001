@@ -1,0 +1,412 @@
+<style>
+  .syCckContentPageContent td.ccklongtext, .syCckContentPageContent th.ccklongtext{text-overflow:ellipsis;overflow:hidden;white-space: nowrap; } 
+  </style>
+<script type="text/javascript">
+	$(function() {
+		findName("cckcontent_add").bind("click", cckcontent_add);
+		findName("cckcontent_edit").bind("click", cckcontent_edit);
+		findName("cckcontent_remove").bind("click", cckcontent_remove);
+
+		var cckcontentArgs = {};
+		findName("cckcontentSearchForm").data("arg", cckcontentArgs);
+		var sctGuid = navTab._getParam("sctGuid");
+		var masterId = navTab._getParam("masterId");
+		var readOnly =  navTab._getParam("readOnly");
+		// 	cckcontentArgs.sctGuid=sctGuid;
+		var cckajax=findClass("cck-ajax");
+		if(cckajax&&cckajax.length>0){
+			var url = $(cckajax[0]).attr("href").toString();
+
+			if (url) {
+
+				var strs = url.split("?");
+				if (strs[1]) {
+					var ss = strs[1].split("&");
+					if (ss) {
+						for ( var i = 0; i < ss.length; i++) {
+							var ps = ss[i].split("=");
+							if (ps && ps[0] && ps[1]) {
+								if (ps[0] == "sctGuid") {
+									sctGuid = ps[1];
+								}else if (ps[0] == "masterId") {
+									masterId = ps[1];
+								}else if (ps[0] == "readOnly") {
+									readOnly = ps[1];
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+ 
+		if(readOnly&&(readOnly==true||readOnly=="true"))
+			{
+			$(".toolBar",findName("syCckContentPageContent")).hide();
+			}
+		findName("cckcontentSearchForm").data("sctGuid", sctGuid);
+		findName("cckcontentSearchForm").data("masterId", masterId);
+		var arg = findName("cckcontentSearchForm").data("arg");
+		if(!arg.numPerPage){
+			arg.numPerPage=20;
+		}
+		if (sctGuid) {
+			doGetAjax(CPATH.domain_1 + "/rs/cck/dgrid/buildgrid/" + sctGuid+(masterId?("?masterId="+masterId):""),
+					arg, function(data) {
+						if (!data)
+							return;
+						if (data.primaryKey) {
+							$("[name=SCCGUID]", findName("syCckContentPageContent")).attr("name", data.primaryKey);
+// 							findName("SCCGUID").attr("name", data.primaryKey);
+						}
+						if (data.searchs && data.searchs.length > 0) {
+							createSearcheFormForCckContent(data);
+						} else {
+				$("[layouth]", findName("syCckContentPageContent")).attr(
+									"layouth", 54);
+				$(".pageHeader", findName("cckcontentSearchForm")).hide();
+// 							findClass("pageHeader").hide();
+						}
+						createTableColumnForCckContent(data, sctGuid);
+						$(".pageHeader", findName("cckcontentSearchForm")).parent().resize();
+// 						findClass("pageHeader").parent().resize();
+					});
+
+		}
+	});
+// 	function fillParamsInTabForCCK(sctGuid,masterId){
+// 		var cckajax=findClass("cck-ajax");
+// 		if(cckajax&&cckajax.length>0){
+// 			var url = $(cckajax[0]).attr("href").toString();
+
+// 			if (url) {
+
+// 				var strs = url.split("?");
+// 				if (strs[1]) {
+// 					var ss = strs[1].split("&");
+// 					if (ss) {
+// 						for ( var i = 0; i < ss.length; i++) {
+// 							var ps = ss[i].split("=");
+// 							if (ps && ps[0] && ps[1]) {
+// 								if (ps[0] == "sctGuid") {
+// 									sctGuid = ps[1];
+// 								}else if (ps[0] == "masterId") {
+// 									masterId = ps[1];
+// 								}
+// 							}
+// 						}
+// 					}
+// 				}
+// 			}
+// 		}
+// 	}
+	function cckcontentSearch(opt) {
+		//序列化表单值，并扩展到syCckTypeArgs对象中
+		$.extend(findName("cckcontentSearchForm").data("arg"), findName(
+				'cckcontentSearchForm').serializeJson(), opt ? opt : {});
+		//执行ajax查询方法
+// 		var sctGuid = navTab._getParam("sctGuid");
+// 		var masterId = navTab._getParam("masterId");
+		var sctGuid = 	findName("cckcontentSearchForm").data("sctGuid" );
+		var masterId = findName("cckcontentSearchForm").data("masterId" );
+		var arg = findName("cckcontentSearchForm").data("arg");
+		if(!arg.numPerPage){
+			arg.numPerPage=20;
+		}
+ 
+		doGetAjax(getURL(CPATH.domain_1, "/rs/cck/dgrid/buildgrid/" + sctGuid+(masterId?("?masterId="+masterId):"")),
+				arg, cckcontentList);
+	}
+	function resetForm_cckcontent() {
+		findName("cckcontentSearchForm")[0].reset();
+$(".selectToReset",findName("cckcontentSearchForm")).filter("a").text("所有");
+// 		findClass("selectToReset").filter("a").text("所有");
+
+	}
+	//创建 searchform 
+	function createSearcheFormForCckContent(data, sctGuid) {
+		var searchs = data.searchs;
+// 		var searchBar = findClass("searchBar");
+// 		var subBar = findClass("subBar");
+		var searchBar = $(".searchBar",findName("cckcontentSearchForm"));
+		var subBar =$(".subBar",findName("cckcontentSearchForm"));
+		var count = 1;
+		var searchhtml = "<ul class=\"searchContent\">";
+		changeSearchBarHeightForCckContent(searchs.length);
+		for ( var i = 0; i < searchs.length; i++) {
+			if (count == 4) {
+				count = 1;
+				searchhtml += "</ul><ul class=\"searchContent\">";
+
+			}
+			searchhtml += "<li  > ";
+			searchhtml += createSearchInputForCckContent(searchs[i]);
+			searchhtml += " </li>";
+			count++;
+
+		}
+		searchhtml += "</ul>";
+		searchBar.append(searchhtml);
+		subBar.appendTo(searchBar);
+
+		searchBar.initUI();
+	}
+	//更改高度
+	function changeSearchBarHeightForCckContent(length) {
+		var th = 91 + (Math.ceil(parseInt(length) / 3) * 25);
+// 		var ttt = $("[layouth]", navTab.getCurrentPanel());
+
+// 	$("[layouth]", navTab.getCurrentPanel()).attr("layoutH", th);
+	$("[layouth]",findName("syCckContentPageContent")).attr("layoutH", th);
+	}
+	//新建searchform 里的 input select 等；
+	function createSearchInputForCckContent(s) {
+		var html = " <label>" + s.fieldLabel + "</label>";
+		var input = '';
+		if (s.fieldType == 4) {//code
+			input = "<select name=\""
+					+ s.fieldColumn.toUpperCase()
+					+ " \" seq= \"desc\" class= \"combox selectToReset\" valueCode= \"valueCode\" codeType=\""
+					+ s.fieldTypeReference + "\" valueDesc=\"valueDesc\">";
+			input += "<option value=\"\">所有</option> </select>";
+		} else 
+			if (s.fieldType == 5) {//code
+				var url =  "/rs/syWidgetReferenceData/"+s.fieldTypeReference ;
+				if(s.fieldTypeReferenceType==1)//autocomplete
+				{
+					input ="<input type=\"text\" name=\""+ s.fieldColumn.toUpperCase()+"_SHOW"
+						+"\" id=\""+s.fieldColumn.toUpperCase()+new Date().getTime()+"\" datavalue=\"ID\" "
+						+"itemvalue=\"NAME\" autocompletetype=\""+s.fieldAutocompleteType
+						+"\" domain=\"1\"  dataurl=\""+url+"\"  class=\"autocompleteForCCK\"  >";
+						input +="<input type=\"hidden\" name=\""+s.fieldColumn.toUpperCase() +"\"  />";
+						
+						
+						 
+				}else	if(s.fieldTypeReferenceType==2)//autocomplete
+				{
+					input ="<input type=\"text\" name=\""+ s.fieldColumn.toUpperCase()+""
+						+"\" datavalue=\"ID\" "
+						+"itemvalue=\"NAME\"  domain=\"1\"  dataurl=\""+url+"\"    >";
+					 
+						
+						
+						 
+				}else{
+					input = "<select name=\""
+						+ s.fieldColumn.toUpperCase()
+						+ "\" dataurl=\""+url+"\" domain=1  class= \"combox selectToReset\" valueCode= \"ID\"    valuePid=\"PID\" valueDesc=\"NAME\">";
+						
+				input += "<option value=\"\">所有</option> </select>";
+				}
+			
+				
+			} else if ((s.fieldType <=3 && s.fieldType >= 1) || s.fieldType > 5) {
+			input = "<input type= \"text\" name = '"
+					+ s.fieldColumn.toUpperCase() + "' class= '"
+					+ (3 == s.fieldType ? 'date' : '') + "' />";
+		}
+		html += input;
+		return html;
+	}
+	//创建表头
+	function createTableColumnForCckContent(data, sctGuid) {
+		var table = findClass("cckcontenttable");
+		var trTop = findName("cckcontenttr");
+		var trTemplate = findName("cckcontentTrTemplate");
+		var fields = data.fields;
+		if (!fields) {
+			fields = [];
+		}
+		var ths = '';
+		var tts = '';
+		for ( var i = 0; i < fields.length; i++) {
+			ths += createThForCckContent(fields[i]);
+			tts += createTemplateForCckContent(fields[i]);
+		}
+		trTop.append(ths);
+		trTemplate.append(tts);
+
+		table.addClass("table").parent().initUI();
+		if (!data) {
+			data = {"jsonData" : {"list" : []}};
+		} else if (!data.jsonData) {
+			data["jsonData"] = {"list" : []};
+		}
+		cckcontentList(data);
+	}
+
+	function createThForCckContent(field) {
+		var type = 'th';
+		// 		var name=field.fieldAlias?field.fieldAlias:field.fieldColumn;
+		// 		var type=
+		var html = "<"+type+" >" + field.fieldLabel + "</"+type+">";
+		return html;
+	}
+
+	function createTemplateForCckContent(field) {
+		var type = 'td';
+		// 		var name=field.fieldAlias?field.fieldAlias:field.fieldColumn;
+		// 		var type=
+			var classtext=(field.fieldType=='16'?" class=\"ccklongtext\" ":"   ");
+		var html = "<" + type + " name='" + field.fieldColumn.toUpperCase()	+((field.fieldType=='5'||field.fieldType=='4')?"__NAME":''  )+"' "+classtext+" ></"+type+">";
+		return html;
+	}
+	function cckcontentList(data) {
+		var sampleRow = findName('cckcontentTrTemplate');
+		pageResponse2Table(sampleRow, data);
+		printPageBarDiv(findName('cckcontentPageBar'),
+				findName('cckcontentCountDiv'), data.jsonData);
+		$(".ccklongtext", findName("syCckContentPageContent")).each(
+			function (){
+				var $this=$(this);
+				$this.attr("title",$this.text());
+			} );
+	}
+	function cckcontent_add() {
+		var sctGuid = findName("cckcontentSearchForm").data("sctGuid");
+		var masterId = findName("cckcontentSearchForm").data("masterId");
+		var pData = { "sctGuid" : sctGuid, "masterId" :masterId};
+		cckcontent_showDialog("新增", pData);
+
+	}
+	function _get_sccGuid_ccktypefield_edit() {
+
+		var ids = [];
+		var checkboxs = findName("syCckContentPageContent").find(
+				"input:checkbox:checked");
+		for ( var i = 0; i < checkboxs.length; i++) {
+			var t = $(checkboxs[i]);
+			var val = t.val();
+			if (val && val != "on") {
+				ids[ids.length] = val;
+			} 
+
+		}
+		return ids;
+
+	}
+	function cckcontent_edit() {
+		var ids = _get_sccGuid_ccktypefield_edit();
+		if (ids.length == 1 && ids[0]) {
+			var sctGuid = findName("cckcontentSearchForm").data("sctGuid");
+			var masterId = findName("cckcontentSearchForm").data("masterId");
+			var pData = {
+				"sctGuid" : sctGuid,
+				"sccGuid" : ids[0],
+				"masterId" :masterId
+			};
+			cckcontent_showDialog("修改", pData);
+		} else {
+			alertMsg.error("请选择一条记录!");
+		}
+	}
+
+	function cckcontent_remove() {
+
+		var ids = _get_sccGuid_ccktypefield_edit();
+		if (ids.length > 0) {
+			var sctGuid = findName("cckcontentSearchForm").data("sctGuid");
+			var masterId = findName("cckcontentSearchForm").data("masterId");
+			var pData = { "sctGuid" : sctGuid, "sccGuids" : ids.toString() , "masterId" : masterId };
+			alertMsg.confirm("确认删除？", {
+				okCall : _doPost
+			});
+		} else {
+			alertMsg.error("请选择一条记录!");
+		}
+		function _doPost() {
+
+			// 			var url_del="/rs/cck/dform/buildform/delete/"+sctGuid+"/sccGuid/"+ids; 
+			doPostAjax(
+					getURL(CPATH.domain_1, "/rs/cck/dform/formaction/delete"),
+					pData, cckcontentSearch);
+
+		}
+	}
+
+	function cckcontent_showDialog(operAction, pData) {
+		//
+		var title = operAction + " -- 数据";
+		var rel = "cckcontentdialog";
+		var options = {};
+		options.width = 550;
+		options.height = 500;
+		options.max = false;
+		options.mask = true;
+		options.maxable = true;
+		options.minable = false;
+		options.fresh = true;
+		options.resizable = true;
+		options.drawable = true;
+		options.close = "";
+		options.param = pData;
+		options.zIndex = "1000";
+		var sctGuid = findName("cckcontentSearchForm").data("sctGuid");
+		var url = CPATH.domain_1
+				+ "/pages/system/cck/modify/cckContentModify.html?sctGuid="
+				+ sctGuid;
+		$.pdialog.open(url, rel, title, options);
+
+	}//end of showLineChooserDialog
+</script>
+<form method="get" name="cckcontentSearchForm" class="required-validate" action="/rs/cckcontent" onsubmit="return false;">
+	<input type="hidden" class="ignore" name="pageNum" value="1" />
+	<div class="pageHeader">
+		<div class="searchBar">
+
+			<div class="subBar">
+				<ul>
+					<li><div class="buttonActive">
+							<div class="buttonContent">
+								<button type="button" onclick="cckcontentSearch({pageNum:1})">查询</button>
+							</div>
+						</div></li>
+					<li><div class="buttonActive">
+							<div class="buttonContent">
+								<button type="button" onclick="resetForm_cckcontent()">清空</button>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</form>
+<div class="pageContent syCckContentPageContent" id="cckcontent_pagecontent" name="syCckContentPageContent">
+	<div class="panelBar">
+		<ul class="toolBar">
+			<li><a name="cckcontent_add" class="add" href="#"><span>添加</span> </a></li>
+			<li><a name="cckcontent_remove" class="delete" href="#"><span>删除</span> </a></li>
+			<li><a name="cckcontent_edit" class="edit" href="#"><span>修改</span> </a></li>
+		</ul>
+	</div>
+	<table class="cckcontenttable" name="cckcontenttable" layoutH="141" width="100%">
+		<thead>
+			<tr name="cckcontenttr" searchMethod="cckcontentSearch">
+				<th width="22"><input  class="ignore checkboxCtrl" type="checkbox" group="sccGuids"  ></th>
+
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="cckcontentTrTemplate" target="slt_uid">
+				<td name="SCCGUID" type="check"><input  class="ignore" name="sccGuids" value="" type="checkbox"></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span> <select class="combox ignore" name="numPerPage"
+				onchange="cckcontentSearch({numPerPage:this.value,pageNum:1})">
+				<option value="20">20</option>
+				<option value="40">40</option>
+				<option value="100">100</option>
+				<option value="200">200</option>
+			</select> <span name="cckcontentCountDiv">条，共-条</span>
+		</div>
+		<div name="cckcontentPageBar" class="pagination" searchMethod="cckcontentSearch" targetType="navTab" totalCount="0"
+			numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+
+
+</div>

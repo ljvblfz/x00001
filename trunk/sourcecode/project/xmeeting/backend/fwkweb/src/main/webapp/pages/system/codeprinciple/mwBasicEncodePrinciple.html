@@ -1,0 +1,136 @@
+<form method="get" name="mwBasicEncodePrincipleSearchForm" action="/rs/mwBasicEncodePrinciple" onsubmit="return false;" >
+	<input type="hidden" name="pageNum" value="1" />
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li><label>编码代号</label> <input type="text" name="ucpCode"
+					value="" /></li>
+
+				<li><label>编码原则名称</label> <input type="text" name="ucpName"
+					value="" /></li>
+				<li><label> 原则类型：</label> <select class="combox" name="ucpType"
+					valueCode="valueCode" codeType="7009" valueDesc="valueDesc">
+						<option value="" selected>请选择</option>
+				</select></li>
+
+			</ul>
+
+			<div class="subBar">
+				<ul>						
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="mwBasicEncodePrincipleSearch({pageNum:1})">查询</button></div></div></li>
+				<!-- 	<li><a class="button" href="/management/user!advancedSearch.do?userType=TRAINING" target="dialog" title="Advanced Search"><span>高级查询</span></a></li>  -->
+				</ul>
+			</div>
+  </div>
+	
+</form>
+
+<div class="pageContent">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+			<li><a class="add" target="navTab" rel="userNavucpGuid" href="javascript:getURL(CPATH.domain_1,'/pages/system/codeprinciple/modify/mwBasicEncodePrincipleAdd.html');" title="新增编码原则信息"><span>新增</span></a></li>
+			<li><a class="edit" target="navTab" rel="mwBasicEncodePrincipleModify"
+			 href="javascript:getURL(CPATH.domain_1,'/pages/system/codeprinciple/modify/mwBasicEncodePrincipleModify.html?ucpGuid={slt_uid}');" title="修改编码原则信息"multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
+			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_1,'/rs/mwBasicEncodePrinciple')"  rel="ucpGuids" 
+			callBackMethod="mwBasicEncodePrincipleSearch"	title="确认删除?"><span>删除</span></a></li>
+		<li>
+			<a class="icon" target="navTab" rel="mwBasicEncodePrincipleView"
+				href="javascript:getURL(CPATH.domain_1,'/pages/system/codeprinciple/view/mwBasicEncodePrincipleView.html?ucpGuid={slt_uid}');"
+				title="查看编码原则信息" multiable="no" warn="请选择一条记录"><span>查看</span> </a>
+		</li>
+<!-- 	
+		<li>
+			<a class="edit" target="selectedTodo" postType="json" doType="post" href="javascript:getURL(CPATH.domain_2,'/rs/mwBasicEncodePrinciple/0')" rel="engineIds"
+			callBackMethod="mwBasicEncodePrincipleSearch"	title="确认报废这些条形码吗?" style="display:none"><span>条形码报废</span></a>				
+			<a onclick="javascript:scrapedBarCode(this);" href="javascript:void(0);"> <span
+				style="background: url('/mainten/pages/images/7changeCar.png') no-repeat center left;">条形码报废</span>
+			</a>
+		</li>		
+-->
+		
+		
+		</ul>
+	</div>
+	
+	<table class="table" layoutH="135" width="100%">
+		<thead>
+			<tr  searchMethod="mwBasicEncodePrincipleSearch">
+			 <th width="10"><input type="checkbox" group="ucpGuids" class="checkboxCtrl"></th>  
+				 
+						<th width="160" orderField="ucpCode">编码原则代号</th>
+						<th width="160" orderField="ucpName">编码原则名称</th>
+						<th width="160" orderField="ucpCodeLength">编码长度</th>
+						<th width="160"  orderField="ucpType" >原则类型</th>
+						<th   >备注</th>
+
+
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="mwBasicEncodePrincipleTrTemplate" target="slt_uid">
+			   <td name="ucpGuid" type="check"><input name="ucpGuids" value="" type="checkbox"></td>  
+				 
+						<td name="ucpCode"></td>
+						<td name="ucpName"></td>
+						<td name="ucpCodeLength"></td>
+						<td name="ucpTypeName"></td>
+						<td name="ucpComment"></td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="panelBar">
+	<div class="pages">
+		<span>显示</span>
+		<select class="combox" name="numPerPage"
+			onchange="mwBasicEncodePrincipleSearch({numPerPage:this.value,pageNum:1})">
+			<option value="20">
+				20
+			</option>
+			<option value="40">
+				40
+			</option>
+			<option value="100">
+				100
+			</option>
+			<option value="200">
+				200
+			</option>
+		</select>
+		<span name="mwBasicEncodePrincipleCountDiv">条，</span>
+	</div>
+	<div name="mwBasicEncodePrinciplePageBar" class="pagination"
+		searchMethod="mwBasicEncodePrincipleSearch" targetType="navTab" totalCount="0"
+		numPerPage="0" pageNumShown="0" currentPage="0"></div>
+</div>
+
+</div>
+
+<script type="text/javascript">
+	//定义默认参数
+	var mwBasicEncodePrincipleArgs={
+	
+	};
+	 //查询方法
+    mwBasicEncodePrincipleSearch();
+    findClass("sync").removeClass("sync").combox();
+	function mwBasicEncodePrincipleSearch(opt){
+		
+		//这个方法可以把你写入的参数存入到mwBasicEncodePrincipleArgs里面去
+		$.extend(mwBasicEncodePrincipleArgs,findName('mwBasicEncodePrincipleSearchForm').serializeJson(),opt?opt:{});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_1,"/rs/mwBasicEncodePrinciple"),mwBasicEncodePrincipleArgs,mwBasicEncodePrincipleList);
+		
+	}
+	
+	//拼装
+	function mwBasicEncodePrincipleList(data){
+		var sampleRow=findName('mwBasicEncodePrincipleTrTemplate');
+		pageResponse2Table(sampleRow,data);
+        printPageBarDiv(findName('mwBasicEncodePrinciplePageBar'),findName('mwBasicEncodePrincipleCountDiv'),data.jsonData);
+	}
+	
+
+	
+</script>

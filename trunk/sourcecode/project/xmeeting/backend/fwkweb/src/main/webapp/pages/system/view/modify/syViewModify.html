@@ -1,0 +1,241 @@
+<form name="pageForm" method="post" class="required-validate pageForm" onsubmit="return validateCallback(this, navTabAjaxDone);">
+		<input type="hidden" name="svGuid" id="svGuid"/> 
+		<input type="hidden" name="navTabId" value="syView" />
+		<input type="hidden" name="callbackType" value="closeCurrent" />
+		<input type="hidden" name="callBackMethod" value="syViewSearch" />
+		<div class="pageFormContent" layoutH="97">
+		
+		
+		<div class="tabs" currentIndex="0" eventType="click">
+			<div class="tabsHeader">
+				<div class="tabsHeaderContent">
+					<ul>
+						<li><a href="javascript:;"><span>基本信息</span></a></li>
+						<li><a href="javascript:;"><span>查询结果字段</span></a></li> 
+						<li><a href="javascript:;"><span>查询条件字段</span></a></li> 
+					</ul>
+				</div>
+			</div>
+			<div class="tabsContent" style="height:500px;">
+				<div>
+					<p>
+						<label>名称</label>
+						<input type="text" name="name" class="required" size="30" maxlength="40"/>
+					</p>
+					<p>
+						<label>描述</label>
+						<input type="text" name="description" class="required" size="30" maxlength="40"/>
+					</p>
+					<p>
+						<label>状态</label>
+<!-- 						<input type="text" name="status" class="required" size="30" maxlength="20"/> -->
+
+ 							<select class="combox   required" name="status"
+								valueCode="valueCode" codeType="1013" valueDesc="valueDesc">
+								<option value="" selected>请选择</option>
+							</select> <font color="red" style="font-family: sans-serif; float: left; ">*</font>
+					</p>
+					<p>
+						<label>分组</label>
+<!-- 						<input type="text" name="groupName" class="required" size="30" maxlength="20"/> -->
+ 							<select class="combox   required" name="groupName"
+								valueCode="valueCode" codeType="1012" valueDesc="valueDesc">
+								<option value="" selected>请选择</option>
+							</select> <font color="red" style="font-family: sans-serif; float: left; ">*</font>
+					</p> 
+					<p>
+						<label>类型</label> 
+ 							<select class="combox   required" name="sqltype" valueCode="valueCode" codeType="1024" valueDesc="valueDesc">
+								<option value="" selected>请选择</option>
+							</select> <font color="red" style="font-family: sans-serif; float: left; ">*</font>
+					</p> 
+					<p></p>
+					<p>
+						<label>SQL Text</label>
+						<textarea name="sqlSource" cols="120" rows="20">select a.x as ax,a.y,a.z,a.m from xtable a,ytable b,(select c.x,c.y,c.d from ztable c where c.z=1) where a.x=1 and a.x=b.x and b.y=? and b.z=?  and b.xz=? and a.x=c.x  group by a.x,a.y order by a.y</textarea>
+					</p>
+				</div> 
+				 <div id="syview_selectitem">
+				
+					<div class="panelBar">
+						<ul class="toolBar">
+							<li><a class="add" target="navTab" rel="userNav2" href="javascript:getURL(CPATH.domain_1,'/pages/system/view/modify/syViewFieldModify.html');" title="新增syViewField"  ><span>新增</span></a></li>
+							<li><a class="edit" target="navTab" rel="userNav1" href="javascript:getURL(CPATH.domain_1,'/pages/system/view/modify/syViewFieldModify.html?svfGuid={slt_uid}');" title="修改syViewField"  multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
+							<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_1,'/rs/syViewField')"  rel="svfGuids"  callBackMethod="syViewFieldSearch"	title="确认删除?"  ><span>删除</span></a></li> 
+						</ul>
+					</div>
+					
+					<table class="table" layoutH="138" width="100%">
+						<thead>
+							<tr>
+									<th width="22"><input type="checkbox" group="svfGuids" class="checkboxCtrl"></th> 
+									<th width="60"  >字段名称</th>
+									<th width="60"  >字段Column</th>
+									<th width="60"  >字段Alias</th> 
+<!-- 									<th width="60"  >字段描述</th> -->
+<!-- 									<th width="60"  >是否删除</th> -->
+							</tr>
+						</thead>
+						<tbody name="syViewFieldTbody" > 
+						</tbody>
+					</table>
+					 
+				</div>
+					 
+				<div id="syview_conditionitem"> 
+ 
+					<div class="panelBar">
+						<ul class="toolBar">
+							<li><a class="add" target="navTab" rel="userNav2" href="javascript:getURL(CPATH.domain_1,'/pages/system/view/modify/syViewFieldModify.html');" title="新增syViewField"  ><span>新增</span></a></li>
+							<li><a class="edit" target="navTab" rel="userNav1" href="javascript:getURL(CPATH.domain_1,'/pages/system/view/modify/syViewFieldModify.html?svfGuid={slt_uid}');" title="修改syViewField"  multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
+							<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_1,'/rs/syViewField')"  rel="svfGuids"  callBackMethod="syViewFieldSearch"	title="确认删除?"  ><span>删除</span></a></li> 
+						</ul>
+					</div>
+					
+					<table class="table" layoutH="138" width="100%">
+						<thead>
+							<tr>
+									<th width="22"><input type="checkbox" group="svfGuids" class="checkboxCtrl"></th> 
+									<th width="60" >字段名称</th>
+									<th width="60" >字段Column</th>
+<!-- 									<th width="60" >字段Alias</th>  -->
+<!-- 									<th width="60" >字段描述</th> -->
+<!-- 									<th width="60" >是否删除</th> -->
+							</tr>
+						</thead>
+						<tbody name="syViewFieldTbody">
+						</tbody>
+					</table>
+					
+				</div> 
+			</div>
+			<div class="tabsFooter">
+				<div class="tabsFooterContent"></div>
+			</div>
+		</div>
+				
+		</div>
+				
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="button"  name="btnparsesqlandsave" >解析sql并保存字段</button></div></div></li>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="button"  name="btnparsesql" >解析sql</button></div></div></li>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit" >保存</button></div></div></li>
+				<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
+			</ul>
+		</div>
+</form>
+<script type="text/javascript">
+	//通过tab url得到行主键，获取信息，自动填充form表单
+	$(function(){ 	
+		var $form = findName("pageForm"); 
+		var svGuid=navTab._getParam("svGuid")
+		if(svGuid){ 
+			findName("status").addClass("sync");
+			findName("groupName").addClass("sync");
+			findName("sqltype").addClass("sync");
+			doGetAjax(CPATH.domain_1 + "/rs/syView/" +svGuid ,null,function(data){$form.find("[name]").populate(data);});
+			$form.attr('action',CPATH.domain_1 + '/rs/syView/'+svGuid+'?method=put');
+			findName("btnparsesql").show();
+			findName("btnparsesqlandsave").show();
+			findName("btnparsesql").bind("click",syview_parsesql);
+			findName("btnparsesqlandsave").bind("click",{svGuid: svGuid},syview_parsesqlandsave);
+		}else{ 
+			$form.attr('action',CPATH.domain_1 + '/rs/syView');
+			
+			findName("btnparsesql").parent().parent().parent().hide();
+			findName("btnparsesqlandsave").parent().parent().parent().hide();
+			findName("groupName").removeClass("sync");
+			findName("status").removeClass("sync");
+		}
+	});
+
+	function syview_parsesql(){ 
+		var sqlSourceText=findName("sqlSource").val();  
+		var formJsonData={sqlSource:sqlSourceText};
+		//post lineplan data   
+		var url="/rs/system/view/parsesql";   
+		dtdXHR = $.ajax({
+		  type: "POST",
+		  url: getURL(CPATH.domain_1,url),
+		  data: formJsonData, 
+		  dataType: "json"
+		}); 
+		
+		dtdXHR.done(function(respJson){     
+// 			logger.info("---respJson---->"+respJson.jsonData.toSource());
+			alertMsg.correct("解析SQL成功。");    
+			syview_genselectitem(respJson.jsonData);
+			syview_genconditionitem(respJson.jsonData);
+		});
+		dtdXHR.fail(function(respJson){ 
+			alertMsg.error("解析SQL失败。");  
+		});  
+	}
+	
+	
+	function syview_parsesqlandsave(event){
+		var svGuidParam=event.data.svGuid; 
+		var sqlSourceText=findName("sqlSource").val();  
+		var formJsonData={sqlSource:sqlSourceText,svGuid:svGuidParam};
+		//post lineplan data   
+		var url="/rs/system/view/parsesqlandsave";   
+		dtdXHR = $.ajax({
+		  type: "POST",
+		  url: getURL(CPATH.domain_1,url),
+		  data: formJsonData, 
+		  dataType: "json"
+		}); 
+		
+		dtdXHR.done(function(respJson){     
+// 			logger.info("---respJson---->"+respJson.jsonData.toSource());
+			alertMsg.correct("解析SQL并保存字段成功。");    
+			syview_genselectitem(respJson.jsonData);
+			syview_genconditionitem(respJson.jsonData);
+		});
+		dtdXHR.fail(function(respJson){ 
+			alertMsg.error("解析SQL并保存字段失败。");  
+		});  
+	}
+	
+	
+	function syview_genselectitem(jsonData){
+		var selectItems=jsonData.listOfSelectItem;
+		var xhtml=""; 
+		for(var i=0;i<selectItems.length;i++){ 
+			var selectItem=selectItems[i];
+			xhtml+=" <tr> ";
+			xhtml+=" 		<td width='20'  ><input name='svfGuids' value='' type='checkbox'  class='checkboxCtrl'></td> ";
+			xhtml+=" 		<td width='60'>"+selectItem.columnName+"</td> "; 
+			xhtml+=" 		<td width='60'>"+selectItem.columnName+"</td> ";
+			if(selectItem.alias){
+				xhtml+=" 		<td width='60'>"+selectItem.alias+"</td> ";
+			}else{
+				xhtml+=" 		<td width='60'>&nbsp;</td> "; 
+			} 
+			xhtml+=" </tr> ";
+			xhtml+="";
+		}
+		findNameWithParentID("syViewFieldTbody","syview_selectitem").html(xhtml);
+	}
+	
+
+	function syview_genconditionitem(jsonData){
+		var conditionItems=jsonData.listOfConditionItem;
+		if(conditionItems){
+			var xhtml="";
+			for(var i=0;i<conditionItems.length;i++){ 
+				var conditionItem=conditionItems[i];
+				xhtml+=" <tr> ";
+				xhtml+=" 		<td width='20'  ><input name='svfGuids' value='' type='checkbox'  class='checkboxCtrl'></td> ";
+				xhtml+=" 		<td width='60'>"+conditionItem+"</td> "; 
+				xhtml+=" 		<td width='60'>"+conditionItem+"</td> "; 
+				xhtml+=" </tr> ";
+				xhtml+="";
+			}
+			findNameWithParentID("syViewFieldTbody","syview_conditionitem").html(xhtml);
+		}
+		
+	}
+
+</script>

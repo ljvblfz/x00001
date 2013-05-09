@@ -1,0 +1,498 @@
+<h2 class="contentTitle" name="showTitle">
+	脚本信息
+</h2>
+<form name="scriptManagementModifyForm" method="post"
+	class="required-validate pageForm"
+	onsubmit="return validateCallback(this, navTabAjaxDone);">
+	<input type="hidden" name="navTabId" value="scriptManagementModify" />
+	<input type="hidden" name="callbackType" value="closeCurrent" />
+	<input type="hidden" name="callBackMethod"
+		value="scriptManagementInfoSearch" id="scriptmanagementcallbackmethod" />
+	<input type="hidden" name="gsguid" id="gsguid" />
+	<div class="pageFormContent" layoutH="97">
+		<fieldset>
+			<p style="width: 350px">
+				<label>
+					脚本名称
+				</label>
+				<input type="text" name="scriptName" class="required" size="30"
+					maxlength="20" validateRemote="rs/scriptValidatescriptName/" readonly="readonly"/>
+			</p>
+			<p style="width: 350px">
+				<label>
+					SPRING BEAN NAME
+				</label>
+				<input type="text" name="beanName" size="30" maxlength="20"
+					class="required" validateRemote="rs/scriptValidateSpringBeanName/" readonly="readonly"/>
+
+			</p>
+			<p style="width: 320px">
+				<label>
+					群组名称
+				</label>
+				<select class="combox sync required" name="groupName"
+					valueCode="valueCode" codeType="1005" valueDesc="valueDesc">
+					<option value="" selected>
+						请选择
+					</option>
+				</select>
+				<font color="red">*</font>
+			</p>
+			<p style="width: 900px;">
+				<label>
+					备注
+				</label>
+				<input type="text" name="remark" size="120" maxlength="120" readonly="readonly"/>
+			</p>
+			<p style="width: 900px;">
+				<label>
+					描述
+				</label>
+				<input type="text" name="description" size="120" maxlength="120" readonly="readonly"/>
+			</p>
+			<p style="width: 350px">
+				<label>
+					脚本类型
+				</label>
+				<select class="combox sync required" name="scriptType"
+					valueCode="valueCode" codeType="1004" valueDesc="valueDesc">
+					<option value="" selected>
+						请选择
+					</option>
+
+				</select>
+				<font color="red">*</font>
+			</p>
+			<p style="width: 350px;" name="scriptmanagement_ScriptConfigNameP">
+				<label>
+					函数类型
+				</label>
+				<select name="sscguid" class="combox sync" valueCode="sscguid"
+					valueDesc="configName"
+					onchange="scriptmanagement_onchangeforConfigName();">
+					<option value="">
+						请选择
+					</option>
+				</select>
+				<!--<input type="hidden" name="sctguid">
+				-->
+				<!--<input type="text" name="mwsvCode" value="" />
+				-->
+			</p>
+			<p style="width: 320px" name="scriptmanagementmodify_status">
+				<label>
+					状态
+				</label>
+				<input type="text" name="statusString" size="20" maxlength="20"
+					readonly="readonly" />
+				<input type="hidden" name="status">
+			</p>
+			<p style="width: 350px;" name="scriptmanagement_decsitionTableNameP">
+				<label>
+					决策表名称
+				</label>
+				<select name="sctguid" class="combox sync" valueCode="sctGuid"
+					valueDesc="name" onchange="scriptmanagement_setSctGuid();">
+					<option value="">
+						请选择
+					</option>
+				</select>
+				<!--<input type="hidden" name="sctguid">
+				-->
+				<!--<input type="text" name="mwsvCode" value="" />
+				-->
+			</p>
+		</fieldset>
+
+		<fieldset>
+			<legend>
+				脚本内容
+			</legend>
+			<div class="tabs" currentIndex="0" eventType="click">
+				<div class="tabsHeader">
+					<div class="tabsHeaderContent">
+						<ul>
+
+							<li>
+								<a href="javascript:;" name="scriptmanagementScript"><span>脚本</span>
+								</a>
+							</li>
+							<li name="scriptmanagement_descitionTableli">
+								<a href="pages/system/cck/cckContent.html"
+									class="j-ajax cck-ajax" name="scriptmanagementdecitiontable"><span>决策表</span>
+								</a>
+							</li>
+							<!--  class="j-ajax" -->
+
+						</ul>
+					</div>
+				</div>
+				<div class="tabsContent" style="height: 450px;">
+
+					<div>
+						<p style="width: 700px; padding-left: 100px;">
+
+							<br>
+							<br>
+							<span name="scriptmanagementSalarySpan"> <label
+									style="width: 80px;">
+									函数选择
+								</label> <input type="hidden" name="sorno" /> <input type="text"
+									name="functionName" readonly="readonly" size="18"
+									id="scriptmanagemetfunctionName" /> <a class="btnLook"
+								href="/syWeb/pages/system/script/modify/scriptfunctionLookup.html"
+								lookupGroup="" name="scriptmanagemetfunctionNameA">查找函数</a> <label
+									style="width: 80px;">
+									变量选择
+								</label> <input type="hidden" name="variablesorno" /> <input
+									type="text" name="variableName" readonly="readonly" size="18"
+									id="scriptmanagemetvariableName" /> <a class="btnLook"
+								href="/syWeb/pages/system/script/modify/scriptVariableLookup.html"
+								lookupGroup="" name="scriptmanagemetvariableNameA">查找变量</a> <input
+									type="button" value=";" style="float: right;"
+									onclick="scriptmanagementSemicolon();" /> <input type="button"
+									value="+" style="float: right;"
+									onclick="scriptmanagementAdd();" /> <input type="button"
+									value="-" style="float: right;"
+									onclick="scriptmanagementSub();" /> <input type="button"
+									value="*" style="float: right;"
+									onclick="scriptmanagementMultiplication();" /> <input
+									type="button" value="/" style="float: right;"
+									onclick="scriptmanagementDivide();" /> <input type="button"
+									value=")" style="float: right;"
+									onclick="scriptmanagementrightBracket();" /> <input
+									type="button" value="(" style="float: right;"
+									onclick="scriptmanagementLeftBracket();" /> </span>
+							<!--<input type="button" value="*"/>
+			<input type="button" value="/"/>
+			-->
+							<textarea name="scriptSource" rows="25" cols="130"
+								maxlength="2000" id="scriptManagementTextArea" />
+
+						</p>
+
+					</div>
+					<div></div>
+				</div>
+				<div class="tabsFooter">
+					<div class="tabsFooterContent"></div>
+				</div>
+			</div>
+
+
+		</fieldset>
+	</div>
+
+	<div class="formBar">
+		<ul>
+
+			<!--
+		<li name="scriptmanagementdecisionTableDetailSave">
+			<div class="buttonActive">
+				<div class="buttonContent">
+					<button type="button"
+						onclick="javaScript:scriptManagementInfoSearch();">
+						保存
+					</button>
+				</div>
+			</div>
+		</li>
+		-->
+			<li>
+				<div class="button">
+					<div class="buttonContent">
+						<button type="button" class="close"
+							onclick="javaScript:scriptManagementInfoSearch();">
+							关闭
+						</button>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+</form>
+<script type="text/javascript">
+	//通过tab url得到行主键，获取信息，自动填充form表单
+	$(function() {
+		var $form = findName("scriptManagementModifyForm", navTab
+				.getCurrentPanel());
+		var trigger = navTab._getParam("trigger");
+		if (trigger == 2 || trigger == '2') {
+			$("#scriptmanagementcallbackmethod").attr("name", "111");
+		}
+		findName("sctguid", navTab.getCurrentPanel()).attr("dataurl",
+				CPATH.domain_1 + "/rs/syScriptCckTypeList");
+		findName("sscguid", navTab.getCurrentPanel()).attr("dataurl",
+				CPATH.domain_1 + "/rs/syScriptConfig");
+		findName("scriptmanagementSalarySpan").hide();
+		findName("scriptmanagement_decisionTable").hide();
+		findName("scriptmanagement_descitionTableli").hide();
+		//findName("scriptmanagement_tablespan").hide();
+		findName("scriptmanagementEditSave").hide();
+		findName("scriptmanagementdecisionTableSaveScript").hide();
+		//findName("scriptmanagementdecisionTableDetailSave").hide();
+		findName("scriptmanagement_decsitionTableNameP").hide();
+		findName("scriptmanagement_ScriptConfigNameP").hide();
+		findName("scriptType").filter("select").bind("change",
+				scriptmanagementUimodify);
+		findName("groupName").filter("select").bind("change",
+				scriptmanagementUimodify);
+		var url = navTab._getTabUrl();
+		var gsguid = navTab._getParam("gsguid");
+		if (gsguid) {
+
+			//适应UI
+			findName("scriptmanagementnomalSave").hide();
+			findName("scriptmanagementdecisionTableSaveScript").hide();
+			findName("scriptmanagementEditSave").show();
+			findName("scriptmanagementP").hide();
+			findName("scriptmanagement_descitionTableli").show();
+			findName('showTitle').html('修改脚本信息');
+			navTab.closeTab("createscriptmanagement");
+
+			doGetAjax(
+					CPATH.domain_1 + "/rs/syScript/" + gsguid,
+					null,
+					function(data) {
+						$form.find("[name]").populate(data);
+						findClass("sync").removeClass("sync").combox();
+
+						//根据json数据的ScriptType的类型进行UI的变化  1:script  3:decisiontable
+						logger.info(data.scriptType);
+						if (data.scriptType == 1) {
+							findName("scriptmanagementSalarySpan").show();
+							findName("scriptmanagement_ScriptConfigNameP")
+									.show();
+									
+							//当脚本类型为函数时，根据函数类型，修改函数选择与变量选择中的内容
+							if(data.sscguid!=null&&data.sscguid!=""){
+							doGetAjax(
+									CPATH.domain_1 + "/rs/syScriptConfig/"
+											+ data.sscguid,
+									null,
+									function(data) {
+										findName("scriptmanagemetfunctionNameA")
+												.attr(
+														"href",
+														"/syWeb/pages/system/script/modify/scriptfunctionLookup.html?configFunctionClazz="
+																+ data.configFunctionClazz);
+										findName("scriptmanagemetvariableNameA")
+												.attr(
+														"href",
+														"/syWeb/pages/system/script/modify/scriptVariableLookup.html?configVariableClazz="
+																+ data.configVariableClazz);
+									});
+								}	
+									
+						} else {
+							findName("scriptmanagementSalarySpan").hide();
+							findName("scriptmanagement_ScriptConfigNameP")
+									.hide();
+						}
+
+						if (data.scriptType == 3) {
+							findName("scriptmanagement_descitionTableli",
+									navTab.getCurrentPanel()).show();
+							//findName("scriptmanagementScript",navTab.getCurrentPanel()).hide();
+
+							findName("scriptmanagement_decsitionTableNameP",
+									navTab.getCurrentPanel()).show();
+							var scriptmanagement_sctguidForEdit = data.sctguid;
+							logger.info("sctguid==="
+									+ scriptmanagement_sctguidForEdit);
+							logger.info("masterid===" + gsguid);
+
+							var cckTypeHrefForEdit =  "rs/cckRedirector/gridOrTree/"
+							+ scriptmanagement_sctguidForEdit+"?sctGuid="+scriptmanagement_sctguidForEdit
+							+ "&masterId=" + gsguid;
+							findName("scriptmanagementdecitiontable",
+									navTab.getCurrentPanel()).attr("href",
+									cckTypeHrefForEdit);
+							findName("scriptmanagementdecitiontable",
+									navTab.getCurrentPanel()).trigger("click");
+
+						} else {
+							findName("scriptmanagement_descitionTableli",
+									navTab.getCurrentPanel()).hide();
+							findName("scriptmanagementScript",
+									navTab.getCurrentPanel()).show();
+
+						}
+					});
+			$form.attr('action', CPATH.domain_1 + '/rs/syScript/' + gsguid
+					+ '?method=put');
+
+		} else {
+			findName('showTitle').html('新增脚本信息');
+
+			//关闭编辑tab
+			navTab.closeTab("editscriptmanagement");
+			findName("scriptmanagementmodify_status").hide();
+			findClass("sync").removeClass("sync").combox();
+			$form.attr('action', CPATH.domain_1 + '/rs/syScript');
+		}
+
+	});
+
+	//用于select框选择不同时，改变UI
+	function scriptmanagementUimodify() {
+		var scriptTypeval = findName("scriptType").filter("select").val();
+		var groupNameval = findName("groupName").filter("select").val();
+		var gsguid = findName("gsguid").val();
+		//当脚本类型为groovy的时候 ，需要隐藏掉表格。显示出textarea
+		if (groupNameval == 1 && scriptTypeval == 1) {
+			findName("scriptmanagementSalarySpan").show();
+			findName("scriptmanagement_ScriptConfigNameP").show();
+			findName("scriptSource").show();
+		} else {
+			findName("scriptmanagementSalarySpan").hide();
+			findName("scriptmanagement_ScriptConfigNameP").hide();
+		}
+
+		//当脚本类型为decisiontable的时候 ，需要隐藏掉textarea。显示出table
+		if (groupNameval == 1 && scriptTypeval == 3) {
+			/*		 findName("scriptmanagement_decisionTable").show();
+			 findName("scriptmanagement_tablespan").show();
+			 findName("scriptSource").hide();*/
+			if (gsguid == "") {
+				findName("scriptmanagementdecisionTableSaveScript").show();
+			}
+			findName("scriptmanagementnomalSave").hide();
+			/*} else {
+			findName("scriptmanagement_decisionTable").hide();
+			findName("scriptmanagement_tablespan").hide();
+			findName("scriptSource").show();
+			findName("scriptmanagementdecisionTableSaveScript").hide();
+			findName("scriptmanagementnomalSave").show();*/
+			//findName("scriptmanagement_decsitionTableNameP").show();
+			//findName("scriptmanagement_descitionTableli").show();
+			findName("scriptmanagement_decsitionTableNameP").show();
+		} else {
+			findName("scriptmanagement_decsitionTableNameP").hide();
+			findName("scriptmanagement_descitionTableli").hide();
+			findName("scriptmanagementdecisionTableSaveScript").hide();
+			findName("scriptmanagementnomalSave").show();
+
+			//触发脚本Tab的click事件
+			findName("scriptmanagementScript").trigger("click");
+		}
+
+	}
+	function scriptmanagementSemicolon() {
+		var textarea = document.getElementById("scriptManagementTextArea");
+		insertStrToTextarea(textarea, ";");
+
+	}
+	function scriptmanagementAdd() {
+		var textarea = document.getElementById("scriptManagementTextArea");
+		insertStrToTextarea(textarea, "+");
+	}
+
+	function scriptmanagementSub() {
+		var textarea = document.getElementById("scriptManagementTextArea");
+		insertStrToTextarea(textarea, "-");
+	}
+
+	function scriptmanagementMultiplication() {
+		var textarea = document.getElementById("scriptManagementTextArea");
+		insertStrToTextarea(textarea, "*");
+	}
+
+	function scriptmanagementDivide() {
+		var textarea = document.getElementById("scriptManagementTextArea");
+		insertStrToTextarea(textarea, "/");
+	}
+
+	function scriptmanagementLeftBracket() {
+		var textarea = document.getElementById("scriptManagementTextArea");
+		insertStrToTextarea(textarea, "(");
+	}
+
+	function scriptmanagementrightBracket() {
+		var textarea = document.getElementById("scriptManagementTextArea");
+		insertStrToTextarea(textarea, ")");
+	}
+
+	function scriptmanagement_createDecisionTableScript() {
+
+		var $form = getJqueryForm(findName("scriptManagementModifyForm", navTab
+				.getCurrentPanel()));
+		if (!$form.valid()) {
+			return false;
+		}
+		doPostAjax(getURL(CPATH.domain_1, "/rs/syScriptDecisiontableScript"),
+				$form.serializeArray(), function(data) {
+					if (!data)
+						return;
+					if (!data.jsonData)
+						return;
+					alertMsg.correct("创建决策脚本成功，可以添加决策表数据!");
+					//scriptManagementInfoSearch();
+					scriptManagementModify_gsguid = data.jsonData.gsguid;
+					//alert(scriptManagementModify_gsguid);
+					findName("gsguid").val(scriptManagementModify_gsguid);
+					scriptmanagement_changedecisiontableUIBysctGuid();
+
+					//descitionTable tab页显示
+					findName("scriptmanagement_descitionTableli").show();
+
+					//保存成功后隐掉保存策略表脚本按钮
+					findName("scriptmanagementdecisionTableSaveScript").hide();
+
+					findName("scriptmanagementdecitiontable",
+							navTab.getCurrentPanel()).trigger("click");
+					//var scriptManagementInfoArgs = {};
+					//findName("scriptmanagement_decsitionTableNameP").show();
+
+				});
+
+	}
+
+	// sctguid
+	function scriptmanagement_changedecisiontableUIBysctGuid() {
+
+		//拿到选中的select框后面的值		
+		var scriptmanagement_sctguid = $("select[name = 'sctguid']").val();
+		var masterid = findName("gsguid", navTab.getCurrentPanel()).val();
+		logger.info("sctguid===" + scriptmanagement_sctguid);
+		logger.info("masterid===" + masterid);
+
+		var cckTypeHref = 		"rs/cckRedirector/gridOrTree/"
+		+ scriptmanagement_sctguid+"?sctGuid="+scriptmanagement_sctguid
+		+ "&masterId=" + masterid;
+		findName("scriptmanagementdecitiontable", navTab.getCurrentPanel())
+				.attr("href", cckTypeHref);
+		/*	findName("scriptmanagementdecitiontable", navTab.getCurrentPanel())
+					.trigger("click");*/
+
+	}
+
+	// sctguid
+	function scriptmanagement_setSctGuid() {
+		var scriptmanagement_sctguid = $("select[name = 'sctguid']").val();
+		findName("sctguid", navTab.getCurrentPanel()).val(
+				scriptmanagement_sctguid);
+	}
+
+	//用于在脚本类型为函数的时候 改变函数类型下拉框调用的方法
+	function scriptmanagement_onchangeforConfigName() {
+		var scriptmanagemet_sscguid = $("select[name = 'sscguid']").val();
+		doGetAjax(
+				CPATH.domain_1 + "/rs/syScriptConfig/"
+						+ scriptmanagemet_sscguid,
+				null,
+				function(data) {
+					findName("scriptmanagemetfunctionNameA")
+							.attr(
+									"href",
+									"/syWeb/pages/system/script/modify/scriptfunctionLookup.html?configFunctionClazz="
+											+ data.configFunctionClazz);
+					findName("scriptmanagemetvariableNameA")
+							.attr(
+									"href",
+									"/syWeb/pages/system/script/modify/scriptVariableLookup.html?configVariableClazz="
+											+ data.configVariableClazz);
+				});
+
+	}
+</script>

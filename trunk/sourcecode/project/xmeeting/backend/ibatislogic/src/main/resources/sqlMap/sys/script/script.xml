@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"       "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="sys.script">
+	<select id="queryScriptbypage" parameterClass="java.util.HashMap"
+		resultClass="com.founder.sipbus.sys.script.vo.ScriptIVO"> 
+		<![CDATA[   
+		select t.GSGUID as gsguid ,
+			   t.BEAN_NAME as beanName,
+			   t.SCRIPT_NAME as scriptName,
+			   t.SCRIPT_TYPE as scriptType,
+			   t.GROUP_NAME as groupName,
+			   t.SCRIPT_SOURCE as scriptSource,
+			   t.DESCRIPTION as description,
+			   t.REMARK as remark,
+			   t.STATUS as status,
+			   t.SCTGUID as sctguid,
+			   t.SSCGUID as sscguid,
+			   case when t.status='0' then '草稿' else '发布' end as statusString
+			   
+			   from SY_SCRIPT t
+ 			   where t.DEL_FLAG = 0
+		]]>
+		<isNotEmpty property="scriptName" prepend="and">
+			<![CDATA[ t.SCRIPT_NAME like  '%'||#scriptName#||'%']]>
+		</isNotEmpty>
+		<isNotEmpty property="groupName" prepend="and">
+			<![CDATA[ t.GROUP_NAME =  #groupName# ]]>
+		</isNotEmpty>
+		<isNotEmpty property="scriptType" prepend="and">
+			<![CDATA[ t.SCRIPT_TYPE =  #scriptType# ]]>
+		</isNotEmpty>
+		<isNotEmpty property="beanName" prepend="and">
+			<![CDATA[ t.BEAN_NAME like  '%'||#beanName#||'%' ]]>
+		</isNotEmpty>
+			<![CDATA[ order by t.BEAN_NAME desc ]]>
+
+	</select>
+	
+	
+	
+		<select id="queryScriptForHrsbypage" parameterClass="java.util.HashMap"
+		resultClass="com.founder.sipbus.sys.script.vo.ScriptIVO"> 
+		<![CDATA[   
+		select t.GSGUID as gsguid ,
+			   t.BEAN_NAME as beanName,
+			   t.SCRIPT_NAME as scriptName,
+			   t.SCRIPT_TYPE as scriptType,
+			   t.GROUP_NAME as groupName,
+			   t.SCRIPT_SOURCE as scriptSource,
+			   t.DESCRIPTION as description,
+			   t.REMARK as remark,
+			   t.STATUS as status,
+			   t.SCTGUID as sctguid,
+			   case when t.status='0' then '草稿' else '发布' end as statusString
+			   
+			   from SY_SCRIPT t
+ 			   where t.DEL_FLAG = 0 and t.status = '1'
+		]]>
+		<isNotEmpty property="scriptName" prepend="and">
+			<![CDATA[ t.SCRIPT_NAME like  '%'||#scriptName#||'%']]>
+		</isNotEmpty>
+		<isNotEmpty property="groupName" prepend="and">
+			<![CDATA[ t.GROUP_NAME =  #groupName# ]]>
+		</isNotEmpty>
+		<isNotEmpty property="scriptType" prepend="and">
+			<![CDATA[ t.SCRIPT_TYPE =  #scriptType# ]]>
+		</isNotEmpty>
+		<isNotEmpty property="orderField">  
+ 		
+			<![CDATA[    order by  $orderField$,t.orderid  ]]>
+			<isNotEmpty property="orderDirection">  
+			<![CDATA[    $orderDirection$  ]]>
+			</isNotEmpty>
+		</isNotEmpty>
+
+	</select>
+
+	<select id="queryScriptLogbypage" parameterClass="java.util.HashMap"
+		resultClass="com.founder.sipbus.sys.script.vo.ScriptIVO"> 
+		<![CDATA[   
+		select t.GSLGUID as gslguid,
+			   t.GSGUID as gsguid ,
+			   t.SCRIPT_VERSION as scriptVersion,
+			   t.BEAN_NAME as beanName,
+			   t.SCRIPT_NAME as scriptName,
+			   t.SCRIPT_TYPE as scriptType,
+			   t.GROUP_NAME as groupName,
+			   t.SCRIPT_SOURCE as scriptSource,
+			   t.DESCRIPTION as description,
+			   t.REMARK as remark,
+			   t.STATUS as status,
+			   case when t.status='0' then '草稿' else '发布' end as statusString
+			   
+			   from SY_SCRIPT_LOG t
+ 			   where t.GSGUID = #gsguid#
+		]]>
+		<isNotEmpty property="scriptName" prepend="and">
+			<![CDATA[ t.SCRIPT_NAME like  '%'||#scriptName#||'%']]>
+		</isNotEmpty>
+		<isNotEmpty property="groupName" prepend="and">
+			<![CDATA[ t.GROUP_NAME =  #groupName# ]]>
+		</isNotEmpty>
+		<isNotEmpty property="scriptType" prepend="and">
+			<![CDATA[ t.SCRIPT_TYPE =  #scriptType# ]]>
+		</isNotEmpty>
+	 
+ 		
+			<![CDATA[    order by t.SCRIPT_VERSION  ]]>
+	
+
+	</select>
+
+</sqlMap>
+

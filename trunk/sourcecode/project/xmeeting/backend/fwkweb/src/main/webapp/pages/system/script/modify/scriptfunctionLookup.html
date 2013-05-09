@@ -1,0 +1,151 @@
+<form method="get" name="emsalaryfunctionLookupSearchForm"
+	action="/rs/empSalaryFunctionLookup" onsubmit="return false;">
+	<input type="hidden" name="pageNum" value="1" />
+	<div class="pageHeader">
+		<div class="searchBar">
+			<div class="subBar">
+				<ul><!--
+					<li>
+						<div class="buttonActive">
+							<div class="buttonContent">
+								<button type="button"
+									onclick="tbBusNoLookupInfoSearch({pageNum:1})">
+									查询
+								</button>
+							</div>
+						</div>
+					</li>
+					--><li>
+						<div class="button">
+							<div class="buttonContent">
+								<button type="button" multLookup="sorno" warn="请选择一条记录" onclick="scriptfunctionbringback();">
+									选择带回
+								</button>
+							</div>
+						</div>
+					</li>
+					<!-- 	<li><a class="button" href="/management/user!advancedSearch.do?userType=TRAINING" target="dialog" title="Advanced Search"><span>高级查询</span></a></li>  -->
+				</ul>
+			</div>
+		</div>
+	</div>
+</form>
+
+
+<table class="table" layoutH="165" width="100%" id="td">
+	<thead>
+		<tr searchMethod="empsalaryfunctionLookupSearch">
+			<th width="22"></th>
+			<!--  <th width="60" orderField="materialsNo">物资编号</th>-->
+			<th width="60">
+				方法名
+			</th>
+			<th width="60">
+				描述
+			</th>
+			<!--						<th width="60" orderField="price">发动机价格</th>-->
+			<!--						<th width="60" orderField="buyType">购入方式</th>-->
+			<!--						<th width="60" orderField="buyDate">购入时间</th>-->
+			<!--						<th width="60" orderField="remark">备注</th>-->
+			<!--						<th width="60" orderField="scrapDate">报废时间</th>-->
+			<!--						<th width="60" orderField="scrapUserId">报废操作人</th>-->
+			<!--						<th width="60" orderField="scrapRemark">报废描述</th>-->
+			<!--						<th width="60" orderField="delFlag">是否删除</th>-->
+		</tr>
+	</thead>
+	<tbody>
+		<tr name="empsalaryfunctionLookupTrTemplate" target="slt_uid">
+			<!-- <td name="engineId" type="check">
+				
+				<!--<input type="checkbox" name="orgId" value=""/>-->
+			<td type="radio">
+				<input type="radio" name="sorno" value=""/>
+			</td>
+			<td name="functionName"></td>
+			<td name="description"></td>
+			<!--
+			<td name="bustypeStr"></td>
+			<td name="dealinrangeStr"></td>
+			<td name="orgname"></td>
+			<td name="seatnum"></td>
+			--><!--	<td name="status"></td>
+						<td name="price"></td>
+						<td name="buyType"></td>
+						<td name="buyDate"></td>
+						<td name="remark"></td>
+						<td name="scrapDate"></td>
+						<td name="scrapUserId"></td>
+						<td name="scrapRemark"></td>
+						<td name="delFlag"></td>-->
+		</tr>
+	</tbody>
+</table><!--
+
+<div class="panelBar">
+	<div class="pages">
+		<span>显示</span>
+		<select class="combox" name="numPerPage"
+			onchange="tbBusNoLookupInfoSearch({numPerPage:this.value,pageNum:1})">
+			<option value="20">
+				20
+			</option>
+			<option value="40">
+				40
+			</option>
+			<option value="100">
+				100
+			</option>
+			<option value="200">
+				200
+			</option>
+		</select>
+		<span name="tbBusNoLookupInfoCountDiv">条，</span>
+	</div>
+	<div name="tbBusNoLookupInfoPageBar" class="pagination"
+		searchMethod="tbBusNoLookupInfoSearch" targetType="navTab"
+		totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+</div>
+
+--></div>
+
+<script type="text/javascript">
+	var configFunctionClazz = $.pdialog._getParam("configFunctionClazz");
+	//定义默认参数
+	var emsalaryfunctionLookupInfoArgs = {};
+	//查询方法
+	empsalaryfunctionLookupSearch();
+	function empsalaryfunctionLookupSearch(opt) {
+		//序列化表单�?，并扩展�?{classNameLower}Args对象�?
+		$.extend(emsalaryfunctionLookupInfoArgs, findDialogName(
+				'emsalaryfunctionLookupSearchForm').serializeJson(), opt ? opt : {});
+		//执行ajax查询方法
+		doGetAjax(CPATH.domain_1 + "/rs/scScriptFunctionLookup/" + configFunctionClazz,
+					null,
+					emsalaryfunctionLookupList);
+
+	}
+
+	//拼装
+	function emsalaryfunctionLookupList(data) {
+		var sampleRow = findDialogName('empsalaryfunctionLookupTrTemplate');
+		data2Table(sampleRow, data.jsonData);
+		var b;
+		$("input[name='sorno']").each(function() {
+			//alert($(this).val());
+			var a = $(this).parent().parent().parent();
+			b = $("td[name='functionName']", a).html();
+			var e = "{functionName:'" + b + "'}";
+			$(this).val(e);
+		});
+		
+	}
+	
+	function scriptfunctionbringback(){
+	
+		var a = $("input[name='sorno']:checked").parent().parent().parent();
+		var b =$("td[name='functionName']", a).html();
+		var textarea_empsalaryfunction = document.getElementById("scriptManagementTextArea");
+		insertStrToTextarea(textarea_empsalaryfunction,b);
+	
+	}
+</script>

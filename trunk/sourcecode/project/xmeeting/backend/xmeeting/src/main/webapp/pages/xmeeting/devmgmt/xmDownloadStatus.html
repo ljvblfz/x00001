@@ -1,0 +1,99 @@
+<form method="get" name="xmDownloadStatusSearchForm" action="/rs/xmDownloadStatus" onsubmit="return false;" >
+	<input type="hidden" name="pageNum" value="1" />
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>会议名称:：</label>
+					<input type="text" name="xmdsGuid" value=""/>
+				</li> 
+			</ul>
+			<div class="subBar">
+				<ul>						
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="xmDownloadStatusSearch({pageNum:1})">查询</button></div></div></li>
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="javascript:findName('xmDownloadStatusSearchForm')[0].reset()">清空</button></div></div></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="pageContent">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+<!-- 			<li><a class="add" target="navTab" rel="userNav" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/modify/xmDownloadStatusModify.html');" title="新增xmDownloadStatus"  ><span>新增</span></a></li> -->
+<!-- 			<li><a class="edit" target="navTab" rel="userNav1" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/modify/xmDownloadStatusModify.html?xmdsGuid={slt_uid}');" title="修改xmDownloadStatus"   multiable="no" warn="请选择一条记录"><span>修改</span></a></li> -->
+<!-- 			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_3,'/rs/xmDownloadStatus')"  rel="xmdsGuids" callBackMethod="xmDownloadStatusSearch"	title="确认删除?"  ><span>删除</span></a></li>  -->
+			<li><a class="edit" target="navTab" rel="userNav1" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/modify/xmDownloadStatusModify.html?xmdsGuid={slt_uid}');" title="重新下载"   multiable="no" warn="请选择一条记录"><span>重新下载</span></a></li>
+
+		</ul>
+	</div>
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr  searchMethod="xmDownloadStatusSearch"><th width="22"><input type="checkbox" group="xmdsGuids" class="checkboxCtrl"></th>
+						<th width="60" orderField="xmmiGuid">会议名称</th>
+						<th width="60" orderField="xmpdGuid">设备编号</th>
+						<th width="60" orderField="xmdsCompany">公司简介下载</th>
+						<th width="60" orderField="xmdsMeetingSchedule">会议指南(行程安排)下载</th>
+						<th width="60" orderField="xmdsMeetingMember">会议指南(人员名单)下载</th>
+						<th width="60" orderField="xmdsMeetingBus">会议指南(车辆安排)下载</th>
+						<th width="60" orderField="xmdsMeetingWeather">会议指南(天气情况)下载</th>
+						<th width="60" orderField="xmdsMeetingContact">会议指南(通讯服务)下载</th>
+						<th width="60" orderField="xmdsDocument">会议文稿下载</th>
+						<th width="60" orderField="xmdsVideo">会议视频下载</th>
+						<th width="60" orderField="xmdsImage">会议图片下载</th> 
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="xmDownloadStatusTrTemplate" target="slt_uid">
+						<td name="xmdsGuid" type="check"><input name="xmdsGuids" value="" type="checkbox"></td>
+						<td name="xmmiGuid"></td>
+						<td name="xmpdGuid"></td> 
+						<td name="xmdsCompany"></td>
+						<td name="xmdsMeetingSchedule"></td>
+						<td name="xmdsMeetingMember"></td>
+						<td name="xmdsMeetingBus"></td>
+						<td name="xmdsMeetingWeather"></td>
+						<td name="xmdsMeetingContact"></td>
+						<td name="xmdsDocument"></td>
+						<td name="xmdsVideo"></td>
+						<td name="xmdsImage"></td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage" onchange="xmDownloadStatusSearch({numPerPage:this.value,pageNum:1})">
+				<option value="10">10</option>
+				<option value="40">40</option>
+				<option value="100">100</option>
+				<option value="200">200</option>
+			</select>
+			<span name="xmDownloadStatusCountDiv">条，共-条</span>
+		</div>
+		<div name="xmDownloadStatusPageBar" class="pagination" searchMethod="xmDownloadStatusSearch" targetType="navTab" totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+</div>
+<script type="text/javascript">
+	//定义默认参数
+	var xmDownloadStatusArgs={};
+	 //查询方法
+    xmDownloadStatusSearch();
+	function xmDownloadStatusSearch(opt){
+		//序列化表单值，并扩展到xmDownloadStatusArgs对象中
+		$.extend(xmDownloadStatusArgs,findName('xmDownloadStatusSearchForm').serializeJson(),opt?opt:{});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_3,"/rs/xmDownloadStatus"),xmDownloadStatusArgs,xmDownloadStatusList);
+	}
+	
+	//拼装
+	function xmDownloadStatusList(data){
+		var sampleRow=findName('xmDownloadStatusTrTemplate');
+		pageResponse2Table(sampleRow,data);
+        printPageBarDiv(findName('xmDownloadStatusPageBar'),findName('xmDownloadStatusCountDiv'),data.jsonData);
+	}
+</script>

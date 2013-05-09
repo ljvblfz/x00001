@@ -1,0 +1,99 @@
+<form method="get" name="syFsmSearchForm" action="/rs/syFsm" onsubmit="return false;" >
+	<input type="hidden" name="pageNum" value="1" />
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>名称：</label>
+					<input type="text" name="sfguid" value=""/>
+				</li>
+<!--				<li>-->
+<!--					<label>条件2：</label>-->
+<!--					<select class="combox" name="sfguid" codeType="1111" defaultSelectTitle="-请选择-"  defaultSelectValue="" >-->
+<!--					currentVal="2"-->
+<!--					</select>-->
+<!--				</li>-->
+			</ul>
+			<div class="subBar">
+				<ul>					
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="syFsmSearch({pageNum:1})">查询</button></div></div></li>
+					<li><a class="button" href="/management/user!advancedSearch.do?userType=TRAINING" target="dialog" title="Advanced Search"><span>清空</span></a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="pageContent">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+			<li><a class="add" target="navTab" rel="userNav" href="javascript:getURL(CPATH.domain_1,'/pages/system/fsm/modify/syFsmModify.html');" title="新增syFsm"  ><span>新增</span></a></li>
+			<li><a class="edit" target="navTab" rel="userNav1" href="javascript:getURL(CPATH.domain_1,'/pages/system/fsm/modify/syFsmModify.html?sfguid={slt_uid}');" title="修改syFsm"  multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
+			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_1,'/rs/fsm/syFsm')"  rel="sfguids" 
+			callBackMethod="syFsmSearch"	title="确认删除?"  ><span>删除</span></a></li> 
+			
+			<li><a class="edit" target="navTab" rel="userNav1" href="javascript:getURL(CPATH.domain_1,'/pages/system/fsm/syFsmActor.html?sfguid={slt_uid}');" title="编辑actor"  multiable="no" warn="请选择一条记录"><span>编辑actor</span></a></li>
+			<li><a class="edit" target="navTab" rel="userNav1" href="javascript:getURL(CPATH.domain_1,'/pages/system/fsm/syFsmState.html?sfguid={slt_uid}');" title="编辑state"  multiable="no" warn="请选择一条记录"><span>编辑state</span></a></li>
+			<li><a class="edit" target="navTab" rel="userNav1" href="javascript:getURL(CPATH.domain_1,'/pages/system/fsm/syFsmStateActor.html?sfguid={slt_uid}');" title="编辑转移"  multiable="no" warn="请选择一条记录"><span>编辑转移</span></a></li>
+			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_1,'/rs/fsm/syFsm')"  rel="sfguids" 
+			callBackMethod="syFsmSearch"	title="确认发布?"  ><span>发布</span></a></li> 
+		</ul>
+	</div>
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr  searchMethod="syFsmSearch"><th width="22"><input type="checkbox" group="sfguids" class="checkboxCtrl"></th>
+						<th width="60" orderField="name">名称</th>
+						<th width="60" orderField="version">版本</th>
+						<th width="60" orderField="code">自编码</th>
+						<th width="60" orderField="description">描述</th>
+						<th width="60" orderField="status">状态</th> 
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="syFsmTrTemplate" target="slt_uid">
+				<td name="sfguid" type="check"><input name="sfguids" value="" type="checkbox"></td>
+						<td name="name"></td>
+						<td name="version"></td>
+						<td name="code"></td>
+						<td name="description"></td>
+						<td name="status"></td> 
+				
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage" onchange="syFsmSearch({numPerPage:this.value,pageNum:1})">
+				<option value="10">10</option>
+				<option value="40">40</option>
+				<option value="100">100</option>
+				<option value="200">200</option>
+			</select>
+			<span name="syFsmCountDiv">条，共-条</span>
+		</div>
+		<div name="syFsmPageBar" class="pagination" searchMethod="syFsmSearch" targetType="navTab" totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+</div>
+<script type="text/javascript">
+	//定义默认参数
+	var syFsmArgs={};
+	 //查询方法
+    syFsmSearch();
+	function syFsmSearch(opt){
+		//序列化表单值，并扩展到syFsmArgs对象中
+		$.extend(syFsmArgs,findName('syFsmSearchForm').serializeJson(),opt?opt:{});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_1,"/rs/syFsm"),syFsmArgs,syFsmList);
+	}
+	
+	//拼装
+	function syFsmList(data){
+		var sampleRow=findName('syFsmTrTemplate');
+		pageResponse2Table(sampleRow,data);
+        printPageBarDiv(findName('syFsmPageBar'),findName('syFsmCountDiv'),data.jsonData);
+	}
+</script>

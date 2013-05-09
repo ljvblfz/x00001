@@ -1,0 +1,94 @@
+<!-- <form method="get" name="xmMeetingVoteDetailSearchForm" action="/rs/xmMeetingVoteDetail" onsubmit="return false;" > -->
+<!-- 	<input type="hidden" name="pageNum" value="1" /> -->
+<!-- 	<div class="pageHeader"> -->
+<!-- 		<div class="searchBar"> -->
+<!-- 			<ul class="searchContent"> -->
+<!-- 				<li> -->
+<!-- 					<label>类型名称：</label> -->
+<!-- 					<input type="text" name="xmmvdGuid" value=""/> -->
+<!-- 				</li>  -->
+<!-- 			</ul> -->
+<!-- 			<div class="subBar"> -->
+<!-- 				<ul>						 -->
+<!-- 					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="xmMeetingVoteDetailSearch({pageNum:1})">查询</button></div></div></li> -->
+<!-- 					<li><a class="button" href="/management/user!advancedSearch.do?userType=TRAINING" target="dialog" title="Advanced Search"><span>高级查询</span></a></li> -->
+<!-- 				</ul> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
+<!-- </form> -->
+
+<div class="pageContent">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+			<li><a class="add" target="navTab" rel="13userNav" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/modify/xmMeetingVoteDetailModify.html');" title="新增xmMeetingVoteDetail"  ><span>新增</span></a></li>
+			<li><a class="edit" target="navTab" rel="13userNav1" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/modify/xmMeetingVoteDetailModify.html?xmmvdGuid={slt_uid}');" title="修改xmMeetingVoteDetail"   multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
+			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_3,'/rs/xmMeetingVoteDetail')"  rel="xmmvdGuids" callBackMethod="xmMeetingVoteDetailSearch"	title="确认删除?"  ><span>删除</span></a></li> 
+		</ul>
+	</div>
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr  searchMethod="xmMeetingVoteDetailSearch"><th width="22"><input type="checkbox" group="xmmvdGuids" class="checkboxCtrl"></th>
+<!-- 						<th width="60" orderField="xmmvGuid">xmmvGuid</th> -->
+						<th width="60" orderField="xmmvdAnswer">投票答案</th>
+						<th width="60" orderField="xmmvdSortno">投票答案顺序</th>
+						<th width="60" orderField="xmmvdCount">投票选择数量</th> 
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="xmMeetingVoteDetailTrTemplate" target="slt_uid">
+				<td name="xmmvdGuid" type="check"><input name="xmmvdGuids" value="" type="checkbox"></td>
+<!-- 						<td name="xmmvGuid"></td> -->
+						<td name="xmmvdAnswer"></td>
+						<td name="xmmvdSortno"></td>
+						<td name="xmmvdCount"></td> 
+				
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage" onchange="xmMeetingVoteDetailSearch({numPerPage:this.value,pageNum:1})">
+				<option value="10">10</option>
+				<option value="40">40</option>
+				<option value="100">100</option>
+				<option value="200">200</option>
+			</select>
+			<span name="xmMeetingVoteDetailCountDiv">条，共-条</span>
+		</div>
+		<div name="xmMeetingVoteDetailPageBar" class="pagination" searchMethod="xmMeetingVoteDetailSearch" targetType="navTab" totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+</div>
+<script type="text/javascript">
+	//定义默认参数
+	var xmMeetingVoteDetailArgs={};
+	 //查询方法
+    $(function(){
+		var url = navTab._getTabUrl();
+		var xmmvGuid=navTab._getParam("xmmvGuid");
+		var xurl="/pages/xmeeting/devmgmt/modify/xmMeetingVoteDetailModify.html?xmmvGuid="+xmmvGuid+"";
+		findClass("add").attr("href",getURL(CPATH.domain_3,xurl));
+		//
+		var opts={xmmvGuid:xmmvGuid}; 
+		xmMeetingVoteDetailSearch(opts);
+	}); 
+	 
+	 
+	function xmMeetingVoteDetailSearch(opt){
+		//序列化表单值，并扩展到xmMeetingVoteDetailArgs对象中
+		$.extend(xmMeetingVoteDetailArgs,findName('xmMeetingVoteDetailSearchForm').serializeJson(),opt?opt:{});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_3,"/rs/xmMeetingVoteDetail"),xmMeetingVoteDetailArgs,xmMeetingVoteDetailList);
+	}
+	
+	//拼装
+	function xmMeetingVoteDetailList(data){
+		var sampleRow=findName('xmMeetingVoteDetailTrTemplate');
+		pageResponse2Table(sampleRow,data);
+        printPageBarDiv(findName('xmMeetingVoteDetailPageBar'),findName('xmMeetingVoteDetailCountDiv'),data.jsonData);
+	}
+</script>

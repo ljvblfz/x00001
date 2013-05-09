@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="sys">
+
+ <!-- Use type aliases to avoid typing the full classname every time. -->
+	<typeAlias alias="auMenuVO" type="com.founder.sipbus.sys.au.vo.AuMenuVO"/>
+
+ <!-- Select with no parameters using the result map for Account class. -->
+	<select id="selectByConditionForList" resultClass="auMenuVO">
+		<![CDATA[
+			SELECT   t.menu_Id  as  menuId,
+				t.parentid as parentid,
+				t.menu_Name as menuName,
+				t.domain_Name as domainName,
+				t.menu_Type as menuType,
+				t.menu_Action as menuAction,
+				t.menu_Title	as menuTitle		
+			    FROM Au_Menu t
+			where 1=1  AND t.del_Flag = 0  AND t.is_Display = 1
+		]]>
+		 <isNotEmpty prepend="and" property="userid">
+		       EXISTS
+			                (SELECT ara.authority_Id
+			                   FROM Au_Roles_Authorities ara
+			                  WHERE     1 = 1
+			                        AND ara.authority_Id = t.authority_Id
+			                        AND EXISTS
+			                               (SELECT sm.MEMBER
+			                                  FROM Sys_Memberofrole sm,
+			                                       Sys_Role sr,
+			                                       Sys_User su
+			                                 WHERE     sm.rolename = sr.name
+			                                       AND su.userid =#userid#
+			                                       AND su.username = sm.MEMBER
+			                                       AND ara.role_Id = sr.guid))
+		 </isNotEmpty>
+		 <isNotEmpty prepend="and" property="parentid">
+					 t.menu_id in (select menu_id from au_menu t2 connect by prior menu_id =t2.parentid
+			               start with t2.parentid = #parentid# or t2.menu_id=#parentid#)  
+		 </isNotEmpty>
+		<![CDATA[
+		 	ORDER BY t.parentid ASC, t.menu_Order ASC
+		]]>
+	</select>
+	
+	
+	<select id="findAll" resultClass="com.founder.sipbus.sys.au.vo.AuMenuSimpleVO">
+	    <![CDATA[
+			SELECT   
+				x.menu_Id  		as id,
+				x.parentid 		as pId,
+				x.menu_Name 	as name,
+			    x.domain_Name||'-'||x.AUTHORITY_ID	  as t,
+				x.menu_Id  		as menuId,
+				x.parentid 		as parentId,
+				x.menu_Name 	as menuName,
+				x.domain_Name 	as domainName,
+				x.menu_Type 	as menuType,
+				x.menu_Action 	as menuAction,
+				x.menu_Title	as menuTitle,
+				x.menu_description	as menuDescription,
+				x.menu_help		as menuHelp,
+				x.menu_Order	as menuOrder,
+				
+				
+				x.AUTHORITY_ID  as authorityId, 
+			 	x.del_Flag  	as delFlag, 
+			 	x.is_Display  	as isDisplay
+			    FROM Au_Menu x 
+			    where 1=1 
+			    
+			     
+		]]>
+<!-- 		 AND x.del_Flag = 0  AND x.is_Display = 1  -->
+		<![CDATA[
+		 		ORDER BY x.parentid ASC, x.menu_Order ASC
+		]]>
+	</select>
+</sqlMap>
+

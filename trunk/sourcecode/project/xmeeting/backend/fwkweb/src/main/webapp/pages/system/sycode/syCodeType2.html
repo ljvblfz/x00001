@@ -1,0 +1,86 @@
+<form method="get" name="syCodeTypeSearchForm" action="/rs/syCodeType" onsubmit="return navTabSearch(this);" >
+	<input type="hidden" name="pageNum" value="1" />
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>代码类别：</label>
+					<input type="text" name=typeName value=""/>
+				</li>
+				<li>
+					<label>描述：</label>
+					<input type="text" name=typeDesc value=""/>
+				</li>
+			</ul>
+			<div class="subBar">
+				<ul>						
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="search({pageNum:1})">查询</button></div></div></li>
+					<!--  <li><a class="button" href="/management/user!advancedSearch.do?userType=TRAINING" target="dialog" title="Advanced Search"><span>高级查询</span></a></li>-->
+				</ul>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="pageContent">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+			<li><a class="add" href="javascript:initGet();" title="启动" ><span>启动</span></a></li>
+			<li><a class="add" href="javascript:stop();" title="停止" ><span>停止</span></a></li>
+		</ul>
+	</div>
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr><th width="22"><input type="checkbox" group="typeIds" class="checkboxCtrl"></th>
+				<th width="100" orderField="typeName" >代码类别</th>
+				<th width="50" orderField="typeDesc">描述</th>
+				<th width="100">只读标记</th>
+				<th width="80" >域</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="comSyCodeTypeTrTemplate" target="slt_uid">
+				<td name="typeId" type="check"><input name="typeIds" value="" type="checkbox"></td>
+				<td name="typeName"></td>
+				<td name="typeDesc"></td>
+				<td name="redOnlyFlaStr"></td>
+				<td name="domainStr"></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<script type="text/javascript">
+	
+		var operation = true;
+		function initGet(dtd) {
+			operation = true;
+			var dtd = $.Deferred(); // 新建一个deferred对象
+			dtd = $.ajax({
+			  type: "GET",
+			  url: getURL(CPATH.domain_5,"/rs/syCodes/comet"),
+			  dataType: "json",
+			  cache:false,
+			  global:false
+			});
+			
+			dtd.done(function(resp){
+					syCodeTypeListGird(resp);
+					if(!operation){
+						dtd.reject();
+					}
+					initGet(dtd);
+			});
+		}
+		
+		//拼装
+		function syCodeTypeListGird(data){
+			var sampleRow=findName('comSyCodeTypeTrTemplate');
+			pageResponse2Table(sampleRow,data);
+		}
+		
+		function stop(){
+			operation = false;
+		}	
+</script>

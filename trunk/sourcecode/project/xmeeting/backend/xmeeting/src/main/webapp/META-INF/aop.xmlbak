@@ -1,0 +1,18 @@
+<aspectj>
+    <aspects>
+        <aspect name="com.founder.sipbus.aop.profile.SqlStatementProfiler"/>
+		<include within="java..*"/> 
+    </aspects>
+    
+    <!--
+      <weaver options="-XnoInline -verbose -showWeaveInfo -Xlint:ignore -Xset:weaveJavaPackages=true -Xset:weaveJavaxPackages=true">
+
+                        <exclude within="iep.perf..*"/>
+
+            </weaver>
+    -->
+	<weaver>
+		<include within="java..*"/> 
+		
+	</weaver>
+</aspectj>

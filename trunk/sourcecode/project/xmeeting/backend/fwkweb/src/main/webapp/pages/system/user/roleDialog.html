@@ -1,0 +1,130 @@
+ <form method="get" name="auRoleSearchForm" action="/rs/auRole" >
+	<input type="hidden" name="pageNum" value="1" />
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>用户名：</label>
+					<input type="text" name="name" value=""/>
+				</li>
+	 
+			</ul>
+			<div class="subBar">
+				<ul>			
+				 	
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="auRoleSearch({pageNum:1})">查询</button></div></div></li>
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="setRoles()">选择带回</button></div></div></li>
+			 		</ul>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="pageContent">
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr searchMethod="auRoleSearch"><th width="30"><input type="checkbox" group="guids" class="checkboxCtrl"></th>
+				<th width="200" orderField="name" >用户名</th>
+				
+				<th   >备注</th>
+			<!-- <th width="220" >rolecode</th> -->	
+			 
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="auRoleTrTemplate" target="slt_uid">
+				<td name="guid" type="check"><input name="guids" value="" type="checkbox"></td>
+				<td name="name"></td>
+				
+				<td name="memo"></td>
+				<!-- <td name="rolecode"></td> -->
+				 
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage" onchange="auRoleSearch({numPerPage:this.value,pageNum:1})">
+				<option value="10">10</option>
+				<option value="40">40</option>
+				<option value="100">100</option>
+				<option value="200">200</option>
+			</select>
+			<span name="auRoleCountDiv">条，共-条</span>
+		</div>
+		<div name="auRolePageBar" class="pagination" searchMethod="auRoleSearch" targetType="navTab" totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+</div>
+<script type="text/javascript">
+	//定义默认参数
+	var defaultArgs={};
+	 //查询方法
+    auRoleSearch();
+	function auRoleSearch(opt){
+		//序列化表单值，并扩展到defaultArgs对象中
+		$.extend(defaultArgs,findDialogName('auRoleSearchForm').serializeJson(),opt?opt:{});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_1,"/rs/auRole"),defaultArgs,auRolelistGird);
+	}
+	
+	//拼装
+	function auRolelistGird(data){
+		var sampleRow=findDialogName('auRoleTrTemplate');
+		pageResponse2Table(sampleRow,data);
+        printPageBarDiv(findDialogName('auRolePageBar'),findDialogName('auRoleCountDiv'),data.jsonData);
+	}
+	
+	function  setRoles(){
+		var  chks  = $("input[name='guids']:checked");
+		
+		if(chks.length < 1){
+			alertMsg.error("请至少选择一条数据");
+			return;
+		}
+		
+		$.each(chks,function(){
+			var rolename = $(this).parent().parent().parent().find("td").eq(1).text();		
+			var isExisted  = false;
+			findName("rolesTemplate").parent().find("tr").each(function(){
+				var role = $(this).find("input[name='rolename']").val();
+				if(role == rolename){
+					isExisted = true;
+					return false;
+				}
+			})
+			if(!isExisted){
+				var flag = false;
+				//空行填值
+				findName("rolesTemplate").parent().find("tr").each(function(i){
+					if(i>=1){
+						var value = $(this).find("input[name='rolename']").val();
+						if(value==""){
+							$(this).find("input[name='rolename']").val(rolename);
+							flag = true;
+							return false;
+						}
+					}
+				})
+				//新增一行
+				if(!flag){
+					var $template = findName("rolesTemplate");
+					var newtr = $template.clone();
+					var size = $template.parent().find("tr").length;
+					newtr.find("input[name='rolename']").val(rolename);
+					newtr.find("td").eq(0).html(size);
+					newtr.removeAttr("style");
+					newtr.removeAttr("name");
+					$template.parent().append(newtr);
+					newtr.pagnationStyle();				
+				}
+				
+
+			}
+		});
+		$.pdialog.closeCurrent();
+	}
+	
+</script>

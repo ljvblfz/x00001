@@ -1,0 +1,110 @@
+<form method="get" name="hrStaffrecordsSearchForm" action="/rs/hrStaffrecords" onsubmit="return false;" >
+	<input type="hidden" name="pageNum" value="1" />
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>员工工号：</label>
+					<input type="text" name="jobnumber" value=""/>
+				</li>
+				<li>
+					<label>员工姓名：</label>
+					<input type="text" name="username" value=""/>
+				</li>
+			</ul>
+			<div class="subBar">
+				<ul>						
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="hrStaffrecordsSearch({pageNum:1})">查询</button></div></div></li>
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="setSysUser()">选择带回</button></div></div></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="pageContent">
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr  searchMethod="hrStaffrecordsSearch"><th width="22"></th>
+						<th width="60" orderField="jobnumber">员工工号</th>
+						<th width="60" orderField="username">员工姓名</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="hrStaffrecordsTrTemplate" target="slt_uid" onclick="clickSysUser(this)">
+				<td type="radio"><input name="jobnumber" value="" type="radio"></td>
+						<td name="jobnumber"></td>
+						<td name="username"></td>	
+						<td name="mobile" style="display:none"></td>
+						<td name="email" style="display:none"></td>		
+						<td name="orgname" style="display:none"></td>	
+						<td name="officephone" style="display:none"></td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage" onchange="hrStaffrecordsSearch({numPerPage:this.value,pageNum:1})">
+				<option value="10">10</option>
+				<option value="40">40</option>
+				<option value="100">100</option>
+				<option value="200">200</option>
+			</select>
+			<span name="hrStaffrecordsCountDiv">条，共-条</span>
+		</div>
+		<div name="hrStaffrecordsPageBar" class="pagination" searchMethod="hrStaffrecordsSearch" targetType="navTab" totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+</div>
+<script type="text/javascript">
+	var dsysUser = null;
+	//定义默认参数
+	var hrStaffrecordsArgs={};
+	 //查询方法
+    hrStaffrecordsSearch();
+	function hrStaffrecordsSearch(opt){
+		//序列化表单值，并扩展到hrStaffrecordsArgs对象中
+		$.extend(hrStaffrecordsArgs,findDialogName('hrStaffrecordsSearchForm').serializeJson(),opt?opt:{});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_1,"/rs/hrStaffs"),hrStaffrecordsArgs,hrStaffrecordsList);
+	}
+	
+	//拼装
+	function hrStaffrecordsList(data){
+		var sampleRow=findDialogName('hrStaffrecordsTrTemplate');
+		pageResponse2Table(sampleRow,data);
+        printPageBarDiv(findDialogName('hrStaffrecordsPageBar'),findDialogName('hrStaffrecordsCountDiv'),data.jsonData);
+	}
+
+	
+	function clickSysUser(obj){
+		$(obj).find("input[name='jobnumber']").attr("checked",true);
+		var jobnumber = $(obj).find("td").eq(1).text();
+		var username = $(obj).find("td").eq(2).text();
+		var mobile = $(obj).find("td").eq(3).text();
+		var email = $(obj).find("td").eq(4).text();
+		var orgname = $(obj).find("td").eq(5).text();
+		var officephone = $(obj).find("td").eq(6).text();
+		dsysUser = {"jobnumber":jobnumber,"username":username,"mobile":mobile,"email":email,"orgname":orgname,"officephone":officephone};
+	}
+	
+	function setSysUser(){
+		if(!dsysUser){
+			alertMsg.error("请选择一条记录");
+			return;
+		}
+		
+		findName("username").val(dsysUser.jobnumber);
+		findName("userid").val(dsysUser.jobnumber);
+		findName("fullname").val(dsysUser.username);
+		findName("mobilephone").val(dsysUser.mobile);
+		findName("email").val(dsysUser.email);
+		findName("regNum").val(dsysUser.orgname);
+		findName("telephone").val(dsysUser.officephone);
+		
+		
+		$.pdialog.closeCurrent();
+	}
+</script>

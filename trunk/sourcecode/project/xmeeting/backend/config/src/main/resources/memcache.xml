@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="GBK"?>
+<configs>
+	<!-- Memcached服务器的配置 -->
+	<mapKey name="memcached.server.config">
+		<!-- server list -->
+		<value key="servers">172.29.128.194:11211</value>
+		<!-- weight list -->
+		<value key="weights">1</value>
+		<!-- 初始连接数 -->
+		<value key="initConn">5</value>
+		<!-- 最小连接数 -->
+		<value key="minConn">5</value>
+		<!-- 最大连接数 -->
+		<value key="maxConn">1024</value>
+		<!-- 连接最长空闲时间(分) -->
+		<value key="maxIdle">360</value>
+		<!-- 维护线程的轮询时间(秒) -->
+		<value key="maintSleep">30</value>	
+	</mapKey>
+	<mapKey name="group.timeout">
+		<value key="default.timeout">5</value>
+		<value key="pagination.timeout">1</value>
+	</mapKey>
+</configs>

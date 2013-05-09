@@ -1,0 +1,53 @@
+<h2 class="contentTitle" name="showTitle">编辑角色权限</h2>
+<form name="pageForm" method="post" class="required-validate pageForm" onsubmit="return validateCallback(this, navTabAjaxDone);">
+		<input type="hidden" name="guid" id="guid"/>
+		<input type="hidden" name="modify" id="modify"/>
+		<input type="hidden" name="navTabId" value="authority" />
+		<input type="hidden" name="callbackType" value="closeCurrent" />
+		<input type="hidden" name="callBackMethod" value="search" />
+	<div class="pageFormContent" layoutH="87">
+		<div id="auRoleAuthorityModifyTreeDiv"   />
+	</div>
+			
+	<div class="formBar">
+		<ul>
+			<li><a id ="save" class="buttonActive" target="selectedTodoForTree"  postType="json" doType="PUT" href="" divId="auRoleAuthorityModifyTreeDiv" rel="authorityIds" 
+			callBackMethod="auRoleAthoritySearch"	title="确认保存?"  ><span>保存</span></a></li>
+		 		<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
+		 	
+		</ul>
+	</div>
+</form>
+<script type="text/javascript">
+	
+ function auRoleAthoritySearch(){
+	
+	 var $form = findName("pageForm");
+		var url = navTab._getTabUrl();
+		var guid=navTab._getParam("guid");
+		var modify=navTab._getParam("modify");
+		var id="auRoleAuthorityModifyTreeDiv";
+	 createTree(CPATH.domain_1+ "/rs/auRole/"+guid+"/auAuthority",id,false,'authorityName','authorityId','sonAuthorities','authorityIds','isHave');
+		
+	 }
+	$(function(){
+		var $form = findName("pageForm");
+		var url = navTab._getTabUrl();
+		var guid=navTab._getParam("guid"); 
+		var modify=navTab._getParam("modify");
+		var id="auRoleAuthorityModifyTreeDiv";
+		if(guid){
+			if(modify){
+			createTree(CPATH.domain_1+ "/rs/auRole/"+guid+"/auAuthority",id,false,'authorityName','authorityId','sonAuthorities','authorityIds','isHave'); 
+			$form.attr('action',"javascript:getURL(CPATH.domain_1,'/rs/auRole/"+guid+"/auAuthority')");
+			$("#save").attr('href',"javascript:getURL(CPATH.domain_1,'/rs/auRole/"+guid+"/auAuthority')");
+			 
+			}else{
+				 
+				}
+		}else{
+			 
+		}
+	});
+
+</script>

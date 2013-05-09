@@ -1,0 +1,70 @@
+<h2 class="contentTitle">combox tree演示</h2>
+
+
+<script type="text/javascript">
+	$(document).ready(function(){ 
+		
+		var nodes = [
+		         	{id:1, pId:0, name: "父节点1"},
+		         	{id:11, pId:1, name: "子节点1"},
+		         	{id:12, pId:1, name: "子节点2"}
+		         ];
+		
+		
+		var nodes2 = [
+		         	{id:1,name: "父节点1", children: [
+		         						{id:11,name: "子节点1" ,children:[
+		         														{id:111,name: "子节点1-子节点1"},     
+		         														{id:112,name: "子节点1-子节点2"}            
+		         				         						]},
+		         						{id:12,name: "子节点2" ,children:[
+												{id:121,name: "子节点2-子节点1"},     
+												{id:123,name: "子节点2-子节点2"}            
+		         						]}
+		         	]},
+		         	{id:2,name: "父节点2", children: [
+		   		         						{id:21,name: "子节点21" ,children:[
+		   		         														{id:211,name: "子节点21-子节点1"},     
+		   		         														{id:212,name: "子节点21-子节点2"}            
+		   		         				         						]},
+		   		         						{id:22,name: "子节点22" ,children:[
+		   												{id:221,name: "子节点22-子节点1"},     
+		   												{id:223,name: "子节点22-子节点2"}            
+		   		         						]}
+		   		         	]}
+		         ];
+		 
+		
+		
+		var comboxtreeselect=findName("comboxtreetest"); 
+		initComboxTree(nodes2,comboxtreeselect,0);
+		
+		
+		
+	});
+	
+	function initComboxTree(nodes,comboxtreeselect,level){
+// 		logger.info("level==="+level);
+		var blank="";
+		var counter=level;
+		while(counter>0){ 
+			blank+="&nbsp;&nbsp;&nbsp;";
+			counter--;
+		}
+		for(var i=0;i<nodes.length;i++){
+			var node=nodes[i]; 
+			comboxtreeselect.append("<option value='"+node.id+"'    >"+blank+node.name+"</option>");
+			if(node.children&&node.children.length>0){
+				initComboxTree(node.children,comboxtreeselect,level+1);
+			}
+		}//end of for
+	}
+	
+</script> 
+
+<div class="pageContent">
+	 <select  name="comboxtreetest" class="comboxtree">
+	 	<option value=""    >请选择</option> 
+	 </select>
+	 
+</div>

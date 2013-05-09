@@ -1,0 +1,96 @@
+<!-- <form method="get" name="xmMeetingDocumentSearchForm" action="/rs/xmMeetingDocument" onsubmit="return false;" > -->
+<!-- 	<input type="hidden" name="pageNum" value="1" /> -->
+<!-- 	<div class="pageHeader"> -->
+<!-- 		<div class="searchBar"> -->
+<!-- 			<ul class="searchContent"> -->
+<!-- 				<li> -->
+<!-- 					<label>类型名称：</label> -->
+<!-- 					<input type="text" name="xmmdGuid" value=""/> -->
+<!-- 				</li>  -->
+<!-- 			</ul> -->
+<!-- 			<div class="subBar"> -->
+<!-- 				<ul>						 -->
+<!-- 					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="xmMeetingDocumentSearch({pageNum:1})">查询</button></div></div></li> -->
+<!-- 					<li><a class="button" href="/management/user!advancedSearch.do?userType=TRAINING" target="dialog" title="Advanced Search"><span>高级查询</span></a></li> -->
+<!-- 				</ul> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
+<!-- </form> -->
+
+<div class="pageContent">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+			<li><a class="add" target="navTab" rel="4userNav" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/modify/xmMeetingDocumentModify.html');" title="新增xmMeetingDocument"  ><span>新增</span></a></li>
+			<li><a class="edit" target="navTab" rel="4userNav1" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/modify/xmMeetingDocumentModify.html?xmmdGuid={slt_uid}');" title="修改xmMeetingDocument"  multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
+			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_3,'/rs/xmMeetingDocument')"  rel="xmmdGuids" 
+			callBackMethod="xmMeetingDocumentSearch"	title="确认删除?"  ><span>删除</span></a></li> 
+		</ul>
+	</div>
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr  searchMethod="xmMeetingDocumentSearch"><th width="22"><input type="checkbox" group="xmmdGuids" class="checkboxCtrl"></th>
+<!-- 						<th width="60" orderField="xmmiGuid">会议PID</th> -->
+						<th width="60" orderField="xmmdName">文稿名称</th>
+						<th width="60" orderField="xmmdDescription">文稿描述</th>
+						<th width="60" orderField="xmmdFile">文稿文件</th> 
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="xmMeetingDocumentTrTemplate" target="slt_uid">
+				<td name="xmmdGuid" type="check"><input name="xmmdGuids" value="" type="checkbox"></td>
+<!-- 						<td name="xmmiGuid"></td> -->
+						<td name="xmmdName"></td>
+						<td name="xmmdDescription"></td>
+						<td name="xmmdFile"></td> 
+				
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage" onchange="xmMeetingDocumentSearch({numPerPage:this.value,pageNum:1})">
+				<option value="10">10</option>
+				<option value="40">40</option>
+				<option value="100">100</option>
+				<option value="200">200</option>
+			</select>
+			<span name="xmMeetingDocumentCountDiv">条，共-条</span>
+		</div>
+		<div name="xmMeetingDocumentPageBar" class="pagination" searchMethod="xmMeetingDocumentSearch" targetType="navTab" totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+</div>
+<script type="text/javascript">
+	//定义默认参数
+	var xmMeetingDocumentArgs={};
+	 //查询方法 
+
+    $(function(){
+		var url = navTab._getTabUrl();
+		var xmmiGuid=navTab._getParam("xmmiGuid");
+		var xurl="/pages/xmeeting/devmgmt/modify/xmMeetingDocumentModify.html?xmmiGuid="+xmmiGuid+"";
+		findClass("add").attr("href",getURL(CPATH.domain_3,xurl));
+		//
+		var opts={xmmiGuid:xmmiGuid}; 
+		xmMeetingDocumentSearch(opts);
+	});  
+	 
+	 
+	function xmMeetingDocumentSearch(opt){
+		//序列化表单值，并扩展到xmMeetingDocumentArgs对象中
+		$.extend(xmMeetingDocumentArgs,findName('xmMeetingDocumentSearchForm').serializeJson(),opt?opt:{});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_3,"/rs/xmMeetingDocument"),xmMeetingDocumentArgs,xmMeetingDocumentList);
+	}
+	
+	//拼装
+	function xmMeetingDocumentList(data){
+		var sampleRow=findName('xmMeetingDocumentTrTemplate');
+		pageResponse2Table(sampleRow,data);
+        printPageBarDiv(findName('xmMeetingDocumentPageBar'),findName('xmMeetingDocumentCountDiv'),data.jsonData);
+	}
+</script>

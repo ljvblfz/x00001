@@ -1,0 +1,97 @@
+<style type="text/css">
+	ul.rightTools {float:right; display:block;}
+	ul.rightTools li{float:left; display:block; margin-left:5px}
+</style>
+<form name="pageForm" method="post">
+
+<div class="pageContent" style="padding:5px">
+	<div class="panel" defH="45">
+		<h1>码表类型信息</h1>
+		<div class="pageFormContent">
+			<fieldset>
+				<dl>
+					<dt>类别编码：</dt>
+					<dd><input class="readonly" type="text" name="typeName" size="30" readonly="readonly"/></dd>
+				</dl>
+				<dl>
+					<dt>名称：</dt>
+					<dd><input class="readonly" type="text" name="typeDesc" size="30" readonly="readonly"/></dd>
+				</dl>
+			</fieldset>
+		</div>
+	</div>
+	</div>
+	</form>
+	<div class="divider"></div>
+	<div class="panel collapse" minH="100" defH="450">
+		<h1>码值信息</h1>
+		<div>
+		<!-- 嵌套开始 -->
+
+
+	<div class="panelBar">
+		<ul class="toolBar">
+			<li><a class="add" target="navTab" rel="mtCodeAdd" href="javascript:getURL(CPATH.domain_1,'/pages/system/sycode/mtCodeModify.html?typeId={slt_uid}');" transfer="typeId"><span>新增</span></a></li>
+			<li><a class="edit" target="navTab" rel="mtCodeEdit" href="javascript:getURL(CPATH.domain_1,'/pages/system/sycode/mtCodeModify.html?codeId={slt_uid}');" title="修改" multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
+			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_1,'/rs/syCode')"  rel="codeIds" 
+			callBackMethod="mtCodeSearch" title="确认删除?"><span>删除</span></a></li>
+		</ul>
+	</div>
+	
+	<table class="table" width="100%">
+		<thead>
+			<tr><th width="22"><input type="checkbox" group="codeIds" class="checkboxCtrl"></th>
+				<th width="30%" orderField="valueName" >名称</th>
+				<th width="20%" orderField="valueCode">编码</th>
+				<th width="40%" orderField="valueDesc">描述</th>
+				<th width="10%">排序</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="mtCodeTrTemplate" target="slt_uid">
+				<td name="codeId" type="check"><input name="codeIds" value="" type="checkbox"></td>
+				<td width="30%" name="valueName"></td>
+				<td width="20%" name="valueCode"></td>
+				<td width="40%" name="valueDesc"></td>
+				<td width="10%" name="codeSeq"></td>
+			</tr>
+		</tbody>
+	</table>
+	
+</div>
+<script type="text/javascript">
+	var syCodeTypeId=navTab._getParam("typeId");
+	$(".add").attr("transfer",syCodeTypeId);
+	//定义默认参数
+	var syCodeDefaultArgs={ typeId: syCodeTypeId };
+	 //查询方法
+    mtCodeSearch();
+	function mtCodeSearch(opt){
+		//序列化表单值，并扩展到defaultArgs对象中
+		//$.extend(defaultArgs,findName('mtCodeSearchForm').serializeJson(),opt?opt:{});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_1,"/rs/syCode"),syCodeDefaultArgs,syCodeListGird);
+	}
+	
+	//拼装
+	function syCodeListGird(data){
+		var sampleRow=findName('mtCodeTrTemplate');
+		pageResponse2Table(sampleRow,data);
+        //printPageBarDiv(findName('syCodePageBar'),findName('syCodeCountDiv'),data.jsonData);
+	}
+	
+</script>
+	
+	
+		<!-- 嵌套结束 -->
+		</div>
+	</div>
+<script type="text/javascript">
+	//通过tab url得到行主键，获取信息，自动填充form表单
+	$(function(){
+		var $form = findName("pageForm");
+		if(syCodeTypeId){
+			doGetAjax(CPATH.domain_1 + "/rs/syCodeType/" +syCodeTypeId ,null,function(data){$form.find("[name]").populate(data);});
+		}
+	});
+</script>

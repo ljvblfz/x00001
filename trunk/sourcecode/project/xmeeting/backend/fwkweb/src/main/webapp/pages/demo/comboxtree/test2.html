@@ -1,0 +1,82 @@
+<h2 class="contentTitle">combox tree演示</h2>
+
+
+<script type="text/javascript">
+	$(document).ready(function(){ 
+		
+		var nodes = [
+		         	{id:1, pId:0, name: "父节点1"},
+		         	{id:11, pId:1, name: "子节点1"},
+		         	{id:12, pId:1, name: "子节点2"}
+		         ];
+		
+		
+		 
+		
+
+		var nodes2={};
+		structureNodes(nodes,0,nodes2);
+		logger.info(nodes2.toSource());
+		var comboxtreeselect=findName("comboxtreetest"); 
+		initComboxTree([nodes2],comboxtreeselect,0);
+		
+		
+	});
+	
+
+	function structureNodes(nodes,pId,pNode){  
+		var children=getNodesByPid(nodes,pId); 
+ 
+		if(children.length==0){ 
+			return;
+		}
+		
+		if(pNode){
+			pNode.children=children;
+		}
+		for(var i=0;i<children.length;i++){
+			var node=children[i];  
+			structureNodes(nodes,node.id,node);
+		}
+	}
+	
+	function getNodesByPid(nodes,pId){
+		var xnodes=[];
+		for(var i=0;i<nodes.length;i++){
+			var node=nodes[i];
+			if(node.pId==pId){
+				xnodes.push(node);
+			}
+		}
+		return xnodes;
+		
+	}
+	
+	function initComboxTree(nodes,comboxtreeselect,level){ 
+		var blank="";
+		var counter=level;
+		while(counter>0){ 
+			blank+="&nbsp;&nbsp;&nbsp;";
+			counter--;
+		}
+		for(var i=0;i<nodes.length;i++){
+			var node=nodes[i]; 
+			if(node.id){
+				comboxtreeselect.append("<option value='"+node.id+"'    >"+blank+node.name+"</option>");
+			}else{
+				level=level-1;
+			}
+			if(node.children&&node.children.length>0){
+				initComboxTree(node.children,comboxtreeselect,level+1);
+			}
+		}//end of for
+	}
+	
+</script> 
+
+<div class="pageContent">
+	 <select  name="comboxtreetest" class="comboxtree" value="1">
+	 	<option value=""   >请选择</option> 
+	 </select>
+	 
+</div>

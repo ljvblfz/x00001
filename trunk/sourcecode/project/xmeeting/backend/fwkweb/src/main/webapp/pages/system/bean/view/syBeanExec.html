@@ -1,0 +1,90 @@
+
+
+<script type="text/javascript">
+	$(function() {
+
+		var param =  $.pdialog.getCurrent().data("param"); 
+		if(param && param != ""){
+			var beanname=param.beanname;
+			logger.info("beanname --> "+beanname);
+			syweb_beanmgmt_dialogexec_beaninfo(beanname);
+		} 
+		
+		
+	});
+	
+	
+	function syweb_beanmgmt_dialogexec_beaninfo(beanname){
+		var url = "/rs/bean/beanmgmtview/"+beanname;
+		dtdXHR = $.ajax({
+			type : "GET",
+			url : getURL(CPATH.domain_1, url),
+			dataType : "json",
+			cache : false,
+			global : false
+		});
+
+		dtdXHR.done(function(respJson) { 
+			var clazzName=respJson.jsonData.clazzName; 
+			findNameWithParentID("clazzName","syweb_beanmgmt_exec").val(clazzName);
+			findNameWithParentID("beanName","syweb_beanmgmt_exec").val(beanname);
+		});
+		dtdXHR.fail(function(respJson) {
+			if (!istimeout(respJson)) {
+			}
+		});
+	}
+	
+
+	function syweb_beanmgmt_dialogexec_submit(){
+		var formJsonData=findNameWithParentID("beanexecform","syweb_beanmgmt_exec").serializeJson();
+		var beanname=formJsonData.beanName;
+		var url = "/rs/bean/beanmgmtscriptexecution/"+beanname;
+		dtdXHR = $.ajax({
+			type : "POST",
+			url : getURL(CPATH.domain_1, url),
+			dataType : "json",
+			data: formJsonData
+		});
+
+		dtdXHR.done(function(respJson) { 
+			alertMsg.correct("执行成功。返回值为: "+respJson.jsonData); 
+		});
+		dtdXHR.fail(function(respJson) {
+			if (!istimeout(respJson)) { 
+				alertMsg.error("执行失败。"); 
+			}
+		});
+	}
+	 
+ 
+</script>
+
+<div class="pageContent" id="syweb_beanmgmt_exec">  
+
+	<form name="beanexecform" method="post"   > 
+		<div class="pageFormContent" layoutH="50"> 
+			 
+			<p>
+				<label>bean name:</label> 
+				<input name="beanName" type="text" style="width:80px" readonly="readonly"> 
+			</p>
+			<p>
+				<label>clazz name:</label>
+				<input name="clazzName" type="text" style="width:80px" readonly="readonly">  
+			</p>
+			<p>
+				<label>param value:</label>
+				<textarea rows="5" cols="55" name="paramvalue"></textarea>
+			</p>  
+		</div>
+				
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="syweb_beanmgmt_dialogexec_submit()">执行函数</button></div></div></li>
+				<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
+			</ul>
+		</div>
+	</form>
+ 
+</div>

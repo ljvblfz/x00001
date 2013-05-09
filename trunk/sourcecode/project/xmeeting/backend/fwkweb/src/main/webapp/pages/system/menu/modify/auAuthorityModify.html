@@ -1,0 +1,88 @@
+<script type="text/javascript">
+	//通过tab url得到行主键，获取信息，自动填充form表单
+	$(function() {
+		
+
+		var param =  $.pdialog.getCurrent().data("param");
+		if(param && param != ""){
+			param = DWZ.jsonEval(param);   
+// 			logger.info("param--->"+param.oper);
+// 			logger.info("param--->"+param.id);
+// 			logger.info("param--->"+param.pId);
+			authority_dialog_init(param);
+		}
+
+	});
+
+	
+	
+	function authority_dialog_init(param){
+		var form =findDialogName("authoritydialogform");
+		logger.info(form);
+		if("add"==param.oper){
+			var formparam={};
+			formparam.authorityId=param.id;
+			formparam.parentId=param.id; 
+			formparam.oper=param.oper;
+			form.populate2(formparam);
+		}else if("modify"==param.oper){ 
+			form.populate2(param);
+		}else if("clone"==param.oper){ 
+			form.populate2(param);
+		}
+	}
+
+	
+	//创建出库单
+	function authority_dialog_save(){
+		var $form = getJqueryForm(findDialogName("authoritydialogform",$.pdialog.getCurrent()));
+		if (!$form.valid()) {
+			return false;
+		}
+		doPostAjax(getURL(CPATH.domain_1, "/rs/auauthority/saveinfo"), $form.serializeArray() ,
+			function(data) { 
+					$.pdialog.close($.pdialog.getCurrent());	 
+					authority_initTreeZNodes();
+		});
+	}
+	
+	function authority_dialog_formcallback(){
+		logger.info("authority_dialog_formcallback");
+	}
+	 
+</script>
+<div class="pageContent">
+	<form name="authoritydialogform" method="post" class="required-validate pageForm" onsubmit="return validateCallback(this, authority_dialog_formcallback);">
+ 		<input name="oper" type="hidden" value=""  />
+		<div class="pageFormContent" layoutH="50"> 
+				<p><label>主健:</label>    <input name="authorityId" type="text" value=""   style="width:200px;"/></p><br/>
+				<p><label>权限名:</label>    <input name="authorityName" type="text" value="" style="width:200px;" /></p><br/>  
+				<p><label>父权限id:</label>  <input name="parentId" type="text" value="" style="width:200px;"/></p><br/>
+				<p><label>权限是否可用 :</label>  <input name="enabled" type="text" value="" /></p><br/> 
+				<p><label>排序字段 :</label>  <input name="autOrder" type="text" value="" /></p><br/>  
+				<p><label>是否删除 :</label>  <input name="delFlag" type="text" value="" /></p><br/> 
+		</div>
+		<div class="formBar">
+			<ul>
+				<li>
+					<div class="buttonActive">
+						<div class="buttonContent">
+							<button type="button" onclick="authority_dialog_save();">
+								保存
+							</button>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="button">
+						<div class="buttonContent">
+							<button type="button" class="close">
+								关闭
+							</button>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</form>
+</div>

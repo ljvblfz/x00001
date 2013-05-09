@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<bean name="root" class="org.restlet.ext.spring.SpringRouter">
+			<property name="attachments">
+				<map>
+					<entry key="">
+					   <bean class="com.founder.sipbus.syweb.au.filter.AuthFilter">  
+							<property name="next" ref="authProtected"/>
+							<property name="sysUserDao"  ref="sysUserDao"/>
+					        <!-- 
+					        public url
+					        http://172.29.128.41/dispatch/rs/line/146/stand 
+					        http://172.29.128.41/dispatch/rs/line/146/bus/running
+					        http://172.29.128.41/dispatch/rs/gis/station/4badc705-2e87-2127-32f9-a50bf2aac3bf/linenamelistinfo
+					        http://172.29.128.41/dispatch/rs/gis/electronicboard/3dfdc753-adc4-461d-ac04-2e330b5072c2/info
+					        -->
+							<property name="publicurl">
+						        <list> 
+							        <value>/open/meetingallinfo/download/xmmiGuid/{xmmiGuid}#GET</value> 
+							        <value>/open/meetingpersonnel/download/xmmiGuid/{xmmiGuid}#GET</value>    
+							        <value>/open/downloadstatus/query/xmpdDeviceId/{xmpdDeviceId}#GET</value>    
+							        <value>/open/signin/xmpiGuid/{xmpiGuid}/xmmiGuid/{xmmiGuid}#GET</value>    
+						        </list>
+						     </property>
+	                   </bean> 
+	                </entry>
+				</map>
+			</property>
+	</bean>
+	
+	<bean name="authProtected" class="org.restlet.ext.spring.SpringRouter">
+			<property name="packagesToScan">
+				<list>         
+					<value>com.broadsoft.xmeeting.xmeeting.**.resource</value>
+				</list>
+			</property>
+	</bean>
+	 
+	
+</beans>

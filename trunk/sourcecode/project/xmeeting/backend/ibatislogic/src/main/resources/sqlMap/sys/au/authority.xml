@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="sys.authority">
+
+ 
+	
+	
+	<select id="findAll" resultClass="com.founder.sipbus.sys.au.vo.AuAuthoritySimpleVO">
+	    <![CDATA[
+			    SELECT   
+						x.AUTHORITY_ID  		as id,
+						x.PARENT_ID 			as pId,
+						x.AUTHORITY_NAME 		as name,
+		        		x.AUTHORITY_ID	  		as t, 
+		        
+						x.AUTHORITY_ID  		as authorityId,  
+		        		x.PARENT_ID 			as parentId,
+		        		x.AUTHORITY_NAME 		as authorityName, 
+		        		x.AUT_ORDER 			as autOrder,
+		        		x.ENABLED  				as enabled,
+		        		x.DEL_FLAG  			as delFlag 
+        
+			    FROM au_authorities x 
+			    
+			    
+			    where 1=1  
+			     
+		]]> 
+		<![CDATA[
+		 		ORDER BY x.PARENT_ID ASC, x.AUT_ORDER ASC
+		]]>
+	</select>
+</sqlMap>
+

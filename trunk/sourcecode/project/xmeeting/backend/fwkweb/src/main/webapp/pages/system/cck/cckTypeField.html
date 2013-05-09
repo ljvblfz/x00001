@@ -1,0 +1,255 @@
+<style>
+  .syCckTypeFieldPageContent td, .syCckTypeFieldPageContent th{text-overflow:ellipsis;overflow:hidden;white-space: nowrap; } 
+ 
+.syCckTypeFieldPageContent table.list td {
+ border-bottom: solid 1px #ededed;}
+  </style>
+<script type="text/javascript">
+//定义默认参数
+var syCckTypeFieldArgs={"numPerPage":20};
+ //查询方法
+var TotalFieldLimit=20;
+	function syCckTypeFieldSearch(opt){
+		//序列化表单值，并扩展到syCckTypeFieldArgs对象中
+		$.extend(syCckTypeFieldArgs,findName('syCckTypeFieldSearchForm').serializeJson(),opt?opt:{});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_1,"/rs/syCckType/"+syCckTypeFieldArgs.sctGuid+"/syCckTypeField"),syCckTypeFieldArgs,syCckTypeFieldList);
+	}
+	
+	//拼装
+	function syCckTypeFieldList(data){
+		 
+		var sampleRow=findName('syCckTypeFieldTrTemplate');
+		pageResponse2Table(sampleRow,data);
+        printPageBarDiv(findName('syCckTypeFieldPageBar'),findName('syCckTypeFieldCountDiv'),data.jsonData);
+        syCckTypeFieldArgs.total=data.jsonData.totalCount;
+		var cuts = $("[cutlength]", navTab.getCurrentPanel());
+		for ( var i = 0; i < cuts.length; i++) {
+			var t = $(cuts[i]);
+
+			t.attr("title", t.text());
+		}
+	}
+
+	 
+
+	$(function() { 
+		var url = navTab._getTabUrl();
+		var sctGuid=navTab._getParam("sctGuid");
+		if(sctGuid){
+			syCckTypeFieldArgs.sctGuid=sctGuid;
+			findName("sctGuid").val(sctGuid);
+			syCckTypeFieldSearch();
+		
+		
+		findNameWithParentID("add","ccktypefield_pagecontent").bind("click",  ccktypefield_add);
+		findNameWithParentID("edit","ccktypefield_pagecontent").bind("click", ccktypefield_edit); 
+// 		findNameWithParentID("remove","ccktypefield_pagecontent").bind("click", ccktypefield_remove);
+// 		findNameWithParentID("editMulti","ccktypefield_pagecontent").bind("click", ccktypefield_edit_multi); 
+		}
+
+	});
+	
+
+	function ccktypefield_add(){
+		if(true||syCckTypeFieldArgs.total<TotalFieldLimit) 
+		{ 
+		var pData={"rel":"cckTypeFieldCreate","sctGuid":syCckTypeFieldArgs.sctGuid,"total": syCckTypeFieldArgs.total};
+		ccktypefield_showDialog("新增",pData);}
+		else{
+			alertMsg.error("超过最大字段数限制!");
+		}
+		
+	}
+	
+	
+	function ccktypefield_edit(event){
+ 
+			var ids=_get_sctfGuid_ccktypefield_edit();
+			if(ids.length==1&&ids[0]){
+				var sctfGuid =ids[0];
+					var pData={"rel":"cckTypeFieldModify","sctfGuid":sctfGuid,"sctGuid":syCckTypeFieldArgs.sctGuid};
+					ccktypefield_showDialog("修改",pData); 
+			}else{
+				alertMsg.error("请选择一条记录!");
+			}
+	}
+	function ccktypefield_edit_multi(event){
+ 
+		var ids=_get_sctfGuid_ccktypefield_edit();
+		if(ids.length>=1 ){
+			var sctfGuid =ids.toString();
+			var url = CPATH.domain_1+"/pages/system/cck/modify/cckTypeFieldMultiModify.html?sctGuid="+syCckTypeFieldArgs.sctGuid;
+				var pData={"rel":"cckTypeFieldMultiModify","sctfGuid":sctfGuid,"sctGuid":syCckTypeFieldArgs.sctGuid,url:url};
+				ccktypefield_showDialog("修改",pData); 
+		}else{
+			alertMsg.error("请选择至少一条记录!");
+		}
+	}
+	
+	function _get_sctfGuid_ccktypefield_edit()
+	{
+		
+	 var ids =[];
+		 var checkboxs=findName("syCckTypeFieldPageContent").find("input:checkbox:checked");
+		 for(var i=0;i<checkboxs.length;i++){
+			 var t=$(checkboxs[i]);
+			 var val=t.val();
+			  if(val&&val!="on"){
+				  ids[ids.length]=val;
+			  }
+			 
+		 }
+	return ids;
+			
+	}
+		
+		 
+	 
+	  
+	 
+	
+// 	function ccktypefield_remove(){
+		
+		
+// 	}
+	 
+	function ccktypefield_showDialog(operAction,pData){   
+		//
+		var title = operAction+" -- 字段";
+		var rel =pData.rel;  
+		var options = {}; 
+		options.width = 550;
+		options.height = 580;
+		options.max =false;
+		options.mask = true;
+		options.maxable = false;
+		options.minable = false;
+		options.fresh = true;
+		options.resizable = false;
+		options.drawable = true;
+		options.close = "";
+		options.param = pData;
+		options.zIndex = "1000";
+ 
+		var url = CPATH.domain_1+"/pages/system/cck/modify/cckTypeFieldModify.html?sctGuid="+pData.sctGuid;
+		if(pData.url){
+			url=pData.url;
+		}
+		if(pData.sctfGuid)
+			{
+			
+			url+="&sctfGuid=";
+			url+=pData.sctfGuid;
+			}
+ 
+		$.pdialog.open(url, rel, title, options);
+		
+	}//end of showLineChooserDialog
+
+</script>
+<!-- <label>类型名称：</label>  -->
+<!-- 					<input type="text" name="sctfGuid" value=""/> -->
+<!-- <h2 class="contentTitle" name="showTitle">Edit Type</h2> -->
+<form method="get" name="syCckTypeFieldSearchForm" action="/rs/syCckType" onsubmit="return false;" >
+	<input type="hidden" name="pageNum" value="1" />
+	<input type="hidden" name="sctGuid" value=""/>
+ 
+</form>
+ 
+
+<div class="pageContent syCckTypeFieldPageContent" id="ccktypefield_pagecontent" name="syCckTypeFieldPageContent">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+			<li><a class="add" name="add"  mask=true width=550 height=550 rel="cckTypeFieldCreate" href="javascript:;" title="新增syCckTypeField"  1authId="testAuth000001"><span>新增</span></a></li>
+			<li><a class="edit" name = "edit"  rel="cckTypeFieldModifydialog" href="javascript:;" title="修改CckTypeField"  1authId="testAuth000002" multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
+<!-- 			<li><a class="edit" name = "editMulti"  rel="cckTypeFieldMultiModifydialog" href="javascript:;" title="批量修改CckTypeField"  1authId="testAuth000002" multiable="no" warn="请选择至少一条记录"><span>批量修改</span></a></li> -->
+			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_1,'/rs/syCckType/'+syCckTypeFieldArgs.sctGuid+'/syCckTypeField')"  rel="sctfGuids" 
+			callBackMethod="syCckTypeFieldSearch"	title="确认删除?" 1authId="testAuth000003"><span>删除</span></a></li>
+<!--			<li class="line">line</li>-->
+<!--			<li><a class="icon" href="/management/user!export.do" target="dwzExport" targetType="navTab" title="确认导出?"><span>导出</span></a></li>-->
+		</ul>
+	</div>
+	
+	<table class="list syCckTypeFieldSearchTable" layoutH="54" width="100%"  >
+		<thead>
+		<tr   ><th width="22"></th>
+ 
+						<th colspan="4"  >数据设置</th>
+					 
+					  <th colspan="3"  >表单验证设置</th>
+						 <th colspan="4"  >列表设置</th>
+						 <th colspan="2"  >排序设置</th>
+						 <th colspan="2"  >表单设置</th>
+ 
+			</tr>
+			<tr searchMethod="syCckTypeFieldSearch"   ><th width="22"><input type="checkbox" group="sctfGuids" class="checkboxCtrl"></th>
+<!-- 						<th width="160px" orderField="sctGuid">SY_CCK_TYPE</th> -->
+						<th   orderField="fieldLabel">label名称</th>
+						<th   orderField="fieldColumn">db column</th>
+						<th  orderField="fieldAlias">别名&nbsp;&nbsp;&nbsp;&nbsp;</th>
+						<th width="60px" orderField="fieldType">数据类型</th>
+						
+						<th width="28px" orderField="fieldIsrequired">必须</th>
+						<th width="28px" orderField="fieldIsunique">唯一</th>
+						<th width="40px" orderField="fieldMaxlength">长度</th>
+						
+						<th width="28px" orderField="fieldIslistdisplay">显示</th>
+						<th width="28px" orderField="fieldListsortno">顺序</th>
+						<th width="28px" orderField="fieldIssearchfield">条件</th>
+						<th width="40px" orderField="columnWidth">列宽</th>
+						
+						<th width="40px" orderField="orderType">类型</th>
+						<th width="40px" orderField="orderOrder">顺序</th>
+						
+						<th width="28px" orderField="fieldIsformdisplay">显示</th>
+						<th width="28px" orderField="fieldFormposition">位置</th>
+<!-- 						<th   orderField="fieldDescription">描述</th> -->
+<!-- 						<th width="160px" orderField="delFlag">删除标志</th> -->
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="syCckTypeFieldTrTemplate" target="slt_uid">
+				<td name="sctfGuid" type="check"><input name="sctfGuids" value="" type="checkbox"></td>
+<!-- 						<td name="sctGuid"></td> -->
+						<td name="fieldLabel"></td>
+						<td name="fieldColumn"></td>
+						<td name="fieldAlias"></td>
+						
+						<td name="fieldTypeString"></td>
+						<td name="fieldIsrequiredString"></td>
+						<td name="fieldIsuniqueString"></td>
+						<td name="fieldMaxlength"></td>
+						
+						<td name="fieldIslistdisplayString"></td>
+						<td name="fieldListsortno"></td>
+						<td name="fieldIssearchfieldString"></td>
+						<td name="columnWidth"></td>
+						
+						<td name="orderTypeString"></td>
+						<td name="orderOrder"></td>
+						
+						<td name="fieldIsformdisplayString"></td>
+						<td name="fieldFormposition"></td>
+<!-- 						<td class="" cutlength name="fieldDescription"></td> -->
+<!-- 						<td name="delFlag"></td> -->
+				
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage" onchange="syCckTypeFieldSearch({numPerPage:this.value,pageNum:1})">
+				<option value="20">20</option>
+				<option value="40">40</option>
+				<option value="100">100</option>
+				<option value="200">200</option>
+			</select>
+			<span name="syCckTypeFieldCountDiv">条，共-条</span>
+		</div>
+		<div name="syCckTypeFieldPageBar" class="pagination" searchMethod="syCckTypeFieldSearch" targetType="navTab" totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+</div>

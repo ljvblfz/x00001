@@ -1,0 +1,197 @@
+<form method="get" name="scriptManagementLogSearchForm" action="/rs/"
+	onsubmit="return false;">
+	<input type="hidden" name="pageNum" value="1" />
+	<div class="pageHeader"><!--
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>
+						脚本名称
+					</label>
+					<input type="text" name="scriptName" value="" />
+				</li>
+
+				<li>
+					<label>
+						群组名称
+					</label>
+					<select class="combox sync" name="groupName" valueCode="valueCode"
+						codeType="1005" valueDesc="valueDesc">
+						<option value="" selected>
+							请选择
+						</option>
+					</select>
+				</li>
+
+				<li>
+					<label>
+						脚本类型
+					</label>
+					<select class="combox sync" name="scriptType" valueCode="valueCode"
+						codeType="1004" valueDesc="valueDesc">
+						<option value="" selected>
+							请选择
+						</option>
+					</select>
+				</li>
+
+			</ul>
+			<div class="subBar">
+				<ul>
+					<li>
+						<div class="buttonActive">
+							<div class="buttonContent">
+								<button type="button"
+									onclick="scriptManagementLogInfoSearch({pageNum:1})">
+									查询
+								</button>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="buttonActive">
+							<div class="buttonContent">
+								<button type="button" onclick="clearScriptManagementLogForm();">
+									清空
+								</button>
+
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+-->
+			<div class="panelBar">
+		<ul class="toolBar">
+			<li>
+				<a class="icon" target="navTab" rel="scriptmanagementLogdetailview"
+					href="javascript:getURL(CPATH.domain_1,'/pages/system/script/view/scriptmanagementlogdetailview.html?gslguid={slt_uid}');"
+					title="查看日志表详细信息" multiable="no" warn="请选择一条记录"><span>查看日志表详细信息</span> </a>
+			</li>
+
+		</ul>
+	</div>
+</form>
+
+<div class="pageContent">
+
+
+	<table class="table" layoutH="141" width="100%">
+		<thead>
+			<tr searchMethod="scriptManagementLogInfoSearch">
+				<!--  <th width="60" orderField="materialsNo">物资编号</th>-->
+				<th width="10">
+					<input type="checkbox" group="gslguids" class="checkboxCtrl">
+				</th>
+				<th width="60">
+					脚本名称
+				</th>
+				<th width="60">
+					版本号
+				</th>
+				<th width="60" orderField="beanName">
+					SPRING BEAN NAME
+				</th>
+				<th width="60" orderField="groupName">
+					群组名称
+				</th>
+				<th width="60" orderField="scriptType">
+					脚本类型
+				</th>
+				<th width="60">
+					描述
+				</th>
+				<th width="60" orderField="status">
+					状态
+				</th>
+				<th width="60">
+					备注
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="scriptManagementLogInfoTrTemplate" target="slt_uid">
+				<td name="gslguid" type="check">
+					<input name="gslguids" value="" type="checkbox">
+				</td>
+				<!--	<td name="materialsNo"></td>-->
+				<td name="scriptName"></td>
+				<td name="scriptVersion"></td>
+				<td name="beanName"></td>
+				<td name="groupNameString"></td>
+				<td name="scriptTypeString"></td>
+				<td name="description"></td>
+				<td name="statusString"></td>
+				<td name="remark"></td>
+
+			</tr>
+		</tbody>
+	</table>
+
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage"
+				onchange="scriptManagementLogInfoSearch({numPerPage:this.value,pageNum:1})">
+				<option value="20">
+					20
+				</option>
+				<option value="40">
+					40
+				</option>
+				<option value="100">
+					100
+				</option>
+				<option value="200">
+					200
+				</option>
+			</select>
+			<span name="scriptManagementLogInfoCountDiv">条，</span>
+		</div>
+		<div name="scriptManagementLogInfoPageBar" class="pagination"
+			searchMethod="scriptManagementLogInfoSearch" targetType="navTab"
+			totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+
+	findClass("sync").removeClass("sync").combox();
+	
+
+		var gsguid = navTab._getParam("gsguid");
+	//定义默认参数
+	var scriptManagementLogInfoArgs = {
+		gsguid : gsguid
+	};
+	//查询方法
+	scriptManagementLogInfoSearch();
+	function scriptManagementLogInfoSearch(opt) {
+
+		$.extend(scriptManagementLogInfoArgs, findName(
+				'scriptManagementLogSearchForm').serializeJson(), opt ? opt : {});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_1, "/rs/syScriptLog"),
+				scriptManagementLogInfoArgs, scriptManagementLogInfoList);
+
+	}
+
+	//拼装
+	function scriptManagementLogInfoList(data) {
+		var sampleRow = findName('scriptManagementLogInfoTrTemplate');
+		pageResponse2Table(sampleRow, data);
+		printPageBarDiv(findName('scriptManagementLogInfoPageBar'),
+				findName('scriptManagementLogInfoCountDiv'), data.jsonData);
+	}
+
+	//清空查询内容
+
+	function clearScriptManagementLogForm() {
+		findName("scriptManagementLogSearchForm")[0].reset();
+		$("a[name='groupName']", navTab.getCurrentPanel()).text("请选择");
+		$("a[name='scriptType']", navTab.getCurrentPanel()).text("请选择");
+	}
+</script>
+

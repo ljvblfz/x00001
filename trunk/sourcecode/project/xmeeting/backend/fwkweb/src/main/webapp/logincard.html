@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+<title>苏州工业园区公交管理系统</title>
+<link href="styles/themes/css/login.css" rel="stylesheet" type="text/css" />
+</head>
+<link href="styles/themes/default/style.css" rel="stylesheet" type="text/css" media="screen"/>
+<link href="styles/themes/css/core.css" rel="stylesheet" type="text/css" media="screen"/>
+<link href="styles/themes/css/print.css" rel="stylesheet" type="text/css" media="print"/>
+<link href="styles/uploadify/css/uploadify.css" rel="stylesheet" type="text/css" media="screen"/>
+<script src="styles/js/speedup.js" type="text/javascript"></script>
+<script src="styles/js/jquery-1.7.1.js" type="text/javascript"></script>
+<script src="styles/js/jquery.cookie.js" type="text/javascript"></script>
+<script src="styles/js/jquery.validate.js" type="text/javascript"></script>
+<script src="styles/js/jquery.bgiframe.js" type="text/javascript"></script>
+<script src="styles/xheditor/xheditor-1.1.12-zh-cn.min.js" type="text/javascript"></script>
+<script src="styles/uploadify/scripts/swfobject.js" type="text/javascript"></script>
+<script src="styles/uploadify/scripts/jquery.uploadify.v2.1.0.js" type="text/javascript"></script>
+<script src="styles/js/populate.js" type="text/javascript"></script>
+<script src="styles/js/dwz.core.js" type="text/javascript"></script>
+<script src="styles/js/dwz.util.date.js" type="text/javascript"></script>
+<script src="styles/js/dwz.validate.method.js" type="text/javascript"></script>
+<script src="styles/js/dwz.regional.zh.js" type="text/javascript"></script>
+<script src="styles/js/dwz.barDrag.js" type="text/javascript"></script>
+<script src="styles/js/dwz.drag.js" type="text/javascript"></script>
+<script src="styles/js/dwz.tree.js" type="text/javascript"></script>
+<script src="styles/js/dwz.accordion.js" type="text/javascript"></script>
+<script src="styles/js/dwz.ui.js" type="text/javascript"></script>
+<script src="styles/js/dwz.theme.js" type="text/javascript"></script>
+<script src="styles/js/dwz.switchEnv.js" type="text/javascript"></script>
+<script src="styles/js/dwz.alertMsg.js" type="text/javascript"></script>
+<script src="styles/js/dwz.contextmenu.js" type="text/javascript"></script>
+<script src="styles/js/dwz.navTab.js" type="text/javascript"></script>
+<script src="styles/js/dwz.tab.js" type="text/javascript"></script>
+<script src="styles/js/dwz.resize.js" type="text/javascript"></script>
+<script src="styles/js/dwz.dialog.js" type="text/javascript"></script>
+<script src="styles/js/dwz.dialogDrag.js" type="text/javascript"></script>
+<script src="styles/js/dwz.cssTable.js" type="text/javascript"></script>
+<script src="styles/js/dwz.stable.js" type="text/javascript"></script>
+<script src="styles/js/dwz.taskBar.js" type="text/javascript"></script>
+<script src="styles/js/dwz.ajax.js" type="text/javascript"></script>
+<script src="styles/js/dwz.pagination.js" type="text/javascript"></script>
+<script src="styles/js/dwz.database.js" type="text/javascript"></script>
+<script src="styles/js/dwz.datepicker.js" type="text/javascript"></script>
+<script src="styles/js/dwz.effects.js" type="text/javascript"></script>
+<script src="styles/js/dwz.panel.js" type="text/javascript"></script>
+<script src="styles/js/dwz.checkbox.js" type="text/javascript"></script>
+<script src="styles/js/dwz.history.js" type="text/javascript"></script>
+<script src="styles/js/dwz.combox.js" type="text/javascript"></script>
+
+<!--<script src="styles/js/xjs.min.js" type="text/javascript"></script>-->
+
+<!-- <script src="styles/js/xjs.regional.zh.js" type="text/javascript"></script> -->
+
+
+<script type="text/javascript">
+$(function(){
+	DWZ.init("styles/xjs.frag.xml", {
+		loginUrl:"login.html", loginTitle:"登录",	// 弹出登录对话框
+		statusCode:{ok:200, error:300, timeout:301}, //【可选】
+		pageInfo:{pageNum:"pageNum", numPerPage:"numPerPage", orderField:"orderField", orderDirection:"orderDirection"}, //【可选】
+		debug:false,	// 调试模式 【true|false】
+		callback:function(){
+			initEnv();
+			$("#themeList").theme({themeBase:"/styles/themes"}); // themeBase 相对于index页面的主题base路径
+			$("#splitBar").hide();
+			$("#splitBarProxy").hide();
+		}
+	});
+});
+
+</script>
+<script> 
+	var vartimeout=null;
+	document.onclick   =   clickfun;   
+	function   clickfun() {   
+		if(vartimeout!=null){
+			clearTimeout(vartimeout)
+		}
+		vartimeout=setTimeout(function() {
+			alert("Go backhome.");
+			var url = "http://172.29.128.194/syWeb/login.html";    
+			$(location).attr('href',url); 
+		}, 19000);
+	}    
+	
+	
+	function doLogin(){
+		//
+		var serialNumber= fnOpenPortAndGetSerialNumber("3");
+		
+		//var ret =fnClosePort("3");
+		alert("卡的序列号为："+serialNumber);
+		//alert("卡的序列号为："+serialNumber+"close status: "+ret);
+		
+		//
+		/*
+			$.ajax({
+			type: 'POST',
+			url:$("#loginForm").attr('action'),
+			data:$("#loginForm").serializeArray(),
+			dataType:"text",
+			cache: false,
+			success: loginSuccess,
+			error: DWZ.ajaxError
+		});*/
+	}
+	
+	function loginSuccess(){
+	 	window.top.location="index.jsp";
+	}
+	
+	$(function() {   
+        $("#loginPassword").keyup(function(event){   
+          if(event.keyCode == 13){
+        	  doLogin();   
+          }   
+        });   
+    });   
+
+</script>
+
+<body>
+	<div id="login">
+		<div id="login_header">
+			<h1 class="login_logo">
+				<a href="http://www.sipbus.com"><img src="styles/themes/default/images/logo_founder.png" /></a>
+			</h1>
+			<div class="login_headerContent">
+				<div class="navList">
+					<ul>
+						<li><a href="#">设为首页</a></li>
+						<li><a href="">反馈</a></li>
+						<li><a href="" target="_blank">帮助</a></li>
+					</ul>
+				</div>
+				<h2 class="login_title"><img src="styles/themes/default/images/login_title1.png" /></h2>
+			</div>
+		</div>
+		<div id="login_content">
+			<div class="loginForm">
+				<form action="rs/login" method="post" name="loginForm" id="loginForm" onsubmit="return validateCallback(this, loginSuccess)">
+<!-- 					<p> -->
+<!-- 						<label>用户名：</label> -->
+<!-- 						<input type="text" name="username" size="20" class="login_input" value=""/> -->
+<!-- 					</p> -->
+<!-- 					<p> -->
+<!-- 						<label>密码：</label> -->
+<!-- 						<input type="password" name="password" id="loginPassword" size="20" class="login_input" value=""  /> -->
+<!-- 					</p> -->
+<!--					<p>-->
+<!--						<label>验证码：</label>-->
+<!--						<input class="code" type="text" size="5" />-->
+<!--						<span><img src="styles/themes/default/images/header_bg.png" alt="" width="75" height="24" /></span>-->
+<!--					</p>-->
+					<div class="login_bar">
+						<input class="sub" type="button" onclick="doLogin()" value=" " />
+					</div>
+				</form>
+			</div>
+			<div class="login_banner"><img src="styles/themes/default/images/login_banner1.jpg" /></div>
+			<div class="login_main">
+			 
+					<!--
+				<ul class="helpList">
+					<li><a href="/download/IEChromeframePlugin.msi">IE图形插件</a></li>
+					<li><a href="/download/IE_BusVideoMonitorV1.00.52.msi">IE视频插件</a></li>
+					<li><a href="/download/AlarmPlugin_Installer.exe">告警音频插件</a></li>
+				</ul> 
+					<li><a href="#">如何安装密钥驱动程序？</a></li>
+					<li><a href="#">忘记密码怎么办？</a></li>
+					<li><a href="#">为什么登录失败？</a></li>-->
+				<div class="login_inner">
+					<!-- 
+					<p>您可以使用 网易网盘 ，随时存，随地取</p>
+					<p>您还可以使用 闪电邮 在桌面随时提醒邮件到达，快速收发邮件。</p>
+					<p>在 百宝箱 里您可以查星座，订机票，看小说，学做菜…</p>
+					 -->
+				</div>
+			</div>
+		</div>
+		<div id="login_footer">
+			苏州工业园区公共交通有限公司 版权所有© 1996-2012
+		</div>
+	</div>
+</body>
+</html>

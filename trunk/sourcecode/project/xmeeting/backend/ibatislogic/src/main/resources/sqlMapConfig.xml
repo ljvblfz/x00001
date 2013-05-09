@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMapConfig      
+
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"      
+
+    "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+
+	<settings   lazyLoadingEnabled="true" useStatementNamespaces="true" />
+ 
+
+
+	<sqlMap resource="sqlMap/sys/au/menu.xml" />
+	<sqlMap resource="sqlMap/sys/au/authority.xml" />
+	<sqlMap resource="sqlMap/sys/au/sycode.xml" />
+	<sqlMap resource="sqlMap/sys/au/hrattendancerecord.xml" />
+	<sqlMap resource="sqlMap/sys/cck/cckcontent.xml" />
+	<sqlMap resource="sqlMap/sys/reference/reference.xml" />
+	<sqlMap resource="sqlMap/sys/script/script.xml" />
+	<sqlMap resource="sqlMap/sys/view/viewdata.xml" />
+	
+	<sqlMap resource="sqlMap/xmeeting/xmeeting.xml" /> 
+	<sqlMap resource="sqlMap/xmeeting/open.xml" /> 
+	
+	<sqlMap resource="sqlMap/viewcustom/viewdemo.xml" /> 
+ 
+
+
+</sqlMapConfig>
+

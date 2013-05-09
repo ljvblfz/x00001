@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Common中Information的信息说明,其中：-->
+<!--id为英文标识-->
+<!--number为信息的编号-->
+<!--description为中文描述-->
+<!--type分为：0-提示、1-帮助、2-警告、3-错误-->
+<!--从应用方面将信息分为二大类:系统信息和应用信息-->
+<!--系统信息从100000-199999，其中是系统服务层的信息，由系统层的开发人员修改增加-->
+<!--应用信息从200000-899999，存放各开发小组应用层的信息-->
+<information>
+	<!-- System Begin 100000-->
+	<group name="System" currentnumber="100121" minnumber="100000" maxnumber="119999">
+		<record id="SystemToAdmin" number="100001" description="系统错误，请联系管理员。" helptext="无法明确捕获错误，请联系管理员及相关开发人员。" type="0"/>
+		<record id="SystemIsNormal" number="100002" description="系统运行正常。" helptext="如果你在测试系统，这个信息表明系统运行正常。" type="1"/>
+		<record id="SystemIsStarting" number="100003" description="系统正在起动..." helptext="如果你在判断系统是否运行，这个信息表明系统正在运行。" type="1"/>
+		<record id="SystemIsClosing" number="100004" description="正在关闭系统..." helptext="系统正在关闭，请不要执行其它事务。" type="1"/>
+		<record id="SystemIsHalt" number="100005" description="系统瘫痪，无法工作。" helptext="重新启动系统，如果仍然不行，请备份数据并重新安装。" type="2"/>
+		<record id="SystemIsException" number="100006" description="系统异常，无法工作。" helptext="系统出错无法识别的错误，当前操作无法执行，请重新启动系统。" type="2"/>
+		<record id="PermitDenied" number="100007" description="没有权限。" helptext="出错帮助尚未添加" type="0"/>
+		<record id="PermitAllow" number="100008" description="权限正常。" helptext="出错帮助尚未添加" type="0"/>
+		<record id="RunEmpty" number="100009" description="执行结果为空。" helptext="出错帮助尚未添加" type="0"/>
+		<record id="RunFailure" number="100010" description="执行失败。" helptext="出错帮助尚未添加" type="0"/>
+		<record id="RunSucceed" number="100011" description="执行成功。" helptext="出错帮助尚未添加" type="0"/>
+		<record id="CacheNameInvalid" number="100012" description="Cache名无效。" helptext="Cache名可能为空，请验证" type="0"/>
+		<record id="CacheValueInvalid" number="100013" description="Cache名所对应的值无效。" helptext="Cache所对应的值可能为空，请验证" type="0"/>
+		<record id="CacheSaveValueFailure" number="100014" description="保存Cache值失败。" helptext="这可能是COM+组件未能正常运行引起的,请检查COM+组件" type="2"/>
+		<record id="CacheGetValueFailure" number="100015" description="读取Cache值失败。" helptext="这可能是COM+组件未能正常运行引起的,请检查COM+组件" type="2"/>
+		<record id="CacheGetErrorInfoFailure" number="100016" description="从Cache中读取ErrorInfo的值失败" helptext="这可能是COM+组件未能正常运行引起的,请检查COM+组件" type="2"/>
+		<record id="FileOnlyRead" number="100017" description="文件只读。" helptext="出错帮助尚未添加" type="0"/>
+		<record id="FileNotExist" number="100018" description="文件%Value%不存在。" helptext="请核查该文件是否存在" type="2"/>
+		<record id="FileIsClose" number="100021" description="文件已经关闭。" helptext="出错帮助尚未添加" type="0"/>
+		<record id="FilePermissionDenied" number="100022" description="没有权限访问该文件。" helptext="出错帮助尚未添加" type="0"/>
+		<record id="DirectoryNotExist" number="100023" description="目录%Value%不存在。" helptext="请检查目录是否存在" type=" 0"/>
+		<record id="DirectoryIsExist" number="100024" description="目录存在。" helptext="出错帮助尚未添加" type="0"/>
+		<record id="DirectoryPermissionDenied" number="100025" description="没有权限访问该目录。" helptext="出错帮助尚未添加" type="0"/>
+		<record id="FTPUploadFailure" number="100118" description="FTP上载文件失败！" helptext="这可以系统FTP服务引起的，请检查FTP服务" type="2"/>
+		<record id="InputDateFormatError" number="100119" description="您输入的日期型格式不正确！" helptext="请输入合式的日期型格式，一般为2003-1-1" type="0"/>
+		<record id="DataValidateFailure" number="100120" description="你提交的内容不符合数据保存的要求！" helptext="数据无法保存，请重试或联系开发人员" type="0"/>		
+		<record id="VersionValidateFailure" number="100121" description="你修改的数据已经被其它用户修改，无法保存！" helptext="请重新读取数据后再修改保存" type="0"/>				
+		<record id="ParameterMissError" number="100122" description="缺少对数据操作的参数%Value%！" helptext="这可能是未选择操作的数据，请检查" type="0"/>		
+		<record id="FindObjectError" number="100123" description="没有可匹配%Value%数据对象！" helptext="这可能是数据已经被删除，请返回并重新操作" type="0"/>				
+		<record id="IsHaveSubData" number="100124" description="你操作的数据下有正常使用的子数据，无法完成操作！" helptext="因为你操作的数据下有子数据，所以请先对子数据进行处理" type="0"/>				
+		<record id="RemoteServerCanotVisit" number="100125" description="访问远程服务%Value%失败！" helptext="请检查远程服务器是否工作正常" type="3"/>
+		<record id="SessionTimeOut" number="100126" description="用户未登录或者登录用户访问已经过期！" helptext="请点击%Value%重新登录！" type="3"/>	
+		<record id="NotAuthorities" number="100127" description="用户没有访问权限！" helptext="用户没有访问权限！" type="3"/>			
+		<record id="userNotExist" number="100128" description="用户名或密码错误" helptext="请检查用户名密码是否输入正确" type="3"/>			
+		<record id="DatabaseConnectError" number="100200" description="数据库链接出错" helptext="请检查数据库是否正常启动或者数据库访问配置是否正确！" type="3"/>
+	
+		<record id="novaliddate" number="100998" description="许可文件不合法" helptext="许可文件已经过期" type="0"/>
+		<record id="novalidserialno" number="100999" description="许可文件不合法 " helptext="许可文件机器码错误,机器码%Value%" type="0"/>
+	
+	
+		<record id="sysUncatchError" number="199999" description="系统未知错误" helptext="请联系IT管理人员" type="3"/>
+		
+		
+	</group>
+</information>

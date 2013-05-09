@@ -1,0 +1,136 @@
+<form method="get" name="syWidgetBlockSearchForm" action="/rs/syWidgetBlock" onsubmit="return false;" >
+	<input type="hidden" name="pageNum" value="1" />
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>分组名称：</label>
+						<select class=" combox" name="groupname" valueCode="valueCode" codeType="1001" valueDesc="valueDesc" >
+								<option value="" selected>请选择</option>
+						</select>
+				</li> 
+			</ul>
+			<div class="subBar">
+				<ul>						
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="syWidgetBlockSearch({pageNum:1})">查询</button></div></div></li> 
+					<li><div class="buttonActive"><div class="buttonContent"><button type="reset"  >清空</button></div></div></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="pageContent" name="widgetblocklist">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+			<li><a class="add" target="navTab" rel="userNav" href="javascript:getURL(CPATH.domain_1,'/pages/system/block/modify/syWidgetBlockModify.html');" title="新增syWidgetBlock"  ><span>新增</span></a></li>
+			<li><a class="edit" target="navTab" rel="userNav1" href="javascript:getURL(CPATH.domain_1,'/pages/system/block/modify/syWidgetBlockModify.html?swbguid={slt_uid}');" title="修改syWidgetBlock"   multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
+<!-- 			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_1,'/rs/syWidgetBlock')"  rel="swbguids"  -->
+<!-- 			callBackMethod="syWidgetBlockSearch"	title="确认删除?"  ><span>删除</span></a></li>  -->
+			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_1,'/rs/syWidgetBlock')"  rel="swbguids" 
+				callBackMethod="syWidgetBlockSearch"	title="确认删除?" ><span>删除</span></a></li>
+			<li><a class="edit" target="navTab" rel="userNav1" href="javascript:getURL(CPATH.domain_1,'/pages/system/block/modify/syWidgetBlockPreview.html?swbguid={slt_uid}');" title="预览页面"   multiable="no" warn="请选择一条记录"><span>预览页面</span></a></li>
+			
+			<li><a class="edit" href="javascript:widgetblock_showMenuPage();"  ><span>生成菜单</span></a></li>
+		</ul>
+	</div>
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr  searchMethod="syWidgetBlockSearch"><th width="22"><input type="checkbox" group="swbguids" class="checkboxCtrl"></th>
+						<th width="60" orderField="name">名称</th>
+						<th width="60" orderField="title">标题</th>
+						<th width="60" orderField="swbtypelabel">类型</th> 
+						<th width="60" orderField="description">描述</th>
+						<th width="60" orderField="statuslabel">状态</th>
+						<th width="60" orderField="groupnamelabel">分组</th> 
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="syWidgetBlockTrTemplate" target="slt_uid">
+				<td name="swbguid" type="check"><input name="swbguids" value="" type="checkbox"></td>
+						<td name="name"></td>
+						<td name="title"></td>
+						<td name="swbtypelabel"></td> 
+						<td name="description"></td>
+						<td name="statuslabel"></td>
+						<td name="groupnamelabel"></td> 
+				
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage" onchange="syWidgetBlockSearch({numPerPage:this.value,pageNum:1})">
+				<option value="10">10</option>
+				<option value="40">40</option>
+				<option value="100">100</option>
+				<option value="200">200</option>
+			</select>
+			<span name="syWidgetBlockCountDiv">条，共-条</span>
+		</div>
+		<div name="syWidgetBlockPageBar" class="pagination" searchMethod="syWidgetBlockSearch" targetType="navTab" totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+</div>
+<script type="text/javascript">
+	//定义默认参数
+	var syWidgetBlockArgs={};
+	 //查询方法
+    syWidgetBlockSearch();
+	function syWidgetBlockSearch(opt){
+		//序列化表单值，并扩展到syWidgetBlockArgs对象中
+		$.extend(syWidgetBlockArgs,findName('syWidgetBlockSearchForm').serializeJson(),opt?opt:{});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_1,"/rs/syWidgetBlock"),syWidgetBlockArgs,syWidgetBlockList);
+	}
+	
+	//拼装
+	function syWidgetBlockList(data){
+		var sampleRow=findName('syWidgetBlockTrTemplate');
+		pageResponse2Table(sampleRow,data);
+        printPageBarDiv(findName('syWidgetBlockPageBar'),findName('syWidgetBlockCountDiv'),data.jsonData);
+	}
+	
+	
+	//
+	function widgetblock_showMenuPage(){ 
+		var checkboxs=findName("widgetblocklist").find("input:checkbox:checked"); 
+		 if(checkboxs.length==1){ 
+			var nametext=$($(checkboxs[0]).parent().parent().parent().children()[1]).html();
+			var pData={"rel":"syWidgetBlockMenuModify","name":nametext,"swbguid":$(checkboxs[0]).val() };
+			widgetblock_showDialog(pData); 
+		 }else {
+			 alertMsg.error("请选择一条记录！");
+		 }  
+	}
+	
+ 
+	
+	function widgetblock_showDialog(pData){   
+		//
+	 
+		var title = "生成菜单";
+		var rel =pData.rel;  
+		var options = {}; 
+		options.width = 550;
+		options.height = 580;
+		options.max =false;
+		options.mask = false;
+		options.maxable = false;
+		options.minable = false;
+		options.fresh = true;
+		options.resizable = false;
+		options.drawable = true;
+		options.close = "";
+		options.param = pData;
+		options.zIndex = "1000";
+ 
+		var url = CPATH.domain_1 + "/pages/system/block/modify/syWidgetBlockMenuModify.html";
+ 
+		$.pdialog.open(url, rel, title, options);
+		
+	}//end of widgetblock_showDialog
+</script>

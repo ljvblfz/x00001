@@ -1,0 +1,97 @@
+
+
+<script type="text/javascript">
+	$(function() {
+
+		var url = "/rs/bean/beanmgmtlist";
+		dtdXHR = $.ajax({
+			type : "GET",
+			url : getURL(CPATH.domain_1, url),
+			dataType : "json",
+			cache : false,
+			global : false
+		});
+
+		dtdXHR.done(function(respJson) {
+			syweb_beanmgmt_genTable(respJson);
+		});
+		dtdXHR.fail(function(respJson) {
+			if (!istimeout(respJson)) {
+
+			}
+		});
+	});
+
+	function syweb_beanmgmt_genTable(respJson) {
+		var beannameArray = respJson.jsonData.beanDefinitionNameList;
+		var tableHtml = "";
+		for ( var i = 0; i < beannameArray.length; i++) {
+			tableHtml += "	";
+			tableHtml += "<tr >";
+			tableHtml += "	<td width='20' ><input type='radio' name='beanname' value='"+beannameArray[i]+"'></td>";
+			tableHtml += "	<td  >" + beannameArray[i] + "</td>";
+			tableHtml += "</tr>";
+		}//end of for   
+
+		var tbody = $("tbody", $("#syweb_beanmgmt_list"));
+
+		tbody.html(tableHtml);
+	}
+	
+
+	function syweb_beanmgmt_view() { 
+		var beanitem = $("input[name='beanname']:checked", $("#syweb_beanmgmt_list")).val();
+		logger.info("bean name is:"+beanitem);
+		syweb_beanmgmt_dialog(beanitem,"view");
+		
+	}
+	
+	function syweb_beanmgmt_exec() { 
+		var beanitem = $("input[name='beanname']:checked", $("#syweb_beanmgmt_list")).val();
+		logger.info("bean name is:"+beanitem);
+		syweb_beanmgmt_dialog(beanitem,"exec");
+		
+	}
+	
+	
+	function syweb_beanmgmt_dialog(beanname,oper) {  
+		var title = "Bean信息";
+		var rel = "springbeaninfo";
+		var options = {}; 
+		options.width = 400;
+		options.height = 300;
+		options.max =false;
+		options.mask = true;
+		options.maxable = false;
+		options.minable = false;
+		options.fresh = true;
+		options.resizable = false;
+		options.drawable = true;
+		options.close = "";
+		options.param = {beanname:beanname};
+		options.zIndex = "1000";
+		var url = "";
+		if(oper=="view"){ 
+			url ="/syWeb/pages/system/bean/view/syBeanView.html";
+		}else if(oper=="exec"){ 
+			url = "/syWeb/pages/system/bean/view/syBeanExec.html"; 
+		}
+ 
+		$.pdialog.open(url, rel, title, options);
+		
+	}
+</script>
+
+<div class="pageContent" id="syweb_beanmgmt_list">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+			<li><a class="add" onClick="javascript:syweb_beanmgmt_view()" href="#"><span>查看</span></a></li>  
+			<li><a class="add" onClick="javascript:syweb_beanmgmt_exec()" href="#"><span>执行函数</span></a></li>  
+		</ul>
+	</div>
+	<table class="table" width="100%" layoutH="30"> 
+		<tbody>
+		</tbody>
+	</table>
+</div>

@@ -1,0 +1,32 @@
+
+
+<style type="text/css">
+.wraper {
+	position: relative;
+	float: left;
+	width: 400px;
+	height: 400px;
+	margin-left: 10px;
+	margin-top: 10px;
+	border: 1px solid orange;
+}
+</style>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var raphael = new Raphael('raphael_2',400,400);
+
+		for (var i = 0; i < 5; i++) {
+			raphael.circle(10 + 15 * i, 10, 10)
+		         .attr({fill: "#000"})
+		         .data("i", i)
+		         .click(function () {
+		            alert(this.data("i"));
+		         });
+		}
+		
+	});
+	
+</script> 
+
+<div id="raphael_2" class="wraper"></div>
+ 

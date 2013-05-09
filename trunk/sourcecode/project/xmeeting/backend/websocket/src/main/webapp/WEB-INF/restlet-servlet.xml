@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<bean name="root" class="org.restlet.ext.spring.SpringRouter">
+			<property name="attachments">
+				<map>
+					<entry key="">
+					   <bean class="com.founder.sipbus.syweb.au.filter.AuthFilter">  
+							<property name="next" ref="authProtected"/>
+							<property name="sysUserDao"  ref="sysUserDao"/> 
+							<property name="publicurl">
+						        <list> 
+							        <value>/utility/lname/{lname}/linebasicinfo#GET</value>   
+						        </list>
+						     </property>
+	                   </bean> 
+	                </entry>
+				</map>
+			</property>
+	</bean>
+	
+	<bean name="authProtected" class="org.restlet.ext.spring.SpringRouter">
+			<property name="packagesToScan">
+				<list>         
+					<value>com.broadsoft.xmeeting.websocket.**.resource</value>
+				</list>
+			</property>
+	</bean>
+	 
+	
+</beans>

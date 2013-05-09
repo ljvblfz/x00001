@@ -1,0 +1,116 @@
+<style type="text/css">
+/*     p { */
+/*         display: block; */
+/*         margin-bottom: 5px; */
+/*     } */
+
+font.ui-dform-font {
+font-family: sans-serif; float: left; 
+color:red;
+}
+p.ui-dform-p{
+width:98%;
+height: auto;
+}
+ 
+/* textarea.ui-dform-textarea { */
+/* 	width:260px; */
+/* 	height:60px; */
+/* } */
+</style>
+
+<script type="text/javascript">
+
+//masterId 与数据库匹配 
+
+$(function() {
+	var $form = findDialogName("syCckContentpageForm");
+	var param = $.pdialog.getCurrent().data("param");
+	if (param && param != "") {
+		param = DWZ.jsonEval(param);
+		 
+	}else{return;}
+	 
+	var sccGuid=param.sccGuid;
+	var sctGuid=param.sctGuid;
+	var masterId=param.masterId;
+ 	var isView=param.isView;
+ 
+	var fromTree=param.fromTree;
+		var url_add="/rs/cck/dform/buildform/add/"+sctGuid+"/sccGuid/add";
+		var url_edit="/rs/cck/dform/buildform/edit/"+sctGuid+"/sccGuid/"+sccGuid; 
+		var url_view="/rs/cck/dform/buildform/view/"+sctGuid+"/sccGuid/"+sccGuid; 
+		if(sccGuid)
+			{
+			var url="";
+			if(isView||isView=='true'){
+				url=url_view;
+			}else{
+				url=	url_edit;
+			}
+			cckform.buildDForm(url,"syCckContentpageForm",function(){
+				doGetAjax(CPATH.domain_1 + "/rs/cck/dform/data/"+sctGuid+"/"+ sccGuid ,null,function(data ){
+					if(!data)
+						return;
+					var $form = findDialogName("syCckContentpageForm");
+// 					var parentId=param.parentId;
+					 $form.find("[name]").populate(data );
+
+					 findDialogName("SCT_GUID").val(sctGuid);
+					 findDialogName("SCC_GUID").val(sccGuid);
+// 					 findDialogName("MASTER_ID").val(masterId);
+				findDialogClass("sync").removeClass("sync").combox();
+				findDialogClass("syncComboxCascade").removeClass("syncComboxCascade").comboxcascade();
+				
+// 				findDialogClass("autocompleteForCCK").each(function (a){
+// 					customAutocompleteForCCK(this);
+					
+// 					});
+				
+				 
+						findDialogClass("MasterId").val(masterId);
+						 findDialogName("masterId").val(masterId);
+// 						 if(parentId)
+// 						{
+// 							 findDialogClass("ParentId").val(parentId);
+// 								findDialogName("parentId").val(parentId);
+// 						}
+						 changeCallBackMethod(fromTree);
+				});
+				
+				
+			});
+			
+			}
+		else{cckform.buildDForm(url_add,"syCckContentpageForm",function(){
+			var parentId=param.__ID__;
+			 findDialogName("SCT_GUID").val(sctGuid);
+// 			 findDialogName("MASTER_ID").val(masterId);
+			 findDialogClass("MasterId").val(masterId);
+			 findDialogName("masterId").val(masterId);
+			 if(parentId)
+				{
+					 findDialogClass("ParentId").val(parentId);
+						findDialogName("parentId").val(parentId);
+				}
+			findDialogClass("sync").removeClass("sync").combox();
+			findDialogClass("syncComboxCascade").removeClass("syncComboxCascade").comboxcascade();
+			changeCallBackMethod(fromTree);
+// 			findDialogClass("autocompleteForCCK").each(function (a){
+// 				customAutocompleteForCCK(this);
+// 			});
+			 
+		}); }
+		
+		
+});
+
+</script>
+
+
+<div class="pageContent"> 
+	<form id="cckcontent_form" name="syCckContentpageForm"class="pageForm">
+	
+ 
+	</form> 
+</div>

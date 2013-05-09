@@ -1,0 +1,451 @@
+<style type="text/css"> 
+	div.content_wrap {width: 900px;height:500px;}
+	div.content_wrap div.left{float: left;width: 400px;}
+	div.content_wrap div.right{float: right;width: 500px;}  
+</style>
+
+<SCRIPT type="text/javascript">
+<!--
+ 
+var aumenu_setting = { 
+	view: {
+		selectedMulti: false
+	},
+	edit: {
+		enable: true,
+		showRemoveBtn: false,
+		showRenameBtn: false
+	},
+	data: { 
+		simpleData: {
+			enable: true
+		}
+	},
+	callback: {
+		beforeDrag: aumenu_beforeDrag,
+		beforeClick: aumenu_beforeClick, 
+		beforeRemove: aumenu_beforeRemove,
+		beforeRename: aumenu_beforeRename,
+		onRemove: aumenu_onRemove 
+	}
+};
+
+ 
+
+
+// //========callback==============
+function aumenu_beforeDrag(treeId, treeNodes) {
+	return false;
+}
+
+
+function aumenu_beforeRemove(treeId, treeNode) { 
+	return confirm("确认删除 节点[" + treeNode.name + "] 吗？");
+}
+
+function aumenu_onRemove(e, treeId, treeNode) {   
+// 	var url="/rs/aumenu/saveinfo"; 
+// 	dtdXHR = $.ajax({
+// 	  type: "POST",
+// 	  url: getURL(CPATH.domain_1,url),
+// 	  data: {oper:'delete',menuId:treeNode.menuId}, 
+// 	  dataType: "json"
+// 	}); 
+	
+// 	dtdXHR.done(function(respJson){   
+// 		alertMsg.correct("删除成功。");
+// 	});
+// 	dtdXHR.fail(function(respJson){  
+// 		alertMsg.error("删除失败。");
+// 	});  
+}
+
+function aumenu_beforeRename(treeId, treeNode, newName) {
+	if (newName.length == 0) {
+		alertMsg.error("节点名称不能为空.");
+		var zTree = $.fn.zTree.getZTreeObj("auMenuInfoTree");
+		setTimeout(function(){zTree.editName(treeNode)}, 10);
+		return false;
+	} 
+	return true;
+} 
+ 
+
+function aumenu_beforeClick(treeId, treeNode, clickFlag) {   
+	//
+	
+	var form=findNameWithParentID("aumenuform","aumenu_maintain_content");
+// 	logger.info(form);
+	logger.info("aumenu_beforeClick--->"+treeNode.menuType);
+ 
+	form.populate2(treeNode); 
+	
+	return (treeNode.click != false);
+} 
+
+// //==================================
+function aumenu_add() {   
+
+	var zTree = $.fn.zTree.getZTreeObj("auMenuInfoTree"),
+	nodes = zTree.getSelectedNodes(),
+	treeNode = nodes[0];  
+  	var node=treeNode; 
+  	node.oper="add";
+	aumenu_showDialog("新增",node);
+	 
+}
+
+ 
+
+function aumenu_edit() {  
+	
+	var zTree = $.fn.zTree.getZTreeObj("auMenuInfoTree"),
+	nodes = zTree.getSelectedNodes(),
+	treeNode = nodes[0];
+	if (nodes.length == 0) {
+		alertMsg.error("请先选择一个节点");
+		return;
+	}
+
+  	var node=treeNode;
+  	node.oper="modify";
+	aumenu_showDialog("修改",node);
+	// 
+	
+	
+}
+
+
+function aumenu_editdesc() {  
+	
+	var zTree = $.fn.zTree.getZTreeObj("auMenuInfoTree"),
+	nodes = zTree.getSelectedNodes(),
+	treeNode = nodes[0];
+	if (nodes.length == 0) {
+		alertMsg.error("请先选择一个节点");
+		return;
+	}
+
+  	var node=treeNode;
+  	node.oper="modifydesc";
+  	aumenu_showDialogDesc("设置描述",node);
+	// 
+	
+	
+}
+
+
+function aumenu_edithelp() {  
+	
+	var zTree = $.fn.zTree.getZTreeObj("auMenuInfoTree"),
+	nodes = zTree.getSelectedNodes(),
+	treeNode = nodes[0];
+	if (nodes.length == 0) {
+		alertMsg.error("请先选择一个节点");
+		return;
+	}
+
+  	var node=treeNode;
+  	node.oper="modifyhelp";
+  	aumenu_showDialogHelp("设置帮助",node);
+	// 
+	
+	
+}
+
+
+
+
+
+
+function aumenu_clone() {  
+	
+	var zTree = $.fn.zTree.getZTreeObj("auMenuInfoTree"),
+	nodes = zTree.getSelectedNodes(),
+	treeNode = nodes[0];
+	if (nodes.length == 0) {
+		alertMsg.error("请先选择一个节点");
+		return;
+	}
+
+  	var node=treeNode;
+  	node.oper="clone";
+	aumenu_showDialog("克隆",node);
+	// 
+	
+	
+}
+
+function aumenu_generate() {
+	var zTree = $.fn.zTree.getZTreeObj("auMenuInfoTree"),
+	nodes = zTree.getSelectedNodes(),
+	treeNode = nodes[0];
+	if (nodes.length == 0) {
+		alertMsg.error("请先选择一个节点");
+		return;
+	}  
+	if(!confirm("确认生成权限节点 [" + treeNode.name + "] 吗？")){
+		return;
+	}
+	
+	var url="/rs/aumenu/saveinfo"; 
+	dtdXHR = $.ajax({
+	  type: "POST",
+	  url: getURL(CPATH.domain_1,url),
+	  data: {oper:'generate',menuId:treeNode.menuId}, 
+	  dataType: "json"
+	}); 
+	
+	dtdXHR.done(function(respJson){   
+		alertMsg.correct("生成成功。");
+	});
+	dtdXHR.fail(function(respJson){  
+		alertMsg.error("生成失败。");
+	});  
+}
+
+
+function aumenu_remove() {
+	var zTree = $.fn.zTree.getZTreeObj("auMenuInfoTree"),
+	nodes = zTree.getSelectedNodes(),
+	treeNode = nodes[0];
+	if (nodes.length == 0) {
+		alertMsg.error("请先选择一个节点");
+		return;
+	}
+// 	zTree.removeNode(treeNode,true);
+	var url="/rs/aumenu/saveinfo"; 
+	dtdXHR = $.ajax({
+	  type: "POST",
+	  url: getURL(CPATH.domain_1,url),
+	  data: {oper:'delete',menuId:treeNode.menuId}, 
+	  dataType: "json"
+	}); 
+	
+	dtdXHR.done(function(respJson){   
+		alertMsg.correct("删除成功。");
+		//zTree.removeNode(treeNode,true);
+	});
+	dtdXHR.fail(function(respJson){  
+		alertMsg.error("删除失败。");
+	});
+}
+
+function aumenu_physicalremove() {
+	var zTree = $.fn.zTree.getZTreeObj("auMenuInfoTree"),
+	nodes = zTree.getSelectedNodes(),
+	treeNode = nodes[0];
+	if (nodes.length == 0) {
+		alertMsg.error("请先选择一个节点");
+		return;
+	} 
+
+	zTree.removeNode(treeNode,true);
+	var url="/rs/aumenu/saveinfo"; 
+	dtdXHR = $.ajax({
+	  type: "POST",
+	  url: getURL(CPATH.domain_1,url),
+	  data: {oper:'physicaldelete',menuId:treeNode.menuId}, 
+	  dataType: "json"
+	}); 
+	
+	dtdXHR.done(function(respJson){   
+		alertMsg.correct("物理删除成功。");
+	});
+	dtdXHR.fail(function(respJson){  
+		alertMsg.error("删除失败。");
+	});  
+}
+
+
+
+ 
+function aumenu_showDialog(operAction,pnode){   
+	//
+	var title = operAction+" -- 菜单节点";
+	var rel = "aumenudialog";
+	var options = {}; 
+	options.width = 400;
+	options.height = 500;
+	options.max =false;
+	options.mask = true;
+	options.maxable = false;
+	options.minable = false;
+	options.fresh = true;
+	options.resizable = false;
+	options.drawable = true;
+	options.close = "";
+	options.param = pnode;
+	options.zIndex = "1000";
+
+	var url = CPATH.domain_1+"/pages/system/menu/modify/auMenuModify.html";
+
+	$.pdialog.open(url, rel, title, options);
+	
+}//end of showLineChooserDialog
+
+
+
+function aumenu_showDialogDesc(operAction,pnode){   
+	//
+	var title = operAction+" -- 菜单节点";
+	var rel = "aumenudialogdesc";
+	var options = {}; 
+	options.width = 600;
+	options.height = 500;
+	options.max =false;
+	options.mask = true;
+	options.maxable = false;
+	options.minable = false;
+	options.fresh = true;
+	options.resizable = false;
+	options.drawable = true;
+	options.close = "";
+	options.param = pnode;
+	options.zIndex = "1000";
+
+	var url = CPATH.domain_1+"/pages/system/menu/modify/auMenuModifyDesc.html";
+
+	$.pdialog.open(url, rel, title, options);
+	
+}//end of aumenu_showDialogDesc
+ 
+
+
+function aumenu_showDialogHelp(operAction,pnode){   
+	//
+	var title = operAction+" -- 菜单节点";
+	var rel = "aumenudialoghelp";
+	var options = {}; 
+	options.width = 600;
+	options.height = 500;
+	options.max =false;
+	options.mask = true;
+	options.maxable = false;
+	options.minable = false;
+	options.fresh = true;
+	options.resizable = false;
+	options.drawable = true;
+	options.close = "";
+	options.param = pnode;
+	options.zIndex = "1000";
+
+	var url = CPATH.domain_1+"/pages/system/menu/modify/auMenuModifyHelp.html";
+
+	$.pdialog.open(url, rel, title, options);
+	
+}//end of aumenu_showDialogDesc
+
+function aumenu_initTreeZNodes(){
+	var zNodes =[ ];
+	dtdXHR = $.ajax({
+		  type: "GET",
+		  url: getURL(CPATH.domain_1,"/rs/aumenu/treedynamicload"),
+		  dataType: "json",
+		  cache:false,
+		  global:false
+		}); 
+	//done 
+	dtdXHR.done(function(respJson){        
+		zNodes=respJson.jsonData; 
+		aumenu_createTree(zNodes);
+		
+	});
+	//fail
+	dtdXHR.fail(function(respJson){   
+		logger.info("failed.");
+	});
+}//end of initTreeZNodes
+
+function aumenu_createTree(zNodes){  
+	var treeObj=$.fn.zTree.init($("#auMenuInfoTree"), aumenu_setting, zNodes);
+	treeObj.expandAll(true); 
+}
+
+$(document).ready(function(){ 
+	aumenu_initTreeZNodes(); 
+	findNameWithParentID("add","aumenu_maintain_content").bind("click",  aumenu_add);
+	findNameWithParentID("edit","aumenu_maintain_content").bind("click", aumenu_edit);
+	findNameWithParentID("editdesc","aumenu_maintain_content").bind("click", aumenu_editdesc);
+	findNameWithParentID("edithelp","aumenu_maintain_content").bind("click", aumenu_edithelp);
+	findNameWithParentID("clone","aumenu_maintain_content").bind("click", aumenu_clone);
+	findNameWithParentID("generate","aumenu_maintain_content").bind("click", aumenu_generate); 
+	findNameWithParentID("remove","aumenu_maintain_content").bind("click", aumenu_remove); 
+	findNameWithParentID("physicalremove","aumenu_maintain_content").bind("click", aumenu_physicalremove); 
+ 
+	
+	
+	
+});
+//-->
+</SCRIPT>
+ 
+<div class="content_wrap"  id="aumenu_maintain_content">
+	<div class="left" >
+		<div class="panel" defH="500">
+			<h1>菜单信息</h1>
+			<div><ul id="auMenuInfoTree" class="ztree"></ul></div>
+		</div>
+		
+	</div>
+	<div class="right">
+		 <div class="panelBar">  
+			<ul class="toolBar">
+				<li>
+					<a class="add" href="#" title="新增子节点"   name="add"><span>新增子节点</span> </a>
+				</li>
+				<li>
+					<a class="edit" href="#" title="修改本节点"   name="edit"><span>修改</span> </a>
+				</li>
+				<li>
+					<a class="edit" href="#" title="修改本节点"   name="editdesc"><span>描述</span> </a>
+				</li>
+				<li>
+					<a class="edit" href="#" title="修改本节点"   name="edithelp"><span>帮助</span> </a>
+				</li>
+				<li>
+					<a class="edit" href="#" title="修改本节点"   name="clone"><span>克隆</span> </a>
+				</li>
+				<li>
+					<a class="edit" href="#" title="生成权限节点"  name="generate"><span>权限</span>
+					</a>
+				</li>
+				<li>
+					<a class="delete" href="#" title="删除本节点"  name="remove"><span>删除</span>
+					</a>
+				</li>
+				<li>
+					<a class="delete" href="#" title="物理删除本节点"  name="physicalremove"><span>物理删除</span>
+					</a>
+				</li>
+			</ul>
+		</div> 
+		<div > 
+			<form name="aumenuform"   >
+				<div class="pageFormContent">
+					<p>当前选中菜单详细信息</p><br/><br/> 
+					<p><label>主健:</label>    <input name="menuId" type="text" value=""   /></p><br/>
+					<p><label>菜单名:</label>    <input name="menuName" type="text" value=""  /></p><br/>
+					<p><label>对应的url:</label>    <input name="menuAction" type="text" value="" style="width:200px;"/></p><br/>
+					<p><label>对于权限ID:</label>  <input name="authorityId" type="text" value="" style="width:200px;"/></p><br/>
+					<p><label>父菜单id:</label>  <input name="parentId" type="text" value="" /></p><br/>
+					<p><label>菜单是否可用 :</label>  <input name="isDisplay" type="text" value="" /></p><br/> 
+					<p><label>排序字段 :</label>  <input name="menuOrder" type="text" value="" /></p><br/> 
+					<p><label>菜单类型 :</label>  
+<!-- 					<input name="menuType" type="text" value="" /> -->
+					
+						<select class="required combox2 " name="menuType"     > 
+								<option value="" selected>请选择</option>
+								<option value="0"  >内置</option>
+								<option value="2"  >iframe</option>
+						</select>
+					</p><br/> 
+					<p><label>DWZ Tab ID :</label>  <input name="menuTitle" type="text" value="" /></p><br/> 
+					<p><label>域信息 :</label>  <input name="domainName" type="text" value="" /></p><br/> 
+					<p><label>是否删除 :</label>  <input name="delFlag" type="text" value="" /></p><br/> 
+				</div>
+			</form>
+		</div>	 
+	</div>
+	
+</div>

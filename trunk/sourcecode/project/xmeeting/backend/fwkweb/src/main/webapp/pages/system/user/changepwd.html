@@ -1,0 +1,55 @@
+<script type="text/javascript">
+	$(function(){
+		findDialogName("sysUserPwdForm").attr("action",CPATH.domain_1 + "/rs/sysUserPaswword");
+	
+	
+	});
+	function submitSysUserPwdForm(){
+		var oldpassword = findDialogName("oldpassword").val();
+		var newpassword = findDialogName("newpassword").val();
+		var confirmpassword = findDialogName("confirmpassword").val();
+		var form = findDialogName("sysUserPwdForm");
+		var $form = getJqueryForm(form);
+		if (!$form.valid()) {
+			return;
+		}
+		if(newpassword!=confirmpassword){
+			alertMsg.error("密码不一致！");
+			return;
+		}
+		var param = {"password":oldpassword};
+		doGetAjax(CPATH.domain_1 + "/rs/sysUserPaswword",param,function(data){
+			if(data.jsonData.isEqual){
+				validateCallback(form,dialogAjaxDone);
+			}else{
+				alertMsg.error("旧密码输入不正确！");
+			}
+		});
+		
+	}
+</script>
+<form method="post" name="sysUserPwdForm" action=""  class="required-validate sysUserPwdForm">
+<input type="hidden" value="closeCurrent" name="callbackType">	
+<div class="pageFormContent" >
+		<p>
+			<label>旧密码:</label>
+			<input name="oldpassword" type="password" class="required">
+		</p>
+		
+		<p>
+			<label>新密码:</label>
+			<input name="newpassword" type="password" class="required">
+		</p>
+		
+		<p>
+			<label>确认密码:</label>
+			<input name="confirmpassword" type="password" class="required">
+		</p>
+</div>
+<div class="formBar">
+	<ul>
+		<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="submitSysUserPwdForm()">保存</button></div></div></li>
+		<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
+	</ul>
+</div>
+</form>

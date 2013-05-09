@@ -1,0 +1,128 @@
+<h2 class="contentTitle" name="showTitle">Edit Type</h2>
+<form name="pageForm" method="post" class="required-validate pageForm" onsubmit="return validateCallback(this, navTabAjaxDone);">
+		<input type="hidden" name="svfGuid" id="svfGuid"/>
+		<input type="hidden" name="navTabId" value="syViewField" />
+		<input type="hidden" name="callbackType" value="closeCurrent" />
+		<input type="hidden" name="callBackMethod" value="syViewFieldSearch" />
+		<input type="hidden" name="svGuid" class="required" size="30" maxlength="40"/>
+	<div class="pageFormContent" layoutH="97">
+		 
+			<p>
+				<label>显示名称</label>
+				<input type="text" name="fieldLabel" class="required" size="30" maxlength="40"/>
+			</p>
+			<p>
+				<label>DB Column</label>
+				<input type="text" name="fieldColumn" class="required" size="30" maxlength="40"/>
+			</p>
+			<p>
+				<label>DB Column Alias</label>
+				<input type="text" name="fieldColumnAlias"   size="30" maxlength="40"/>
+			</p>
+			<p>
+				<label>类别</label> 
+
+					<select class="combox required" name="fieldCategory" valueCode="valueCode" codeType="1014" valueDesc="valueDesc">
+						<option value="" selected>请选择</option>
+					</select> <font color="red" style="font-family: sans-serif; float: left; ">*</font>
+			</p>
+			<p>
+				<label>类型</label>
+								 <select class="combox sync required" name="fieldType"
+								valueCode="valueCode" codeType="1018" valueDesc="valueDesc">
+								<option value="" selected>请选择</option>
+							</select>
+					
+<!-- 					 <select name="fieldType" class="required sync combox" > -->
+<!-- 						<option value="">请选择</option> -->
+<!-- 						<option value="1">文本</option> -->
+<!-- 						<option value="2">小数</option> -->
+<!-- 						<option value="6">整数</option> -->
+<!-- 						<option value="3">日期</option> -->
+<!-- 						<option value="4">码表</option> -->
+<!-- 						<option value="5">引用</option> -->
+<!-- 						<option value="16">大文本</option> -->
+<!-- 						<option value="7">主键</option> -->
+<!-- 						<option value="8">CCKTYPEID</option> -->
+<!-- 						<option value="17">MASTERID</option> -->
+<!-- 						<option value="9">创建人</option> -->
+<!-- 						<option value="10">创建日期</option> -->
+<!-- 						<option value="11">更新人</option> -->
+<!-- 						<option value="12">更新日期</option> -->
+<!-- 						<option value="13">删除标志</option> -->
+<!-- 						<option value="14">上层ID</option> -->
+<!-- 						<option value="15">GUID</option> -->
+						
+						
+<!-- 					</select> -->
+					 <font color="red" style="font-family: sans-serif; float: left; ">*</font>
+			</p> 
+			<p name="viewtypeShowP">
+					<label name="typeShowName" style="display:none">code:</label><input style="display:none" type="text" name="fieldTypeReference" class=" " size="30" maxlength="20" />
+			</p>
+			<p>
+				<label>描述</label>
+				<input type="text" name="fieldDescription"  size="30" maxlength="40"/>
+			</p> 
+	</div>
+			
+	<div class="formBar">
+		<ul>
+			<li><div class="buttonActive"><div class="buttonContent"><button type="submit" >保存</button></div></div></li>
+			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
+		</ul>
+	</div>
+</form>
+<script type="text/javascript">
+	//通过tab url得到行主键，获取信息，自动填充form表单
+	$(function(){
+		var $form = findName("pageForm");
+		var url = navTab._getTabUrl();
+		var svfGuid=navTab._getParam("svfGuid"); 
+		var svGuid=navTab._getParam("svGuid"); 
+		findName('svGuid').val(svGuid);
+		if(svfGuid){
+			findName("fieldCategory").addClass("sync");
+			findName('showTitle').html('修改syViewField');
+			doGetAjax(CPATH.domain_1 + "/rs/syViewField/" +svfGuid ,null,function(data){$form.find("[name]").populate(data);
+			findClass("sync").removeClass("sync").combox();
+			if(data.fieldType==4||data.fieldType==5){
+				findName("viewtypeShowP").children().show();
+				findName("fieldTypeReference").addClass("required");
+				
+			}
+			
+			});
+			$form.attr('action',CPATH.domain_1 + '/rs/syViewField/'+svfGuid+'?method=put');
+		}else{
+			findName('showTitle').html('新增syViewField');
+			$form.attr('action',CPATH.domain_1 + '/rs/syViewField');
+			findClass("sync").removeClass("sync").combox();
+		}
+		findName("fieldType").filter("select").bind("change",changeViewFieldType);
+	});
+	function changeViewFieldType(obj,data){//comboxchange 事件
+		var val =  $(this).val(); 
+		if(!val){
+		 	val =  $(this).attr("currentval"); 
+		}
+ 
+		if(!data)
+		{
+			findName("fieldTypeReference").val('');
+		}
+		findName("fieldTypeReference").removeClass("required");
+		if(!val||val<4||val==6||val>=7){
+			findName("viewtypeShowP").children().hide();
+		}else  	if(val==4){
+				findName("viewtypeShowP").children().show();
+				findName("typeShowName").text("code");
+				findName("fieldTypeReference").addClass("required");
+			} else if(val==5){
+				findName("viewtypeShowP").children().show();
+				findName("typeShowName").text("reference");
+				findName("fieldTypeReference").addClass("required");
+			} 
+		 
+	}	
+</script>

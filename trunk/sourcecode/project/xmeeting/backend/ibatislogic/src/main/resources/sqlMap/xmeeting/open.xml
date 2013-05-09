@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"       "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="xmeeting.open">
+ 
+    
+
+    
+<!--     <select id="findMeetingPersonnelByXmmiGuid" parameterClass="java.util.HashMap"  resultClass="com.broadsoft.xmeeting.xmeeting.meeting.vo.XmMeetingInfoIVO"> -->
+<!-- 	    <![CDATA[ -->
+<!-- 			       select b.XMPI_GUID,b.xmpi_name,c.xmrid_seatno,d.value_desc  -->
+					
+<!-- 				   from XM_MEETING_PERSONNEL_SEAT_PAD a, XM_PERSONNEL_INFO b,XM_ROOM_INFO_DETAIL c, -->
+<!-- 					(select value_code,value_desc from sy_code  where type_id in (select type_id from sy_code_type where type_name='3010')) d -->
+					
+<!-- 					where 1=1 -->
+<!-- 						and a.XMPI_GUID=b.XMPI_GUID -->
+<!-- 						and a.XMRID_GUID=C.XMRID_GUID  -->
+<!-- 						and a.xmmpsp_meeting_role =d.value_code  -->
+						
+				
+<!-- 		]]> 	 -->
+<!-- 		<isNotEmpty prepend="and" property="xmmiGuid">  -->
+<!-- 		     		 <![CDATA[  a.XMMI_GUID=#xmmiGuid# ]]> -->
+<!-- 		</isNotEmpty>	  -->
+<!-- 				 and a.XMMI_GUID='000000000XMMEETINGINFO13041820484043'  -->
+<!-- 		<![CDATA[  -->
+<!-- 					order by b.XMPI_GUID  desc  -->
+<!-- 		]]>   -->
+		 
+<!-- 	</select> -->
+    
+   
+	
+	
+	
+	
+	
+	
+
+</sqlMap>
+

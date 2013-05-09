@@ -1,0 +1,231 @@
+<form method="get" name="scriptManagementSearchForm" action="/rs/"
+	onsubmit="return false;">
+	<input type="hidden" name="pageNum" value="1" />
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>
+						脚本名称
+					</label>
+					<input type="text" name="scriptName" value="" />
+				</li>
+
+				<li>
+					<label>
+						群组名称
+					</label>
+					<select class="combox sync" name="groupName" valueCode="valueCode"
+						codeType="1005" valueDesc="valueDesc">
+						<option value="" selected>
+							请选择
+						</option>
+					</select>
+				</li>
+
+				<li>
+					<label>
+						脚本类型
+					</label>
+					<select class="combox sync" name="scriptType" valueCode="valueCode"
+						codeType="1004" valueDesc="valueDesc">
+						<option value="" selected>
+							请选择
+						</option>
+					</select>
+				</li>
+
+			</ul>
+			<ul class="searchContent">
+					<li>
+					<label>
+						BEAN NAME
+					</label>
+					<input type="text" name="beanName" value="" />
+				</li>
+			</ul>
+			<div class="subBar">
+				<ul>
+					<li>
+						<div class="buttonActive">
+							<div class="buttonContent">
+								<button type="button"
+									onclick="scriptManagementInfoSearch({pageNum:1})">
+									查询
+								</button>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="buttonActive">
+							<div class="buttonContent">
+								<button type="button" onclick="clearScriptManagementForm();">
+									清空
+								</button>
+
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+</form>
+
+<div class="pageContent">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+			<li>
+				<a class="add" target="navTab" rel="createscriptmanagement"
+					href="javascript:getURL(CPATH.domain_1,'/pages/system/script/modify/scriptmanagementmodify.html?trigger=1');"
+					title="新增脚本信息"><span>新增</span> </a>
+			</li>
+			<li>
+				<a class="edit" target="navTab" rel="editscriptmanagement"
+					href="javascript:getURL(CPATH.domain_1,'/pages/system/script/modify/scriptmanagementmodify.html?gsguid={slt_uid}&trigger=1');"
+					title="编辑脚本信息" multiable="no" warn="请选择一条记录"><span>编辑</span> </a>
+			</li>
+			<li>
+				<a class="delete" target="selectedTodo" postType="json"
+					doType="DELETE"
+					href="javascript:getURL(CPATH.domain_1,'/rs/syScript')"
+					rel="gsguids" callBackMethod="scriptManagementInfoSearch"
+					title="确认删除?"><span>删除</span> </a>
+			</li>
+			<li>
+				<a class="icon" target="navTab" rel="scriptmanagementview"
+					href="javascript:getURL(CPATH.domain_1,'/pages/system/script/view/scriptmanagementview.html?gsguid={slt_uid}');"
+					title="脚本信息查看" multiable="no" warn="请选择一条记录"><span>查看</span> </a>
+			</li>
+			<li>
+				<a class="icon" target="navTab" rel="scriptmanagementLogview"
+					href="javascript:getURL(CPATH.domain_1,'/pages/system/script/view/scriptmanagementlogview.html?gsguid={slt_uid}');"
+					title="脚本日志信息查看" multiable="no" warn="请选择一条记录"><span>查看日志表</span>
+				</a>
+			</li>
+			<li>
+				<a class="icon" target="selectedTodo" postType="json"
+					doType="DELETE"
+					href="javascript:getURL(CPATH.domain_1,'/rs/syScriptActivity')"
+					rel="gsguids" callBackMethod="scriptManagementInfoSearch"
+					title="确认激活?"><span>激活</span> </a>
+			</li>
+			<li>
+				<a class="icon" target="selectedTodo" postType="json"
+					doType="DELETE"
+					href="javascript:getURL(CPATH.domain_1,'/rs/syScriptInvalid')"
+					rel="gsguids" callBackMethod="scriptManagementInfoSearch"
+					title="确认失效?"><span>失效</span> </a>
+			</li>
+
+		</ul>
+	</div>
+
+	<table class="table" layoutH="165" width="100%">
+		<thead>
+			<tr searchMethod="scriptManagementInfoSearch">
+				<!--  <th width="60" orderField="materialsNo">物资编号</th>-->
+				<th width="10">
+					<input type="checkbox" group="gsguids" class="checkboxCtrl">
+				</th>
+				<th width="60">
+					脚本名称
+				</th>
+				<th width="60">
+					SPRING BEAN NAME
+				</th>
+				<th width="60">
+					群组名称
+				</th>
+				<th width="60">
+					脚本类型
+				</th>
+				<th width="60">
+					描述
+				</th>
+				<th width="60">
+					状态
+				</th>
+				<th width="60">
+					备注
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="scriptManagementInfoTrTemplate" target="slt_uid">
+				<td name="gsguid" type="check">
+					<input name="gsguids" value="" type="checkbox">
+				</td>
+				<!--	<td name="materialsNo"></td>-->
+				<td name="scriptName"></td>
+				<td name="beanName"></td>
+				<td name="groupNameString"></td>
+				<td name="scriptTypeString"></td>
+				<td name="description"></td>
+				<td name="statusString"></td>
+				<td name="remark"></td>
+
+			</tr>
+		</tbody>
+	</table>
+
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage"
+				onchange="scriptManagementInfoSearch({numPerPage:this.value,pageNum:1})">
+				<option value="20">
+					20
+				</option>
+				<option value="40">
+					40
+				</option>
+				<option value="100">
+					100
+				</option>
+				<option value="200">
+					200
+				</option>
+			</select>
+			<span name="scriptManagementInfoCountDiv">条，</span>
+		</div>
+		<div name="scriptManagementInfoPageBar" class="pagination"
+			searchMethod="scriptManagementInfoSearch" targetType="navTab"
+			totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+	findClass("sync").removeClass("sync").combox();
+	//定义默认参数
+	var scriptManagementInfoArgs = {};
+	//查询方法
+	scriptManagementInfoSearch();
+	function scriptManagementInfoSearch(opt) {
+		
+		$.extend(scriptManagementInfoArgs, findName(
+				'scriptManagementSearchForm').serializeJson(), opt ? opt : {});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_1, "/rs/syScript"),
+				scriptManagementInfoArgs, scriptManagementInfoList);
+
+	}
+
+	//拼装
+	function scriptManagementInfoList(data) {
+		var sampleRow = findName('scriptManagementInfoTrTemplate');
+		pageResponse2Table(sampleRow, data);
+		printPageBarDiv(findName('scriptManagementInfoPageBar'),
+				findName('scriptManagementInfoCountDiv'), data.jsonData);
+	}
+
+	//清空查询内容
+
+	function clearScriptManagementForm() {
+		findName("scriptManagementSearchForm")[0].reset();
+		$("a[name='groupName']", navTab.getCurrentPanel()).text("请选择");
+		$("a[name='scriptType']", navTab.getCurrentPanel()).text("请选择");
+	}
+</script>
+

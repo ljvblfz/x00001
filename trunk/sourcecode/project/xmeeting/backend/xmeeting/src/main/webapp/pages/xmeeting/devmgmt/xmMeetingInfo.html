@@ -1,0 +1,131 @@
+<form method="get" name="xmMeetingInfoSearchForm" action="/rs/xmMeetingInfo" onsubmit="return false;" >
+	<input type="hidden" name="pageNum" value="1" />
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>会议名称：</label>
+					<input type="text" name="xmmiGuid" value=""/>
+				</li> 
+			</ul>
+			<div class="subBar">
+				<ul>						
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="xmMeetingInfoSearch({pageNum:1})">查询</button></div></div></li>
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="javascript:findName('xmMeetingInfoSearchForm')[0].reset()">清空</button></div></div></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="pageContent">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+			<li><a class="add" target="navTab" rel="userNav" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/modify/xmMeetingInfoModify.html');" title="新增会议信息" ><span>新增</span></a></li>
+			<li><a class="edit" target="navTab" rel="userNav1" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/modify/xmMeetingInfoModify.html?xmmiGuid={slt_uid}');" 							title="修改会议信息"   multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
+			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_3,'/rs/xmMeetingInfo')"  rel="xmmiGuids"  callBackMethod="xmMeetingInfoSearch"	title="确认删除会议信息?"  ><span>删除</span></a></li>
+			<!--  -->
+			<li class="line">line</li>
+			<li><a class="edit" target="navTab" rel="userNav2" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/xmMeetingServicePersonnel.html?xmmiGuid={slt_uid}');"      										title="服务人员设定"   	multiable="no" warn="请选择一条记录"><span>服务人员设定</span></a></li>
+			<li><a class="edit" target="navTab" rel="userNav3" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/xmMeetingPersonnelSeatPad.html?xmmiGuid={slt_uid}');"       title="人员座位设备设定"   	multiable="no" warn="请选择一条记录"><span>人员座位设备设定</span></a></li>
+			<li class="line">line</li>
+			<!--  --> 
+			<li><a class="edit" target="navTab" rel="userNav4" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/xmMeetingSchedule.html?xmmiGuid={slt_uid}');" title="会议日程"   		multiable="no" warn="请选择一条记录"><span>会议日程</span></a></li>
+			<li><a class="edit" target="navTab" rel="userNav5" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/xmMeetingBus.html?xmmiGuid={slt_uid}');" 	 title="车辆安排"   		multiable="no" warn="请选择一条记录"><span>车辆安排</span></a></li>
+			<li><a class="edit" target="navTab" rel="userNav6" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/xmMeetingWeather.html?xmmiGuid={slt_uid}');"  title="会议天气"   		multiable="no" warn="请选择一条记录"><span>会议天气</span></a></li>
+			<li><a class="edit" target="navTab" rel="userNav7" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/xmMeetingContact.html?xmmiGuid={slt_uid}');"  title="联系方式"   		multiable="no" warn="请选择一条记录"><span>联系方式</span></a></li>
+			<li class="line">line</li>
+			<!--  -->
+			<li><a class="edit" target="navTab" rel="userNav8" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/xmMeetingDocument.html?xmmiGuid={slt_uid}');" title="会议文稿"   		multiable="no" warn="请选择一条记录"><span>会议文稿</span></a></li>
+			<li><a class="edit" target="navTab" rel="userNav9" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/xmMeetingVideo.html?xmmiGuid={slt_uid}');"    title="会议视频"   		multiable="no" warn="请选择一条记录"><span>会议视频</span></a></li>
+			<li><a class="edit" target="navTab" rel="userNav10" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/xmMeetingPicture.html?xmmiGuid={slt_uid}');"  title="会议图片"   		multiable="no" warn="请选择一条记录"><span>会议图片</span></a></li>
+			<li class="line">line</li>
+			<!--  -->
+			<li><a class="edit" target="navTab" rel="userNav11" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/xmMeetingVote.html?xmmiGuid={slt_uid}');"     title="会议投票"   		multiable="no" warn="请选择一条记录"><span>会议投票</span></a></li>
+			
+			
+ 		</ul>
+	</div>
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr  searchMethod="xmMeetingInfoSearch">
+						<th width="22"><input type="checkbox" group="xmmiGuids" class="checkboxCtrl"></th>
+						<th width="60" >会议名称</th>
+						<th width="60" style="display:none">xmriGuid</th>
+						<th width="60" >会议室</th>
+						<th width="60" >会议描述</th>
+						<th width="60">会议状态</th> 
+						
+						
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="xmMeetingInfoTrTemplate" target="slt_uid">
+						<td name="xmmiGuid" type="check"><input name="xmmiGuids" value="" type="checkbox"   callbackMethod="xmMeetingInfoCallback"></td>
+						<td name="xmmiName"></td>
+						<td name="xmriGuid" style="display:none"></td>
+						<td name="xmriName"></td>
+						<td name="xmmiDescription"></td>
+						<td name="status"></td> 
+				
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage" onchange="xmMeetingInfoSearch({numPerPage:this.value,pageNum:1})">
+				<option value="10">10</option>
+				<option value="40">40</option>
+				<option value="100">100</option>
+				<option value="200">200</option>
+			</select>
+			<span name="xmMeetingInfoCountDiv">条，共-条</span>
+		</div>
+		<div name="xmMeetingInfoPageBar" class="pagination" searchMethod="xmMeetingInfoSearch" targetType="navTab" totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+</div>
+<script type="text/javascript">
+	//定义默认参数
+	var xmMeetingInfoArgs={};
+	 //查询方法
+	 
+
+    $(function(){ 
+		//var xmriGuid="";
+		//var xurl="/pages/xmeeting/devmgmt/xmMeetingPersonnelSeatPad.html?xmmiGuid={slt_uid}&xmriGuid=[xmriGuid]'";
+		//findName("xmMeetingPersonnelSeatPadLink").attr("href",getURL(CPATH.domain_3,xurl));
+
+		//alert(findClass("unitBox").find("input:checked").val());
+		// 
+	    xmMeetingInfoSearch();
+	}); 
+	 
+	 
+
+	function xmMeetingInfoCallback(objCheck,url){ 
+		var xmriGuid=objCheck.parent().parent().parent().find("td:[name=xmriGuid]").html()
+		logger.info("xmriGuid------>"+xmriGuid);
+		url+="&xmriGuid="+xmriGuid
+		logger.info("url------>"+url);
+		return url;
+		
+	}
+	 
+	function xmMeetingInfoSearch(opt){
+		//序列化表单值，并扩展到xmMeetingInfoArgs对象中
+		$.extend(xmMeetingInfoArgs,findName('xmMeetingInfoSearchForm').serializeJson(),opt?opt:{});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_3,"/rs/xmMeetingInfo"),xmMeetingInfoArgs,xmMeetingInfoList);
+	}
+	
+	//拼装
+	function xmMeetingInfoList(data){
+		var sampleRow=findName('xmMeetingInfoTrTemplate');
+		pageResponse2Table(sampleRow,data);
+        printPageBarDiv(findName('xmMeetingInfoPageBar'),findName('xmMeetingInfoCountDiv'),data.jsonData);
+	}
+</script>

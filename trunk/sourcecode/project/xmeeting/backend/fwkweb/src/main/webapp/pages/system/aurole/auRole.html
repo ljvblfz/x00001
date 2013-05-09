@@ -1,0 +1,99 @@
+ <form method="get" name="auRoleSearchForm" action="/rs/auRole" onsubmit="return navTabSearch(this);" >
+	<input type="hidden" name="pageNum" value="1" />
+	  <input type="hidden" name=callBackMethod value="auRoleSearch()" /> 
+	   <input type="hidden" name=navTabId value="navTab_auRole" /> 
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>角色名：</label>
+					<input type="text" name="name" value=""/>
+				</li>
+	 
+			</ul>
+			<div class="subBar">
+				<ul>			
+				 	
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="auRoleSearch({pageNum:1})">查询</button></div></div></li>
+			 		</ul>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="pageContent">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+		
+<li><a class="add" target="navTab" authId="SYSTEM_ROLE_ROLEMGT_ADD" rel="auRoleModifyNav" href="javascript:getURL(CPATH.domain_1,'/pages/system/aurole/modify/auRoleModify.html');" title="新增"  ><span>新增</span></a></li>
+<li><a class="edit" target="navTab" authId="SYSTEM_ROLE_ROLEMGT_EDIT" rel="auRoleModifyNav1" href="javascript:getURL(CPATH.domain_1,'/pages/system/aurole/modify/auRoleModify.html?guid={slt_uid}');" title="修改"   multiable="no" warn="请选择一条记录"><span>修改</span></a></li	>
+<li><a class="delete" target="selectedTodo" authId="SYSTEM_ROLE_ROLEMGT_DEL"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_1,'/rs/auRole')"  rel="guids" 	callBackMethod="auRoleSearch" 	title="确认删除?"   ><span>删除</span></a></li>
+
+<li><a class="icon"  target="navTab" authId="SYSTEM_ROLE_ROLEMGT_VIEWAUTH" rel="auRoleAuthorityNav1" href="javascript:getURL(CPATH.domain_1,'/pages/system/aurole/modify/auRoleAuthority.html?guid={slt_uid}');" title="查看权限"  multiable="no" warn="请选择一条记录" ><span>查看权限</span></a></li>
+<li><a class="edit"  target="navTab" authId="SYSTEM_ROLE_ROLEMGT_EDITAUTH" rel="auRoleAuthorityModifyNav" href="javascript:getURL(CPATH.domain_1,'/pages/system/aurole/modify/auRoleAuthorityModify.html?guid={slt_uid}&modify=1');" title="修改权限"   multiable="no" warn="请选择一条记录"><span>修改权限</span></a></li>
+			 
+  
+		
+		</ul>
+	</div>
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr searchMethod="auRoleSearch"><th width="30"><input type="checkbox" group="guids" class="checkboxCtrl"></th>
+				<th width="200" orderField="name" >角色名</th>
+				
+				<th   >备注</th>
+			<!-- <th width="220" >rolecode</th> -->	
+			 
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="auRoleTrTemplate" target="slt_uid">
+				<td name="guid" type="check"><input name="guids" value="" type="checkbox"></td>
+				<td name="name"></td>
+				
+				<td name="memo"></td>
+				<!-- <td name="rolecode"></td> -->
+				 
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage" onchange="auRoleSearch({numPerPage:this.value,pageNum:1})">
+				<option value="10">10</option>
+				<option value="40">40</option>
+				<option value="100">100</option>
+				<option value="200">200</option>
+			</select>
+			<span name="auRoleCountDiv">条，共-条</span>
+		</div>
+		<div name="auRolePageBar" class="pagination" searchMethod="auRoleSearch" targetType="navTab" totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+</div>
+<script type="text/javascript">
+	//定义默认参数
+	var defaultArgs={};
+	 //查询方法
+    auRoleSearch();
+	function auRoleSearch(opt){
+		//序列化表单值，并扩展到defaultArgs对象中
+ ;
+		$.extend(defaultArgs,findName('auRoleSearchForm').serializeJson(),opt?opt:{});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_1,"/rs/auRole"),defaultArgs,auRolelistGird);
+	}
+	
+	//拼装
+	function auRolelistGird(data){
+		var sampleRow=findName('auRoleTrTemplate');
+		pageResponse2Table(sampleRow,data);
+        printPageBarDiv(findName('auRolePageBar'),findName('auRoleCountDiv'),data.jsonData);
+	}
+	
+	//$('[name="numPerPage"]', navTab.getCurrentPanel()).setCurrentVal('100');
+	
+</script>

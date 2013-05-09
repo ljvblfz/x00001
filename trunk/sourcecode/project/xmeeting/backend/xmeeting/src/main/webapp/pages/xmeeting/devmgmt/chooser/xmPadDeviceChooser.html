@@ -1,0 +1,116 @@
+<form method="get" name="xmPadDeviceSearchForm" action="/rs/xmPadDevice" onsubmit="return false;" >
+	<input type="hidden" name="pageNum" value="1" />
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>资产编号：</label>
+					<input type="text" name="xmpdCode" value=""/>
+				</li> 
+			</ul>
+			<div class="subBar">
+				<ul>						
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="xmPadDeviceSearch({pageNum:1})">查询</button></div></div></li>
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="javascript:findName('xmPadDeviceSearchForm')[0].reset()">清空</button></div></div></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="pageContent">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+<!-- 			<li><a class="add" target="navTab" rel="userNav" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/basic/modify/xmPadDeviceModify.html');" title="新增xmPadDevice"  ><span>新增</span></a></li> -->
+<!-- 			<li><a class="edit" target="navTab" rel="userNav1" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/basic/modify/xmPadDeviceModify.html?xmpdGuid={slt_uid}');" title="修改xmPadDevice"   multiable="no" warn="请选择一条记录"><span>修改</span></a></li> -->
+<!-- 			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_3,'/rs/xmPadDevice')"  rel="xmpdGuids" callBackMethod="xmPadDeviceSearch"	title="确认删除?"  ><span>删除</span></a></li>  -->
+			<li><a class="edit"   href="javascript:xmPadDeviceBringBack()" title="选择带回"   multiable="no" warn="请选择一条记录"><span>选择带回</span></a></li>
+		</ul>
+	</div>
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			
+			<tr  searchMethod="xmPadDeviceSearch">
+						<!-- <input type="checkbox" group="xmpdGuids" class="checkboxCtrl"> -->
+						<th width="22"></th>
+						<th width="60" orderField="xmpdCode">资产编号</th>
+						<th width="60" orderField="xmpdDeviceId">设备编号</th>
+						<th width="60" orderField="xmpdDeviceSpec">设备规格</th>
+						<th width="60" orderField="xmpdHardwareVersion">硬件版本</th>
+						<th width="60" orderField="xmpdSoftwareVersion">软件版本</th>
+						<th width="60" orderField="xmpdStatus">设备状态</th> 
+						<th width="60" orderField="xmpdType">设备类型</th>  
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="xmPadDeviceTrTemplate" target="slt_uid">
+<!-- 						<td name="xmpdGuid" type="check"><input name="xmpdGuids" value="" type="checkbox"></td> -->
+						<td type="radio"><input name="xmpdGuids"  groups="xmpdGuid" value="" type="radio"></td>
+						<td name="xmpdCode"></td>
+						<td name="xmpdDeviceId"></td>
+						<td name="xmpdDeviceSpec"></td>
+						<td name="xmpdHardwareVersion"></td>
+						<td name="xmpdSoftwareVersion"></td>
+						<td name="xmpdStatus"></td> 
+						<td name="xmpdType"></td> 
+				
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage" onchange="xmPadDeviceSearch({numPerPage:this.value,pageNum:1})">
+				<option value="10">10</option>
+				<option value="40">40</option>
+				<option value="100">100</option>
+				<option value="200">200</option>
+			</select>
+			<span name="xmPadDeviceCountDiv">条，共-条</span>
+		</div>
+		<div name="xmPadDevicePageBar" class="pagination" searchMethod="xmPadDeviceSearch" targetType="navTab" totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+</div>
+<script type="text/javascript">
+	//定义默认参数
+	var xmPadDeviceArgs={};
+	 //查询方法
+	 
+	$(function() { 
+    	xmPadDeviceSearch();
+	});
+	function xmPadDeviceSearch(opt){
+		//序列化表单值，并扩展到xmPadDeviceArgs对象中
+		$.extend(xmPadDeviceArgs,findDialogName('xmPadDeviceSearchForm').serializeJson(),opt?opt:{});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_3,"/rs/xmPadDevice"),xmPadDeviceArgs,xmPadDeviceList);
+	}
+	
+	//拼装
+	function xmPadDeviceList(data){
+		var sampleRow=findDialogName('xmPadDeviceTrTemplate');
+		pageResponse2Table(sampleRow,data);
+        printPageBarDiv(findDialogName('xmPadDevicePageBar'),findDialogName('xmPadDeviceCountDiv'),data.jsonData);
+	}
+	
+	
+	function xmPadDeviceBringBack(){ 
+		var chooser_xhidden="";
+		var chooser_xlabel="";
+		var param =  $.pdialog.getCurrent().data("param");  
+		if(param && param != ""){
+			param = DWZ.jsonEval(param);  
+			chooser_xhidden=param.xhidden;
+			chooser_xlabel=param.xlabel;
+		}  
+		$('input[name="xmpdGuids"]:radio:checked').each(function(){    
+			   $.pdialog.closeCurrent();
+			   findName(chooser_xhidden).val($(this).val());  
+			   var labelvalue=$(this).parent().parent().children().parent().parent().find("td:[name=xmpdCode]").html();
+			   findName(chooser_xlabel).val(labelvalue);
+		});    
+	}
+</script>

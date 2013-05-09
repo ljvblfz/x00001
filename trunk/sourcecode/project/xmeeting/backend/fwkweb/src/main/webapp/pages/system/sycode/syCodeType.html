@@ -1,0 +1,145 @@
+<form method="get" name="syCodeTypeSearchForm" action="/rs/syCodeType" onsubmit="return navTabSearch(this);" >
+	<input type="hidden" name="pageNum" value="1" />
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>代码类别：</label>
+					<input type="text" name=typeName value=""/>
+				</li>
+				<li>
+					<label>域：</label>
+						<select class="combox" name="domain" valueCode="valueCode" codeType="1001" valueDesc="valueDesc" >
+							<option value="" selected>请选择</option>
+						</select>
+				</li>
+				<li>
+					<label>描述：</label>
+					<input type="text" name=typeDesc value=""/>
+				</li>
+				
+				
+			</ul>
+			<div class="subBar">
+				<ul>						
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="syCodeTypeSearch({pageNum:1})">查询</button></div></div></li>
+					<!--  <li><a class="button" href="/management/user!advancedSearch.do?userType=TRAINING" target="dialog" title="Advanced Search"><span>高级查询</span></a></li>-->
+				</ul>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="pageContent" name="sycodetypelist">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+			<li><a class="add" target="navTab" rel="syCodeTypeAdd" href="javascript:getURL(CPATH.domain_1,'/pages/system/sycode/modify/syCodeTypeModify.html');" title="新增" authId="syCodeTypeAdd"><span>新增</span></a></li>
+			<li><a class="edit" target="navTab" rel="syCodeTypeEdit" href="javascript:getURL(CPATH.domain_1,'/pages/system/sycode/modify/syCodeTypeModify.html?typeId={slt_uid}');" title="修改" authId="syCodeTypeEdit" multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
+			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_1,'/rs/syCodeType')"  rel="typeIds" 
+			callBackMethod="syCodeTypeSearch"	title="确认删除?" authId="syCodeTypeDel"><span>删除</span></a></li>
+			<li class="line">line</li>
+			<li><a class="edit" target="navTab" rel="syCodeTypeCodeEdit" href="javascript:getURL(CPATH.domain_1,'/pages/system/sycode/syCode.html?typeId={slt_uid}&authid=syCodeTypeCodeEdit');" title="修改码值" authId="syCodeTypeCodeEdit" multiable="no" warn="请选择一条记录"><span>修改码值</span></a></li>
+			
+			
+			<li><a class="edit" href="javascript:sycodetype_showMenuPage();"  ><span>生成菜单</span></a></li>
+		</ul>
+	</div>
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr><th width="22"><input type="checkbox" group="typeIds" class="checkboxCtrl"></th>
+				<th width="100" orderField="typeName" >代码类别</th>
+				<th width="50" orderField="typeDesc">描述</th>
+				<th width="100">只读标记</th>
+				<th width="80" >域</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="syCodeTypeTrTemplate" target="slt_uid">
+				<td name="typeId" type="check"><input name="typeIds" value="" type="checkbox"></td>
+				<td name="typeName"></td>
+				<td name="typeDesc"></td>
+				<td name="redOnlyFlaStr"></td>
+				<td name="domainStr"></td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage" onchange="syCodeTypeSearch({numPerPage:this.value,pageNum:1})">
+				<option value="10">10</option>
+				<option value="40">40</option>
+				<option value="100">100</option>
+				<option value="200">200</option>
+			</select>
+			<span name="syCodeTypeCountDiv">条，共-条</span>
+		</div>
+		<div name="syCodeTypePageBar" class="pagination" searchMethod="syCodeTypeSearch" targetType="navTab" totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+</div>
+<script type="text/javascript">
+	//定义默认参数
+	var syCodeTypeDefaultArgs={};
+	 //查询方法
+    syCodeTypeSearch();
+	function syCodeTypeSearch(opt){
+		//序列化表单值，并扩展到defaultArgs对象中
+		$.extend(syCodeTypeDefaultArgs,findName('syCodeTypeSearchForm').serializeJson(),opt?opt:{});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_1,"/rs/syCodeType"),syCodeTypeDefaultArgs,syCodeTypeListGird);
+	}
+	
+	//拼装
+	function syCodeTypeListGird(data){
+		var sampleRow=findName('syCodeTypeTrTemplate');
+		pageResponse2Table(sampleRow,data);
+        printPageBarDiv(findName('syCodeTypePageBar'),findName('syCodeTypeCountDiv'),data.jsonData);
+	}
+	
+	//$('[name="numPerPage"]', navTab.getCurrentPanel()).setCurrentVal('100');
+	
+	
+
+	
+	function sycodetype_showMenuPage(){ 
+		var checkboxs=findName("sycodetypelist").find("input:checkbox:checked"); 
+		 if(checkboxs.length==1){ 
+			var nametext=$($(checkboxs[0]).parent().parent().parent().children()[2]).html();
+			var pData={"rel":"syCodeMenuModify","name":nametext,"typeId":$(checkboxs[0]).val() };
+			sycodetype_showDialog(pData); 
+		 }else {
+			 alertMsg.error("请选择一条记录！");
+		 }  
+	}
+	
+ 
+	
+	function sycodetype_showDialog(pData){   
+		//
+	 
+		var title = "生成菜单";
+		var rel =pData.rel;  
+		var options = {}; 
+		options.width = 550;
+		options.height = 580;
+		options.max =false;
+		options.mask = false;
+		options.maxable = false;
+		options.minable = false;
+		options.fresh = true;
+		options.resizable = false;
+		options.drawable = true;
+		options.close = "";
+		options.param = pData;
+		options.zIndex = "1000";
+ 
+		var url = CPATH.domain_1 + "/pages/system/sycode/modify/syCodeMenuModify.html";
+ 
+		$.pdialog.open(url, rel, title, options);
+		
+	}//end of widgetblock_showDialog
+	
+</script>

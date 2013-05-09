@@ -1,0 +1,83 @@
+<form method="get" name="xmMeetingSigninSearchForm" action="/rs/xmMeetingSignin" onsubmit="return false;" >
+	<input type="hidden" name="pageNum" value="1" />
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>会议名称：</label>
+					<input type="text" name="xmmiGuid" value=""/>
+				</li> 
+			</ul>
+			<div class="subBar">
+				<ul>						
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="xmMeetingSigninSearch({pageNum:1})">查询</button></div></div></li>
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="javascript:findName('xmMeetingSigninSearchForm')[0].reset()">清空</button></div></div></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="pageContent">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+<!-- 			<li><a class="add" target="navTab" rel="userNav" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/onsite/modify/xmMeetingSigninModify.html');" title="新增xmMeetingSignin"  ><span>新增</span></a></li> -->
+<!-- 			<li><a class="edit" target="navTab" rel="userNav1" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/onsite/modify/xmMeetingSigninModify.html?xmmsGuid={slt_uid}');" title="修改xmMeetingSignin"   multiable="no" warn="请选择一条记录"><span>修改</span></a></li> -->
+<!-- 			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_3,'/rs/xmMeetingSignin')"  rel="xmmsGuids"  callBackMethod="xmMeetingSigninSearch"	title="确认删除?"  ><span>删除</span></a></li>  -->
+			
+			<li><a class="edit" target="navTab" rel="userNav1" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/onsite/modify/xmMeetingSigninModify.html?xmmsGuid={slt_uid}');" title="查看记录"   multiable="no" warn="请选择一条记录"><span>查看记录</span></a></li>
+		</ul>
+	</div>
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr  searchMethod="xmMeetingSigninSearch"><th width="22"><input type="checkbox" group="xmmsGuids" class="checkboxCtrl"></th>
+						<th width="60" orderField="xmmiGuid">会议</th>
+						<th width="60" orderField="xmmsPersonnel">签到人员</th>
+						<th width="60" orderField="xmmsTime">签到时间</th> 
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="xmMeetingSigninTrTemplate" target="slt_uid">
+				<td name="xmmsGuid" type="check"><input name="xmmsGuids" value="" type="checkbox"></td>
+						<td name="xmmiGuid"></td>
+						<td name="xmmsPersonnel"></td>
+						<td name="xmmsTime"></td> 
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage" onchange="xmMeetingSigninSearch({numPerPage:this.value,pageNum:1})">
+				<option value="10">10</option>
+				<option value="40">40</option>
+				<option value="100">100</option>
+				<option value="200">200</option>
+			</select>
+			<span name="xmMeetingSigninCountDiv">条，共-条</span>
+		</div>
+		<div name="xmMeetingSigninPageBar" class="pagination" searchMethod="xmMeetingSigninSearch" targetType="navTab" totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+</div>
+<script type="text/javascript">
+	//定义默认参数
+	var xmMeetingSigninArgs={};
+	 //查询方法
+    xmMeetingSigninSearch();
+	function xmMeetingSigninSearch(opt){
+		//序列化表单值，并扩展到xmMeetingSigninArgs对象中
+		$.extend(xmMeetingSigninArgs,findName('xmMeetingSigninSearchForm').serializeJson(),opt?opt:{});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_3,"/rs/xmMeetingSignin"),xmMeetingSigninArgs,xmMeetingSigninList);
+	}
+	
+	//拼装
+	function xmMeetingSigninList(data){
+		var sampleRow=findName('xmMeetingSigninTrTemplate');
+		pageResponse2Table(sampleRow,data);
+        printPageBarDiv(findName('xmMeetingSigninPageBar'),findName('xmMeetingSigninCountDiv'),data.jsonData);
+	}
+</script>

@@ -1,0 +1,152 @@
+<h2 class="contentTitle" name="showTitle">Edit Type</h2>
+<form name="pageForm" method="post" class="required-validate pageForm" onsubmit="return validateCallback(this, navTabAjaxDone);">
+		<input type="hidden" name="xmmpspGuid" id="xmmpspGuid"/>
+		<input type="hidden" name="xmmiGuid" id="xmmiGuid"/>
+		<input type="hidden" name="navTabId" value="xmMeetingPersonnelSeatPad" />
+		<input type="hidden" name="callbackType" value="closeCurrent" />
+		<input type="hidden" name="callBackMethod" value="xmMeetingPersonnelSeatPadSearch" />
+	<div class="pageFormContent" layoutH="97">
+<!-- 			<p> -->
+<!-- 				<label>会议名称</label> -->
+<!-- 				<input type="text" name="xmmiGuid" class="required" size="30" maxlength="20"/> -->
+<!-- 			</p> -->
+			<p>
+				<label>人员名字</label>
+				<input type="text" name="xmpiGuidLabel" readonlye="true" class="required"  />
+				<input type="hidden" name="xmpiGuid"  />
+				<a   href="javascript:showDialog_xmMeetingPersonnelInfo2('xmpiName','xmpiGuid')" class="btnLook">查找带回</a>
+			</p>
+			<p>
+				<label>人员角色</label>
+<!-- 				<input type="text" name="xmmpspMeetingRole" class="required" size="30" maxlength="20"/> -->
+
+					<select class="required combox" name="xmmpspMeetingRole" valueCode="valueCode" codeType="3010" valueDesc="valueDesc" >
+						<option value="" selected>请选择</option>
+					</select>
+			</p> 
+			<p>
+				<label>座位号</label>
+				<input type="text" name="xmridGuidLabel" readonlye="true" class="required"  />
+				<input type="hidden" name="xmridGuid"  />
+				<a   href="javascript:showDialog_xmRoomSeatInfo2('xmridSeatno','xmridGuid')" class="btnLook">查找带回</a>
+			</p>
+			<p>
+				<label>pad设备</label>
+				<input type="text" name="xmpdGuidLabel" readonlye="true" class="required"  />
+				<input type="hidden" name="xmpdGuid"  />
+				<a   href="javascript:showDialog_xmPadDeviceInfo2('xmpdCode','xmpdGuid')" class="btnLook">查找带回</a>
+			</p>
+	</div>
+			
+	<div class="formBar">
+		<ul>
+			<li><div class="buttonActive"><div class="buttonContent"><button type="submit" >保存</button></div></div></li>
+			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
+		</ul>
+	</div>
+</form>
+<script type="text/javascript">
+	//通过tab url得到行主键，获取信息，自动填充form表单
+	$(function(){
+		var $form = findName("pageForm");
+		var url = navTab._getTabUrl();
+		var xmmpspGuid=navTab._getParam("xmmpspGuid"); 
+		var xmmiGuid=navTab._getParam("xmmiGuid");
+		findName('xmmiGuid').val(xmmiGuid);
+		if(xmmpspGuid){
+			findName('showTitle').html('修改人员座位设定');
+			findName("xmmpspMeetingRole").addClass("sync");
+			doGetAjax(CPATH.domain_3 + "/rs/xmMeetingPersonnelSeatPad/" +xmmpspGuid ,null,function(data){$form.find("[name]").populate(data);});
+			$form.attr('action',CPATH.domain_3 + '/rs/xmMeetingPersonnelSeatPad/'+xmmpspGuid+'?method=put');
+		}else{
+			findName('showTitle').html('新增人员座位设定');
+			$form.attr('action',CPATH.domain_3 + '/rs/xmMeetingPersonnelSeatPad');
+		}
+	});
+	
+	
+	//
+	function showDialog_xmMeetingPersonnelInfo2(xlabel,xhidden){  
+		//
+		
+		//
+		var title = "人员选择";
+		var rel = "xmMeetingServicePersonnel2";
+		var options = {}; 
+		options.width = 500;
+		options.height = 400;
+		options.max =false;
+		options.mask = true;
+		options.maxable = false;
+		options.minable = false;
+		options.fresh = true;
+		options.resizable = false;
+		options.drawable = true;
+		options.close = "";
+		options.param = {xlabel:xlabel,xhidden:xhidden};
+		options.zIndex = "1000";
+
+		var url = "/xmeeting/pages/xmeeting/devmgmt/chooser/xmPersonnelInfoChooser.html";
+ 
+		$.pdialog.open(url, rel, title, options);
+		
+	}//end of showDialog_xmMeetingPersonnelInfo2
+	
+	
+	
+
+	//
+	function showDialog_xmPadDeviceInfo2(xlabel,xhidden){  
+		//
+		var title = "设备选择";
+		var rel = "xmPadDeviceInfo2";
+		var options = {}; 
+		options.width = 500;
+		options.height = 400;
+		options.max =false;
+		options.mask = true;
+		options.maxable = false;
+		options.minable = false;
+		options.fresh = true;
+		options.resizable = false;
+		options.drawable = true;
+		options.close = "";
+		options.param = {xlabel:xlabel,xhidden:xhidden};
+		options.zIndex = "1000";
+
+		var url = "/xmeeting/pages/xmeeting/devmgmt/chooser/xmPadDeviceChooser.html";
+ 
+		$.pdialog.open(url, rel, title, options);
+		
+	}//end of showDialog_xmPadDeviceInfo2
+	
+	
+
+	//
+	function showDialog_xmRoomSeatInfo2(xlabel,xhidden){   
+
+		var xmriGuid=navTab._getParam("xmriGuid"); 
+		//
+		var title = "座位选择";
+		var rel = "xmRoomSeatInfo2";
+		var options = {}; 
+		options.width = 500;
+		options.height = 400;
+		options.max =false;
+		options.mask = true;
+		options.maxable = false;
+		options.minable = false;
+		options.fresh = true;
+		options.resizable = false;
+		options.drawable = true;
+		options.close = "";
+		options.param = {xlabel:xlabel,xhidden:xhidden,xmriGuid:xmriGuid};
+		options.zIndex = "1000";
+
+		var url = "/xmeeting/pages/xmeeting/devmgmt/chooser/xmRoomInfoDetailChooser.html";
+ 
+		$.pdialog.open(url, rel, title, options);
+		
+	}//end of showDialog_xmRoomSeatInfo2
+
+</script>
