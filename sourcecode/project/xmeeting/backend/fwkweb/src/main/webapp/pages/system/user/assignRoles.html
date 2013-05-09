@@ -1,0 +1,119 @@
+<h2 class="contentTitle" name="showTitle">角色分配</h2>
+<form name="pageForm" method="post" class="required-validate pageForm" onsubmit="return validateCallback(this, navTabAjaxDone);">
+
+		<input type="hidden" name="navTabId" value="sysUser" />
+		<input type="hidden" name="callbackType" value="closeCurrent" />
+		<input type="hidden" name="callBackMethod" value="sysUserSearch" />
+	<div class="pageFormContent" layoutH="97">
+			<div style="width:100%;float:left" layoutH="500">
+				<p>
+					<label>员工工号:</label>
+					<input type="text" name="username"  size="30" maxlength="20" readonly="readonly"/>
+				</p>
+				<p>
+					<label>用户全名:</label>
+					<input type="text" name="fullname"  size="30" maxlength="20" readonly="readonly"/>
+				</p>
+				<p>
+					<label>登陆账号:</label>
+					<input type="text" name="userid"  size="30" maxlength="20" readonly="readonly"/>
+				</p>
+				<p>
+					<label>任职部门:</label>
+					<input type="text" name="regNum"  size="30" maxlength="20" readonly="readonly"/>
+				</p>
+			
+			</div>
+
+			<div  style="width:100%;float:left" layoutH="250">
+				<div class="panelBar">				
+					<ul class="toolBar">
+						<li><a class="add"  href="javascript:;" onclick="addRoleTr()"><span>新增</span></a></li>
+					</ul>
+				</div>
+				<div style="overflow:auto">
+				<table class="list" style="width:100%">
+					<thead>
+						<tr>
+							<td width="10%">序号</td><td width="50%">角色名称</td><td width="40%">操作</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr name="rolesTemplate" style="display:none">
+							<td></td>
+							<td><input type="text" readonly="readonly"  name="rolename" onfocus="selectRoles()"></td>					
+							<td><a href="javascript:;" onclick="removeRoleTr(this)">删除</a></td>
+						</tr>
+					</tbody>
+				</table>
+				</div>
+			
+			</div >
+
+	</div>
+			
+	<div class="formBar">
+		<ul>
+			<li><div class="buttonActive"><div class="buttonContent"><button type="submit" >保存</button></div></div></li>
+			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
+		</ul>
+	</div>
+</form>
+<script type="text/javascript">
+	//通过tab url得到行主键，获取信息，自动填充form表单
+	$(function(){
+		var $form = findName("pageForm");
+		var url = navTab._getTabUrl();
+		var username=navTab._getParam("username")
+		if(username){
+			doGetAjax(CPATH.domain_1 + "/rs/sysUser/" +username ,null,function(data){
+				$form.attr('action',CPATH.domain_1 + '/rs/sysUser/'+data.user.userid+'/assignRole');
+				$form.find("[name]").populate(data.user);
+				var $template = findName("rolesTemplate");
+				$.each(data.roles,function(){					
+					var newtr = $template.clone();
+					var size = $template.parent().find("tr").length;
+					var size = $template.parent().find("tr").length;
+					newtr.find("td").eq(0).html(size);
+					newtr.find("input[name='rolename']").val(this.rolename);
+					newtr.removeAttr("style");
+					newtr.removeAttr("name");
+					$template.parent().append(newtr);
+					newtr.pagnationStyle();
+				});
+			});
+			
+		}
+	});
+	function addRoleTr(){
+		var $template = findName("rolesTemplate");
+		var newtr = $template.clone();
+		var size = $template.parent().find("tr").length;
+		newtr.find("td").eq(0).html(size);
+		newtr.removeAttr("style");
+		newtr.removeAttr("name");
+		$template.parent().append(newtr);
+		newtr.pagnationStyle();
+	}
+	
+	function removeRoleTr(obj){ 
+		$(obj).parent().parent().remove();	
+		findName("rolesTemplate").parent().find("tr").each(function(i){
+			$(this).find("td").eq(0).html(i);
+		})
+	}
+	
+	function selectRoles(){
+
+		var opts={
+			href:CPATH.domain_1+"/pages/system/user/roleDialog.html",
+			title:"角色信息",
+			showloading:'f',
+			width:700,
+			height:400,
+			rel:'selectRoles',
+			mask:true,
+		};
+		openDialog(opts);
+	}
+</script>

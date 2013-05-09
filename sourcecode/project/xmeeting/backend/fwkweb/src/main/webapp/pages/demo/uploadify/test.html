@@ -1,0 +1,44 @@
+<h2 class="contentTitle">uploadify 演示</h2>
+
+
+<script type="text/javascript">
+	$(document).ready(
+			function() {
+				var options = {
+					'uploader' : 'styles/uploadify/scripts/uploadify.swf',
+					'cancelImg' : 'styles/uploadify/cancel.png',
+					'folder' : 'UploadFile',
+					'queueID' : 'fileQueue',
+					'buttonText' : 'Select Files',
+					'script' : '/syWeb/rs/system/uploadify/upload',
+					//'script' : 'xxxxx.upload',
+					'fileDesc' : 'jpg文件',
+					'method' : 'post',
+					'auto' : false,
+					'multi' : true,
+					'onError' : function(evt, queueid, fobj, errorObj) {
+						logger.info("上传失败，错误码:" + errorObj.type + " " + errorObj.info);
+					},
+					'onOpen' : function(event, ID, fileObj) {
+						logger.info("Open");
+					},
+					'onComplete' : function(event, queueID, fileObj, reposnse, data) {
+						logger.info("上传完成 --reposnse->" + reposnse + "-data-->" + data);
+
+					} 
+				};
+				$("#uploadify").uploadify(options);
+
+			});
+</script>
+
+<div class="pageContent">
+	<div id="fileQueue" style="height: 200px"></div>
+	<br> <br> <br> <input type="file" name="uploadify"
+		id="uploadify" /> <br> <br> <br>
+	<p>
+		<a href="javascript:$('#uploadify').uploadifyUpload()">上传</a>| <a
+			href="javascript:$('#uploadify').uploadifyClearQueue()">取消上传</a>
+	</p>
+
+</div>

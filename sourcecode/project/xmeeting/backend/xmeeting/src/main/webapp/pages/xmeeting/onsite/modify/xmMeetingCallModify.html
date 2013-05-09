@@ -1,0 +1,45 @@
+<h2 class="contentTitle" name="showTitle">Edit Type</h2>
+<form name="pageForm" method="post" class="required-validate pageForm" onsubmit="return validateCallback(this, navTabAjaxDone);">
+		<input type="hidden" name="xmmcallGuid" id="xmmcallGuid"/>
+		<input type="hidden" name="navTabId" value="xmMeetingCall" />
+		<input type="hidden" name="callbackType" value="closeCurrent" />
+		<input type="hidden" name="callBackMethod" value="xmMeetingCallSearch" />
+	<div class="pageFormContent" layoutH="97">
+			<p>
+				<label>会议PID</label>
+				<input type="text" name="xmmiGuid" class="required" size="30" maxlength="20"/>
+			</p>
+			<p>
+				<label>呼叫者</label>
+				<input type="text" name="xmmcallCaller" class="required" size="30" maxlength="20"/>
+			</p>
+			<p>
+				<label>呼叫内容</label>
+				<input type="text" name="xmmcallMessage" class="required" size="30" maxlength="20"/>
+			</p> 
+	</div>
+			
+	<div class="formBar">
+		<ul>
+			<li><div class="buttonActive"><div class="buttonContent"><button type="submit" >保存</button></div></div></li>
+			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
+		</ul>
+	</div>
+</form>
+<script type="text/javascript">
+	//通过tab url得到行主键，获取信息，自动填充form表单
+	$(function(){
+		var $form = findName("pageForm");
+		var url = navTab._getTabUrl();
+		var xmmcallGuid=navTab._getParam("xmmcallGuid")
+		if(xmmcallGuid){
+			findName('showTitle').html('修改xmMeetingCall');
+			doGetAjax(CPATH.domain_3 + "/rs/xmMeetingCall/" +xmmcallGuid ,null,function(data){$form.find("[name]").populate(data);});
+			$form.attr('action',CPATH.domain_3 + '/rs/xmMeetingCall/'+xmmcallGuid+'?method=put');
+		}else{
+			findName('showTitle').html('新增xmMeetingCall');
+			$form.attr('action',CPATH.domain_3 + '/rs/xmMeetingCall');
+		}
+	});
+
+</script>

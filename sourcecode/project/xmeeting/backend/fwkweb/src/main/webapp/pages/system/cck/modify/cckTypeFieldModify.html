@@ -1,0 +1,264 @@
+<style type="text/css">
+.syCckTypeFieldpageFormContent p {
+	width: 500px;
+}
+.fieldcheckboxleft,.fieldcheckboxright{
+float:left;
+}
+.fieldcheckboxleft{
+margin-right: 100px;
+}
+</style>
+<div class="pageContent">
+	<form name="syCckTypeFieldModifypageForm" method="post" class="required-validate pageForm"
+		onsubmit="return validateCallback(this, dialogAjaxDone);">
+		<input type="hidden" name="sctfGuid" id="sctfGuid" /> <input type="hidden" name="navTabId" value="cckTypeFieldModify" />
+		<input type="hidden" name="sctGuid" /> <input type="hidden" name="callbackType" value="closeCurrent" /> <input
+			type="hidden" name="callBackMethod" value="syCckTypeFieldSearch" />
+		<div class="syCckTypeFieldpageFormContent pageFormContent" layoutH="50">
+			<fieldset>
+				<legend>数据设置</legend>
+
+
+				<p>
+					<label>Label名称：</label> <input type="text" name="fieldLabel" class="required" size="30" maxlength="20" />
+				</p>
+				<p>
+					<label>db column:</label>
+					<select  class="combox sync required" name="fieldColumn" id="fieldColumn2012122510555"
+						   ></select>
+<!-- 					<input type="text" name="fieldColumn" class="required" size="30" maxlength="20" /> -->
+				</p>
+				<p>
+					<label>别名:</label><input type="text" name="fieldAlias" class=" " size="30" maxlength="20" />
+				</p>
+				
+				
+				<p  >
+			<label>Order类型：</label>
+					 <select class="combox sync  " name="orderType" >
+					 <option value="">不排序</option>
+								<option value="0">asc</option> 
+						<option value="1">desc</option>
+							</select>
+			</p>
+			<p>
+					<label>Order顺序：</label> <input name="orderOrder" type="text" class="digits" size="30"  maxlength=4 />
+				</p>
+				
+				<p>
+					<label>数据类型：</label>
+					 <select class="combox sync required" name="fieldType"
+								valueCode="valueCode" codeType="1015" valueDesc="valueDesc">
+								<option value="" selected>请选择</option>
+							</select>
+					
+<!-- 					 <select name="fieldType" class="required sync combox" > -->
+<!-- 						<option value="">请选择</option> -->
+<!-- 						<option value="1">文本</option> -->
+<!-- 						<option value="2">小数</option> -->
+<!-- 						<option value="6">整数</option> -->
+<!-- 						<option value="3">日期</option> -->
+<!-- 						<option value="4">码表</option> -->
+<!-- 						<option value="5">引用</option> -->
+<!-- 						<option value="16">大文本</option> -->
+<!-- 						<option value="7">主键</option> -->
+<!-- 						<option value="8">CCKTYPEID</option> -->
+<!-- 						<option value="17">MASTERID</option> -->
+<!-- 						<option value="9">创建人</option> -->
+<!-- 						<option value="10">创建日期</option> -->
+<!-- 						<option value="11">更新人</option> -->
+<!-- 						<option value="12">更新日期</option> -->
+<!-- 						<option value="13">删除标志</option> -->
+<!-- 						<option value="14">上层ID</option> -->
+<!-- 						<option value="15">GUID</option> -->
+						
+						
+<!-- 					</select> -->
+					 <font color="red" style="font-family: sans-serif; float: left; ">*</font>
+				
+				</p>
+				
+			<p name="ccktftypeShowP2">
+			<label>JOIN类型：</label>
+					 <select class="combox sync  " name="fieldJoinType" >
+								<option value="0">Left Join</option> 
+						<option value="1">Inner Join</option>
+							</select>
+<!-- 					<label name="typeShowName" style="display:none">sql:</label><textarea style="display:none" type="text" name="fieldTypeReference" class=" "  ></textarea> -->
+			</p>
+			<p name="ccktftypeShowP">
+					<label name="typeShowName" style="display:none">db column:</label><input style="display:none" type="text" name="fieldTypeReference" class=" " size="30" maxlength="20" />
+			</p>
+				
+				
+			</fieldset>
+			<fieldset>
+				<legend>表单验证信息</legend>
+
+				<p>
+					<label>是否必须：</label> <input class="fieldcheckboxleft" name="fieldIsrequired" type="checkbox" size="30" value="1" />
+					<label>是否唯一：</label> <input class="fieldcheckboxright" name="fieldIsunique" type="checkbox" size="30" value="1" />
+					
+				</p>
+				<p>
+					<label>长度：</label> <input name="fieldMaxlength" type="text" size="30" class="digits" />
+				</p>
+			</fieldset>
+			<fieldset>
+				<legend>页面布局</legend>
+				<p>
+					<label>是否列表显示：</label> <input class="fieldcheckboxleft" name="fieldIslistdisplay" type="checkbox" size="30" value="1" />
+					<label>是否表单显示：</label> <input  class="fieldcheckboxright" name="fieldIsformdisplay" type="checkbox" size="30" value="1" />
+		
+				</p>
+<!-- 				<p> -->
+<!-- 						</p> -->
+				<p>
+					<label>是否搜索条件：</label> <input name="fieldIssearchfield" type="checkbox" size="30" value="1" />
+				</p>
+				<p>
+					<label>列表顺序：</label> <input name="fieldListsortno" type="text" size="30"  class="digits"  />
+				</p>
+				<p>
+					<label>表单位置：</label> <input name="fieldFormposition" type="text" size="30" class="digits" />
+				</p>
+				<p>
+					<label>列表宽度：</label> <input name="columnWidth" type="text" size="30" />
+				</p>
+				<p>
+					<label>文本行数：</label> <input name="areaRows" type="text" size="30"  class="digits" />
+				</p>
+				<p>
+					<label>文本列数：</label> <input name="areaCols" type="text" size="30" />
+				</p>
+			</fieldset>
+			<fieldset>
+				<legend>其他信息</legend>
+				<p style="height:79px;">
+					<label>描述：</label>
+					<textarea style="height:70px;" name="fieldDescription" class="" rows="4" cols="45"  ></textarea>
+				</p>
+			</fieldset>
+		</div>
+
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive">
+						<div class="buttonContent">
+							<button type="submit">保存</button>
+						</div>
+					</div></li>
+				<li><div class="button">
+						<div class="buttonContent">
+							<button type="button" class="close">关闭</button>
+						</div>
+					</div></li>
+			</ul>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+	//通过tab url得到行主键，获取信息，自动填充form表单
+	$(function(){
+		var $form = findDialogName("syCckTypeFieldModifypageForm");
+		var param = $.pdialog.getCurrent().data("param");
+		if (param && param != "") {
+			param = DWZ.jsonEval(param);
+			 
+		}else{return;}
+		 
+		var sctfGuid=param.sctfGuid ;
+		var sctGuid=param.sctGuid;
+		var total= param.total;
+		if(sctfGuid&&sctGuid){
+	
+			doGetAjax(CPATH.domain_1 + "/rs/syCckType/"+sctGuid+"/syCckTypeField/" +sctfGuid ,null,function(data ){
+				$form.find("[name]").populate(data );
+				
+				if(data.fieldType==4||data.fieldType==5){
+					findDialogName("ccktftypeShowP").children().show();
+					if(data.fieldType==5){
+						findDialogName("ccktftypeShowP2").children().show();
+					}
+					
+				}
+			findDialogName("fieldColumn").attr("dataurl",CPATH.domain_1 + "/rs/cckColumns/"+sctGuid  );
+			var temp=findDialogName("fieldType").filter("select");
+			temp.val(data.fieldType);
+			findDialogClass("sync").removeClass("sync").combox();
+			if(temp){
+				temp.trigger("change",data);	
+			}
+			 
+			});
+			$form.attr('action',CPATH.domain_1 + '/rs/syCckType/'+sctGuid+'/syCckTypeField/'+sctfGuid+'?method=put');
+		}else if(sctGuid){
+			$form.attr('action',CPATH.domain_1 +'/rs/syCckType/'+sctGuid+'/syCckTypeField');
+			findDialogName("fieldColumn").attr("dataurl",CPATH.domain_1 + "/rs/cckColumns/"+sctGuid  );
+			
+			findDialogClass("sync").removeClass("sync").combox();
+			if(total||total==0){
+				findDialogName("fieldListsortno").val(total+1);
+				findDialogName("fieldFormposition").val(total+1);
+			}
+		}else{
+		
+			findDialogClass("sync").removeClass("sync").combox();
+		}
+		findDialogName("fieldType").filter("select").bind("change",changeFieldType);
+		findDialogName("fieldIsunique").bind("change",changeFieldIsunique);
+	});
+	
+	function changeFieldIsunique(){
+		var $this=$(this);
+		var val =  $(this).attr("checked"); 
+ 		var $required=findDialogName("fieldIsrequired");
+		if(val)
+		{	
+			var oldChecked=$required.attr("checked");
+			if(oldChecked)
+				$required.attr("oldChecked","checked");
+			else
+				$required.removeAttr("oldChecked");
+			$required.attr("disabled","disabled");
+			$required.attr("checked","checked");
+		}else{
+			var old2=$required.attr("oldChecked");
+			if(old2)
+				$required.attr("checked","checked");
+			else 
+				$required.removeAttr("checked");
+			$required.removeAttr("disabled");
+		}
+		
+	}
+	function changeFieldType(obj,data){//comboxchange 事件
+		var val =  $(this).val(); 
+		if(!val){
+		 	val =  $(this).attr("currentval"); 
+		}
+ 
+		if(!data)
+		{
+			findDialogName("fieldTypeReference").val('');
+		}
+		findDialogName("fieldTypeReference").removeClass("required");
+		if(!val||val<4||val==6||val>=7){
+			findDialogName("ccktftypeShowP").children().hide();
+			findDialogName("ccktftypeShowP2").children().hide();
+		}else  	if(val==4){
+				findDialogName("ccktftypeShowP").children().show();
+				findDialogName("ccktftypeShowP2").children().hide();
+				findDialogName("typeShowName").text("code");
+				findDialogName("fieldTypeReference").addClass("required");
+			} else if(val==5){
+				findDialogName("ccktftypeShowP").children().show();
+				findDialogName("ccktftypeShowP2").children().show();
+				findDialogName("typeShowName").text("reference");
+				findDialogName("fieldTypeReference").addClass("required");
+			} 
+		 
+	}	
+ 
+</script>

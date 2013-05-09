@@ -1,0 +1,95 @@
+
+
+<script type="text/javascript">
+	$(function() {
+
+		var param =  $.pdialog.getCurrent().data("param"); 
+		if(param && param != ""){
+			var beanname=param.beanname;
+			logger.info("beanname --> "+beanname);
+			syweb_beanmgmt_dialog_beaninfo(beanname);
+		} 
+		
+		
+	});
+	
+	
+	function syweb_beanmgmt_dialog_beaninfo(beanname){
+		var url = "/rs/bean/beanmgmtview/"+beanname;
+		dtdXHR = $.ajax({
+			type : "GET",
+			url : getURL(CPATH.domain_1, url),
+			dataType : "json",
+			cache : false,
+			global : false
+		});
+
+		dtdXHR.done(function(respJson) {
+			syweb_beanmgmt_dialog_beaninfo_genTable(respJson,beanname);
+		});
+		dtdXHR.fail(function(respJson) {
+			if (!istimeout(respJson)) {
+
+			}
+		});
+	}
+	
+	function syweb_beanmgmt_dialog_beaninfo_genTable(respJson,beanname){
+		var clazzName=respJson.jsonData.clazzName;
+		var methodNameArray=respJson.jsonData.methodName;
+		findNameWithParentID("clazzName","syweb_beanmgmt_view").val(clazzName);
+		findNameWithParentID("beanName","syweb_beanmgmt_view").val(beanname);
+		logger.info(respJson);
+		
+		//
+		var tableHtml = "";
+		for ( var i = 0; i < methodNameArray.length; i++) {
+			tableHtml += "	";
+			tableHtml += "<tr >";
+			tableHtml += "	<td width='20' >"+(i+1)+"</td>";
+			tableHtml += "	<td  >" + methodNameArray[i] + "</td>";
+			tableHtml += "	<td  ><input type='button' beanName='"+beanname+"' methodName='"+ methodNameArray[i] + "' value='执行' onClick='syweb_beanmgmt_dialog_beaninfo_execmethod(this)'></td>";
+			tableHtml += "</tr>";
+		}//end of for   
+
+		var tbody = $("tbody", $("#syweb_beanmgmt_view"));
+
+		tbody.html(tableHtml); 
+	}
+	
+	function syweb_beanmgmt_dialog_beaninfo_execmethod(thisObj){
+		var beanName=$(thisObj).attr(beanName);
+		var methodName=$(thisObj).attr(methodName);
+		var formJsonData={};
+		var url = "/rs/bean/beanmgmtexecution/"+beanname+"/"+methodName;
+		dtdXHR = $.ajax({
+			type : "POST",
+			url : getURL(CPATH.domain_1, url),
+			dataType : "json",
+			data: formJsonData
+		});
+
+		dtdXHR.done(function(respJson) {
+			syweb_beanmgmt_dialog_beaninfo_genTable(respJson);
+		});
+		dtdXHR.fail(function(respJson) {
+			if (!istimeout(respJson)) {
+
+			}
+		});
+		
+		
+	}
+ 
+</script>
+
+<div class="pageContent" id="syweb_beanmgmt_view">
+	<p><label>bean name: </label>  <input name="beanName" type="text" style="width:200px">  </label> </p>
+	<p><label>clazz name: </label>  <input name="clazzName" type="text" style="width:200px">  </label> </p>
+	<table class="table" layoutH="50">
+		<tbody>
+			
+		</tbody>
+	</table>
+ 
+</div>

@@ -1,0 +1,5 @@
+if(util.isNotEmpty(alarmtypeid) ){ 
+     return "select * from dev_alarminfo  where alarmtypeid='"+alarmtypeid+"' ";
+}else{ 
+     return "select * from dev_alarminfo"  ;
+} 

@@ -1,0 +1,67 @@
+<div class="pageContent">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+			<li><a class="add" target="navTab" rel="userNav" href="javascript:getURL(CPATH.domain_1,'/pages/system/fsm/modify/syFsmStateModify.html');" title="新增syFsmState"  ><span>新增</span></a></li>
+			<li><a class="edit" target="navTab" rel="userNav1" href="javascript:getURL(CPATH.domain_1,'/pages/system/fsm/modify/syFsmStateModify.html?sfsguid={slt_uid}');" title="修改syFsmState"   multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
+			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_1,'/rs/syFsmState')"  rel="sfsguids" 
+			callBackMethod="syFsmStateSearch"	title="确认删除?"  ><span>删除</span></a></li> 
+		</ul>
+	</div>
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr  searchMethod="syFsmStateSearch"><th width="22"><input type="checkbox" group="sfsguids" class="checkboxCtrl"></th>
+						<th width="60" orderField="sfguid">sfguid</th>
+						<th width="60" orderField="name">name</th>
+						<th width="60" orderField="value">value</th>
+						<th width="60" orderField="description">description</th>
+						<th width="60" orderField="delFlag">delFlag</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="syFsmStateTrTemplate" target="slt_uid">
+				<td name="sfsguid" type="check"><input name="sfsguids" value="" type="checkbox"></td>
+						<td name="sfguid"></td>
+						<td name="name"></td>
+						<td name="value"></td>
+						<td name="description"></td>
+						<td name="delFlag"></td>
+				
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage" onchange="syFsmStateSearch({numPerPage:this.value,pageNum:1})">
+				<option value="10">10</option>
+				<option value="40">40</option>
+				<option value="100">100</option>
+				<option value="200">200</option>
+			</select>
+			<span name="syFsmStateCountDiv">条，共-条</span>
+		</div>
+		<div name="syFsmStatePageBar" class="pagination" searchMethod="syFsmStateSearch" targetType="navTab" totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+</div>
+<script type="text/javascript">
+	//定义默认参数
+	var syFsmStateArgs={};
+	 //查询方法
+    syFsmStateSearch();
+	function syFsmStateSearch(opt){
+		//序列化表单值，并扩展到syFsmStateArgs对象中
+		$.extend(syFsmStateArgs,findName('syFsmStateSearchForm').serializeJson(),opt?opt:{});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_1,"/rs/syFsmState"),syFsmStateArgs,syFsmStateList);
+	}
+	
+	//拼装
+	function syFsmStateList(data){
+		var sampleRow=findName('syFsmStateTrTemplate');
+		pageResponse2Table(sampleRow,data);
+        printPageBarDiv(findName('syFsmStatePageBar'),findName('syFsmStateCountDiv'),data.jsonData);
+	}
+</script>

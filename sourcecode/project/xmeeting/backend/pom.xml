@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.broadsoft.xmeeting</groupId>
+	<artifactId>sipbus</artifactId>
+	<packaging>pom</packaging>
+	<name>sipbus</name>
+	<version>1.0-SNAPSHOT</version>
+	
+	<!--
+	<scm>
+		<connection>scm:svn:http://172.29.131.17:8096/svn/FounderIPTS/01 BaseArchitechture</connection>  
+	</scm>
+	-->
+	<modules>
+		<module>config</module>
+		<module>jcommon</module> 
+		<module>fwklogic</module>
+		<module>pologic</module>
+		<module>ibatislogic</module>
+		<module>script</module>
+		<module>corejs</module>     
+		<module>fwkweb</module>    
+		<module>xmeeting</module>  
+		<module>websocket</module>  
+		<!---->  
+	</modules>
+	
+	 
+</project>

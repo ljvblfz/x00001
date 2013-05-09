@@ -1,0 +1,92 @@
+<script type="text/javascript"> 
+	
+	$(function() {
+		
+
+		var param =  $.pdialog.getCurrent().data("param");
+		if(param && param != ""){
+			param = DWZ.jsonEval(param);    
+			widgetblock_aumenu_dialog_init(param);
+		}
+
+	});
+
+	
+	
+	function widgetblock_aumenu_dialog_init(param){
+		var form =findDialogName("aumenudialogform"); 
+		var formparam={};
+		formparam.menuId=param.id;
+		formparam.parentid=param.id;
+		formparam.menuName=param.name;
+		formparam.oper="add"; 
+		formparam.authorityId="Test001";
+		formparam.isDisplay="1";
+		formparam.menuOrder="1";
+		formparam.menuType="0";
+		formparam.domainName="1";
+		formparam.menuTitle="dwztabid";
+		formparam.delFlag="0";
+		formparam.menuAction="/pages/system/block/modify/syWidgetBlockPreview.html?swbguid="+param.swbguid;
+		form.populate2(formparam); 
+	}
+
+	
+	//创建出库单
+	function widgetblock_aumenu_dialog_save(){
+		var $form = getJqueryForm(findDialogName("aumenudialogform",$.pdialog.getCurrent()));
+		if (!$form.valid()) {
+			return false;
+		}
+		doPostAjax(getURL(CPATH.domain_1, "/rs/aumenu/saveinfo"), $form.serializeArray() ,
+			function(data) {  
+					$.pdialog.close($.pdialog.getCurrent());	  
+			}
+		);
+	}
+	
+	function widgetblock_aumenu_dialog_formcallback(){
+		logger.info("widgetblock_aumenu_dialog_formcallback");
+	}
+	 
+</script>
+<div class="pageContent">
+	<form name="aumenudialogform" method="post" class="required-validate pageForm" onsubmit="return validateCallback(this, widgetblock_aumenu_dialog_formcallback);">
+ 		<input name="oper" type="hidden" value="add"  />
+		<div class="pageFormContent" layoutH="50">
+			<p><label>主健:</label>    <input name="menuId" type="text" value="" class="required" /></p><br/>
+			<p><label>父菜单id:</label>  <input name="parentid" type="text" value="" style="width:200px;" class="required" /></p><br/>
+			<p><label>菜单名:</label>    <input name="menuName" type="text" value=""   class="required" /></p><br/>
+			<p><label>对应的url:</label>    <input name="menuAction" type="text" value="" style="width:200px;" class="required" /></p><br/>
+			<p><label>对于权限ID:</label>  <input name="authorityId" type="text" value=""  class="required" /></p><br/>
+			<p><label>菜单是否可用 :</label>  <input name="isDisplay" type="text" value=""  class="required" /></p><br/> 
+			<p><label>排序字段 :</label>  <input name="menuOrder" type="text" value=""  class="required" /></p><br/> 
+			<p><label>菜单类型 :</label>  <input name="menuType" type="text" value=""  class="required" /></p><br/> 
+			<p><label>DWZ Tab ID :</label>  <input name="menuTitle" type="text" value=""  class="required" /></p><br/> 
+			<p><label>域信息 :</label>  <input name="domainName" type="text" value=""  class="required" /></p><br/> 
+			<p><label>是否删除 :</label>  <input name="delFlag" type="text" value=""  class="required" /></p><br/> 
+		</div>
+		<div class="formBar">
+			<ul>
+				<li>
+					<div class="buttonActive">
+						<div class="buttonContent">
+							<button type="button" onclick="widgetblock_aumenu_dialog_save();">
+								保存
+							</button>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="button">
+						<div class="buttonContent">
+							<button type="button" class="close">
+								关闭
+							</button>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</form>
+</div>

@@ -1,0 +1,53 @@
+
+<style type="text/css">
+    p {
+        display: block;
+        margin-bottom: 5px;
+    }
+</style>
+
+<script type="text/javascript">
+    $(function() {
+      // Generate a form
+        $("#myform").dform({
+            "action" : "index.html",
+            "method" : "get",
+            "html" :  {
+            		"type":"div",
+            		"class": "pageFormContent",
+            		"html": [ 
+		                         {
+		                             "type" : "p",
+		                             "html" : "You must login"
+		                         },
+		                         {
+		                        	 "type" : "p",
+		                             "html" :  {
+			                             "name" : "username",
+			                             "id" : "txt-username",
+			                             "caption" : "Username",
+			                             "type" : "text",
+			                             "class": "required",
+			                             "placeholder" : "E.g. user@example.com"
+			                         },
+		                         },
+		                         {
+		                             "name" : "password",
+		                             "caption" : "Password",
+		                             "type" : "password"
+		                         },
+		                         {
+		                             "type" : "submit",
+		                             "value" : "Login"
+		                         }
+		                     ]
+            	
+            		}
+            
+            
+        });
+    });
+</script>
+
+
+<form id="myform" class="pageForm"></form>

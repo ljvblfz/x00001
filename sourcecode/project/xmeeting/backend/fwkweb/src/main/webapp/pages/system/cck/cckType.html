@@ -1,0 +1,200 @@
+<form method="get" name="syCckTypeSearchForm" action="/rs/syCckType" onsubmit="return false;" >
+	<input type="hidden" name="pageNum" value="1" />
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>名称：</label>
+					<input type="text" name="name" value=""/>
+				</li>
+				<li>
+					<label>DB Table：</label>
+					<input type="text" name="typetable" value=""/>
+				</li>
+					<li>
+					<label>类型自编号：</label>
+					<input type="text" name="code" value=""/>
+				</li></ul>
+				<ul class="searchContent">
+				<li>
+				<label>组群名称：</label>
+				 <select class="combox selectToReset" name="groupname"
+								valueCode="valueCode" codeType="1010" valueDesc="valueDesc">
+								<option value="" selected>所有</option>
+							</select>
+				</li>
+				 	
+
+<!--				<li>-->
+<!--					<label>条件2：</label>-->
+<!--					<select class="combox" name="sctGuid" codeType="1111" defaultSelectTitle="-请选择-"  defaultSelectValue="" >-->
+<!--					currentVal="2"-->
+<!--					</select>-->
+<!--				</li>-->
+			</ul>
+			<div class="subBar">
+				<ul>						
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="syCckTypeSearch({pageNum:1})">查询</button></div></div></li>
+				<li><div class="buttonActive">
+							<div class="buttonContent">
+								<button type="button" onclick="resetForm_cckType()">清空</button>
+							</div>
+						</div>
+					</li>	</ul>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="pageContent syCckTypePageContent" name="syCckTypePageContent">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+<!-- 			<li><a class="add" href="pages/system/cck/modify/cckTypeModify.html" target="navTab"><span>添加</span></a></li> -->
+<!-- 			<li><a class="delete" href="demo/common/ajaxDone.html" target="ajaxTodo" title="确定要删除吗?"><span>删除</span></a></li> -->
+<!-- 			<li><a class="edit" href="pages/system/cck/modify/cckTypeModify.html" target="navTab"><span>修改</span></a></li>  -->
+<!-- 			<li><a class="edit" href="pages/system/cck/cckTypeField.html" target="navTab" rel = "cckTypeField" ><span>配置字段</span></a></li>  -->
+<!-- 			<li><a class="edit" href="pages/system/cck/Copy of cckTypeField.html" target="navTab" rel = "Copy of cckTypeField"><span>配置字段copy</span></a></li>  -->
+			<li><a class="edit" href="javascript:ccktype_createMenu();"  ><span>生成菜单</span></a></li>
+<!-- 			<li><a class="edit" href="pages/system/cck/modify/cckContentModify.html" target="navTab"><span>管理数据22</span></a></li> -->
+			<li><a class="edit" target="navTab" rel="cckContentNav123122444" href="javascript:getURL(CPATH.domain_1,'/rs/cckRedirector/gridOrTree/{slt_uid}?sctGuid={slt_uid}');" title="管理数据" 1authId="testAuth000002" multiable="no" warn="请选择一条记录"><span>管理数据</span></a></li>
+			<li><a class="edit" target="navTab" rel="cckContentNav1231224442" href="javascript:getURL(CPATH.domain_1,'/pages/system/cck/cckTypeButton.html?sctGuid={slt_uid}');" title="管理按钮" 1authId="testAuth000002" multiable="no" warn="请选择一条记录"><span>管理按钮</span></a></li>
+		
+			<li><a class="add" target="navTab" rel="userNavcckContentAdd" href="javascript:getURL(CPATH.domain_1,'/pages/system/cck/modify/cckTypeModify.html');" title="新增CckType" 1authId="testAuth000001"><span>新增</span></a></li>
+			<li><a class="edit" target="navTab" rel="userNav1cckContentedit22321" href="javascript:getURL(CPATH.domain_1,'/pages/system/cck/modify/cckTypeModify.html?sctGuid={slt_uid}');" title="修改CckType" 1authId="testAuth000002" multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
+			<li><a class="edit" target="navTab" rel="userNav1212wwdacckContentedit333" href="javascript:getURL(CPATH.domain_1,'/pages/system/cck/cckTypeField.html?sctGuid={slt_uid}');" title="配置字段" 1authId="testAuth000002" multiable="no" warn="请选择一条记录"><span>配置字段</span></a></li>
+	 
+			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_1,'/rs/syCckType')"  rel="sctGuids" 
+			callBackMethod="syCckTypeSearch"	title="确认删除?" 1authId="testAuth000003"><span>删除</span></a></li>
+				<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_1,'/rs/syCckType/clearCache')"  rel="sctGuids" 
+			callBackMethod="syCckTypeSearch" 	title="确认删除?" 1authId="testAuth000003"><span>删除缓存</span></a></li>
+<!--			<li class="line">line</li>-->
+<!--			<li><a class="icon" href="/management/user!export.do" target="dwzExport" targetType="navTab" title="确认导出?"><span>导出</span></a></li>-->
+		</ul>
+	</div>
+	
+	<table class="table" layoutH="163" width="100%">
+		<thead>
+			<tr  searchMethod="syCckTypeSearch"><th width="22"><input type="checkbox" group="sctGuids" class="checkboxCtrl"></th>
+						<th width="160" orderField="name">名称</th>
+						<th width="160" orderField="typetable" class="asc">DB Table</th>
+						<th width="80" orderField="groupname">群组名称</th>
+						<th width="160" orderField="code">类型自编号</th>
+						<th width="56" orderField="authority">数据权限</th>
+<!-- 						<th  orderField="description">描述</th> -->
+						<th width="40" orderField="status">状态</th>
+<!-- 						<th width="60" orderField="delFlag">删除标志</th> -->
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="syCckTypeTrTemplate" target="slt_uid">
+				<td name="sctGuid" type="check"><input name="sctGuids" value="" type="checkbox"></td>
+						<td name="name"></td>
+						<td name="typetable"></td>
+						<td name="groupnameString"></td>
+						<td name="code"></td>
+						<td name="authorityString"></td>
+<!-- 						<td name="description"></td> -->
+						<td name="statusString"></td>
+<!-- 						<td name="delFlag"></td> -->
+				
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage" onchange="syCckTypeSearch({numPerPage:this.value,pageNum:1})">
+				<option value="20">20</option>
+				<option value="40">40</option>
+				<option value="100">100</option>
+				<option value="200">200</option>
+			</select>
+			<span name="syCckTypeCountDiv">条，共-条</span>
+		</div>
+		<div name="syCckTypePageBar" class="pagination" searchMethod="syCckTypeSearch" targetType="navTab" totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+</div>
+<script type="text/javascript">
+	//定义默认参数
+	var syCckTypeArgs={numPerPage:20,orderField:'typetable',orderDirection:'asc'};
+	 //查询方法
+    syCckTypeSearch();
+	function syCckTypeSearch(opt){
+		//序列化表单值，并扩展到syCckTypeArgs对象中
+		$.extend(syCckTypeArgs,findName('syCckTypeSearchForm').serializeJson(),opt?opt:{});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_1,"/rs/syCckType"),syCckTypeArgs,syCckTypeList);
+	}
+	
+	//拼装
+	function syCckTypeList(data){
+		var sampleRow=findName('syCckTypeTrTemplate');
+		pageResponse2Table(sampleRow,data);
+        printPageBarDiv(findName('syCckTypePageBar'),findName('syCckTypeCountDiv'),data.jsonData);
+	}
+	function resetForm_cckType(){
+		findName("syCckTypeSearchForm")[0].reset();
+		 
+		findClass("selectToReset").filter("a").text("所有");
+ 
+	}
+ 
+
+	function ccktype_createMenu(){
+		 var ids=_get_sctfGuid_ccktype_edit();
+		 
+		 if(ids.length==1){
+			 var id=ids[0];
+			 var name=$("td [value='"+id+"']",findName("syCckTypePageContent")).parent().parent().next().text();
+				var pData={"rel":"auMenuModifyForCck","sctGuid":ids[0] ,"name":name};
+				ccktype_showDialog(pData); 
+		 }else {
+			 alertMsg.error("请选择一条记录！");
+		 }  
+	}
+	
+	function _get_sctfGuid_ccktype_edit()
+	{
+		
+	 var ids =[];
+		 var checkboxs=findName("syCckTypePageContent").find("input:checkbox:checked");
+		 for(var i=0;i<checkboxs.length;i++){
+			 var t=$(checkboxs[i]);
+			 var val=t.val();
+			  if(val&&val!="on"){
+				  ids[ids.length]=val;
+			  }
+			 
+		 }
+	return ids;
+			
+	}
+	 
+	function ccktype_showDialog(pData){   
+		//
+	 
+		var title = "生成菜单";
+		var rel =pData.rel;  
+		var options = {}; 
+		options.width = 550;
+		options.height = 580;
+		options.max =false;
+		options.mask = false;
+		options.maxable = false;
+		options.minable = false;
+		options.fresh = true;
+		options.resizable = false;
+		options.drawable = true;
+		options.close = "";
+		options.param = pData;
+		options.zIndex = "1000";
+ 
+		var url = CPATH.domain_1 + "/pages/system/cck/modify/auMenuModifyForCck.html";
+ 
+		$.pdialog.open(url, rel, title, options);
+		
+	}//end of showLineChooserDialog
+ 
+</script>

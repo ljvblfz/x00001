@@ -1,0 +1,186 @@
+<form method="get" name="hrattendancereplaceSearchForm" action="/rs/"
+	onsubmit="return false;">
+	<input type="hidden" name="pageNum" value="1" />
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>
+						员工姓名
+					</label>
+					<input type="text" name="username" value="" />
+				</li>
+
+			</ul>
+			<div class="subBar">
+				<ul>
+					<li>
+						<div class="buttonActive">
+							<div class="buttonContent">
+								<button type="button"
+									onclick="hrattendanceInfoSearch({pageNum:1})">
+									查询
+								</button>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="buttonActive">
+							<div class="buttonContent">
+								<button type="button" onclick="clearCheckForm_hrattendanceInfo();">
+									清空
+								</button>
+
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+</form>
+
+<div class="pageContent" style="width: 526px;">
+
+	<table class="table" layoutH="146" width="100%">
+		<thead>
+			<tr searchMethod="hrattendanceInfoSearch">
+				<!--  <th width="60" orderField="materialsNo">物资编号</th>-->
+					<th width="22">
+					
+				</th>
+				<th width="60">
+					姓名
+				</th>
+				<th width="60">
+					工号
+				</th>
+				<th width="60">
+					站点
+				</th>
+				<th width="60">
+					班次类型
+				</th>
+				
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="hrattendanceInfoTrTemplate" target="slt_uid">
+			<td type="radio">
+				<input type="radio" name="dwdguid" value="" />
+			</td>
+				<!--	<td name="materialsNo"></td>-->
+				<td name="username"></td>
+				<td name="jobnumber"></td>
+				<td name="stationname"></td>
+				<td name="shiftname"></td>
+
+			</tr>
+		</tbody>
+	</table>
+
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage"
+				onchange="hrattendanceInfoSearch({numPerPage:this.value,pageNum:1})">
+				<option value="20">
+					20
+				</option>
+				<option value="40">
+					40
+				</option>
+				<option value="100">
+					100
+				</option>
+				<option value="200">
+					200
+				</option>
+			</select>
+			<span name="hrattendanceInfoCountDiv">条，</span>
+		</div>
+		<div name="hrattendanceInfoPageBar" class="pagination"
+			searchMethod="hrattendanceInfoSearch" targetType="navTab"
+			totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+
+</div>
+	<div class="formBar">
+	<!--	<a class="add" onclick="addMessage();" href="#"
+			onmouseover="javaScript:check();"> <span>添加组成员</span>
+		<input name="userid" type="hidden" value="" />
+		</a>-->
+		<ul>
+		<li>
+				<div class="button">
+							<div class="buttonContent">
+								<button type="button" onclick="hrattendanceReplace()">
+									替换
+								</button>
+							</div>
+				</div>
+			</li>
+			<li>
+				<div class="button">
+					<div class="buttonContent">
+						<button type="button" class="close">
+							关闭
+						</button>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+<script type="text/javascript">
+	//定义默认参数
+	$(function() {
+		//查询方法
+
+		hrattendanceInfoSearch();
+	});
+	var hrattendanceInfoArgs = {
+
+	};
+	function hrattendanceInfoSearch(opt) {
+		$.extend(hrattendanceInfoArgs, findDialogName('hrattendancereplaceSearchForm')
+				.serializeJson(), opt ? opt : {});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_1, "/rs/system/au/hrattendanceWorkPlan"),
+				hrattendanceInfoArgs, hrattendanceInfoList);
+
+	}
+
+	//拼装
+	function hrattendanceInfoList(data) {
+		var sampleRow = findDialogName('hrattendanceInfoTrTemplate');
+		pageResponse2Table(sampleRow, data);
+		printPageBarDiv(findDialogName('hrattendanceInfoPageBar'),
+				findDialogName('hrattendanceInfoCountDiv'), data.jsonData);
+	}
+
+	//清空查询内容
+
+	function clearCheckForm_hrattendanceInfo() {
+		findDialogName("hrattendancereplaceSearchForm")[0].reset();
+		//findName("stationname", navTab.getCurrentPanel()).attr("value", "");
+		$("a[name='salaryGroup']", navTab.getCurrentPanel()).text("请选择");
+	}
+	
+	function hrattendanceReplace(){
+		var dwdguid = $("input[name='dwdguid']:checked").val();
+		var jobnumber = $("input[name='dwdguid']:checked").parent().parent().parent().children("td:eq(2)").html();
+		alertMsg.confirm("确认要替换吗？",
+		{
+			okCall:function(){
+				doDeleteAjax(getURL(CPATH.domain_1, "/rs/system/au/hrattendanceWorkPlan"),
+				{dwdguids:dwdguid,jobnum:jobnumber},function(data){
+					if(data.ok=='true'){
+					alertMsg.correct("替换成功！");
+					hrattendanceInfoSearch();
+					}
+				})
+			}
+		})
+		return false;
+	}
+</script>
+

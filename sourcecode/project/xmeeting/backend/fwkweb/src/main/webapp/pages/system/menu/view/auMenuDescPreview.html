@@ -1,0 +1,17 @@
+
+<script type="text/javascript"> 
+$(function(){ 
+	
+	var menuId =navTab._getParam("menuId"); 
+	if(menuId){ 
+		doGetAjax(CPATH.domain_1 + "/rs/aumenu/previewdesc/" +menuId ,null,function(data){
+// 			logger.info("data.menuDescription"+data.toSource() );
+			findClass("pageContent").html(data.jsonData.menuDescription);  
+		}); 
+	}
+});
+	 
+</script>
+<h2 class="contentTitle">功能开发说明</h2>
+<div class="pageContent">
+</div>

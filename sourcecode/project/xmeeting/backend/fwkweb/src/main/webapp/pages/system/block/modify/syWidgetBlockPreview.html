@@ -1,0 +1,15 @@
+
+<script type="text/javascript"> 
+$(function(){ 
+	var swbguid=navTab._getParam("swbguid")  
+	if(swbguid){ 
+		doGetAjax(CPATH.domain_1 + "/rs/syWidgetBlock/" +swbguid ,null,function(data){
+			logger.info("data.blocksource"+data.blocksource);
+			findClass("pageContent").html(data.blocksource);
+		}); 
+	}
+});
+	 
+</script>
+<div class="pageContent">
+</div>

@@ -1,0 +1,91 @@
+<div class="pageFormContent" layoutH="87">
+	<ul id="parentOrganizationLookupTree" class="ztree" />
+</div>
+<div class="formBar">
+	<ul>
+		<li>
+			<div class="buttonActive">
+				<div class="buttonContent">
+					<button type="button" onclick="clear_parentOrganizationInfo();">
+						清空
+					</button>
+				</div>
+			</div>
+		</li>
+		<li>
+			<div class="button">
+				<div class="buttonContent">
+					<button type="button" class="close">
+						关闭
+					</button>
+				</div>
+			</div>
+		</li>
+	</ul>
+</div>
+<script type="text/javascript">
+var callBackSetParamFunction = '';
+	$(function() {
+		organization_initTreeZNodes();
+		var param =  $.pdialog.getCurrent().data("param");
+		if(param && param != ""){
+			param = DWZ.jsonEval(param);
+			callBackSetParamFunction = param.callBackSetParamFunction;
+		} 
+	});
+
+	var setting = {
+		view : {
+			selectedMulti : false
+		},
+		edit : {
+			enable : true,
+			showRemoveBtn : false,
+			showRenameBtn : false
+		},
+		data : {
+			simpleData : {
+				enable : true
+			}
+		},
+		callback : {
+			beforeDrag : organization_beforeDrag,
+			beforeClick : organization_beforeClick
+		}
+	};
+
+	function organization_beforeDrag(treeId, treeNodes) {
+		return false;
+	}
+
+	function organization_beforeClick(treeId, treeNode, clickFlag) {
+		if(callBackSetParamFunction=='')
+			setParentOrganization(treeNode.id, treeNode.name);
+		else 
+			window[callBackSetParamFunction](treeNode.id, treeNode.name);
+		var dialog = $("body").data("organizationInfo_prentId");
+		$.pdialog.close(dialog);
+	}
+
+	function organization_initTreeZNodes() {
+		doGetAjax(getURL(CPATH.domain_1, "/rs/parentOrganizationTree"), null,
+				function(data) {
+					organization_createTree(data.jsonData);
+				});
+	}//end of initTreeZNodes
+
+	function organization_createTree(zNodes) {
+		var treeObj = $.fn.zTree.init($("#parentOrganizationLookupTree"), setting,
+				zNodes);
+		treeObj.expandAll(true);
+	}
+	
+	function clear_parentOrganizationInfo(){
+		if(callBackSetParamFunction=='')
+			setParentOrganization("", "");
+		else 
+			window[callBackSetParamFunction]("", "");
+		var dialog = $("body").data("organizationInfo_prentId");
+		$.pdialog.close(dialog);
+	}
+</script>

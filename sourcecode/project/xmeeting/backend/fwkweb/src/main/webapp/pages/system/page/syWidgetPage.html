@@ -1,0 +1,97 @@
+<form method="get" name="syWidgetPageSearchForm" action="/rs/syWidgetPage" onsubmit="return false;" >
+	<input type="hidden" name="pageNum" value="1" />
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>页面分组：</label>
+<!-- 					<input type="text" name="groupname" value=""/> -->
+
+						<select class="combox   required" name="groupname" valueCode="valueCode" codeType="1001" valueDesc="valueDesc">
+							<option value="" selected>
+								请选择
+							</option>
+						</select>
+				</li> 
+			</ul>
+			<div class="subBar">
+				<ul>						
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="syWidgetPageSearch({pageNum:1})">查询</button></div></div></li>
+					<li><div class="buttonActive"><div class="buttonContent"><button type="reset" onclick="">清空</button></div></div></li> 
+				</ul>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="pageContent">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+			<li><a class="add"    target="navTab" rel="userNav" href="javascript:getURL(CPATH.domain_1,'/pages/system/page/modify/syWidgetPageModify.html');" title="新增syWidgetPage"  ><span>新增</span></a></li>
+			<li><a class="edit"   target="navTab" rel="userNav1" href="javascript:getURL(CPATH.domain_1,'/pages/system/page/modify/syWidgetPageModify.html?spguid={slt_uid}');" title="修改syWidgetPage"   multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
+			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_1,'/rs/syWidgetPage')"  rel="spguids"  callBackMethod="syWidgetPageSearch"	title="确认删除?"  ><span>删除</span></a></li> 
+			<li><a class="edit"   target="navTab" rel="userNav2" href="javascript:getURL(CPATH.domain_1,'/pages/system/page/syWidgetPageRegion.html?spguid={slt_uid}');" title="编辑区域"   multiable="no" warn="请选择一条记录"><span>编辑区域</span></a></li>
+			<li><a class="edit"   target="navTab" rel="userNav2" href="javascript:getURL(CPATH.domain_1,'/pages/system/page/modify/syWidgetPagePreview.html?spguid={slt_uid}');" title="预览页面"   multiable="no" warn="请选择一条记录"><span>预览页面</span></a></li>
+		
+		</ul>
+	</div>
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr  searchMethod="syWidgetPageSearch"><th width="22"><input type="checkbox" group="spguids" class="checkboxCtrl"></th>
+				<th width="60" orderField="name">名称</th>
+				<th width="60" orderField="sptypelabel">类型</th> 
+				<th width="60" orderField="description">描述</th>
+				<th width="60" orderField="statuslabel">状态</th>
+				<th width="60" orderField="groupnamelabel">分组</th> 
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="syWidgetPageTrTemplate" target="slt_uid">
+				<td name="spguid" type="check"><input name="spguids" value="" type="checkbox"></td>
+				<td name="name"></td>
+				<td name="sptypelabel"></td> 
+				<td name="description"></td>
+				<td name="statuslabel"></td>
+				<td name="groupnamelabel"></td> 
+				
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage" onchange="syWidgetPageSearch({numPerPage:this.value,pageNum:1})">
+				<option value="10">10</option>
+				<option value="40">40</option>
+				<option value="100">100</option>
+				<option value="200">200</option>
+			</select>
+			<span name="syWidgetPageCountDiv">条，共-条</span>
+		</div>
+		<div name="syWidgetPagePageBar" class="pagination" searchMethod="syWidgetPageSearch" targetType="navTab" totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+</div>
+<script type="text/javascript">
+	//定义默认参数
+	var syWidgetPageArgs={};
+	 //查询方法
+	$(function(){
+   		syWidgetPageSearch();
+	});
+	function syWidgetPageSearch(opt){
+		//序列化表单值，并扩展到syWidgetPageArgs对象中
+		$.extend(syWidgetPageArgs,findName('syWidgetPageSearchForm').serializeJson(),opt?opt:{});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_1,"/rs/syWidgetPage"),syWidgetPageArgs,syWidgetPageList);
+	}
+	
+	//拼装
+	function syWidgetPageList(data){
+		var sampleRow=findName('syWidgetPageTrTemplate');
+		pageResponse2Table(sampleRow,data);
+        printPageBarDiv(findName('syWidgetPagePageBar'),findName('syWidgetPageCountDiv'),data.jsonData);
+	}
+</script>

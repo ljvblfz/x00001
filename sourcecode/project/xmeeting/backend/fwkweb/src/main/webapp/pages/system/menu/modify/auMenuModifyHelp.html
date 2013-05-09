@@ -1,0 +1,83 @@
+<script type="text/javascript">
+	//通过tab url得到行主键，获取信息，自动填充form表单 
+	$(function() { 
+		var param =  $.pdialog.getCurrent().data("param");
+		if(param && param != ""){
+			param = DWZ.jsonEval(param);    
+			aumenu_dialog_init(param);
+		}
+
+	});
+
+	
+	
+	function aumenu_dialog_init(param){
+		var form =findDialogName("aumenudialogform");
+		logger.info(form);
+		if("modifyhelp"==param.oper){
+			param.parentid=param.parentId;
+			form.populate2(param);
+		} 
+	}
+
+	
+	//创建出库单
+	function aumenu_dialog_save(){
+		var $form = getJqueryForm(findDialogName("aumenudialogform",$.pdialog.getCurrent()));
+		if (!$form.valid()) {
+			return false;
+		}
+		doPostAjax(getURL(CPATH.domain_1, "/rs/aumenu/saveinfo"), $form.serializeArray() ,
+			function(data) { 
+					$.pdialog.close($.pdialog.getCurrent());	 
+					aumenu_initTreeZNodes();
+		});
+	}
+	
+	function aumenu_dialog_formcallback(){
+		logger.info("aumenu_dialog_formcallback");
+	}
+	 
+</script>
+<div class="pageContent">
+	<form name="aumenudialogform" method="post" class="required-validate pageForm" onsubmit="return validateCallback(this, aumenu_dialog_formcallback);">
+ 		<input name="oper" type="hidden" value="modifydesc"  />
+		<div class="pageFormContent" layoutH="50">
+			<p><label>主健:</label>    <input name="menuId" type="text" value="" class="required" readonly="true" /></p><br/>
+			<p><label>菜单名:</label>    <input name="menuName" type="text" value=""  readonly="true" /></p><br/>
+			<p>
+				<label>帮助</label> 
+			</p>
+			
+			<div class="unit">
+			
+			
+				<textarea class="editor" name="menuHelp" upImgUrl="/syWeb/rs/system/uploadify/upload" upImgExt="jpg,jpeg,gif,png" rows="13" cols="65"> 
+					
+				</textarea> 
+			</div>
+		</div>
+		<div class="formBar">
+			<ul>
+				<li>
+					<div class="buttonActive">
+						<div class="buttonContent">
+							<button type="button" onclick="aumenu_dialog_save();">
+								保存
+							</button>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="button">
+						<div class="buttonContent">
+							<button type="button" class="close">
+								关闭
+							</button>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</form>
+</div>

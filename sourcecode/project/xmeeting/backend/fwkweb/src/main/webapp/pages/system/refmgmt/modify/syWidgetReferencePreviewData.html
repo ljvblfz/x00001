@@ -1,0 +1,84 @@
+<h2 class="contentTitle" name="showTitle">Edit Type</h2>
+<div class="pageContent">
+	
+</div>
+<script type="text/javascript">
+ 
+	$(function(){ 
+		var swrGuid=navTab._getParam("swrGuid");
+	
+		if(swrGuid){
+		 
+			doGetAjax(CPATH.domain_1 + "/rs/syWidgetReference/" +swrGuid ,null,function(data){
+				if(data){
+					data.swrdemoname="swrdemo";
+					createRefrenceDemo(data);
+				findName('swrdemoname').data("data",data);
+				findName('showTitle').html('预览数据 Code:'+data.swrCode);}
+				});
+		}
+	
+	});
+	
+	//根据数据新建demo
+function createRefrenceDemo(data){
+	var comboxHtml='';
+ 	comboxHtml=getRefrenceDemoHtmlCode(data);
+	findName("swrdemoP").append(comboxHtml);
+	if(data.widgetType==0){
+		findName("swrdemo").removeClass("sync").combox();
+	}else if(data.widgetType==1){
+		findName("swrdemo_SHOW").customAutocompleteForCCK();
+	}else if(data.widgetType==2){
+		findName("swrdemo").removeClass("sync").comboxcascade();
+	} 
+	
+	findName("swrDemoLabel").html(data.swrName);
+	findName("htmlCode").val(comboxHtml);
+}
+//生成html代码
+function getRefrenceDemoHtmlCode(data){
+	var comboxHtml='';
+	if(data.widgetType==0){
+		comboxHtml="<select class=\"combox sync\" name=\""+data.swrdemoname+"\" valueCode=\"ID\" valueDesc=\"NAME\" valuePid=\"PID\" refcode=\""+data.swrCode+"\" >\n\t";
+		comboxHtml+="<option value=\"\" selected>请选择</option>\n</select>";
+	}else if(data.widgetType==1){
+		comboxHtml="<input type=\"text\" name=\""+data.swrdemoname+"_SHOW"+"\" id=\""+data.swrdemoname+new Date().getTime()+ "\" datavalue=\"ID\" itemvalue=\"NAME\" autocompletetype=\""+data.autocompleteConfig+"\" refcode=\""+data.swrCode+"\" class=\"autocompleteForCCK\"  >\n";
+		comboxHtml+="<input type=\"hidden\" name=\""+data.swrdemoname+"\"  />";
+	}else if(data.widgetType==2){
+		comboxHtml+="<input type=\"hidden\" name=\""+data.swrdemoname+"\" class=\"comboxcascade\"  valueCode=\"ID\" valueDesc=\"NAME\" valuePid=\"PID\"  refcode=\""+data.swrCode+"\"  />";
+	} 
+	
+ return comboxHtml;
+	
+} //更新demo控件的name属性
+	function newRefrenceDemo() {
+		var swrdemoname = findName('swrdemoname').val();
+		if (swrdemoname) {
+			var data = findName('swrdemoname').data("data");
+			if (data) {
+				data.swrdemoname=swrdemoname;
+				findName("htmlCode").val(getRefrenceDemoHtmlCode(data));
+			}
+		}
+	}
+ 
+</script>
+<div class=" pageFormContent" layoutH="87">
+<p style="float: none; width:90%"  name="swrdemobuttonP"> 
+	<label  > 标签Name</label> 
+	<input type="text" name="swrdemoname" class=" " size="30" maxlength="40"  />
+ 
+  <input type="button" class=" " value="生成" onclick="newRefrenceDemo();" />    
+ 
+ </p>
+<p style="float: none; width:90%" name="swrdemoP"> 
+	<label name="swrDemoLabel"></label>						
+</p> 
+<p style="float: none; width:90%"><textarea name="htmlCode" rows="2" cols="8" style="height:200px ;width:80%"></textarea>  </p>
+</div>
+<div class="formBar">
+		<ul>
+			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
+		</ul>
+</div>

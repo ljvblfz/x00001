@@ -1,0 +1,93 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.broadsoft.xmeeting</groupId>
+	<artifactId>xmeeting</artifactId>
+	<packaging>war</packaging>
+	<version>1.0-SNAPSHOT</version>
+	<name>xmeeting</name>
+	<url>http://www.founder.com</url>
+
+
+	<parent>
+		<artifactId>build.dependency</artifactId>
+		<groupId>com.founder.communication</groupId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+
+	<dependencies>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.broadsoft.xmeeting</groupId>
+			<artifactId>JCommon</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+			<groupId>com.broadsoft.xmeeting</groupId>
+					<artifactId>config</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+ 
+		<dependency>
+			<groupId>com.broadsoft.xmeeting</groupId>
+		  <artifactId>fwklogic</artifactId>
+		  <version>1.0-SNAPSHOT</version> 
+		</dependency> 
+		<dependency>
+			<groupId>com.broadsoft.xmeeting</groupId>
+		  <artifactId>pologic</artifactId>
+		  <version>1.0-SNAPSHOT</version> 
+		</dependency> 
+		 
+		
+		<dependency>
+			<groupId>com.broadsoft.xmeeting</groupId>
+		  <artifactId>ibatislogic</artifactId>
+		  <version>1.0-SNAPSHOT</version> 
+		</dependency> 
+ 
+<!--
+		<dependency>
+		  <groupId>com.founder.communication</groupId>
+		  <artifactId>licensemgmt</artifactId>
+		  <version>1.0-SNAPSHOT</version> 
+			<scope>provided</scope>
+		</dependency> 
+		-->
+		 
+
+	</dependencies>
+
+
+
+	<build>
+		<finalName>xmeeting</finalName>
+
+
+
+		<plugins>
+ 
+		</plugins>
+	</build>
+
+
+
+	<properties>
+		<tomcat.server>xmeeting</tomcat.server>
+		<tomcat.server.manager>xmeeting</tomcat.server.manager>
+		<webapp.server.contextpath>/xmeeting</webapp.server.contextpath>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+
+</project>

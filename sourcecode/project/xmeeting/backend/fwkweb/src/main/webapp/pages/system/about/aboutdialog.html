@@ -1,0 +1,164 @@
+
+<script>
+$(function() { 
+	//parse the dialog param
+	var param =  $.pdialog.getCurrent().data("param"); 
+	if(param && param != ""){
+		param = DWZ.jsonEval(param);    
+	} 
+	
+
+	//基本信息
+	var url="/rs/license/serialnumber";
+	dtdXHR = $.ajax({
+	  type: "GET",
+	  url: getURL(CPATH.domain_1,url),
+	  dataType: "json",
+	  cache:false,
+	  global:false
+	});
+	
+	dtdXHR.done(function(respJson){   
+		generateAboutBasicInfoHtml(respJson);
+	});
+	dtdXHR.fail(function(respJson){  
+		 //
+	}); 
+	
+	//许可信息
+	var url="/rs/license/licensemanagement";
+	dtdXHR = $.ajax({
+	  type: "GET",
+	  url: getURL(CPATH.domain_1,url),
+	  dataType: "json",
+	  cache:false,
+	  global:false
+	});
+	
+	dtdXHR.done(function(respJson){   
+
+		generateAboutLicenseInfoHtml(respJson);
+		generateAboutContactInfoHtml(respJson);
+	});
+	dtdXHR.fail(function(respJson){  
+		 //
+	}); 
+	
+	
+
+	
+	
+});
+ 
+
+function convertEdition(edition){
+	if("basic"==edition){
+		return "专业版";
+	}
+	return edition;	
+}
+
+
+
+function generateAboutBasicInfoHtml(respJson){  
+	var htmlx="";
+	htmlx+="<tr height='20' style='font-size:20px;'> <td width='100'>版本号:</td> <td width='100'>1.0.0</td>    </tr>  ";
+	htmlx+="<tr height='20' style='font-size:20px;'> <td width='100'>机器码:</td> <td width='100'>"+respJson.jsonData+"</td>    </tr>  ";
+	findDialogName("aboutbasicinfo").html(htmlx); 
+	
+}//end of generateBusStatusTBodyHtml
+
+
+function generateAboutLicenseInfoHtml(respJson){  
+	var htmlx="";
+	htmlx+="<tr height='20' style='font-size:20px;'> <td width='100'>版本:</td> <td width='100'>"+convertEdition(respJson.jsonData.edition)+"</td>    </tr>  ";
+	htmlx+="<tr height='20' style='font-size:20px;'> <td width='100'>有效日期:</td> <td width='100'>"+respJson.jsonData.valid_date+"</td>    </tr>  ";
+	htmlx+="<tr height='20' style='font-size:20px;'> <td width='100'>车辆数:</td> <td width='100'>"+respJson.jsonData.busquantity+"</td>    </tr>  ";
+	htmlx+="<tr height='20' style='font-size:20px;'> <td width='100'>线路数:</td> <td width='100'>"+respJson.jsonData.linequantity+"</td>    </tr>  ";
+	//htmlx+="<tr height='20' style='font-size:20px;'> <td width='100'>机器码:</td> <td width='100'>"+respJson.jsonData.serialno+"</td>    </tr>  ";
+	findDialogName("aboutlicenseinfo").html(htmlx); 
+	
+}//end of generateBusStatusTBodyHtml
+
+
+function generateAboutContactInfoHtml(respJson){  
+	var htmlx="";
+	htmlx+="<tr height='20' style='font-size:20px;'> <td width='100'>公司名称:</td> <td width='100'>"+respJson.jsonData.company+"</td>    </tr>  ";
+	htmlx+="<tr height='20' style='font-size:20px;'> <td width='100'>联系电话:</td> <td width='100'>"+respJson.jsonData.phone+"</td>    </tr>  "; 
+	htmlx+="<tr height='20' style='font-size:20px;'> <td width='100'>email:</td> <td width='100'>"+respJson.jsonData.email+"</td>    </tr>  "; 
+	findDialogName("aboutcontactinfo").html(htmlx); 
+	
+}//end of generateBusStatusTBodyHtml
+ 
+ 
+ 
+
+
+
+function confirmAndClose(){
+	
+	$.pdialog.closeCurrent();
+}
+	
+</script>
+<div class="pageContent"> 
+
+	<div class="tabs" currentIndex="0" eventType="click">
+			<div class="tabsHeader">
+				<div class="tabsHeaderContent">
+					<ul> 
+						<li><a href="javascript:;"><span>基本信息</span></a></li> 
+						<li><a href="javascript:;"><span>许可信息</span></a></li> 
+						<li><a href="javascript:;"><span>联系信息</span></a></li> 
+					</ul>
+				</div>
+			</div>
+			<div class="tabsContent" style="height:220px;">
+		 
+				<!--基本信息 --> 
+				<div>
+					<div class="pageFormContent" > 
+						<div style="float:left;">
+							<table name="aboutbasicinfo" width="100%"> 
+							</table>
+						</div> 
+						
+					</div> 
+				</div>
+				
+				
+				<!--许可信息 --> 
+				<div>
+					<div class="pageFormContent" > 
+						<div style="float:left;">
+							<table name="aboutlicenseinfo" width="100%"> 
+							</table>
+						</div> 
+						
+					</div> 
+				</div>
+				
+				<!--联系信息 --> 
+				<div>
+					<div class="pageFormContent" > 
+						<div style="float:left;">
+							<table name="aboutcontactinfo" width="100%"> 
+							</table>
+						</div> 
+						
+					</div> 
+				</div>
+				
+			</div>
+			<div class="tabsFooter">
+				<div class="tabsFooterContent">
+			 
+					
+				 
+				</div>
+			</div>
+	</div> 
+
+
+</div>
+

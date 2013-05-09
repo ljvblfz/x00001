@@ -1,0 +1,105 @@
+<h2 class="contentTitle" name="showTitle">单据编码原则信息</h2>
+<form name="pageForm" method="post" class="required-validate pageForm" onsubmit="return validateCallback(this, navTabAjaxDone);">
+		<input type="hidden" name="navTabId" value="mtBarCodeInfo" />
+		<input type="hidden" name="callbackType" value="closeCurrent" />
+		<input type="hidden" name="callBackMethod" value="mtBarCodeInfoSearch" />
+		<input type="hidden" name="barCodeId" id="barCodeId"/>
+	<div class="pageFormContent" layoutH="97">
+	
+			<p>
+				单据编码原则代号：
+			      <label></label>
+			    <input type="text" name="mwmiGuid2" id="mwmiGuid2"  class="required" size="30" maxlength="20" readonly="readonly"/>
+			</p>
+			
+			<p>
+				单据编码原则名称：
+		        <label></label>
+				<input type="text" name="mwmiGuid" id="mwmiGuid"  class="required" size="30" maxlength="20" readonly="readonly"/>
+			</p>
+
+			<p>
+				单据编码长度：
+			      <label></label>
+			    <input type="text" name="mwmiGuid3" id="mwmiGuid3"  class="required" size="30" maxlength="20" readonly="readonly"/>
+			</p>
+
+			<p>
+				单据编码准则：
+			      <label></label>
+			    <input type="text" name="mwmiGuid3" id="mwmiGuid3"  class="required" size="30" maxlength="20" readonly="readonly"/>
+			</p>
+
+  </div>
+			
+	<div class="formBar">
+		<ul>
+			<li><div class="buttonActive"><div class="buttonContent">
+			  <button type="button" name="generateAction" id="generateAction" onclick="javascript:generatePic();">保存</button>
+			</div></div></li>
+			<li><div class="button"><div class="buttonContent">
+			  <button type="button" name="printAction" id="printAction">关闭</button>
+			</div></div></li>
+		</ul>
+	</div>
+</form>
+<script type="text/javascript">
+	//通过tab url得到行主键，获取信息，自动填充form表单
+	$(function(){
+		var $form = findName("pageForm");
+		var url = navTab._getTabUrl();
+		var barCodeId=navTab._getParam("barCodeId");
+		if(barCodeId){
+		/*
+			findName('barCodeNo').attr("readonly","readonly");
+			findName('changeMileage').attr("readonly","readonly");
+			findName('totalMileage').attr("readonly","readonly");
+		*/
+			findName('showTitle').html('修改条形码信息');
+		
+			doGetAjax(CPATH.domain_1 + "/rs/mtBarCodeInfo/" +barCodeId ,null,function(data){
+				$form.find("[name]").populate(data);
+				findClass("sync").removeClass("sync").combox();
+			});
+			$form.attr('action',CPATH.domain_1 + '/rs/mtBarCodeInfo/'+barCodeId+'?method=put');
+		}else{
+			findName('showTitle').html('新增条形码信息');
+			$form.attr('action',CPATH.domain_1 + '/rs/mtBarCodeInfo');
+			//findName('changeMileage').attr("value","0");
+			findClass("sync").removeClass("sync").combox();
+		}
+	});
+	
+	function supplierNameChange()
+	{
+		
+		var selectValue=$("option:selected","#mwsiName").val();
+		findName('mwsiGuid').val(selectValue);
+		
+	}
+	//materialNameChange
+	function materialNameChange()
+	{
+		
+		var selectValue=$("option:selected","#mwmiName").val();
+		findName('mwmiGuid').val(selectValue);
+		
+	}
+	//generatePic()	
+	function generatePic()
+	{
+		var barCodePic=findName("barCodePic");
+		//var picSrc=barCodePic.src();
+		
+		var barCodeContent=findName('mwsiGuid').val()+findName('mwmiGuid').val()+findName('mwmbBatch').val();
+		
+		doGetAjax(CPATH.domain_1 + "/rs/mtBarCodeInfo/" +barCodeId ,null,function(data){
+				barCodePic.attr("src","/material/images/barCode001.png");//mwmbBatch mwmbBarCode
+			});
+		
+		findName('mwmbBarCode').val(barCodeContent);
+		barCodePic.attr("src","/material/images/barCode001.png");//mwmbBatch mwmbBarCode
+	}
+	
+
+</script>

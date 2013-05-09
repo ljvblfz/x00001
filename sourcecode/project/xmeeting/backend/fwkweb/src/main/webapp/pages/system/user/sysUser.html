@@ -1,0 +1,101 @@
+<form method="get" name="sysUserSearchForm" action="/rs/sysUser" onsubmit="return false;" >
+	<input type="hidden" name="pageNum" value="1" />
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>用户账号：</label>
+					<input type="text" name="username" value=""/>
+				</li>
+				<li>
+					<label>用户姓名：</label>
+					<input type="text" name="fullname" value=""/>
+				</li>
+
+			</ul>
+			<div class="subBar">
+				<ul>						
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="sysUserSearch({pageNum:1})">查询</button></div></div></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="pageContent">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+			<li><a class="add" target="navTab" rel="userNav" href="javascript:getURL(CPATH.domain_1,'/pages/system/user/create/sysUserCreate.html');" title="新增用户" ><span>新增</span></a></li>
+			<li><a class="edit" target="navTab" rel="userNav" href="javascript:getURL(CPATH.domain_1,'/pages/system/user/modify/sysUserModify.html?username={slt_uid}');" title="修改用户"  multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
+			<li><a class="edit" target="navTab" rel="userNav" href="javascript:getURL(CPATH.domain_1,'/pages/system/user/assignRoles.html?username={slt_uid}');" title="角色分配"  multiable="no" warn="请选择一条记录"><span>角色分配</span></a></li>
+			<li><a class="edit" target="selectedTodo"  postType="json" doType="PUT" href="javascript:getURL(CPATH.domain_1,'/rs/sysUser')"  rel="usernames" 
+			callBackMethod="sysUserSearch"	title="确认要重置密码?" ><span>重置密码</span></a></li>
+			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_1,'/rs/sysUser')"  rel="usernames" 
+			callBackMethod="sysUserSearch"	title="确认删除?" ><span>删除</span></a></li>
+<!--			<li class="line">line</li>-->
+<!--			<li><a class="icon" href="/management/user!export.do" target="dwzExport" targetType="navTab" title="确认导出?"><span>导出</span></a></li>-->
+		</ul>
+	</div>
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr  searchMethod="sysUserSearch"><th width="22"><input type="checkbox" group="usernames" class="checkboxCtrl"></th>
+						<th width="60" orderField="fullname">用户姓名</th>
+						<th width="60" orderField="userid">用户账号</th>
+						<th width="60" orderField="email">邮箱</th>
+						<th width="60" orderField="telephone">办公电话</th>
+						<th width="60" orderField="mobilephone">移动电话</th>
+						<th width="60" orderField="workedTime">入职日期</th>
+						<th width="60" orderField="regNum">所属部门</th>			
+						<th width="60" orderField="memo">备注</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="sysUserTrTemplate" target="slt_uid">
+				<td name="username" type="check"><input name="usernames" value="" type="checkbox"></td>
+						<td name="fullname"></td>
+						<td name="userid"></td>
+						<td name="email"></td>
+						<td name="telephone"></td>
+						<td name="mobilephone"></td>
+						<td name="workedTime"></td>
+						<td name="regNum"></td>
+						<td name="memo"></td>				
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage" onchange="sysUserSearch({numPerPage:this.value,pageNum:1})">
+				<option value="10">10</option>
+				<option value="40">40</option>
+				<option value="100">100</option>
+				<option value="200">200</option>
+			</select>
+			<span name="sysUserCountDiv">条，共-条</span>
+		</div>
+		<div name="sysUserPageBar" class="pagination" searchMethod="sysUserSearch" targetType="navTab" totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+</div>
+<script type="text/javascript">
+	//定义默认参数
+	var sysUserArgs={};
+	 //查询方法
+    sysUserSearch();
+	function sysUserSearch(opt){
+		//序列化表单值，并扩展到sysUserArgs对象中
+		$.extend(sysUserArgs,findName('sysUserSearchForm').serializeJson(),opt?opt:{});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_1,"/rs/sysUser"),sysUserArgs,sysUserList);
+	}
+	
+	//拼装
+	function sysUserList(data){
+		var sampleRow=findName('sysUserTrTemplate');
+		pageResponse2Table(sampleRow,data);
+        printPageBarDiv(findName('sysUserPageBar'),findName('sysUserCountDiv'),data.jsonData);
+	}
+</script>

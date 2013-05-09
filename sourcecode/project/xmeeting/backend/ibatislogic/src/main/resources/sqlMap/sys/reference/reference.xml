@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"       "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="sys.reference">
+
+	
+	<select id="queryForReference" parameterClass="java.lang.String"
+		resultClass="java.util.HashMap" remapResults="true"> <!-- remapResults="true" 重新映射列名 -->
+		<![CDATA[$value$ ]]>
+	</select>
+	<select id="queryForAutocomplete" parameterClass="java.util.HashMap"
+		resultClass="java.util.HashMap" remapResults="true"> <!-- remapResults="true" 重新映射列名 -->
+
+		<![CDATA[select $selectSql$ from $fromSql$ where 1=1  ]]>
+		<isNotEmpty prepend="AND" property="whereSql">
+		 $whereSql$ 
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="q">
+	<![CDATA[(    upper( $nameColumn$) like '%'||upper(#q#)||'%' )]]>
+		</isNotEmpty>
+			<isNotEmpty prepend="AND" property="limit">
+		 	<![CDATA[ rownum <=  #limit#]]>
+		</isNotEmpty>
+		<isEmpty prepend="AND" property="limit">
+		 	<![CDATA[ rownum <= '30']]>
+		</isEmpty>
+		<isNotEmpty   property="orderBySql">
+		  order by $orderBySql$ 
+		</isNotEmpty>
+	</select>
+
+<select id="querySctGuids" parameterClass="java.lang.String"
+		resultClass="java.lang.String" > 
+		<![CDATA[select distinct sct.sct_guid id  
+  from sy_cck_type sct
+ inner join sy_cck_type_field sctf
+    on sctf.sct_guid = sct.sct_guid
+ inner join sy_widget_reference swr
+    on swr.swr_code = sctf.field_type_reference
+ where sctf.field_type = '5'
+   and swr.swr_code = #value# ]]>
+	</select>
+
+
+</sqlMap>
+

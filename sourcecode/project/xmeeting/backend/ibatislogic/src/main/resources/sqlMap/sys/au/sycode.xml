@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"       "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="sycode">
+
+	<!--查询sy_code_type的分类 -->
+	<select id="selAllTypeName" parameterClass="java.util.HashMap"
+		resultClass="java.util.HashMap"> 
+		<![CDATA[   
+			select 
+					type_name typeName,
+					type_desc typeDesc
+					
+			from sy_code_type 
+			
+			where del_flag = 0
+		]]>
+	</select>
+	
+	<!--查询sy_code -->
+	<select id="selAllCodeName" parameterClass="java.lang.String"
+		resultClass="java.util.HashMap"> 
+		<![CDATA[   
+			select 
+			        value_code valueCode,
+			        value_name valueName
+			
+			from sy_code c,sy_code_type t 
+			
+			where c.del_flag = 0 and c.type_id = t.type_id and t.type_name = #typename#
+		]]>
+	</select>
+</sqlMap>

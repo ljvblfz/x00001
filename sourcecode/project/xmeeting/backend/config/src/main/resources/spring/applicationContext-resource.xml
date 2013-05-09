@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	   http://www.springframework.org/schema/jee  http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+<!--	<bean id="docAttachmentDao"-->
+<!--		class="com.founder.trust.dm.dao.docmanagment.DocAttachmentDaoImpl">-->
+<!--		<property name="sessionFactory" ref="docSessionFactory"></property>-->
+<!--	</bean>-->
+	
+	
+<!--  		<jee:jndi-lookup id="businessDataSource" jndi-name="java:comp/env/jdbc/busdata"/> -->
+	
+	<!-- 数据源配置
+ 	<bean id="businessDataSource" 
+ 		class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
+ 		<property name="driverClassName" 
+ 			value="${hibernate.connection.driver_class}" /> 
+ 		<property name="url" value="${hibernate.connection.url}" /> 
+ 		<property name="username" 
+ 			value="${hibernate.connection.username}" /> 
+ 		<property name="password" 
+ 			value="${hibernate.connection.password}" /> 
+ 	</bean> -->
+
+
+<!-- <bean id="businessDataSource" class="org.enhydra.jdbc.pool.StandardXAPoolDataSource" destroy-method="shutdown">    -->
+<!--         <property name="dataSource">    -->
+<!--             <bean class="org.enhydra.jdbc.standard.StandardXADataSource" destroy-method="shutdown">    -->
+<!--                 <property name="transactionManager" ref="jotm" />    -->
+<!--                 <property name="driverName" value="${hibernate.connection.driver_class}" />    -->
+<!--                 <property name="url" value="${hibernate.connection.url}" />    -->
+<!--             </bean>    -->
+<!--         </property>    -->
+<!--         <property name="user" value="${hibernate.connection.username}" />    -->
+<!--         <property name="password" value="${hibernate.connection.password}" />    -->
+<!--     </bean> -->
+<!--	<bean id="docDataSource"-->
+<!--		class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
+<!--		<property name="driverClassName"-->
+<!--			value="${hibernate.connection.driver_class}" />-->
+<!--		<property name="url" value="${hibernate.connection.doc.url}" />-->
+<!--		<property name="username"-->
+<!--			value="${hibernate.connection.doc.username}" />-->
+<!--		<property name="password"-->
+<!--			value="${hibernate.connection.doc.password}" />-->
+<!--	</bean>-->
+	
+		
+<!--	<bean id="annotatedClasses" class="org.springframework.beans.factory.config.ListFactoryBean">   -->
+<!--	    <property name="sourceList">   -->
+<!--	        <list>   -->
+<!--	            <value>com.founder.trust.dm.domain.docmanagment.DocAttachment</value>   -->
+<!--	        </list>   -->
+<!--	    </property>   -->
+<!--	</bean>   -->
+		
+<!--	<bean id="annotatedClasses" class="org.springframework.beans.factory.config.ListFactoryBean">   -->
+<!--	    <property name="sourceList">   -->
+<!--	        <list>   -->
+<!--	            <value>com.founder.sipbus.BizFeeType</value>   -->
+<!--	        </list>   -->
+<!--	    </property>   -->
+<!--	</bean>   -->
+		
+<!--	<bean id="docSessionFactory"-->
+<!--		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">-->
+<!--		<property name="dataSource" ref="docDataSource" />-->
+<!--		<property name="annotatedClasses" ref="annotatedClasses"/>   -->
+<!--		<property name="hibernateProperties">-->
+<!--			<value>-->
+<!--				hibernate.dialect=${hibernate.dialect}-->
+<!--				hibernate.query.substitutions=true 'Y', false 'N'-->
+<!--				hibernate.cache.use_second_level_cache=false-->
+<!--				hibernate.show_sql=true-->
+<!--				hibernate.hbm2ddl.auto=false-->
+<!--				hibernate.cache.provider_class=org.hibernate.cache.EhCacheProvider-->
+<!--			</value>-->
+<!--		</property>-->
+<!--		<property name="namingStrategy">-->
+<!--			<bean class="org.hibernate.cfg.ImprovedNamingStrategy" />-->
+<!--		</property>-->
+<!--		<property name="lobHandler" ref="lobHandler"></property>-->
+<!--	</bean>-->
+		
+	<!-- Hibernate SessionFactory-->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		
+		<property name="dataSource" ref="businessDataSource" />
+		<!-- annotatedScanPackages可以自动搜索某个package的全部标记@Entity class 
+			<property name="annotatedScanPackages"> packagesToScan-->
+		<property name="packagesToScan">
+			<list>
+				<value>com.founder.sipbus.**.po</value>
+				<value>com.broadsoft.xmeeting.**.po</value>
+			</list>
+		</property>
+		
+<!--		<property name="annotatedClasses" ref="annotatedClasses"/>-->
+		<property name="hibernateProperties">
+			<value>
+				hibernate.dialect=${hibernate.dialect}
+				hibernate.query.substitutions=true 'Y', false 'N'
+				hibernate.cache.use_second_level_cache=false
+				hibernate.show_sql=${hibernate.show_sql}
+				hibernate.hbm2ddl.auto=false
+				hibernate.cache.provider_class=org.hibernate.cache.EhCacheProvider
+				javax.persistence.validation.mode=none
+			</value>
+			
+			<!-- only for job
+				hibernate.current_session_context_class=${hibernate.current_session_context_class} -->
+			<!-- hibernate.jdbc.batch_size=0 -->
+		</property>
+
+		<property name="namingStrategy">
+			<bean class="org.hibernate.cfg.ImprovedNamingStrategy" />
+		</property>
+
+		<property name="lobHandler" ref="lobHandler"></property>
+	</bean>
+       
+	<bean id="nativeJdbcExtractor"
+		class="org.springframework.jdbc.support.nativejdbc.C3P0NativeJdbcExtractor"
+		lazy-init="true" />
+	<bean id="lobHandler"
+		class="org.springframework.jdbc.support.lob.OracleLobHandler"
+		lazy-init="true">
+		<property name="nativeJdbcExtractor">
+			<ref bean="nativeJdbcExtractor" />
+		</property>
+	</bean>
+	
+	
+	<!-- weblogic config  end -->
+	<!--  -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager" >
+		<tx:attributes>
+			<tx:method name="*"  propagation="REQUIRED" read-only="false" timeout="-1"  rollback-for="Exception"/>
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config proxy-target-class="true">
+		<aop:pointcut id="odysseyServiceOperation"
+			expression="execution(* com.founder.sipbus.*.*.resource.*.*(..))" />
+		<aop:advisor advice-ref="txAdvice"
+			pointcut-ref="odysseyServiceOperation" />
+	</aop:config>
+	
+	
+	
+	<aop:config proxy-target-class="true">
+		<aop:pointcut id="odysseyServiceOperation2"
+			expression="execution(* com.broadsoft.xmeeting.*.*.resource.*.*(..))" />
+		<aop:advisor advice-ref="txAdvice"
+			pointcut-ref="odysseyServiceOperation2" />
+	</aop:config>
+	
+	<aop:aspectj-autoproxy   proxy-target-class="true"/>
+ 
+
+
+<!-- 	<bean id="jotm" class="com.founder.sipbus.common.jotm.JotmFactoryBean"/> -->
+ 
+<!-- 	<bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager"> -->
+<!-- 	    <property name="userTransaction"> -->
+<!-- 	    	<ref local="jotm"/> -->
+<!-- 	    </property> -->
+<!-- 	</bean> -->
+	
+	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
+	
+	<!-- weblogic config  start 
+   <bean id="weblogicTransactionManager" class="org.springframework.transaction.jta.WebLogicJtaTransactionManager" /> 
+	
+	<bean id="weblogicTransactionManager" class="org.springframework.transaction.jta.WebLogicJtaTransactionManager">
+	<property name="defaultTimeout">300</property>
+	</bean> 
+	<bean id="weblogicTransactionManager" class="org.springframework.transaction.jta.WebLogicJtaTransactionManager">
+		<property name="defaultTimeout">300</property>
+	</bean> 
+	<bean id="dataSourceWeblogic" class="org.springframework.jndi.JndiObjectFactoryBean">      
+        <property name="jndiName">    
+            <value>${hibernate.connection.datasource}</value>  
+        </property>    
+        <property name="resourceRef">    
+            <value>false</value>  
+        </property>    
+        <property name="jndiEnvironment">    
+            <props>    
+                <prop key="java.naming.provider.url">${hibernate.jndi.url}</prop>    
+                <prop key="java.naming.factory.initial">${hibernate.jndi.class}</prop>    
+            </props>    
+        </property>    
+    </bean>  
+	-->
+	<!--  
+	<bean id="txManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	-->
+	<!--<aop:config>
+		<aop:pointcut id="odysseyServiceOperation"
+		expression="execution(* com.founder.trust.*.services.*.*.*(..))" />
+		<aop:advisor advice-ref="methodSecurityInterceptor"  
+		pointcut-ref="odysseyServiceOperation" order="0" />  
+		<aop:advisor advice-ref="txAdvice"
+		pointcut-ref="odysseyServiceOperation" order="1"  />
+		</aop:config>
+		
+		<bean id="methodSecurityInterceptor"
+		class="org.springframework.security.access.intercept.aopalliance.MethodSecurityInterceptor">
+		<property name="accessDecisionManager">
+		<ref bean="accessDecisionManager" />
+		</property>
+		<property name="securityMetadataSource">
+		<ref bean="databaseMethodDefinitionSource" />
+		</property>
+		<property name="authenticationManager">
+		<ref bean="authenticationManager" />
+		</property>
+		</bean>
+		<bean id="databaseMethodDefinitionSource"
+		class="com.founder.trust.common.util.MethodFilterSecurityMetadataSource" />
+		
+		经过投票机制来决定是否可以访问某一资源 allowIfAllAbstainDecisions为false时如果有一个 或以上的decisionVoters投票通过,则授权通过 
+		可选的决策机制： ConsensusBased UnanimousBased 
+		
+		<bean id="accessDecisionManager"
+		class="org.springframework.security.access.vote.AffirmativeBased">
+		<property name="allowIfAllAbstainDecisions" value="false"></property>
+		<property name="decisionVoters">
+		<list>
+		<ref bean="roleVoter" />
+		<bean class="org.springframework.security.access.vote.AuthenticatedVoter" />
+		</list>
+		</property>
+		</bean>
+		
+		<bean id="roleVoter" class="org.springframework.security.access.vote.RoleVoter">
+		<property name="rolePrefix" value="" />
+		</bean>
+	-->
+</beans>

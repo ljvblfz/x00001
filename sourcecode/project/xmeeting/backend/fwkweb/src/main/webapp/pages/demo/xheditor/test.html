@@ -1,0 +1,40 @@
+<h2 class="contentTitle">xheditor演示</h2>
+
+
+<script type="text/javascript">
+	$(document).ready(function() {
+
+	});
+	
+	function test_xheditor_save(){
+// 		alert(findName("description").text());
+		
+		alert(findName("description").xheditor().getSource());
+	}
+	
+</script>
+
+<div class="pageContent">
+
+
+	<textarea class="editor" name="description" rows="20" cols="100"
+		upLinkUrl="/syWeb/rs/system/uploadify/upload" upLinkExt="zip,rar,txt" upImgUrl="/syWeb/rs/system/uploadify/upload"
+		upImgExt="jpg,jpeg,gif,png" upFlashUrl="xxxxxx.upload" upFlashExt="swf"
+		upMediaUrl="xxxxxx.upload"upMediaExt:"avi">
+		
+		
+<strong>xheditor + 文件上传</strong><br />
+upLinkUrl:超链接上传接口地址<br />
+upLinkExt:超链接本地上传扩展限制 【可选】【默认值： zip,rar,txt】<br />
+upImgUrl:图片上传接口地址<br />
+upImgExt:图片本地上传扩展限制 【可选】【默认值：jpg,jpeg,gif,png】<br />
+upFlashUrl:动画上传接口地址<br />
+upFlashExt:动画本地上传扩展限制 【可选】【默认值： swf】<br />
+upMediaUrl:视频上传接口地址<br />
+upMediaExt:视频本地上传扩展限制 【可选】【默认值： avi】
+
+							</textarea>
+							
+							
+							<input type="button" value="保存" onClick="javascript:test_xheditor_save()">
+</div>

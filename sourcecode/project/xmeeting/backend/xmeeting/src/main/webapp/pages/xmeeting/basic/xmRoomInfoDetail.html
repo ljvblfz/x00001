@@ -1,0 +1,96 @@
+<!-- <form method="get" name="xmRoomInfoDetailSearchForm" action="/rs/xmRoomInfoDetail" onsubmit="return false;" > -->
+<!-- 	<input type="hidden" name="pageNum" value="1" /> -->
+<!-- 	<div class="pageHeader"> -->
+<!-- 		<div class="searchBar"> -->
+<!-- 			<ul class="searchContent"> -->
+<!-- 				<li> -->
+<!-- 					<label>类型名称：</label> -->
+<!-- 					<input type="text" name="xmridGuid" value=""/> -->
+<!-- 				</li>  -->
+<!-- 			</ul> -->
+<!-- 			<div class="subBar"> -->
+<!-- 				<ul>						 -->
+<!-- 					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="xmRoomInfoDetailSearch({pageNum:1})">查询</button></div></div></li> -->
+<!-- 					<li><a class="button" href="/management/user!advancedSearch.do?userType=TRAINING" target="dialog" title="Advanced Search"><span>高级查询</span></a></li> -->
+<!-- 				</ul> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
+<!-- </form> -->
+
+<div class="pageContent">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+			<li><a class="add" target="navTab" rel="userNav" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/basic/modify/xmRoomInfoDetailModify.html');" title="新增xmRoomInfoDetail"  ><span>新增</span></a></li>
+			<li><a class="edit" target="navTab" rel="userNav1" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/basic/modify/xmRoomInfoDetailModify.html?xmridGuid={slt_uid}');" title="修改xmRoomInfoDetail"   multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
+			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_3,'/rs/xmRoomInfoDetail')"  rel="xmridGuids"  callBackMethod="xmRoomInfoDetailSearch"	title="确认删除?"  "><span>删除</span></a></li> 
+		</ul>
+	</div>
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr  searchMethod="xmRoomInfoDetailSearch"><th width="22"><input type="checkbox" group="xmridGuids" class="checkboxCtrl"></th>
+<!-- 						<th width="60" orderField="xmriGuid">会议室PID</th> -->
+						<th width="60" orderField="xmridSeatno">座位编号</th>
+						<th width="60" orderField="xmridSeatdesc">座位描述</th>
+						<th width="60" orderField="xmpdGuid">设备PID</th> 
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="xmRoomInfoDetailTrTemplate" target="slt_uid">
+				<td name="xmridGuid" type="check"><input name="xmridGuids" value="" type="checkbox"></td>
+<!-- 						<td name="xmriGuid"></td> -->
+						<td name="xmridSeatno"></td>
+						<td name="xmridSeatdesc"></td>
+						<td name="xmpdGuid"></td> 
+				
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage" onchange="xmRoomInfoDetailSearch({numPerPage:this.value,pageNum:1})">
+				<option value="10">10</option>
+				<option value="40">40</option>
+				<option value="100">100</option>
+				<option value="200">200</option>
+			</select>
+			<span name="xmRoomInfoDetailCountDiv">条，共-条</span>
+		</div>
+		<div name="xmRoomInfoDetailPageBar" class="pagination" searchMethod="xmRoomInfoDetailSearch" targetType="navTab" totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+</div>
+<script type="text/javascript">
+	//定义默认参数
+	var xmRoomInfoDetailArgs={};
+
+	$(function(){
+	 	//查询方法
+		var url = navTab._getTabUrl();
+		var xmriGuid=navTab._getParam("xmriGuid");
+		var xurl="/pages/xmeeting/basic/modify/xmRoomInfoDetailModify.html?xmriGuid='"+xmriGuid+"'";
+		findClass("add").attr("href",getURL(CPATH.domain_3,xurl));
+		//
+		var opts={xmriGuid:xmriGuid};
+    	xmRoomInfoDetailSearch(opts);
+	});
+	
+	
+	
+	function xmRoomInfoDetailSearch(opt){
+		//序列化表单值，并扩展到xmRoomInfoDetailArgs对象中
+		$.extend(xmRoomInfoDetailArgs,findName('xmRoomInfoDetailSearchForm').serializeJson(),opt?opt:{});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_3,"/rs/xmRoomInfoDetail"),xmRoomInfoDetailArgs,xmRoomInfoDetailList);
+	}
+	
+	//拼装
+	function xmRoomInfoDetailList(data){
+		var sampleRow=findName('xmRoomInfoDetailTrTemplate');
+		pageResponse2Table(sampleRow,data);
+        printPageBarDiv(findName('xmRoomInfoDetailPageBar'),findName('xmRoomInfoDetailCountDiv'),data.jsonData);
+	}
+</script>

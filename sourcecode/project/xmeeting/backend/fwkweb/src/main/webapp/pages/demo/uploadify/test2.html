@@ -1,0 +1,29 @@
+<h2 class="contentTitle">uploadify 演示</h2>
+
+
+<script type="text/javascript">
+	$(document).ready(function() { 
+		
+		
+
+	}); 
+	function uploadifyComplete(event, queueID, fileObj, reposnse, data){
+		alert("uploadifyAllComplete");
+	}
+</script>
+
+<div class="pageContent">
+	
+<div style="float:left; margin:10px">
+	<div id="fileQueue" class="fileQueue"></div>
+	<input id="testFileInput" type="file" name="image" 
+		uploader="styles/uploadify/scripts/uploadify.swf"
+		cancelImg="styles/uploadify/cancel.png" 
+		script="xxxxx.upload"  
+		fileQueue="fileQueue"  
+		onComplete="uploadifyAllComplete"  
+		fileExt="*.jpg;*.jpeg;*.gif;*.png;"
+		fileDesc="*.jpg;*.jpeg;*.gif;*.png;"/>
+</div>
+
+</div>

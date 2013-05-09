@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"       "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="xmeeting.xmeeting">
+ 
+    
+
+    
+    <select id="searchMeetingInfoByName" parameterClass="java.util.HashMap"  resultClass="com.broadsoft.xmeeting.xmeeting.meeting.vo.XmMeetingInfoIVO">
+	    <![CDATA[
+			        select a.xmmi_name xmmiName,a.xmmi_guid xmmiGuid,a.xmmi_description xmmiDescription ,b.xmri_name xmriName,b.xmri_guid xmriGuid,c.value_desc status
+					from XM_MEETING_INFO a,XM_ROOM_INFO b ,
+									(select value_code,value_desc from sy_code  where type_id in (select type_id from sy_code_type where type_name='3006')) c
+					where 1=1 
+						and a.xmri_guid=b.xmri_guid 
+						and a.xmmi_status=c.value_code
+				
+		]]> 	
+		<isNotEmpty prepend="and" property="xmmiName"> 
+		     		 <![CDATA[a.xmmi_name like '%'||#xmmiName#||'%' ]]>
+		</isNotEmpty>	 
+<!-- 				 and a.xmmi_name like '%测试%' -->
+		<![CDATA[ 
+					order by a.xmmi_guid  desc 
+		]]>  
+		 
+	</select>
+    
+  
+	<select id="findPersonnelSeatPadByMeetingID" parameterClass="java.util.HashMap"  resultClass="com.broadsoft.xmeeting.xmeeting.meeting.vo.XmMeetingPersonnelSeatPadIVO">
+	    <![CDATA[
+			    select  a.XMMPSP_GUID xmmpspGuid, a.xmmi_guid xmmiGuid,b.xmpi_name xmpiName,b.xmpi_guid xmpiGuid,c.xmpd_code xmpdCode,d.xmrid_seatno xmridSeatno,e.value_desc  meetingRole
+			    
+				from XM_MEETING_PERSONNEL_SEAT_PAD a, XM_PERSONNEL_INFO b,XM_PAD_DEVICE c,XM_ROOM_INFO_DETAIL d ,
+				(select value_code,value_desc from sy_code  where type_id in (select type_id from sy_code_type where type_name='3010')) e
+				where 1=1
+				and a.xmpi_guid=b.xmpi_guid  
+				and c.xmpd_guid=a.xmpd_guid  
+				and d.xmrid_guid=a.xmrid_guid 
+				and a.xmmpsp_meeting_role =e.value_code 
+				
+		]]> 	
+		<isNotEmpty prepend="and" property="xmmiGuid"> 
+		     		 <![CDATA[a.xmmi_guid= #xmmiGuid# ]]>
+		</isNotEmpty>	 
+<!-- 				and a.xmmi_guid='000000000XMMEETINGINFO13041820484043' -->
+		<![CDATA[ 
+				order by d.xmrid_seatno  desc 
+		]]>  
+		 
+	</select>
+	
+	
+	<select id="findServicePersonnelByMeetingID" parameterClass="java.util.HashMap"  resultClass="com.broadsoft.xmeeting.xmeeting.meeting.vo.XmMeetingServicePersonnelIVO">
+	    <![CDATA[
+			    
+					select a.xmmsp_guid xmmspGuid,b.xmpi_name  xmpiName,b.xmpi_guid xmpiGuid,c.value_desc serviceRole,a.xmmi_guid xmmiGuid
+					
+					from XM_MEETING_SERVICE_PERSONNEL a ,XM_PERSONNEL_INFO b , (select value_code,value_desc from sy_code  where type_id in (select type_id from sy_code_type where type_name='3009')) c 
+					where 1=1 
+					and a.xmpi_guid = b.xmpi_guid
+					and a.xmmsp_service_role=c.value_code  
+				
+		]]> 	
+		<isNotEmpty prepend="and" property="xmmiGuid"> 
+		     		 <![CDATA[a.xmmi_guid= #xmmiGuid# ]]>
+		</isNotEmpty>	 
+<!-- 				a.xmmi_guid='000000000XMMEETINGINFO13041820484043' -->
+		<![CDATA[ 
+				order by a.xmmsp_guid  desc 
+		]]>  
+	</select>
+	
+	
+	
+	
+	
+	
+
+</sqlMap>
+

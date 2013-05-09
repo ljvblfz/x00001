@@ -1,0 +1,85 @@
+<h2 class="contentTitle" name="showTitle">Edit Type</h2>
+<form name="pageForm" method="post" class="required-validate pageForm" onsubmit="return validateCallback(this, navTabAjaxDone);">
+		<input type="hidden" name="xmpdGuid" id="xmpdGuid"/>
+		<input type="hidden" name="navTabId" value="xmPadDevice" />
+		<input type="hidden" name="callbackType" value="closeCurrent" />
+		<input type="hidden" name="callBackMethod" value="xmPadDeviceSearch" />
+	<div class="pageFormContent" layoutH="97">
+			<p>
+				<label>资产编号</label>
+				<input type="text" name="xmpdCode" class="required" size="30" maxlength="20"/>
+			</p>
+			
+			<p>
+				<label>设备规格</label>
+				<input type="text" name="xmpdDeviceSpec" class="required" size="30" maxlength="20"/>
+			</p>
+			
+			<p>
+				<label>物理编号</label>
+				<input type="text" name="xmpdDeviceId" class="required" size="30" maxlength="20"/>
+			</p>
+			
+			<p>
+				<label>子机设备编号 </label>
+				<input type="text" name="xmpdSubDeviceId"   size="30" maxlength="20"/>
+			</p>
+			<p>
+				<label>硬件版本</label>
+				<input type="text" name="xmpdHardwareVersion" class="required" size="30" maxlength="20"/>
+			</p>
+			<p>
+				<label>软件版本</label>
+				<input type="text" name="xmpdSoftwareVersion" class="required" size="30" maxlength="20"/>
+			</p> 
+			<p>
+				<label>设备类型</label>
+<!-- 				<input type="text" name="xmpdType" class="required" size="30" maxlength="20"/> -->
+
+					<select class="required combox" name="xmpdType" valueCode="valueCode" codeType="3003" valueDesc="valueDesc" >
+						<option value="" selected>请选择</option>
+					</select>
+			</p> 
+			<p>
+				<label>设备状态</label>
+<!-- 				<input type="text" name="xmpdStatus" class="required" size="30" maxlength="20"/> -->
+
+					<select class="required combox" name="xmpdStatus" valueCode="valueCode" codeType="3004" valueDesc="valueDesc" >
+						<option value="" selected>请选择</option>
+					</select>
+			</p>
+			 
+			
+			<p> <label>设备备注</label></p> 
+			<div class="unit">
+			    <textarea  name="xmpdComment"   rows="12" cols="100" > 
+				</textarea>
+			</div>
+	</div>
+			
+	<div class="formBar">
+		<ul>
+			<li><div class="buttonActive"><div class="buttonContent"><button type="submit" >保存</button></div></div></li>
+			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
+		</ul>
+	</div>
+</form>
+<script type="text/javascript">
+	//通过tab url得到行主键，获取信息，自动填充form表单
+	$(function(){
+		var $form = findName("pageForm");
+		var url = navTab._getTabUrl();
+		var xmpdGuid=navTab._getParam("xmpdGuid")
+		if(xmpdGuid){
+			findName('showTitle').html('修改pad信息');
+			findName("xmpdType").addClass("sync");
+			findName("xmpdStatus").addClass("sync");
+			doGetAjax(CPATH.domain_3 + "/rs/xmPadDevice/" +xmpdGuid ,null,function(data){$form.find("[name]").populate(data);});
+			$form.attr('action',CPATH.domain_3 + '/rs/xmPadDevice/'+xmpdGuid+'?method=put');
+		}else{
+			findName('showTitle').html('新增pad信息');
+			$form.attr('action',CPATH.domain_3 + '/rs/xmPadDevice');
+		}
+	});
+
+</script>

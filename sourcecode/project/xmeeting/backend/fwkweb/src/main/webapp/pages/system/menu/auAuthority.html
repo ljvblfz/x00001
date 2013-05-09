@@ -1,0 +1,253 @@
+<style type="text/css"> 
+	div.content_wrap {width: 900px;height:500px;}
+	div.content_wrap div.left{float: left;width: 400px;}
+	div.content_wrap div.right{float: right;width: 500px;}  
+</style>
+
+<SCRIPT type="text/javascript">
+<!--
+ 
+var authority_setting = { 
+	view: {
+		selectedMulti: false
+	},
+	edit: {
+		enable: true,
+		showRemoveBtn: false,
+		showRenameBtn: false
+	},
+	data: { 
+		simpleData: {
+			enable: true
+		}
+	},
+	callback: {
+		beforeDrag: authority_beforeDrag,
+		beforeClick: authority_beforeClick, 
+		beforeRemove: authority_beforeRemove,
+		beforeRename: authority_beforeRename,
+		onRemove: authority_onRemove 
+	}
+};
+
+ 
+
+
+// //========callback==============
+function authority_beforeDrag(treeId, treeNodes) {
+	return false;
+}
+
+
+function authority_beforeRemove(treeId, treeNode) { 
+	return confirm("确认删除 节点[" + treeNode.name + "] 吗？");
+}
+
+function authority_onRemove(e, treeId, treeNode) {   
+	var url="/rs/auauthority/saveinfo"; 
+	dtdXHR = $.ajax({
+	  type: "POST",
+	  url: getURL(CPATH.domain_1,url),
+	  data: {oper:'delete',authorityId:treeNode.authorityId}, 
+	  dataType: "json"
+	}); 
+	
+	dtdXHR.done(function(respJson){   
+		alertMsg.correct("删除成功。");
+	});
+	dtdXHR.fail(function(respJson){  
+		alertMsg.error("删除失败。");
+	});  
+}
+
+function authority_beforeRename(treeId, treeNode, newName) {
+	if (newName.length == 0) {
+		alertMsg.error("节点名称不能为空.");
+		var zTree = $.fn.zTree.getZTreeObj("auAuthorityInfoTree");
+		setTimeout(function(){zTree.editName(treeNode)}, 10);
+		return false;
+	} 
+	return true;
+} 
+ 
+
+function authority_beforeClick(treeId, treeNode, clickFlag) {   
+	//
+	
+	var form=findNameWithParentID("auauthorityform","authority_maintain_content"); 
+	form.populate2(treeNode);
+	
+	return (treeNode.click != false);
+} 
+
+// //==================================
+function authority_add() {   
+
+	var zTree = $.fn.zTree.getZTreeObj("auAuthorityInfoTree"),
+	nodes = zTree.getSelectedNodes(),
+	treeNode = nodes[0];  
+  	var node=treeNode; 
+  	node.oper="add";
+	authority_showDialog("新增",node);
+	 
+}
+
+ 
+
+function authority_edit() {  
+	
+	var zTree = $.fn.zTree.getZTreeObj("auAuthorityInfoTree"),
+	nodes = zTree.getSelectedNodes(),
+	treeNode = nodes[0];
+	if (nodes.length == 0) {
+		alertMsg.error("请先选择一个节点");
+		return;
+	}
+
+  	var node=treeNode;
+  	node.oper="modify";
+	authority_showDialog("修改",node);
+	// 
+	
+	
+}
+
+
+
+
+function authority_clone() {  
+	
+	var zTree = $.fn.zTree.getZTreeObj("auAuthorityInfoTree"),
+	nodes = zTree.getSelectedNodes(),
+	treeNode = nodes[0];
+	if (nodes.length == 0) {
+		alertMsg.error("请先选择一个节点");
+		return;
+	}
+
+  	var node=treeNode;
+  	node.oper="clone";
+	authority_showDialog("克隆",node);
+	// 
+	
+	
+}
+ 
+
+
+function authority_remove() {
+	var zTree = $.fn.zTree.getZTreeObj("auAuthorityInfoTree"),
+	nodes = zTree.getSelectedNodes(),
+	treeNode = nodes[0];
+	if (nodes.length == 0) {
+		alertMsg.error("请先选择一个节点");
+		return;
+	}
+	zTree.removeNode(treeNode,true);
+}
+
+ 
+function authority_showDialog(operAction,pnode){   
+	//
+	var title = operAction+" -- 权限节点";
+	var rel = "aumenudialog";
+	var options = {}; 
+	options.width = 400;
+	options.height = 500;
+	options.max =false;
+	options.mask = true;
+	options.maxable = false;
+	options.minable = false;
+	options.fresh = true;
+	options.resizable = false;
+	options.drawable = true;
+	options.close = "";
+	options.param = pnode;
+	options.zIndex = "1000";
+
+	var url = CPATH.domain_1+"/pages/system/menu/modify/auAuthorityModify.html";
+
+	$.pdialog.open(url, rel, title, options);
+	
+}//end of showLineChooserDialog
+ 
+ 
+
+function authority_initTreeZNodes(){
+	var zNodes =[ ];
+	dtdXHR = $.ajax({
+		  type: "GET",
+		  url: getURL(CPATH.domain_1,"/rs/auauthority/treedynamicload"),
+		  dataType: "json",
+		  cache:false,
+		  global:false
+		}); 
+	//done 
+	dtdXHR.done(function(respJson){        
+		zNodes=respJson.jsonData; 
+		authority_createTree(zNodes);
+		
+	});
+	//fail
+	dtdXHR.fail(function(respJson){   
+		logger.info("failed.");
+	});
+}//end of initTreeZNodes
+
+function authority_createTree(zNodes){  
+	var treeObj=$.fn.zTree.init($("#auAuthorityInfoTree"), authority_setting, zNodes);
+	treeObj.expandAll(true); 
+}
+
+$(document).ready(function(){ 
+	authority_initTreeZNodes(); 
+	findNameWithParentID("add","authority_maintain_content").bind("click",  authority_add);
+	findNameWithParentID("edit","authority_maintain_content").bind("click", authority_edit); 
+	findNameWithParentID("clone","authority_maintain_content").bind("click", authority_clone); 
+	findNameWithParentID("remove","authority_maintain_content").bind("click", authority_remove); 
+});
+//-->
+</SCRIPT>
+ 
+<div class="content_wrap"  id="authority_maintain_content">
+	<div class="left" >
+		<div class="panel" defH="500">
+			<h1>权限信息</h1>
+			<div><ul id="auAuthorityInfoTree" class="ztree"></ul></div>
+		</div>
+		
+	</div>
+	<div class="right">
+		 <div class="panelBar">  
+			<ul class="toolBar">
+				<li>
+					<a class="add" href="#" title="新增子节点"   name="add"><span>新增子节点</span> </a>
+				</li>
+				<li>
+					<a class="edit" href="#" title="修改本节点"   name="edit"><span>修改本节点</span> </a>
+				</li> 
+				<li>
+					<a class="edit" href="#" title="修改本节点"   name="clone"><span>克隆本节点</span> </a>
+				</li> 
+				<li>
+					<a class="delete" href="#" title="删除本节点"  name="remove"><span>删除本节点</span>
+					</a>
+				</li>
+			</ul>
+		</div> 
+		<div > 
+			<form name="auauthorityform"   >
+				<div class="pageFormContent">
+					<p>当前选中权限详细信息</p><br/><br/> 
+					<p><label>主健:</label>    <input name="authorityId" type="text" value=""  style="width:200px;"/></p><br/>
+					<p><label>权限名:</label>    <input name="authorityName" type="text" value=""  style="width:200px;"/></p><br/>  
+					<p><label>父权限id:</label>  <input name="parentId" type="text" value="" style="width:200px;"/></p><br/>
+					<p><label>权限是否可用 :</label>  <input name="enabled" type="text" value="" /></p><br/> 
+					<p><label>排序字段 :</label>  <input name="autOrder" type="text" value="" /></p><br/>  
+					<p><label>是否删除 :</label>  <input name="delFlag" type="text" value="" /></p><br/> 
+				</div>
+			</form>
+		</div>	 
+	</div>
+	
+</div>

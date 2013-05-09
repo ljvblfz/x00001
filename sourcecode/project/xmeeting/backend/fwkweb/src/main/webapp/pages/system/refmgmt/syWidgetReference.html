@@ -1,0 +1,96 @@
+<form method="get" name="syWidgetReferenceSearchForm" action="/rs/syWidgetReference" onsubmit="return false;" >
+	<input type="hidden" name="pageNum" value="1" />
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>分组名称：</label>
+						<select class=" combox" name="groupname" valueCode="valueCode" codeType="1001" valueDesc="valueDesc" >
+								<option value="" selected>请选择</option>
+						</select>
+				</li> 
+			</ul>
+			<div class="subBar">
+				<ul>						
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="syWidgetReferenceSearch({pageNum:1})">查询</button></div></div></li>
+<!-- 					<li><a class="button" ><span>清空</span></a></li> -->
+
+					<li><div class="buttonActive"><div class="buttonContent"><button type="reset"  >清空</button></div></div></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="pageContent">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+			<li><a class="add" target="navTab" rel="syWidgetReference111" href="javascript:getURL(CPATH.domain_1,'/pages/system/refmgmt/modify/syWidgetReferenceModify.html');" title="新增syWidgetReference"  ><span>新增</span></a></li>
+			<li><a class="edit" target="navTab" rel="syWidgetReference222" href="javascript:getURL(CPATH.domain_1,'/pages/system/refmgmt/modify/syWidgetReferenceModify.html?swrGuid={slt_uid}');" title="修改syWidgetReference"  multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
+			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_1,'/rs/syWidgetReference')"  rel="swrGuids" 
+			callBackMethod="syWidgetReferenceSearch"	title="确认删除?"  ><span>删除</span></a></li> 
+				<li><a class="edit" target="navTab" rel="syWidgetReference423" href="javascript:getURL(CPATH.domain_1,'/pages/system/refmgmt/modify/syWidgetReferencePreviewData.html?swrGuid={slt_uid}');" title="预览"  multiable="no" warn="请选择一条记录"><span>预览数据</span></a></li>
+			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_1,'/rs/syWidgetReferenceClearCache/id')"   rel="swrGuids" 
+			callBackMethod="syWidgetReferenceSearch" 	title="确认删除?" 1authId="testAuth000003"><span>删除缓存</span></a></li>
+		</ul>
+	</div>
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr  searchMethod="syWidgetReferenceSearch"><th width="22"><input type="checkbox" group="swrGuids" class="checkboxCtrl"></th>
+						<th width="160" orderField="swrCode">自编码</th>
+						<th   orderField="swrName">名称</th>
+						<th width="80" orderField="groupnameLabel">分组</th>
+						<th width="120" orderField="widgetTypeLabel">widget类型</th> 
+						<th width="120" orderField="autocompleteConfigLabel">autocomplete配置</th> 
+						<th width="260" orderField="description">描述</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="syWidgetReferenceTrTemplate" target="slt_uid">
+				<td name="swrGuid" type="check"><input name="swrGuids" value="" type="checkbox"></td>
+						<td name="swrCode"></td>
+						<td name="swrName"></td>
+						<td name="groupnameLabel"></td>
+						<td name="widgetTypeLabel"></td> 
+						<td name="autocompleteConfigLabel"></td> 
+						<td name="description"></td>
+				
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage" onchange="syWidgetReferenceSearch({numPerPage:this.value,pageNum:1})">
+				<option value="20">20</option>
+				<option value="40">40</option>
+				<option value="100">100</option>
+				<option value="200">200</option>
+			</select>
+			<span name="syWidgetReferenceCountDiv">条，共-条</span>
+		</div>
+		<div name="syWidgetReferencePageBar" class="pagination" searchMethod="syWidgetReferenceSearch" targetType="navTab" totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+</div>
+<script type="text/javascript">
+	//定义默认参数
+	var syWidgetReferenceArgs={numPerPage:20};
+	 //查询方法
+    syWidgetReferenceSearch();
+	function syWidgetReferenceSearch(opt){
+		//序列化表单值，并扩展到syWidgetReferenceArgs对象中
+		$.extend(syWidgetReferenceArgs,findName('syWidgetReferenceSearchForm').serializeJson(),opt?opt:{});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_1,"/rs/syWidgetReference"),syWidgetReferenceArgs,syWidgetReferenceList);
+	}
+	
+	//拼装
+	function syWidgetReferenceList(data){
+		var sampleRow=findName('syWidgetReferenceTrTemplate');
+		pageResponse2Table(sampleRow,data);
+        printPageBarDiv(findName('syWidgetReferencePageBar'),findName('syWidgetReferenceCountDiv'),data.jsonData);
+	}
+</script>

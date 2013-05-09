@@ -1,0 +1,80 @@
+
+<script type="text/javascript">
+	//定义默认参数
+	
+	var syWidgetPageRegionArgs={};
+	 //查询方法
+	 
+	$(function(){
+		var spguid=navTab._getParam("spguid");
+		syWidgetPageRegionArgs={'spguid':spguid};
+		var xurl='/pages/system/page/modify/syWidgetPageRegionModify.html?spguid='+spguid;
+		var urlhref=getURL(CPATH.domain_1,xurl); 
+		findClass("add").attr("href",urlhref);
+    	syWidgetPageRegionSearch();
+	});
+	 
+	 
+	function syWidgetPageRegionSearch(opt){ 
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_1,"/rs/syWidgetPageRegion"),syWidgetPageRegionArgs,syWidgetPageRegionList);
+	}
+	
+	//拼装
+	function syWidgetPageRegionList(data){
+		var sampleRow=findName('syWidgetPageRegionTrTemplate');
+		pageResponse2Table(sampleRow,data);
+        printPageBarDiv(findName('syWidgetPageRegionPageBar'),findName('syWidgetPageRegionCountDiv'),data.jsonData);
+	}
+</script>
+
+<div class="pageContent">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+			<li><a class="add" target="navTab" rel="userNav" href="javascript:getURL(CPATH.domain_1,'/pages/system/page/modify/syWidgetPageRegionModify.html?spguid=');" title="新增syWidgetPageRegion" ><span>新增</span></a></li>
+			<li><a class="edit" target="navTab" rel="userNav1" href="javascript:getURL(CPATH.domain_1,'/pages/system/page/modify/syWidgetPageRegionModify.html?sprguid={slt_uid}');" title="修改syWidgetPageRegion"   multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
+			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_1,'/rs/syWidgetPageRegion')"  rel="sprguids" 
+			callBackMethod="syWidgetPageRegionSearch"	title="确认删除?"><span>删除</span></a></li> 
+		</ul>
+	</div>
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr  searchMethod="syWidgetPageRegionSearch"><th width="22"><input type="checkbox" group="sprguids" class="checkboxCtrl"></th>
+<!-- 						<th width="60" orderField="spguid">spguid</th> -->
+						<th width="60" orderField="sprColumn">列数</th>
+						<th width="60" orderField="sprRow">行数</th>
+						<th width="60" orderField="swbguid">swbguid</th>
+						<th width="60" orderField="description">描述</th>
+						<th width="60" orderField="status">状态</th> 
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="syWidgetPageRegionTrTemplate" target="slt_uid">
+				<td name="sprguid" type="check"><input name="sprguids" value="" type="checkbox"></td>
+<!-- 						<td name="spguid"></td> -->
+						<td name="sprColumn"></td>
+						<td name="sprRow"></td>
+						<td name="swbguid"></td>
+						<td name="description"></td>
+						<td name="status"></td> 
+				
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage" onchange="syWidgetPageRegionSearch({numPerPage:this.value,pageNum:1})">
+				<option value="10">10</option>
+				<option value="40">40</option>
+				<option value="100">100</option>
+				<option value="200">200</option>
+			</select>
+			<span name="syWidgetPageRegionCountDiv">条，共-条</span>
+		</div>
+		<div name="syWidgetPageRegionPageBar" class="pagination" searchMethod="syWidgetPageRegionSearch" targetType="navTab" totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+</div>

@@ -1,0 +1,40 @@
+
+
+<style type="text/css">
+.wraper {
+	position: relative;
+	float: left;
+	width: 400px;
+	height: 400px;
+	margin-left: 10px;
+	margin-top: 10px;
+	border: 1px solid orange;
+}
+</style>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var raphael = new Raphael('raphael_1',400,400);
+
+		//绘制普通矩形
+		 raphael.rect(20,10,100,70);
+		 
+		//绘制带有圆角的矩形
+		raphael.rect(20,100,100,70,20);
+
+		//绘制圆形
+		raphael.circle(200,50,40).attr({fill: "#000"}).click(function () {
+            alert("OK");
+        });
+
+		//绘制椭圆形
+		raphael.ellipse(330,50,50,30);
+		raphael.ellipse(330,140,30,50);
+
+	 
+		
+	});
+	
+</script> 
+
+<div id="raphael_1" class="wraper"></div>
+ 

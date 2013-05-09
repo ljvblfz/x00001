@@ -1,0 +1,194 @@
+<style>
+  .syCckTypeButtonPageContent td.cckToAddTitle, .syCckTypeButtonPageContent th.cckToAddTitle{text-overflow:ellipsis;overflow:hidden;white-space: nowrap; } 
+  </style>
+<script type="text/javascript">
+	//定义默认参数
+	var syCckTypeButtonArgs={"numPerPage":20,"orderField":"buttonSortno","orderDirection":"asc"};
+	 //查询方法
+	 
+	 	$(function() { 
+		var url = navTab._getTabUrl();
+		var sctGuid=navTab._getParam("sctGuid");
+		if(sctGuid){
+			syCckTypeButtonArgs.sctGuid=sctGuid;
+			findName("sctGuid").val(sctGuid);
+			syCckTypeButtonSearch();
+			findNameWithParentID("add","ccktypebutton_pagecontent").bind("click",  ccktypebutton_add);
+			findNameWithParentID("edit","ccktypebutton_pagecontent").bind("click", ccktypebutton_edit); 
+			findNameWithParentID("createDefault","ccktypebutton_pagecontent").bind("click", ccktypebutton_create_default); 
+	// 		findNameWithParentID("editMulti","ccktypebutton_pagecontent").bind("click", ccktypebutton_edit_multi); 
+		}
+
+	});
+	function syCckTypeButtonSearch(opt){
+		$.extend(syCckTypeButtonArgs,findName('syCckTypeButtonSearchForm').serializeJson(),opt?opt:{});
+		doGetAjax(getURL(CPATH.domain_1,"/rs/syCckType/"+syCckTypeButtonArgs.sctGuid+"/syCckTypeButton"),syCckTypeButtonArgs,syCckTypeButtonList);
+	}
+	
+	//拼装
+	function syCckTypeButtonList(data){
+		var sampleRow=findName('syCckTypeButtonTrTemplate');
+		pageResponse2Table(sampleRow,data);
+        printPageBarDiv(findName('syCckTypeButtonPageBar'),findName('syCckTypeButtonCountDiv'),data.jsonData);
+        var $this=null;
+        var val='';
+        findClass("cckToAddTitle").each(function ( ){
+        	  $obj=$(this);
+        	  if( $obj){val=$obj.text();
+        	  $obj.attr("title",val);}
+        });
+	}
+	function ccktypebutton_add(){
+		var pData={"rel":"cckTypeFieldCreate","sctGuid":syCckTypeButtonArgs.sctGuid,"total": syCckTypeButtonArgs.total};
+		ccktypebutton_showDialog("新增",pData); 
+	}
+	
+	function ccktypebutton_create_default(){
+		alertMsg.confirm("确认生成默认按钮？", {
+			okCall : _doPost
+		});
+		function _doPost(){
+			doGetAjax(getURL(CPATH.domain_1,"/rs/syCckTypeButtonCreateDefault/"+syCckTypeButtonArgs.sctGuid ),syCckTypeButtonArgs,syCckTypeButtonSearch);
+
+		}
+	
+	}
+	function ccktypebutton_edit(event){
+ 
+			var ids=_get_sctbGuid_ccktypebutton_edit();
+			if(ids.length==1&&ids[0]){
+				var sctbGuid =ids[0];
+					var pData={"rel":"cckTypeButtonModify","sctbGuid":sctbGuid,"sctGuid":syCckTypeButtonArgs.sctGuid};
+					ccktypebutton_showDialog("修改",pData); 
+			}else{
+				alertMsg.error("请选择一条记录!");
+			}
+	}
+	function ccktypebutton_edit_multi(event){
+ 
+		var ids=_get_sctbGuid_ccktypebutton_edit();
+		if(ids.length>=1 ){
+			var sctbGuid =ids.toString();
+			var url = CPATH.domain_1+"/pages/system/cck/modify/cckTypeFieldMultiModify.html?sctGuid="+syCckTypeButtonArgs.sctGuid;
+				var pData={"rel":"cckTypeButtonMultiModify","sctbGuid":sctbGuid,"sctGuid":syCckTypeButtonArgs.sctGuid,url:url};
+				ccktypebutton_showDialog("修改",pData); 
+		}else{
+			alertMsg.error("请选择至少一条记录!");
+		}
+	}
+	
+	function _get_sctbGuid_ccktypebutton_edit()
+	{
+	 var ids =[];
+		 var checkboxs=findName("syCckTypeButtonPageContent").find("input:checkbox:checked");
+		 for(var i=0;i<checkboxs.length;i++){
+			 var t=$(checkboxs[i]);
+			 var val=t.val();
+			  if(val&&val!="on"){
+				  ids[ids.length]=val;
+			  }
+			 
+		 }
+	return ids;
+			
+	}
+	function ccktypebutton_showDialog(operAction,pData){   
+		var title = operAction+" -- 按钮";
+		var rel =pData.rel;  
+		var options = {}; 
+		options.width = 650;
+		options.height =480;
+		options.max =false;
+		options.mask = true;
+		options.maxable = false;
+		options.minable = false;
+		options.fresh = true;
+		options.resizable = false;
+		options.drawable = true;
+		options.close = "";
+		options.param = pData;
+		options.zIndex = "1000";
+		var url = CPATH.domain_1+"/pages/system/cck/modify/cckTypeButtonModify.html?sctGuid="+pData.sctGuid;
+		if(pData.url){
+			url=pData.url;
+		}
+		if(pData.sctbGuid)
+			{
+			url+="&sctbGuid=";
+			url+=pData.sctbGuid;
+			}
+		$.pdialog.open(url, rel, title, options);
+		
+	}//end of showLineChooserDialog
+</script>
+<form method="get" name="syCckTypeButtonSearchForm" action="/rs/syCckTypeButton" onsubmit="return false;" >
+	<input type="hidden" name="pageNum" value="1" />
+	<input type="hidden" name="sctGuid" value=""/>
+</form>
+<div class="pageContent syCckTypeButtonPageContent" name="syCckTypeButtonPageContent" id="ccktypebutton_pagecontent" >
+	<div class="panelBar">
+		<ul class="toolBar">
+			<li><a class="add" name="add"   rel="userNavsyCckTypeButton" href="javascript:;" title="新增按钮" 1authId="testAuth000001"><span>新增</span></a></li>
+			<li><a class="edit"  name="edit" rel="userNavsyCckTypeButton1" href="javascript:;" title="修改按钮" 1authId="testAuth000002" multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
+			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_1,'/rs/syCckType/'+syCckTypeButtonArgs.sctGuid+'/syCckTypeButton')"  rel="sctbGuids" 
+			callBackMethod="syCckTypeButtonSearch"	title="确认删除?" 1authId="testAuth000003"><span>删除</span></a></li>
+			<li class="line">line</li>
+			<li><a class="add" name="createDefault"   rel="userNavsyCckTypeButton3" href="javascript:;" title="生成默认按钮" 1authId="testAuth000001"><span>生成默认按钮</span></a></li>
+		</ul>
+	</div>
+	<table class="table" layoutH="76" width="100%">
+		<thead>
+			<tr  searchMethod="syCckTypeButtonSearch"><th width="22"><input type="checkbox" group="sctbGuids" class="checkboxCtrl"></th>
+<!-- 						<th width="60" orderField="sctGuid">SY_CCK_TYPE</th> -->
+<!-- 						<th width="60" orderField="buttonName">button name</th> -->
+						<th width="100" orderField="buttonLabel">显示名称</th>
+						<th width="60" orderField="buttonIcon">按钮图标</th>
+						<th width="100" orderField="buttonType">按钮类型</th>
+						<th width="120" orderField="buttonDetailTypeCode">子表编码</th>
+						<th  orderField="buttonLink">按钮连接</th>
+						<th  width="120"  orderField="functionName">自定义方法</th>
+						<th width="60" orderField="buttonLinkNavtabId">TAB ID</th>
+						<th width="60" orderField="buttonLinkTarget">打开方式</th>
+						<th width="60" orderField="buttonIsMultiple">选择方式</th>
+						<th width="40" orderField="buttonSortno">顺序</th>
+<!-- 						<th width="60" orderField="delFlag">删除标志</th> -->
+<!-- 						<th width="60" orderField="buttonIsReadonly">子表显示按钮</th> -->
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="syCckTypeButtonTrTemplate" target="slt_uid">
+				<td name="sctbGuid" type="check"><input name="sctbGuids" value="" type="checkbox"></td>
+<!-- 						<td name="sctGuid"></td> -->
+<!-- 						<td name="buttonName"></td> -->
+						<td name="buttonLabel"></td>
+						<td name="buttonIcon"></td>
+						<td name="buttonTypeString"></td>
+						<td name="buttonDetailTypeCode"></td>
+						<td class="cckToAddTitle" name="buttonLink"></td>
+						<td class="cckToAddTitle" name="functionName"></td>
+						<td name="buttonLinkNavtabId"></td>
+						<td name="buttonLinkTarget"></td>
+						<td name="buttonIsMultiple"></td>
+						<td name="buttonSortno"></td>
+<!-- 						<td name="delFlag"></td> -->
+<!-- 						<td name="buttonIsReadonly"></td> -->
+				
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage" onchange="syCckTypeButtonSearch({numPerPage:this.value,pageNum:1})">
+				<option value="20">20</option>
+				<option value="40">40</option>
+				<option value="100">100</option>
+				<option value="200">200</option>
+			</select>
+			<span name="syCckTypeButtonCountDiv">条，共-条</span>
+		</div>
+		<div name="syCckTypeButtonPageBar" class="pagination" searchMethod="syCckTypeButtonSearch" targetType="navTab" totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+ </div>
+

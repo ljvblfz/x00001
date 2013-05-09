@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"       "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="sys.cck">
+
+	<!-- 查询 电子站牌公告 -->
+
+	<select id="query2" parameterClass="java.util.HashMap"
+		resultClass="java.util.HashMap" remapResults="true"> <!-- remapResults="true" 重新映射列名 -->
+
+		<![CDATA[ select   $selectFields$  from  $fromSql$   	where 1=1 		]]>
+		<isNotEmpty prepend="AND" property="whereSql">
+		 $whereSql$  
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="sctGuidColumn">
+			t.$sctGuidColumn$ = #sctGuid#
+		</isNotEmpty>
+		<isNotEmpty   property="masterId">
+			<isNotEmpty prepend="AND" property="masterIdColumn">
+				t.$masterIdColumn$ = #masterId#
+			</isNotEmpty>
+		</isNotEmpty>
+		<isNotEmpty property="searchlist">
+			<iterate prepend="AND" property="searchlist" open="(" close=")"
+				conjunction="AND">
+				<isNotEmpty property='searchlist[].value'>
+					<isEqual property="searchlist[].type" compareValue="1">
+						t.$searchlist[].name$ like '%'||#searchlist[].value#||'%'  </isEqual>
+					<isEqual property="searchlist[].type" compareValue="2">
+						t.$searchlist[].name$ = #searchlist[].value#
+					</isEqual>
+					<isEqual property="searchlist[].type" compareValue="3">
+					<![CDATA[
+					(t.$searchlist[].name$ >= to_date(#searchlist[].value#||' 00:00:00','yyyy-mm-dd hh24:mi:ss')  and t.$searchlist[].name$ <= to_date(#searchlist[].value#||' 23:59:59','yyyy-mm-dd hh24:mi:ss')  )
+					]]>
+					</isEqual>
+				</isNotEmpty>
+			</iterate>
+		</isNotEmpty>
+		<isNotEmpty property="searchlist2">
+			<iterate prepend="AND" property="searchlist2" open="(" close=")"
+				conjunction="AND">
+				<isNotEmpty property='searchlist2[].value'>
+				 $searchlist2[].column$ like '%'||#searchlist2[].value#||'%'   
+				</isNotEmpty>
+			</iterate>
+		</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deletemodecolumn" >
+  <![CDATA[     (t.$deletemodecolumn$ <> '1' or t.$deletemodecolumn$ is null )]]>
+		</isNotEmpty>
+		<isEqual prepend="AND" property="authority" compareValue="1">
+			t.$createByColumn$ = #username#
+		</isEqual>
+				<isEqual prepend="AND" property="authority" compareValue="2">
+			exists (select u1.username from sys_user u1,sys_user u2 ,hr_staffrecords s,hr_staffrecords s2 
+			where t.$createByColumn$ =u1.username 
+					and u1.userid=s.jobnumber 
+					and s.deptid =s2.deptid	
+					and s2.jobnumber=u2.userid
+			      and u2.username = #username#)
+		</isEqual>
+			<isEqual  prepend="AND"   property="authority" compareValue="3">
+			exists (select u1.username from sys_user u1  
+			   inner join SYS_MEMBEROFROLE smr1 on u1.userid = smr1.member
+	       		inner join SYS_MEMBEROFROLE smr2 on smr1.rolename = smr2.rolename
+	        	 inner join sys_user u2 on u2.userid=smr2.member
+			    and u2.username = #username#
+			    where u1.username=t.$createByColumn$ )
+		</isEqual>
+			<isNotEmpty property="defaultOrderBySql" >
+  <![CDATA[     order by  $defaultOrderBySql$]]>
+		</isNotEmpty>
+		
+	</select>
+	<!-- 插入 -->
+	<insert id="insert" parameterClass="java.util.HashMap">
+		<!-- <selectKey resultClass="java.lang.String" type="pre" -->
+		<!-- keyProperty="SCC_GUID"> -->
+		<!-- select #tableName#||#time#||GLOBAL_ID_GEN_SEQ.nextval from dual -->
+		<!-- </selectKey> -->
+		insert into $tableName$ ( $primaryKey$  
+		<isNotEmpty prepend="," property="guidColumn">
+			 $guidColumn$ 
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="sctGuidColumn"> $sctGuidColumn$ </isNotEmpty>
+		<isNotEmpty prepend="," property="masterIdColumn"> $masterIdColumn$ </isNotEmpty>
+		<isNotEmpty prepend="," property="parentIdColumn"> $parentIdColumn$ </isNotEmpty>
+		<iterate prepend="," property="valuelist" conjunction=",">
+			<isNotEmpty property='valuelist[].value'> $valuelist[].name$ </isNotEmpty>
+		</iterate>
+		) values ( #SCC_GUID#
+		<isNotEmpty prepend="," property="guidColumn"> #SCC_GUID# </isNotEmpty>
+		<isNotEmpty prepend="," property="sctGuidColumn"> #sctGuid# </isNotEmpty>
+		<isNotEmpty prepend="," property="masterIdColumn"> #masterId# </isNotEmpty>
+			<isNotEmpty prepend="," property="parentIdColumn"> #parentId# </isNotEmpty>
+		
+		<iterate prepend="," property="valuelist" conjunction=",">
+			<isNotEmpty property='valuelist[].value'> #valuelist[].value# </isNotEmpty>
+		</iterate>
+		)
+	</insert>
+	<!-- 更新 -->
+
+	<update id="update" parameterClass="java.util.HashMap">
+
+		update $tableName$ t set <iterate property="valuelist" conjunction=",">
+			<isNotEmpty property='valuelist[].value'> $valuelist[].name$ = #valuelist[].value# </isNotEmpty>
+		</iterate>
+		 where t.$primaryKey$ = #SCC_GUID#
+		<isNotEmpty prepend="AND" property="sctGuidColumn">
+			t.$sctGuidColumn$ = #sctGuid#
+		</isNotEmpty>
+		<isNotEmpty   property="masterId">
+		<isNotEmpty prepend="AND" property="masterIdColumn">
+			t.$masterIdColumn$ = #masterId#
+		</isNotEmpty></isNotEmpty>
+		<isEqual prepend="AND" property="authority" compareValue="1">
+			t.$createByColumn$ = #username#
+		</isEqual>
+		
+	</update>
+	
+	<!-- 逻辑删除 -->
+	<update id="deleteContents" parameterClass="java.util.HashMap">
+		update $tableName$ t set t.$deletecolumn$ = '1' where t.$primaryKey$ in (
+		<iterate property="sccGuids" conjunction=",">
+			#sccGuids[]#
+		</iterate>
+		)
+		<isNotEmpty prepend="AND" property="sctGuidColumn">
+			t.$sctGuidColumn$ = #sctGuid#
+		</isNotEmpty>
+		<isNotEmpty   property="masterId">
+		<isNotEmpty prepend="AND" property="masterIdColumn">
+			t.$masterIdColumn$ = #masterId#
+		</isNotEmpty></isNotEmpty>
+		<isEqual prepend="AND" property="authority" compareValue="1">
+			t.$createByColumn$ = #username#
+		</isEqual>
+	</update>
+	
+	<!-- 物理删除 -->
+	<delete id="deleteContentsPhysical" parameterClass="java.util.HashMap">
+		delete $tableName$ t where t.$primaryKey$ in (
+		<iterate property="sccGuids" conjunction=",">
+			#sccGuids[]#
+		</iterate>
+		)
+		<isNotEmpty prepend="AND" property="sctGuidColumn">
+			t.$sctGuidColumn$ = #sctGuid#
+		</isNotEmpty>
+		<isNotEmpty property="masterId">
+		<isNotEmpty prepend="AND" property="masterIdColumn">
+			t.$masterIdColumn$ = #masterId#
+		</isNotEmpty></isNotEmpty>
+		<isEqual prepend="AND" property="authority" compareValue="1">
+			t.$createByColumn$ = #userName#
+		</isEqual>
+	</delete>
+
+	<select id="queryById" parameterClass="java.util.HashMap"
+		resultClass="java.util.HashMap" remapResults="true"> <!-- remapResults="true" 重新映射列名 -->
+
+		<![CDATA[ select   *    from $tableName$ t  where  t.$primaryKey$ = #sccGuid#  ]]>
+		<isNotEmpty prepend="AND" property="sctGuidColumn">
+			<![CDATA[ t.$sctGuidColumn$ = #sctGuid# ]]>
+		</isNotEmpty>
+		<isNotEmpty   property="masterId">
+			<isNotEmpty prepend="AND" property="masterIdColumn">
+				t.$masterIdColumn$ = #masterId#
+			</isNotEmpty>
+		</isNotEmpty>
+		<isEqual prepend="AND" property="authority" compareValue="1">
+			<![CDATA[ t.$createByColumn$ = #userName# ]]>
+		</isEqual>
+	</select>
+	
+	
+	<select id="queryForReference" parameterClass="java.lang.String"
+		resultClass="java.util.HashMap" remapResults="true"> <!-- remapResults="true" 重新映射列名 -->
+		<![CDATA[$value$ ]]>
+	</select>
+	<select id="queryForAutocomplete" parameterClass="java.util.HashMap"
+		resultClass="java.util.HashMap" remapResults="true"> <!-- remapResults="true" 重新映射列名 -->
+
+		<![CDATA[select $selectSql$ from $fromSql$ where 1=1  ]]>
+		<isNotEmpty prepend="AND" property="whereSql">
+		 $whereSql$ 
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="q">
+	<![CDATA[(    upper( $nameColumn$) like '%'||upper(#q#)||'%' )]]>
+		</isNotEmpty>
+			<isNotEmpty prepend="AND" property="limit">
+		 	<![CDATA[ rownum <=  #limit#]]>
+		</isNotEmpty>
+		<isEmpty prepend="AND" property="limit">
+		 	<![CDATA[ rownum <= '30']]>
+		</isEmpty>
+		<isNotEmpty   property="orderBySql">
+		  order by $orderBySql$ 
+		</isNotEmpty>
+	</select>
+ 
+	<select id="checkUnique" parameterClass="java.util.HashMap"
+		resultClass="java.util.HashMap" remapResults="true"> <!-- remapResults="true" 重新映射列名 -->
+
+		<![CDATA[select * from $tableName$ t where    t.$column$ = #columnvalue# and t.$primaryKey$ <> #id# ]]>
+		 
+		<isNotEmpty prepend="AND" property="deletemodecolumn">
+	<![CDATA[(  t.$deletemodecolumn$ <> '1'  )]]>
+		</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sctGuidColumn">
+			t.$sctGuidColumn$ = #sctGuid#
+		</isNotEmpty>
+		<isNotEmpty   property="masterId">
+			<isNotEmpty prepend="AND" property="masterIdColumn">
+				t.$masterIdColumn$ = #masterId#
+			</isNotEmpty>
+		</isNotEmpty>
+	</select>
+		<select id="getChildrens" parameterClass="java.util.HashMap"
+		resultClass="java.lang.String" remapResults="true"> <!-- remapResults="true" 重新映射列名 -->
+
+		<![CDATA[select t.$primaryKey$ from $tableName$  t where    t.$parentIdColumn$ = #pId#  ]]>
+ 	<isNotEmpty prepend="AND" property="sctGuidColumn">
+			t.$sctGuidColumn$ = #sctGuid#
+		</isNotEmpty>
+		<isNotEmpty   property="masterId">
+			<isNotEmpty prepend="AND" property="masterIdColumn">
+				t.$masterIdColumn$ = #masterId#
+			</isNotEmpty>
+		</isNotEmpty>
+ <![CDATA[ and t.$primaryKey$ <> #pId# ]]>
+	</select>
+	
+</sqlMap>
+

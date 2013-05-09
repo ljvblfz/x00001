@@ -1,0 +1,134 @@
+<form method="get" name="syViewSearchForm" action="/rs/syView" onsubmit="return false;" >
+	<input type="hidden" name="pageNum" value="1" />
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>分组：</label>
+					<select class="combox   required" name="groupName" valueCode="valueCode" codeType="1012" valueDesc="valueDesc">
+							  <option value="" selected>请选择</option>
+					</select> 
+				</li> 
+			</ul>
+			<div class="subBar">
+				<ul>						
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="syViewSearch({pageNum:1})">查询</button></div></div></li>
+					<li><a class="button" href="/management/user!advancedSearch.do?userType=TRAINING" target="dialog" title="Advanced Search"><span>清空</span></a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="pageContent" name="viewlist">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+			<li><a class="add" target="navTab" rel="userNav1syView" href="javascript:getURL(CPATH.domain_1,'/pages/system/view/modify/syViewModify.html');" title="新增syView"  ><span>新增</span></a></li>
+			<li><a class="edit" target="navTab" rel="userNav2syView" href="javascript:getURL(CPATH.domain_1,'/pages/system/view/modify/syViewModify.html?svGuid={slt_uid}');" title="修改syView"   multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
+			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_1,'/rs/syView')"  rel="svGuids" callBackMethod="syViewSearch"	title="确认删除?"  ><span>删除</span></a></li> 
+			<li><a class="edit" target="navTab" rel="userNav4syView"  href="javascript:getURL(CPATH.domain_1,'/pages/system/view/syViewField.html?svGuid={slt_uid}&fieldCategory=2');" title="配置查询结果字段"   multiable="no" warn="请选择一条记录"><span>配置查询结果字段</span></a></li>
+			<li><a class="edit" target="navTab" rel="userNav5syView"  href="javascript:getURL(CPATH.domain_1,'/pages/system/view/syViewField.html?svGuid={slt_uid}&fieldCategory=1');" title="配置查询条件字段"   multiable="no" warn="请选择一条记录"><span>配置查询条件字段</span></a></li>
+			<li><a class="add"  target="navTab" rel="userNavx6syView" href="javascript:getURL(CPATH.domain_1,'/pages/system/view/syViewPreviewData.html?svGuid={slt_uid}');" 		 title="预览数据"   multiable="no" warn="请选择一条记录"><span>预览数据</span></a></li> 
+			<li><a class="edit" target="navTab" rel="userNavx62133syView" href="javascript:getURL(CPATH.domain_1,'/pages/system/view/viewTypeButton.html?sctGuid={slt_uid}');" title="管理按钮" 1authId="testAuth000002" multiable="no" warn="请选择一条记录"><span>管理按钮</span></a></li>
+		
+			<li><a class="edit" href="javascript:syview_showMenuPage();"  ><span>生成菜单</span></a></li>
+		</ul>
+	</div>
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr  searchMethod="syViewSearch"><th width="22"><input type="checkbox" group="svGuids" class="checkboxCtrl"></th>
+						<th width="60" orderField="name">名称</th> 
+						<th width="60" orderField="description">描述</th>
+						<th width="60" orderField="groupNameLabel">分组名称</th>
+						<th width="60" orderField="statusLabel">状态</th> 
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="syViewTrTemplate" target="slt_uid">
+				<td name="svGuid" type="check"><input name="svGuids" value="" type="checkbox"></td>
+						<td name="name"></td> 
+						<td name="description"></td>
+						<td name="groupNameLabel"></td>
+						<td name="statusLabel"></td> 
+				
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage" onchange="syViewSearch({numPerPage:this.value,pageNum:1})">
+				<option value="10">10</option>
+				<option value="40">40</option>
+				<option value="100">100</option>
+				<option value="200">200</option>
+			</select>
+			<span name="syViewCountDiv">条，共-条</span>
+		</div>
+		<div name="syViewPageBar" class="pagination" searchMethod="syViewSearch" targetType="navTab" totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+</div>
+<script type="text/javascript">
+	//定义默认参数
+	var syViewArgs={};
+	$(function(){  
+		 //查询方法
+	    syViewSearch();
+	});
+	function syViewSearch(opt){
+		//序列化表单值，并扩展到syViewArgs对象中
+		$.extend(syViewArgs,findName('syViewSearchForm').serializeJson(),opt?opt:{});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_1,"/rs/syView"),syViewArgs,syViewList);
+	}
+	
+	//拼装
+	function syViewList(data){
+		var sampleRow=findName('syViewTrTemplate');
+		pageResponse2Table(sampleRow,data);
+        printPageBarDiv(findName('syViewPageBar'),findName('syViewCountDiv'),data.jsonData);
+	}
+	
+	
+
+	function syview_showMenuPage(){ 
+		var checkboxs=findName("viewlist").find("input:checkbox:checked"); 
+		 if(checkboxs.length==1){ 
+			var nametext=$($(checkboxs[0]).parent().parent().parent().children()[1]).html();
+			var pData={"rel":"syViewMenuModify","name":nametext,"svGuid":$(checkboxs[0]).val() };
+			syview_showDialog(pData); 
+		 }else {
+			 alertMsg.error("请选择一条记录！");
+		 }  
+	}
+	
+ 
+	
+	function syview_showDialog(pData){   
+		//
+	 
+		var title = "生成菜单";
+		var rel =pData.rel;  
+		var options = {}; 
+		options.width = 550;
+		options.height = 580;
+		options.max =false;
+		options.mask = false;
+		options.maxable = false;
+		options.minable = false;
+		options.fresh = true;
+		options.resizable = false;
+		options.drawable = true;
+		options.close = "";
+		options.param = pData;
+		options.zIndex = "1000";
+ 
+		var url = CPATH.domain_1 + "/pages/system/view/modify/syViewMenuModify.html";
+ 
+		$.pdialog.open(url, rel, title, options);
+		
+	}//end of widgetblock_showDialog
+</script>

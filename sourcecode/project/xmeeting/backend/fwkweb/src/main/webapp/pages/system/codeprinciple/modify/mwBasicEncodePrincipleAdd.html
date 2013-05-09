@@ -1,0 +1,183 @@
+<h2 class="contentTitle" name="showTitle">编码原则信息</h2>
+<form name="pageForm" method="post" class="required-validate pageForm"
+	onsubmit="return validateCallback(this, navTabAjaxDone);">
+	<input type="hidden" name="navTabId" value="mwBasicEncodePrinciple" />
+	<input type="hidden" name="callbackType" value="closeCurrent" /> <input
+		type="hidden" name="callBackMethod"
+		value="mwBasicEncodePrincipleSearch" /> <input type="hidden"
+		name="ucpGuid" id="ucpGuid" />
+	<div class="pageFormContent" layoutH="87">
+
+		<p>
+			<label>编码原则代号： </label> <input type="text" name="ucpCode"
+				id="ucpCode" class="required" size="30" maxlength="20" />
+		</p>
+
+		<p>
+			<label>编码原则名称： </label> <input type="text" name="ucpName"
+				id="ucpName" class="required" size="30" maxlength="20" />
+		</p>
+
+		<p>
+			<label>编码长度： </label> <input type="text" name="ucpCodeLength"
+				id="ucpCodeLength" class="required" size="30" maxlength="10" readOnly="readOnly" />
+		</p>
+		
+			<p>
+				 <label>备注：
+			   </label>
+			    <input type="text" name="ucpComment" id="ucpComment"    size="30" maxlength="20" />
+			</p>
+			<p>
+			<label> 原则类型：</label> <select class="combox required" name="ucpType" valueCode="valueCode" codeType="7009" valueDesc="valueDesc" >
+							<option value="" selected>请选择</option>
+						</select> 
+						<font color="red" style="font-family: sans-serif; float: left; ">*</font>
+			</p>
+		<div class="divider"></div>
+
+		<div>
+			<table class="list nowrap itemDetail" id="ucpDetail" name="ucpDetail"
+				addButton="增加条目" hideRowNum="hideRowNum" addNumber="1" width="100%"
+				callback="afterAddForAdd" buttonName="addButtonUcpd">
+				<thead>
+					<tr>
+
+						<th width="20" type="index" name="items[#index#].ucpdOrder"
+							defaultVal="#index#" size="3" fieldClass="digits"
+							readOnly="readOnly" disabled="disabled">&nbsp;&nbsp;&nbsp;</th>
+						<th width="220" type="text" name="items[#index#].ucpdStart"
+							defaultVal="" size="10" fieldClass="digits required">起始位</th>
+						<th width="220" type="text" name="items[#index#].ucpdEnd"
+							defaultVal="" size="10" fieldClass="digits required">终止位</th>
+
+
+						<th width="110" type="comboxcode"
+							name="items[#index#].ucpdFieldId" valueCode="valueCode"
+							codeType="7010" valueDesc="valueDesc" AdefaultVal=""
+							AdefaultName="请选择">表示字段</th>
+						<th width="110" type="comboxcode" name="items[#index#].ucpdFormat"
+							valueCode="valueCode" codeType="7011" valueDesc="valueDesc"
+							AdefaultVal="" AdefaultName="请选择">格式</th>
+						<th type="del">操作</th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+		</div>
+
+	</div>
+	<div class="formBar">
+		<ul>
+			<li><div class="buttonActive">
+					<div class="buttonContent">
+						<button type="submit" name="generateAction" id="generateAction">保存</button>
+					</div>
+				</div>
+			</li>
+			<li><div class="button">
+					<div class="buttonContent">
+						<button type="button" class="close">关闭</button>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+</form>
+<script type="text/javascript">
+	//通过tab url得到行主键，获取信息，自动填充form表单
+
+	$(function() {
+		var $form = findName("pageForm");
+		findName('showTitle').html('新建编码原则信息');
+
+		$form.attr('action', CPATH.domain_1
+				+ '/rs/mwBasicEncodePrinciple?method=post');
+	});
+
+	
+	
+	function afterAddForAdd() {
+		var $table = findName("ucpDetail");
+		var $t = $table.find("tbody");
+		var $trs = $t.find(">tr");
+
+		refreshValidateParamForUcpdAdd($trs);
+
+	}
+
+	function updateucpdCodeLengthAdd(object) {
+
+		var $this = $(object);
+		try {
+			var val2 = parseInt($this.val());
+			if (val2)
+				findName("ucpCodeLength").val(val2);
+		} catch (e) {
+			console.log(e);
+		}
+	}
+	function refreshValidateParamForUcpdAdd($trs) {
+		var length = $trs.length;
+		$trs.each(function(i) {
+
+					var start1 = $($trs[i]).find(
+							"[name='items[" + i + "].ucpdStart']");
+
+					var end1 = $($trs[i]).find(
+							"[name='items[" + i + "].ucpdEnd']");
+					end1.removeAttr("biggerThanByName");
+
+					start1.removeAttr("max");
+					start1.removeAttr("bigger1ByName");
+
+					end1.attr("biggerThanByName", "items[" + i + "].ucpdStart");
+
+					if (i == 0) {
+						start1.attr("max", 1);
+						start1.attr("min", 1);
+						start1.val(1);
+					} else {
+						var end0 = $($trs[i - 1]).find(
+								"[name='items[" + (i - 1) + "].ucpdEnd']");
+						try {
+							var val2 = parseInt(end0.val());
+							if (val2)
+								start1.val(val2 + 1);
+						} catch (e) {
+							console.log(e);
+						}
+						start1.attr("bigger1ByName", "items[" + (i - 1)
+								+ "].ucpdEnd");
+
+					}
+					if (i == (length - 1)) {
+						updateucpdCodeLengthAdd(end1);
+						end1.bind("change", function() {
+
+							updateucpdCodeLengthAdd(this);
+
+						});
+					}
+					end1.bind('change', function() {
+						changeNextStartForUcpdAdd(end1);
+					});
+
+				});
+	}
+	function changeNextStartForUcpdAdd(obj) {
+
+		var start11 = $("[name$='ucpdStart']", $(obj).parent().parent().next());
+
+		try {
+			var val = parseInt($(obj).val());
+			if (start11) {
+				if (val)
+					start11.val(val + 1);
+			}
+		} catch (e) {
+			console.log(e);
+		}
+
+	}
+</script>

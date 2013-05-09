@@ -1,0 +1,138 @@
+<style type="text/css"> 
+ul.auMenuInfoTreeForcckLookup	{
+	height: 420px;
+overflow: auto;
+width: 100%;}
+</style>
+
+<SCRIPT type="text/javascript">
+<!--
+var bringBackAuMenuForCckCreateMenu_parentId=null; 
+var aumenu_setting = { 
+	view: {
+		selectedMulti: false
+	},
+	edit: {
+		enable: true,
+		showRemoveBtn: false,
+		showRenameBtn: false
+	},
+	data: { 
+		simpleData: {
+			enable: true
+		}
+	},
+	callback: {
+		beforeClick: aumenu_beforeClick, 
+	}
+};
+
+ 
+
+
+// //========callback==============
+
+function aumenu_beforeClick(treeId, treeNode, clickFlag) {   
+	bringBackAuMenuForCckCreateMenu_treeNode=treeNode;
+	 
+	return (treeNode.click != false);
+} 
+
+// //==================================
+
+function aumenu_showDialog(operAction,pnode){   
+	//
+	var title = operAction+" -- 菜单节点";
+	var rel = "aumenudialog";
+	var options = {}; 
+	options.width = 400;
+	options.height = 500;
+	options.max =false;
+	options.mask = true;
+	options.maxable = false;
+	options.minable = false;
+	options.fresh = true;
+	options.resizable = false;
+	options.drawable = true;
+	options.close = "";
+	options.param = pnode;
+	options.zIndex = "1000";
+
+	var url = "/syWeb/pages/system/menu/modify/auMenuModify.html";
+
+	$.pdialog.open(url, rel, title, options);
+	
+}//end of showLineChooserDialog
+ 
+ 
+
+function aumenu_initTreeZNodes_forCckLookup(){
+	var zNodes =[ ];
+	dtdXHR = $.ajax({
+		  type: "GET",
+		  url: getURL(CPATH.domain_1,"/rs/aumenu/treedynamicload"),
+		  dataType: "json",
+		  cache:false,
+		  global:false
+		}); 
+	//done 
+	dtdXHR.done(function(respJson){        
+		zNodes=respJson.jsonData; 
+		aumenu_createTree_forCckLookup(zNodes);
+		
+	});
+	//fail
+	dtdXHR.fail(function(respJson){   
+		logger.info("failed.");
+	});
+}//end of initTreeZNodes
+
+function aumenu_createTree_forCckLookup(zNodes){  
+	var treeObj=$.fn.zTree.init($("#auMenuInfoTreeForcckLookup"), aumenu_setting, zNodes);
+	treeObj.expandAll(true); 
+}
+
+$(document).ready(function(){ 
+	aumenu_initTreeZNodes_forCckLookup(); 
+	findDialogName("lookupbtn").bind("click",bringBackAuMenuForCckCreateMenu);
+});
+function bringBackAuMenuForCckCreateMenu(){
+	if(bringBackAuMenuForCckCreateMenu_treeNode)
+		{
+		if(bringBackAuMenuForCckCreateMenu_treeNode.level>=1){
+		setBringBackAuMenuForCckCreateMenu(bringBackAuMenuForCckCreateMenu_treeNode.id,bringBackAuMenuForCckCreateMenu_treeNode.authorityId);
+		$.pdialog.closeCurrent();}else{
+			alertMsg.error("请选择二层以上菜单！");
+		}
+		}else{
+			alertMsg.error("请选择一条记录！");
+		}
+}
+//-->
+</SCRIPT>
+ 
+<div class="pageContent">
+	<div style="margin: 0 10px 0 10px;"> <ul layouth="47" id="auMenuInfoTreeForcckLookup" class="ztree auMenuInfoTreeForcckLookup"></ul> </div>
+
+<div class="formBar">
+			<ul>
+				<li><div class="buttonActive">
+						<div class="buttonContent">
+							<button name ="lookupbtn" type="button">选择</button>
+						</div>
+					</div></li>
+				<li><div class="button">
+						<div class="buttonContent">
+							<button type="button" class="close">关闭</button>
+						</div>
+					</div></li>
+			</ul>
+		</div>
+	 
+</div>
+	
+		
+	 
+		
+	
+ 

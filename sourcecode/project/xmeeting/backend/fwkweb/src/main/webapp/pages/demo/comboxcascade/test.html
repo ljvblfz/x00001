@@ -1,0 +1,27 @@
+<h2 class="contentTitle">combox cascade演示</h2>
+
+
+<script type="text/javascript">
+	
+	//http://kotowicz.net/jquery-option-tree/demo/demo.html
+	
+	$(document).ready(function(){ 
+	
+		 
+		var option_tree = {
+			       "Option 1": {"Suboption":200},
+			       "Option 2": {"Suboption 2": {"Subsub 1":201, "Subsub 2":202},
+			                "Suboption 3": {"Subsub 3":203, "Subsub 4":204, "Subsub 5":205}
+			               }
+			    };
+
+		$('input[name=demo1]').optionTree(option_tree);
+		
+	}); 
+	
+</script> 
+
+<div class="pageContent">
+	<input type="hidden" name="demo1" />
+	 
+</div>

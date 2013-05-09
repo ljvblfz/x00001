@@ -1,0 +1,412 @@
+<style type="text/css"> 
+	div.content_tree_content_wrap {width: 100%;height:100%;}
+	div.content_tree_content_wrap div.left{float: left;width: 40%;}
+	div.content_tree_content_wrap div.right{float: left;width: 60%;;height:100%;}  
+	div.cckContentTreepageFormContentDIV p{width: 100%;}
+	div.cckContentTreepageFormContentDIV  font.ui-dform-font {
+font-family: sans-serif; float: left; 
+color:red;
+}
+ 
+div.cckContentTreepageFormContentDIV  p.ui-dform-p  {
+height:auto;
+}
+div.cckContentTreepageFormContentDIV  textarea.ui-dform-textarea {
+	width:260px;
+	height:60px;
+}
+</style>
+
+<SCRIPT type="text/javascript">
+<!--
+function findNameWithParentNameInTabForCCK(name,pname){
+return	$("[name='"+name+"']",findName(pname));
+	
+}
+function findClassWithParentNameInTabForCCK(classname,pname){
+	return	$("."+classname,findName(pname));
+		
+	}
+var cckContentTree_setting = { 
+	view: {
+		selectedMulti: false
+	},
+	edit: {
+		enable: true,
+		showRemoveBtn: false,
+		showRenameBtn: false
+	},
+	data: { 
+		key : {
+		 
+		name : "__NAME__",
+		 
+		},
+		simpleData : {
+		enable : true,
+		idKey : "__ID__",
+		pIdKey : "__PID__" 
+		 
+		}
+		 
+	},
+	callback: {
+		onDrop:cckContentTree_onDrop,
+		beforeClick: cckContentTree_beforeClick 
+  
+	}
+};
+ 
+function cckContentTree_onDrop(event, treeId, treeNodes, targetNode, moveType) {
+ 
+	 if(!targetNode&&!moveType)
+	{	 return false;}
+	 else{
+		 alertMsg.confirm("是否更改父节点？", {
+				okCall : function( ){ doUpdateParentId(treeNodes,targetNode,moveType);},
+		  		cancelCall:cckContentTree_refresh_tree
+			});
+	 
+	 }
+	 function doUpdateParentId(treeNodes,targetNode,moveType){
+		 var parentId=null;
+		 if(targetNode){
+			 if(moveType=='inner')
+			{ parentId=targetNode.__ID__;}
+			 else{
+				 parentId=targetNode.__PID__;
+			 }
+		 }
+		
+		 if(treeNodes&&treeNodes[0]){
+			 var node=treeNodes[0];
+			 var SCC_GUID=node.__ID__;
+			var sctGuid= get_sctguid_for_cck_content_tree();
+			var params={SCT_GUID:sctGuid,SCC_GUID:SCC_GUID,parentId:parentId,moveType:moveType};
+				doPostAjax(getURL(CPATH.domain_1, "/rs/cck/dform/formaction/editParentId"),params ,
+						function(data) { 
+//								$.pdialog.close($.pdialog.getCurrent());	 
+//								aumenu_initTreeZNodes();
+					});
+		 }
+		 return  false;}
+};
+ 
+
+function cckContentTree_beforeClick(treeId, treeNode, clickFlag) {   
+	//
+	
+	var form=findNameWithParentNameInTabForCCK("cckContentTreeform","cckContentTree_maintain_content");
+// 	var sctGuid=form.find("[name=cckTreeCctGuid]").val();
+	$("a,input,select",form).val("");
+	form.populate2(treeNode);
+	$("a.cckcombox",form).each(function (){
+		var $a=$(this);
+		$a.setCurrentVal($a.next().val());
+	});
+	$(".cckcomboxcascade",form).comboxcascade();
+// 	form.find("[name=cckTreeCctGuid]").val(sctGuid);
+	return (treeNode.click != false);
+} 
+
+// //==================================
+function cckContentTree_add() {   
+	var div=findNameWithParentNameInTabForCCK("cckContentTreeInfoTree","cckContentTree_maintain_content");
+	var treeId=div.attr("id");
+	var zTree = $.fn.zTree.getZTreeObj(treeId),
+	nodes = zTree.getSelectedNodes(),
+	treeNode = nodes[0];  
+  	var node=treeNode; 
+ 
+  	if(node){
+  	node.sctGuid=get_sctguid_for_cck_content_tree();
+  	node.oper="add";
+	cckContentTree_showDialog("新增",node);}
+  	else{
+//   		node={};
+//   		node.sctGuid=get_sctguid_for_cck_content_tree();
+//   	  	node.oper="add";
+//   		cckContentTree_showDialog("新增",node);
+  		alertMsg.error("请选择一个节点!");
+  	}
+	 
+}
+function cckContentTree_add_root() {   
+  	var node={};
+  	node.sctGuid=get_sctguid_for_cck_content_tree();
+  	node.oper="add";
+	cckContentTree_showDialog("新增",node);
+	 
+}
+
+ 
+
+function cckContentTree_edit() {  
+	
+	var div=findNameWithParentNameInTabForCCK("cckContentTreeInfoTree","cckContentTree_maintain_content");
+	var treeId=div.attr("id");
+	var zTree = $.fn.zTree.getZTreeObj(treeId),
+	nodes = zTree.getSelectedNodes(),
+	treeNode = nodes[0];  
+  	var node=treeNode; 
+ 
+  	if(node){
+  	node.sctGuid=get_sctguid_for_cck_content_tree();
+  	node.oper="modify";
+	cckContentTree_showDialog("新增",node);}
+  	else{
+  		alertMsg.error("请选择一个节点!");
+  	}
+	
+	
+}
+ 
+
+
+function cckContentTree_remove() {
+	var div=findNameWithParentNameInTabForCCK("cckContentTreeInfoTree","cckContentTree_maintain_content");
+	var treeId=div.attr("id");
+	var zTree = $.fn.zTree.getZTreeObj(treeId),
+	nodes = zTree.getSelectedNodes(),
+	treeNode = nodes[0];  
+  	var node=treeNode; 
+ 
+  	if(node){
+  		alertMsg.confirm("确认删除？", {
+			okCall : _doPost
+		});
+  
+	}
+  	else{
+  		alertMsg.error("请选择一个节点!");
+  	}
+// 	zTree.removeNode(treeNode,true);
+	function _doPost(){
+		var sctGuid=get_sctguid_for_cck_content_tree();
+	  	node.sctGuid=sctGuid;
+	  	var sccGuid=node.__ID__;
+		var url ="/rs/cck/dform/formaction/delete" ; 
+	 
+		dtdXHR = $.ajax({
+		  type: "POST",
+		  url: getURL(CPATH.domain_1,url),
+		  data: {oper:'delete',sccGuids:sccGuid,sctGuid:sctGuid}, 
+		  dataType: "json"
+		}); 
+		
+		dtdXHR.done(function(respJson){   
+			alertMsg.correct("删除成功。");
+			cckContentTree_refresh_tree();
+			//zTree.removeNode(treeNode,true);
+		});
+		dtdXHR.fail(function(respJson){  
+			alertMsg.error("删除失败。");
+		});
+		
+	}
+}
+
+ 
+
+function cckContentTree_refresh_tree(){
+	var sctGuid= get_sctguid_for_cck_content_tree();
+	var masterId=get_masterid_for_cck_content_tree();	 
+	cckContentTree_initTreeZNodes(sctGuid,masterId); 
+}
+
+ 
+function cckContentTree_showDialog(operAction,pnode){   
+	//
+	 
+		var sctGuid=	get_sctguid_for_cck_content_tree();
+	var masterId=get_masterid_for_cck_content_tree();
+	pnode['sctGuid']=sctGuid;
+	pnode['masterId']=masterId;
+	pnode.fromTree=true;
+	if(pnode.oper=="modify"){
+		pnode.sccGuid=pnode.__ID__;
+	} else{
+		pnode.sccGuid=null;
+	}
+	
+	var title = operAction+" -- 节点";
+	var rel = "cckContentTreedialog";
+	var options = {}; 
+	options.width = 550;
+	options.height = 500;
+	options.max =false;
+	options.mask = true;
+	options.maxable = false;
+	options.minable = false;
+	options.fresh = true;
+	options.resizable = true;
+	options.drawable = true;
+	options.close = "";
+	options.param = pnode;
+	options.zIndex = "1000";
+	var url = CPATH.domain_1
+	+ "/pages/system/cck/modify/cckContentModify.html?sctGuid="
+	+ sctGuid;
+// 	var url = "/syWeb/pages/system/menu/modify/cckContentTreeModify.html";
+
+	$.pdialog.open(url, rel, title, options);
+	
+}//end of showLineChooserDialog
+ 
+ 
+
+function cckContentTree_initTreeZNodes(sctGuid,masterId){
+	var zNodes =[ ];
+	dtdXHR = $.ajax({
+		  type: "GET",
+		  url: getURL(CPATH.domain_1,"/rs/cck/cckContentData/"+sctGuid+(masterId?("?masterId="+masterId):'')),
+		  dataType: "json",
+		  cache:false,
+		  global:false
+		}); 
+	//done 
+	dtdXHR.done(function(respJson){   
+		if(respJson&&respJson.jsonData){ 
+		zNodes=respJson.jsonData; 
+		cckContentTree_createTree(zNodes);}
+		
+	});
+	//fail
+	dtdXHR.fail(function(respJson){   
+		console.log("failed.");
+	});
+}//end of initTreeZNodes
+
+function cckContentTree_createTree(zNodes){  
+	var treeObj=$.fn.zTree.init(	findNameWithParentNameInTabForCCK("cckContentTreeInfoTree","cckContentTree_maintain_content") , cckContentTree_setting, zNodes);
+	treeObj.expandAll(true); 
+}
+function get_sctguid_for_cck_content_tree(){
+	return  	findNameWithParentNameInTabForCCK("cckTreeCctGuid","cckContentTree_maintain_content").val( );
+}
+function get_masterid_for_cck_content_tree(){
+	return  	findNameWithParentNameInTabForCCK("cckTreeMasterId","cckContentTree_maintain_content").val( );
+}
+$(document).ready(function(){ 
+	
+	var cckcontentTreeArgs = {};
+	findName("cckContentTreeform").data("arg", cckcontentTreeArgs);
+	var sctGuid = navTab._getParam("sctGuid");
+	var masterId = navTab._getParam("masterId");
+	var readOnly =  navTab._getParam("readOnly");
+	// 	cckcontentArgs.sctGuid=sctGuid;
+	var cckajax=findClass("cck-ajax");
+	if(cckajax&&cckajax.length>0){
+		var url = $(cckajax[0]).attr("href").toString();
+		if (url) {
+			var strs = url.split("?");
+			if (strs[1]) {
+				var ss = strs[1].split("&");
+				if (ss) {
+					for ( var i = 0; i < ss.length; i++) {
+						var ps = ss[i].split("=");
+						if (ps && ps[0] && ps[1]) {
+							if (ps[0] == "sctGuid") {
+								sctGuid = ps[1];
+							}else if (ps[0] == "masterId") {
+								masterId = ps[1];
+							}else if (ps[0] == "readOnly") {
+								readOnly = ps[1];
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	if(readOnly&&(readOnly==true||readOnly=="true"))
+		{
+		$(".toolBar",findName("cckContentTree_maintain_content")).hide();
+		}
+	findName("cckContentTreeform").data("sctGuid", sctGuid);
+	findName("cckContentTreeform").data("masterId", masterId);
+	
+	
+	
+	 
+	var treeId="tree"+sctGuid+new Date().getTime();
+	
+ 	findNameWithParentNameInTabForCCK("cckTreeCctGuid","cckContentTree_maintain_content").val(sctGuid);
+ 	findNameWithParentNameInTabForCCK("cckTreeMasterId","cckContentTree_maintain_content").val( masterId);
+	var ul="<ul name=\"cckContentTreeInfoTree\" id=\""+treeId+"\" class=\"ztree\"></ul>";
+	findNameWithParentNameInTabForCCK("cckContentTreeInfoTreeDiv","cckContentTree_maintain_content").html(ul);
+	
+	cckContentTree_initTreeZNodes(sctGuid,masterId); 
+	findNameWithParentNameInTabForCCK("add","cckContentTree_maintain_content").bind("click",  cckContentTree_add);
+	findNameWithParentNameInTabForCCK("addroot","cckContentTree_maintain_content").bind("click",  cckContentTree_add_root);
+	findNameWithParentNameInTabForCCK("edit","cckContentTree_maintain_content").bind("click", cckContentTree_edit);
+	findNameWithParentNameInTabForCCK("remove","cckContentTree_maintain_content").bind("click", cckContentTree_remove); 
+	  
+	 
+// 	var sccGuid=param.sccGuid ;
+	 
+// 	var masterId=param.masterId;
+	
+		var url_add="/rs/cck/dform/buildform/add/"+sctGuid+"/sccGuid/add";
+		doGetAjax(CPATH.domain_1 + url_add ,null,function(data){
+			data.jsonData.html.splice(1,1);
+			var $form=findNameWithParentNameInTabForCCK("cckContentTreeform","cckContentTreepageFormContentDIV");
+			$form.dform(data.jsonData );
+			$form.data("validator",null);//删除之前的validator
+				$form.parent().parent().initUI();
+				$form.find(".pageFormContent").attr("layoutH",37);
+				$form.find(".pageFormContent").layoutH(findNameWithParentNameInTabForCCK("cckContentTreepageFormContentDIV","cckContentTree_maintain_content").parent().parent().parent().parent() );
+// 			 findNameWithParentNameInTabForCCK("SCT_GUID","cckContentTreepageFormContentDIV").val(sctGuid);
+// 			 findClassWithParentNameInTabForCCK("MasterId","cckContentTreepageFormContentDIV").val(masterId);
+// 			 findNameWithParentNameInTabForCCK("masterId","cckContentTreepageFormContentDIV").val(masterId);
+			 findClassWithParentNameInTabForCCK("sync","cckContentTreepageFormContentDIV").removeClass("sync").combox();
+			 findClassWithParentNameInTabForCCK("syncComboxCascade","cckContentTreepageFormContentDIV").removeClass("syncComboxCascade").comboxcascade();
+		});
+ 	 
+		
+	
+	
+	
+});
+ 
+//-->
+</SCRIPT>
+ 
+<div class="content_tree_content_wrap"  name="cckContentTree_maintain_content">
+	<div class="left" >
+		<div class="panel" defH="500">
+			<h1>数据信息</h1>
+			<div layoutH=40   name="cckContentTreeInfoTreeDiv" ></div>
+		</div>
+		
+	</div>
+	<div class="right" >
+		 <div class="panelBar">  
+			<ul class="toolBar">
+				<li>
+					<a class="add" href="#" title="新增子节点" name="add"><span>新增子节点</span> </a>
+				</li>
+				
+				<li>
+					<a class="edit" href="#" title="修改本节点"   name="edit"><span>修改</span> </a>
+				</li>
+				<li>
+					<a class="delete" href="#" title="删除本节点"  name="remove"><span>删除</span>
+					</a>
+				</li>
+				<li>
+					<a class="add" href="#" title="新增根节点"   name="addroot"><span>新增根节点</span> </a>
+				</li>
+ 
+			</ul>
+		</div> 
+		<div name="cckContentTreepageFormContentDIV" class="pageContent cckContentTreepageFormContentDIV" style="height:100%"  > 
+			<input type="hidden" name="cckTreeCctGuid" />
+			<input type="hidden" name="cckTreeMasterId" />
+			<form name="cckContentTreeform"  >
+			</form>
+		</div>	 
+	</div>
+	
+</div>

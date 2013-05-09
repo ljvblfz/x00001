@@ -1,0 +1,137 @@
+<form method="get" name="hrattendanceCheckWorkmanSearchForm" action="/rs/"
+	onsubmit="return false;">
+	<input type="hidden" name="pageNum" value="1" />
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>
+						员工姓名
+					</label>
+					<input type="text" name="username" value="" />
+				</li>
+
+			</ul>
+			<div class="subBar">
+				<ul>
+					<li>
+						<div class="buttonActive">
+							<div class="buttonContent">
+								<button type="button"
+									onclick="hrattendanceCheckWorkManInfoSearch({pageNum:1})">
+									查询
+								</button>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="buttonActive">
+							<div class="buttonContent">
+								<button type="button" onclick="clearCheckForm_hrattendanceCheckWorkManInfo();">
+									清空
+								</button>
+
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+</form>
+
+<div class="pageContent">
+
+	<table class="table" layoutH="110" width="100%">
+		<thead>
+			<tr searchMethod="hrattendanceCheckWorkManInfoSearch">
+				<!--  <th width="60" orderField="materialsNo">物资编号</th>-->
+					<th width="22">
+					
+				</th>
+				<th width="60">
+					姓名
+				</th>
+				<th width="60">
+					工号
+				</th>
+				<th width="60">
+					登签时间
+				</th>
+				
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="hrattendanceCheckWorkManInfoTrTemplate" target="slt_uid">
+			<td type="radio">
+				<input type="radio" name="id" value="" />
+			</td>
+				<!--	<td name="materialsNo"></td>-->
+				<td name="username"></td>
+				<td name="jobnumber"></td>
+				<td name="signdate"></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage"
+				onchange="hrattendanceCheckWorkManInfoSearch({numPerPage:this.value,pageNum:1})">
+				<option value="20">
+					20
+				</option>
+				<option value="40">
+					40
+				</option>
+				<option value="100">
+					100
+				</option>
+				<option value="200">
+					200
+				</option>
+			</select>
+			<span name="hrattendanceCheckWorkManInfoCountDiv">条，</span>
+		</div>
+		<div name="hrattendanceCheckWorkManInfoPageBar" class="pagination"
+			searchMethod="hrattendanceCheckWorkManInfoSearch" targetType="navTab"
+			totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+
+</div>
+<script type="text/javascript">
+	//定义默认参数
+	$(function() {
+		//查询方法
+
+		hrattendanceCheckWorkManInfoSearch();
+	});
+	var hrattendanceCheckWorkManInfoArgs = {
+			
+	};
+	function hrattendanceCheckWorkManInfoSearch(opt) {
+		$.extend(hrattendanceCheckWorkManInfoArgs, findDialogName('hrattendanceCheckWorkmanSearchForm')
+				.serializeJson(), opt ? opt : {});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_1, "/rs/system/au/hrattendanceCheckWorkMan"),
+				hrattendanceCheckWorkManInfoArgs, hrattendanceCheckWorkManInfoList);
+
+	}
+
+	//拼装
+	function hrattendanceCheckWorkManInfoList(data) {
+		var sampleRow = findDialogName('hrattendanceCheckWorkManInfoTrTemplate');
+		pageResponse2Table(sampleRow, data);
+		printPageBarDiv(findDialogName('hrattendanceCheckWorkManInfoPageBar'),
+				findDialogName('hrattendanceCheckWorkManInfoCountDiv'), data.jsonData);
+	}
+
+	//清空查询内容
+
+	function clearCheckForm_hrattendanceCheckWorkManInfo() {
+		findDialogName("hrattendanceCheckWorkmanSearchForm")[0].reset();
+		//findName("stationname", navTab.getCurrentPanel()).attr("value", "");
+	}
+	
+</script>
+

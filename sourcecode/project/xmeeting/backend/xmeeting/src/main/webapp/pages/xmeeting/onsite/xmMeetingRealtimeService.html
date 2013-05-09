@@ -1,0 +1,109 @@
+<style type="text/css">
+ 
+
+</style>
+
+<script type="text/javascript">
+	
+</script>
+
+
+<h2 class="contentTitle">
+	会议名称:<label style="font-size:18px;color:red">电力公司技术交流会</label>
+</h2>
+
+<div class="pageContent sortDrag" selector="h1" layoutH="42">
+
+	<!-- ======================呼叫服务========================== -->
+	<div class="panel collapse" defH="150">
+		<h1>呼叫服务</h1>
+		<div>
+			<table class="table" layoutH="138" width="100%">
+				<thead>
+					<tr  searchMethod="xmMeetingCallSearch">
+								<th width="22"><input type="checkbox" group="xmmcallGuids" class="checkboxCtrl"></th>
+								<th width="60" orderField="xmmiGuid">会议PID</th>
+								<th width="60" orderField="xmmcallCaller">呼叫者</th>
+								<th width="60" orderField="xmmcallMessage">呼叫内容</th> 
+								<th width="60" orderField="xmmcallMessage">呼叫时间</th> 
+					</tr>
+				</thead>
+				<tbody>
+					<tr name="xmMeetingCallTrTemplate" target="slt_uid">
+								<td name="xmmcallGuid" type="check"><input name="xmmcallGuids" value="" type="checkbox"></td>
+								<td name="xmmiGuid"></td>
+								<td name="xmmcallCallerDisplayname"></td>
+								<td name="xmmcallMessage"></td>  
+								<td name="xmmcallTime"></td>  
+					</tr>
+				</tbody>
+			</table>
+		
+		
+		</div>
+	</div>
+
+
+	<!-- ======================消息服务========================== -->
+	<div class="panel collapse" defH="150">
+		<h1>消息服务</h1>
+		<div>
+			 	
+			<table class="table" layoutH="138" width="100%">
+				<thead>
+					<tr  searchMethod="xmMeetingMessageSearch"><th width="22"><input type="checkbox" group="xmmmGuids" class="checkboxCtrl"></th>
+								<th width="60" orderField="xmmiGuid">会议</th>
+								<th width="60" orderField="xmmmFrom">发送者</th>
+								<th width="60" orderField="xmmmTo">接收者</th>
+								<th width="60" orderField="xmmmMessage">消息内容</th> 
+								<th width="60" orderField="xmmcallMessage">发送时间</th> 
+					</tr>
+				</thead>
+				<tbody>
+					<tr name="xmMeetingMessageTrTemplate" target="slt_uid">
+						<td name="xmmmGuid" type="check"><input name="xmmmGuids" value="" type="checkbox"></td>
+								<td name="xmmiGuid"></td>
+								<td name="xmmmFromDisplayname"></td>
+								<td name="xmmmToDisplayname"></td>
+								<td name="xmmmMessage"></td>  
+								<td name="xmmmTime"></td>  
+					</tr>
+				</tbody>
+			</table>
+			 
+			 
+			 
+		</div>
+	</div>
+
+	<!-- ======================投票管理========================== 
+	<div class="panel collapse" minH="100" defH="150">
+		<h1>投票管理</h1>
+		<div> 
+			<h4>请对...投票?</h4>
+			<ul  type="circle">
+			  <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1)这个很好&nbsp;&nbsp;10票</li>
+			  <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2)这个比较好&nbsp;&nbsp;5票</li>
+			  <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3)这个不好&nbsp;&nbsp;2票</li>
+			</ul>
+			
+			
+			<h4>请对...投票2?</h4>
+			<ul  type="circle">
+			  <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1)这个很好&nbsp;&nbsp;10票</li>
+			  <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2)这个比较好&nbsp;&nbsp;2票</li>
+			  <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3)这个不好&nbsp;&nbsp;8票</li>
+			</ul>
+
+		</div>
+	</div>
+	-->
+</div>
+
+
+
+
+
+
+
+

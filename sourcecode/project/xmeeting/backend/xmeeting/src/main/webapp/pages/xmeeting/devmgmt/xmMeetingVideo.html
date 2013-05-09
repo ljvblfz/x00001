@@ -1,0 +1,95 @@
+<!-- <form method="get" name="xmMeetingVideoSearchForm" action="/rs/xmMeetingVideo" onsubmit="return false;" > -->
+<!-- 	<input type="hidden" name="pageNum" value="1" /> -->
+<!-- 	<div class="pageHeader"> -->
+<!-- 		<div class="searchBar"> -->
+<!-- 			<ul class="searchContent"> -->
+<!-- 				<li> -->
+<!-- 					<label>类型名称：</label> -->
+<!-- 					<input type="text" name="xmmvGuid" value=""/> -->
+<!-- 				</li>  -->
+<!-- 			</ul> -->
+<!-- 			<div class="subBar"> -->
+<!-- 				<ul>						 -->
+<!-- 					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="xmMeetingVideoSearch({pageNum:1})">查询</button></div></div></li> -->
+<!-- 					<li><a class="button" href="/management/user!advancedSearch.do?userType=TRAINING" target="dialog" title="Advanced Search"><span>高级查询</span></a></li> -->
+<!-- 				</ul> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
+<!-- </form> -->
+
+<div class="pageContent">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+			<li><a class="add" target="navTab" rel="11userNav" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/modify/xmMeetingVideoModify.html');" title="新增xmMeetingVideo"  ><span>新增</span></a></li>
+			<li><a class="edit" target="navTab" rel="11userNav1" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/modify/xmMeetingVideoModify.html?xmmvGuid={slt_uid}');" title="修改xmMeetingVideo"   multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
+			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_3,'/rs/xmMeetingVideo')"  rel="xmmvGuids" 
+			callBackMethod="xmMeetingVideoSearch"	title="确认删除?"  ><span>删除</span></a></li> 
+		</ul>
+	</div>
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr  searchMethod="xmMeetingVideoSearch"><th width="22"><input type="checkbox" group="xmmvGuids" class="checkboxCtrl"></th>
+<!-- 						<th width="60" orderField="xmmiGuid">会议名称</th> -->
+						<th width="60" orderField="xmmvName">视频名称</th>
+						<th width="60" orderField="xmmvDescription">视频描述</th>
+						<th width="60" orderField="xmmvFile">视频文件</th> 
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="xmMeetingVideoTrTemplate" target="slt_uid">
+				<td name="xmmvGuid" type="check"><input name="xmmvGuids" value="" type="checkbox"></td>
+<!-- 						<td name="xmmiGuid"></td> -->
+						<td name="xmmvName"></td>
+						<td name="xmmvDescription"></td>
+						<td name="xmmvFile"></td> 
+				
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage" onchange="xmMeetingVideoSearch({numPerPage:this.value,pageNum:1})">
+				<option value="10">10</option>
+				<option value="40">40</option>
+				<option value="100">100</option>
+				<option value="200">200</option>
+			</select>
+			<span name="xmMeetingVideoCountDiv">条，共-条</span>
+		</div>
+		<div name="xmMeetingVideoPageBar" class="pagination" searchMethod="xmMeetingVideoSearch" targetType="navTab" totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+</div>
+<script type="text/javascript">
+	//定义默认参数
+	var xmMeetingVideoArgs={};
+	 //查询方法
+     
+    $(function(){
+		var url = navTab._getTabUrl();
+		var xmmiGuid=navTab._getParam("xmmiGuid");
+		var xurl="/pages/xmeeting/devmgmt/modify/xmMeetingVideoModify.html?xmmiGuid="+xmmiGuid+"";
+		findClass("add").attr("href",getURL(CPATH.domain_3,xurl));
+		//
+		var opts={xmmiGuid:xmmiGuid}; 
+		xmMeetingVideoSearch(opts);
+	}); 
+	 
+	function xmMeetingVideoSearch(opt){
+		//序列化表单值，并扩展到xmMeetingVideoArgs对象中
+		$.extend(xmMeetingVideoArgs,findName('xmMeetingVideoSearchForm').serializeJson(),opt?opt:{});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_3,"/rs/xmMeetingVideo"),xmMeetingVideoArgs,xmMeetingVideoList);
+	}
+	
+	//拼装
+	function xmMeetingVideoList(data){
+		var sampleRow=findName('xmMeetingVideoTrTemplate');
+		pageResponse2Table(sampleRow,data);
+        printPageBarDiv(findName('xmMeetingVideoPageBar'),findName('xmMeetingVideoCountDiv'),data.jsonData);
+	}
+</script>

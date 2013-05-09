@@ -1,0 +1,214 @@
+<!-- <h2 class="contentTitle" name="showTitle">Edit Type</h2> -->
+<style>
+.syCckTypeButtonpageFormContent p{
+width:98%}
+</style>
+
+<div class="pageContent">
+<form name="syCckTypeButtonModifypageForm" method="post" class="required-validate pageForm" onsubmit="return validateCallback(this, dialogAjaxDone);">
+		<input type="hidden" name="sctbGuid" id="sctbGuid"/>
+		<input type="hidden" name="navTabId" value="syCckTypeButtonModify" />
+		<input type="hidden" name="callbackType" value="closeCurrent" />
+		<input type="hidden" name="callBackMethod" value="syCckTypeButtonSearch" />
+		<input type="hidden" name="sctGuid"    />
+	 
+	<div class="syCckTypeButtonpageFormContent pageFormContent" layoutH="46">
+		 
+			
+<!-- 			<p> -->
+<!-- 				<label>button name</label> -->
+<!-- 				<input type="text" name="buttonName" class="" size="30" maxlength="20"/> -->
+<!-- 			</p> -->
+			<p>
+				<label>按钮显示名称</label>
+				<input type="text" name="buttonLabel" class="required" size="30" maxlength="20"/>
+	 
+			</p>
+			<p>
+				<label>按钮图标</label>
+	 
+				<select name="buttonIcon" class="combox sync"  >
+								<option value="" selected>默认</option>
+								<option value="add"  >新增</option>
+								<option value="edit"  >修改</option>
+								<option value="delete"  >删除</option>
+								<option value="view"  >查看</option>
+								<option value="icon"  >图标</option>
+								<option value="export"  >导出</option>
+								<option value="other"  >自定义图标</option>
+							</select>
+			</p>
+			<p class="cckButtonShowP3">
+				<label>自定义图标url</label>
+				<input type="text" name="iconUrl" class="" size="60" maxlength="500"/>
+			</p>
+			<p>
+				<label>按钮类型</label>
+				<select codeType="1020"  name="buttonType" class="combox required sync "  valueCode="valueCode"   valueDesc="valueDesc">
+								<option value="" selected>请选择</option>
+							</select>
+							 <font color="red" style="font-family: sans-serif; float: left; ">*</font>
+			</p>
+			<p class="cckButtonShowP">
+				<label>子表编码</label>
+				<input type="text" name="buttonDetailTypeCode" class="" size="30" maxlength="20"/>
+			</p>
+			<p class="cckButtonShowP">
+				<label>父表字段</label>
+				<input type="text" name="masterIdColumn" class="" size="30" maxlength="200"  />
+			</p>
+			<p class="cckButtonShowP4">
+				<label>自定义方法</label>
+				<input type="text" name="functionName" class="" size="60" maxlength="200"/>
+			</p>
+			<p class="cckButtonShowP2">
+				<label>按钮连接</label>
+				<input type="text" name="buttonLink" class="" size="60" maxlength="200"/>
+			</p>
+			<p class="cckButtonShowP2">
+				<label>可多选</label>
+<!-- 				<input type="text" name="buttonIsMultiple" class="" size="30" maxlength="20" 1readOnly="readOnly" value="2" /> -->
+				<select name="buttonIsMultiple" class="combox sync"  >
+								<option value="0" >单选</option>
+								<option value="1"  >多选</option>
+								<option value="2" selected >无限制</option>
+							</select>
+			</p>
+			<p class="cckButtonShowP2">
+				<label>打开方式</label>
+<!-- 				<input type="text" name="buttonLinkTarget" class="" size="30" maxlength="20"/> -->
+		<select name="buttonLinkTarget" class="combox sync"  >
+								<option value="navTab" selected>navTab</option>
+								<option value="dialog"  >dialog</option>
+						 
+							</select>
+			</p>
+			<p class="cckButtonShowP2">
+				<label>dialog高度</label>
+				<input type="text" name="dialogHeight" class="digits" min=10 max=700 size="30" maxlength="20"/>
+			</p><p class="cckButtonShowP2">
+				<label>dialog宽度</label>
+				<input type="text" name="dialogWidth" class="digits" min=10 max=1200 size="30" maxlength="20"/>
+			</p>
+			<p>
+				<label>按钮DWZ TAB ID</label>
+				<input type="text" name="buttonLinkNavtabId" class="" size="30" maxlength="20"/>
+			</p>
+
+			<p>
+				<label>顺序</label>
+				<input type="text" name="buttonSortno" class="" size="30" maxlength="20" digits min="0"/>
+			</p>
+<!-- 			<p> -->
+<!-- 				<label>子表显示按钮</label> -->
+<!-- 				<input type="text" name="buttonIsReadonly" class="" size="30" maxlength="20"/> -->
+<!-- 			</p> -->
+
+	</div>
+			
+	<div class="formBar">
+		<ul>
+			<li><div class="buttonActive"><div class="buttonContent"><button type="submit" >保存</button></div></div></li>
+			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
+		</ul>
+	</div>
+</form>
+</div>
+<script type="text/javascript">
+	//通过tab url得到行主键，获取信息，自动填充form表单
+	$(function(){
+		var $form = findDialogName("syCckTypeButtonModifypageForm");
+		var param = $.pdialog.getCurrent().data("param");
+		if (param && param != "") {
+			param = DWZ.jsonEval(param);
+			 
+		}else{return;}
+		 
+		var sctbGuid=param.sctbGuid ;
+		var sctGuid=param.sctGuid;
+		findDialogName("sctGuid").val(sctGuid);
+		if(sctbGuid){
+
+	findDialogName('showTitle').html('修改按钮');
+			doGetAjax(CPATH.domain_1 + "/rs/syCckType/" + sctGuid
+					+ "/syCckTypeButton/" + sctbGuid, null, function(data) {
+				$form.find("[name]").populate(data);
+				findDialogClass("sync").removeClass("sync").combox();
+				 var value =data.buttonType;
+				 var value2 =data.buttonIcon;
+				 cck_switchShowP(value);
+				 cck_switchShowPButtonIcon(value2);
+				
+			});
+			$form.attr('action', CPATH.domain_1 + '/rs/syCckType/' + sctGuid
+					+ '/syCckTypeButton/' + sctbGuid + '?method=put');
+
+		} else {
+			findDialogName('showTitle').html('新增按钮');
+			$form.attr('action', CPATH.domain_1 + "/rs/syCckType/" + sctGuid
+					+ "/syCckTypeButton");
+			findDialogClass("sync").removeClass("sync").combox();
+			 cck_switchShowP();
+			 cck_switchShowPButtonIcon();
+		}
+		findDialogName("buttonType").bind("change",cck_changeButtonType);
+		findDialogName("buttonIcon").bind("change",cck_changeButtonIcon);
+		
+	});
+	function cck_changeButtonType( ){
+		var $this= $(this);
+		var value=$this.val();
+		 cck_switchShowP(value);
+		
+	}
+	function cck_switchShowP(value){
+		if(value==5||value=='5'){
+			findDialogClass("cckButtonShowP").show();
+			findDialogName("buttonDetailTypeCode").addClass("required");
+			findDialogClass("cckButtonShowP2").hide();
+			findDialogName("buttonLink").removeClass("required");
+			findDialogClass("cckButtonShowP4").hide();
+			findDialogName("functionName").removeClass("required");
+		}else if(value==6||value=='6'){
+				findDialogClass("cckButtonShowP2").show();
+				findDialogName("buttonLink").addClass("required");
+				findDialogClass("cckButtonShowP").hide();
+				findDialogName("buttonDetailTypeCode").removeClass("required");
+				findDialogClass("cckButtonShowP4").hide();
+				findDialogName("functionName").removeClass("required");
+			}else if(value==9||value=='9'){
+				findDialogClass("cckButtonShowP4").show();
+				findDialogName("functionName").addClass("required");
+				findDialogClass("cckButtonShowP").hide();
+				findDialogName("buttonDetailTypeCode").removeClass("required");
+				findDialogClass("cckButtonShowP2").hide();
+				findDialogName("buttonLink").removeClass("required");
+			}else {
+			findDialogClass("cckButtonShowP").hide();
+			findDialogName("buttonDetailTypeCode").removeClass("required");
+			findDialogClass("cckButtonShowP2").hide();
+			findDialogName("buttonLink").removeClass("required");
+			findDialogClass("cckButtonShowP4").hide();
+			findDialogName("functionName").removeClass("required");
+		}
+			
+	}
+	
+	function cck_changeButtonIcon( ){
+		var $this= $(this);
+		var value=$this.val();
+		 cck_switchShowPButtonIcon(value);
+		
+	}
+	function cck_switchShowPButtonIcon(value){
+		if(value=="other" ){
+			findDialogClass("cckButtonShowP3").show();
+			findDialogName("iconUrl").addClass("required");
+		 
+		}else {
+			findDialogClass("cckButtonShowP3").hide();
+			findDialogName("iconUrl").removeClass("required");
+		}
+			
+	}
+</script>

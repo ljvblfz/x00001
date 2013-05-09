@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="sys.hrattendancerecord">
+
+	<!-- Use type aliases to avoid typing the full classname every time. -->
+	<typeAlias alias="HrAttendancerecordIVO"
+		type="com.founder.sipbus.sys.au.vo.HrAttendancerecordIVO" />
+	<typeAlias alias="WorkPlanIVO"
+		type="com.founder.sipbus.sys.au.vo.WorkPlanIVO" />
+	<!-- Select with no parameters using the result map for Account class. -->
+	<select id="isDispatcher" resultClass="HrAttendancerecordIVO"
+		parameterClass="java.lang.String">
+		<![CDATA[
+		select r.userid as userid,
+		r.username as username
+		from(select hsr.*
+        from hr_staffrecords hsr
+        inner join Hr_Position p on p.id=hsr.positionid
+        inner join pb_station_disper x on x.userid=hsr.jobnumber
+        where hsr.status=0 and p.name='现场调度员') r where r.jobnumber = #userid#
+		]]>
+	</select>
+
+	<select id="isindispatchplan" resultClass="HrAttendancerecordIVO"
+		parameterClass="java.lang.String">
+		<![CDATA[
+		
+		select r.userid as userid,
+		r.username as username,
+		r.stationname as stationname,
+		r.shiftname as shiftname,
+		r.dwdguid as dwdguid 
+	from(select PDWD.DWDGUID,userid ,hr.username,hr.jobnumber,MS.STATIONNAME,pss.shiftname from PB_DISPER_WORKPLAN_DETAIL pdwd
+ left join PB_DISPER_WORKPLAN pdw on pdw.dwguid = pdwd.dwguid
+ left join MEAL_STATIONSETING ms on MS.STATIONID = pdw.SGUID
+ left join pb_station_shift pss on pss.ssguid = pdwd.ssguid
+ left join hr_staffrecords hr on hr.userid = pdwd.userid
+ where  PDW.WPDATE=to_date(to_char(sysdate,'yyyy-mm-dd'),'yyyy-mm-dd')) r where r.jobnumber=#userid#
+		
+		
+		
+		]]>
+	</select>
+
+	<select id="diaplayplan" resultClass="WorkPlanIVO"
+		parameterClass="java.util.HashMap">
+		<![CDATA[
+		
+	select PDWD.DWDGUID as dwdguid,
+	userid as userid,
+	hr.username as username,
+	hr.jobnumber as jobnumber,
+	MS.STATIONNAME as stationname,
+	pss.shiftname as shiftname
+	from PB_DISPER_WORKPLAN_DETAIL pdwd
+ left join PB_DISPER_WORKPLAN pdw on pdw.dwguid = pdwd.dwguid
+ left join MEAL_STATIONSETING ms on MS.STATIONID = pdw.SGUID
+ left join pb_station_shift pss on pss.ssguid = pdwd.ssguid
+ left join hr_staffrecords hr on hr.userid = pdwd.userid
+ where  PDW.WPDATE=to_date(to_char(sysdate,'yyyy-mm-dd'),'yyyy-mm-dd')
+		
+		
+		
+		]]>
+		<isNotEmpty prepend="and" property="username">
+			<![CDATA[  hr.username like  '%'||#username#||'%']]>
+		</isNotEmpty>
+			<isNotEmpty prepend="and" property="jobnumber">
+			<![CDATA[  hr.jobnumber like  '%'||#jobnumber#||'%']]>
+		</isNotEmpty>
+	</select>
+	
+		<select id="checkworkman" resultClass="WorkPlanIVO"
+		parameterClass="java.util.HashMap">
+		<![CDATA[
+		
+	select hra.id as id,
+	hra.jobnumber as jobnumber,
+	hra.signdate as signdate,
+	hra.username as username
+	from hr_attendencerecord hra
+ 	where to_char(hra.signdate,'yyyy-mm-dd') =to_char(sysdate,'yyyy-mm-dd')
+		
+		
+		
+		]]>
+		<isNotEmpty prepend="and" property="username">
+			<![CDATA[  hra.username like  '%'||#username#||'%']]>
+		</isNotEmpty>
+			<isNotEmpty prepend="and" property="jobnumber">
+			<![CDATA[  hra.jobnumber like  '%'||#jobnumber#||'%']]>
+		</isNotEmpty>
+	</select>
+	
+	
+</sqlMap><!-- to_char(sysdate,'yyyy-mm-dd') -->
