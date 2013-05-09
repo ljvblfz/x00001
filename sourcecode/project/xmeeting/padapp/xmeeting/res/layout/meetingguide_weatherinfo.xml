@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/meetingbasic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:layout_marginTop="100dip"
+        android:layout_marginLeft="100dip" 
+        android:textSize="20dip"
+        android:text="11月1日(星期四)  南京  \n  晴,最高温度26 ℃～ 17 ℃  ,最低温度 17 ℃～ 13 ℃  \n 西南风 3-4级." />
+
+</LinearLayout>
