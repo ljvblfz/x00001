@@ -19,7 +19,7 @@ public class DataGridAdapter extends BaseAdapter {
 	Context mContext;
 	private String[] id = { "编号", "S002", "S003", "S004", "S005", "S006", "S007", "S012", "S013", "S014", "S015", "S016", "S017" };
 	private String[] name = { "名字", "张三", "Ravi", "Amit", "Arun", "Anil", "Kashif", "张三", "Ravi", "Amit", "Arun", "Anil", "Kashif" };
-	private String[] company = { "公司", "网路技术有限公司", "网路技术有限公司", "网路技术有限公司", "网路技术有限公司", "网路技术有限公司", "网路技术有限公司", "网路技术有限公司", "网路技术有限公司", "网路技术有限公司", "网路技术有限公司", "网路技术有限公司", "网路技术有限公司" };
+//	private String[] company = { "公司", "网路技术有限公司", "网路技术有限公司", "网路技术有限公司", "网路技术有限公司", "网路技术有限公司", "网路技术有限公司", "网路技术有限公司", "网路技术有限公司", "网路技术有限公司", "网路技术有限公司", "网路技术有限公司", "网路技术有限公司" };
 	private String[] stafflevel = { "职务", "职员", "经理", "职员", "职员", "职员", "职员" , "职员", "经理", "职员", "职员", "职员", "职员"};
 	private String[] contactinfo = { "联系方式", "13912345678", "13912345678", "13912345678", "13912345678", "13912345678", "13912345678" , "13912345678", "13912345678", "13912345678", "13912345678", "13912345678", "13912345678"};
  
@@ -53,7 +53,7 @@ public class DataGridAdapter extends BaseAdapter {
 		View customgridView = createView(parent);
 		TextView txtIdView;
 		TextView txtNameView;
-		TextView txtCompanyView;
+//		TextView txtCompanyView;
 		TextView txtStaffLevelView;
 		TextView txtContactinfoView;
 		
@@ -63,7 +63,7 @@ public class DataGridAdapter extends BaseAdapter {
 //		txtIdView.setWidth(200);
 		txtNameView = (TextView) customgridView.findViewById(R.id.txtName);
 //		txtNameView.setPadding(100, 10, 10, 10);
-		txtCompanyView = (TextView) customgridView.findViewById(R.id.txtCompany);
+//		txtCompanyView = (TextView) customgridView.findViewById(R.id.txtCompany);
 //		txtCompanyView.setPadding(100, 10, 10, 10);
 		txtStaffLevelView = (TextView) customgridView.findViewById(R.id.txtStaffLevel);
 //		txtStaffLevelView.setPadding(100, 10, 10, 10);
@@ -78,19 +78,19 @@ public class DataGridAdapter extends BaseAdapter {
 			tableRow.setBackgroundColor(Color.GRAY);
 			txtIdView.setBackgroundColor(Color.GRAY);
 			txtNameView.setBackgroundColor(Color.GRAY);
-			txtCompanyView.setBackgroundColor(Color.GRAY);
+//			txtCompanyView.setBackgroundColor(Color.GRAY);
 			txtStaffLevelView.setBackgroundColor(Color.GRAY);
 			txtContactinfoView.setBackgroundColor(Color.GRAY);
 			txtIdView.setTextColor(Color.WHITE);
 			txtNameView.setTextColor(Color.WHITE);
-			txtCompanyView.setTextColor(Color.WHITE);
+//			txtCompanyView.setTextColor(Color.WHITE);
 			txtStaffLevelView.setTextColor(Color.WHITE);
 			txtContactinfoView.setTextColor(Color.WHITE);
 		}
 		//
 		txtIdView.setText(id[position]);
 		txtNameView.setText(name[position]);
-		txtCompanyView.setText(company[position]);
+//		txtCompanyView.setText(company[position]);
 		txtStaffLevelView.setText(stafflevel[position]); 
 		txtContactinfoView.setText(contactinfo[position]); 
 		return customgridView;

@@ -36,15 +36,15 @@
                 android:background="@color/White"
                 android:text="x" />
 
-            <TextView
-                android:id="@+id/txtCompany"
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="0.5dip"
-                android:layout_weight="30" android:textSize="40dip"
-                android:background="@color/White"
-                android:text="x" />
+<!--             <TextView -->
+<!--                 android:id="@+id/txtCompany" -->
+<!--                 android:layout_width="0dip" -->
+<!--                 android:layout_height="wrap_content" -->
+<!--                 android:layout_gravity="center_horizontal" -->
+<!--                 android:layout_margin="0.5dip" -->
+<!--                 android:layout_weight="30" android:textSize="40dip" -->
+<!--                 android:background="@color/White" -->
+<!--                 android:text="x" /> -->
 
             <TextView
                 android:id="@+id/txtStaffLevel"

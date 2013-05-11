@@ -45,6 +45,9 @@
         android:layout_weight="1" 
         android:orientation="horizontal" > 
 
+	    <WebView android:id="@+id/wbCompanyBasicInfo"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="fill_parent"     />
          
     </LinearLayout>
     

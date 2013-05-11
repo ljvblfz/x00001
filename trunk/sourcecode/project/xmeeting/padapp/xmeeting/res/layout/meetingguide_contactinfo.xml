@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dip"
         android:layout_marginLeft="100dip"
-        android:textSize="40dip"
+        android:textSize="40dip"  android:textColor="@color/Violet"
         android:text="江苏省电力公司接待服务联系人  \n 吴 骏     办公室主任   \n  电话: 15150556655"  /> 
  
 
