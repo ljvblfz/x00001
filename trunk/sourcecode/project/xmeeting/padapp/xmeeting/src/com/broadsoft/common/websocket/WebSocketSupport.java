@@ -25,7 +25,7 @@ public class WebSocketSupport {
 	//============WebSocketClient==============>
 		protected WebSocketClient client;
 		public void connect(String wspath){
-			wspath="ws://172.29.135.63:8080/websocket/mywebsocket.chat?name=android";
+			wspath="ws://172.29.135.63:8080/websocket/mywebsocket.chat?memberId=android&meetingId=";
 			List<BasicNameValuePair> extraHeaders = Arrays.asList( new BasicNameValuePair("Cookie", "session=abcd") );
 			URI uri=URI.create(wspath);
 			client = new WebSocketClient(uri, new WebSocketClient.Listener() {

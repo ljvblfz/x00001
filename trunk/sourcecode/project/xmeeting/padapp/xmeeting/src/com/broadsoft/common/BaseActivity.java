@@ -1,20 +1,15 @@
 package com.broadsoft.common;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnSystemUiVisibilityChangeListener;
+import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
-import com.broadsoft.systemui.SystemUiHider;
 import com.broadsoft.xmeeting.R;
 
 /**
@@ -27,8 +22,8 @@ public class BaseActivity extends Activity implements OnClickListener,
 		OnSystemUiVisibilityChangeListener {
 	protected static int REQUEST_CODE=2;
 
-	protected SystemUiHider mSystemUiHider;
-	protected static final int HIDER_FLAGS = SystemUiHider.FLAG_HIDE_NAVIGATION;
+//	protected SystemUiHider mSystemUiHider;
+//	protected static final int HIDER_FLAGS = SystemUiHider.FLAG_HIDE_NAVIGATION;
 
 	/**
 	 * Disable back key
@@ -66,6 +61,7 @@ public class BaseActivity extends Activity implements OnClickListener,
 		super.onPostCreate(savedInstanceState);
 		getWindow().getDecorView().setSystemUiVisibility(
 				View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		getWindow().getDecorView().setOnClickListener(this);
 		getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(this);
 		//
