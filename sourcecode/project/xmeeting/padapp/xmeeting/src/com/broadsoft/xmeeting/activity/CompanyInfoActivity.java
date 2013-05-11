@@ -47,7 +47,7 @@ public class CompanyInfoActivity extends BaseActivity {
 		tabHost.addTab(tabSpec3);
 	 
 		//
-		tabHost.setCurrentTab(0);
+		tabHost.setCurrentTab(1);
  
 		 
 	}
