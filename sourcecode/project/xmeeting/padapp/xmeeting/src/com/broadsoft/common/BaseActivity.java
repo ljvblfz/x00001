@@ -31,7 +31,7 @@ public class BaseActivity extends Activity implements OnClickListener,
 	private WindowManager wm = null; 
 	private WindowManager.LayoutParams wmParams = null; 
 //	private Button play1; 
-	private Button cache1; 
+	private Button floatBackButton; 
 	private int mAlpha = 0; 
 	private ViewFlipper viewFlipper = null; 
 
@@ -63,7 +63,7 @@ public class BaseActivity extends Activity implements OnClickListener,
 //		}
 		initFloatview();
 //		play1 = new Button(this);
-		cache1 = new Button(this);
+		floatBackButton = new Button(this);
 		createRightButton();
 //		System.out.println("resume");
 	}
@@ -75,45 +75,45 @@ public class BaseActivity extends Activity implements OnClickListener,
 		wmParams.format = PixelFormat.RGBA_8888;
 		wmParams.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL
 				| LayoutParams.FLAG_NOT_FOCUSABLE;
-		cache1.setBackgroundResource(R.drawable.back);
-		cache1.getBackground().setAlpha(180);
-		cache1.setPadding(10,10,10,10);
-		cache1.setOnTouchListener(new OnTouchListener() {
+		floatBackButton.setBackgroundResource(R.drawable.back);
+		floatBackButton.getBackground().setAlpha(180);
+		floatBackButton.setPadding(10,10,10,10);
+		floatBackButton.setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				// TODO Auto-generated method stub
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
-					cache1.setBackgroundResource(R.drawable.back);
-					cache1.getBackground().setAlpha(255);
+					floatBackButton.setBackgroundResource(R.drawable.back);
+					floatBackButton.getBackground().setAlpha(255);
 				} else if (event.getAction() == MotionEvent.ACTION_UP) {
-					cache1.setBackgroundResource(R.drawable.back);
-					cache1.getBackground().setAlpha(180);
+					floatBackButton.setBackgroundResource(R.drawable.back);
+					floatBackButton.getBackground().setAlpha(180);
 				}
 				return false;
 			}
 		});
 		// cache1.setAlpha(0);
 		//cache1.setText("缓存");
-		cache1.setOnClickListener(mBackListener);
+		floatBackButton.setOnClickListener(mBackListener);
 		wmParams.width = 35;
 		wmParams.height = 35;
 		wmParams.gravity = Gravity.RIGHT | Gravity.BOTTOM;
 		wmParams.x = 40;
 		wmParams.y = 20;
-		wm.addView(cache1, wmParams);
+		wm.addView(floatBackButton, wmParams);
 	}
 
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-		wm.removeView(cache1); 
+		wm.removeView(floatBackButton); 
 	}	
 	
 	private View.OnClickListener mBackListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) { 
-			wm.removeView(cache1); 
+			wm.removeView(floatBackButton); 
 			finish();
 		}
 	};
@@ -158,7 +158,7 @@ public class BaseActivity extends Activity implements OnClickListener,
 		getWindow().getDecorView().setOnClickListener(this);
 		getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(this);
 		//
-		registerBackButton();
+//		registerBackButton();
 	}
 	
 
@@ -187,26 +187,26 @@ public class BaseActivity extends Activity implements OnClickListener,
 //		});
 	}
 	
+//	
+//	public void registerBackButton() { 
+//		Object objView= findViewById(R.id.btnnavback);  
+//		if(objView==null){
+//			return;
+//		}
+//		btnnavback = (Button) objView;
+//		btnnavback.setOnClickListener(new Button.OnClickListener() { 
+//			@Override
+//			public void onClick(View view) { 
+//				Log.d("System Nav Button--->onClick","btnnavback"); 
+//				finish(); 
+//				execBackButton();
+//			}
+//		});
+//	}
 	
-	public void registerBackButton() { 
-		Object objView= findViewById(R.id.btnnavback);  
-		if(objView==null){
-			return;
-		}
-		btnnavback = (Button) objView;
-		btnnavback.setOnClickListener(new Button.OnClickListener() { 
-			@Override
-			public void onClick(View view) { 
-				Log.d("System Nav Button--->onClick","btnnavback"); 
-				finish(); 
-				execBackButton();
-			}
-		});
-	}
-	
-	public void execBackButton(){
-		
-	}
+//	public void execBackButton(){
+//		
+//	}
 
 	// ====================OnClickListener========================
 

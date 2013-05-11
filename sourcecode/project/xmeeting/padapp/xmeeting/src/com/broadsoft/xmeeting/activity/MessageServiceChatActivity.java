@@ -37,12 +37,12 @@ public class MessageServiceChatActivity extends BaseActivity {
 		registerExitButton();
  
 	}
-
-	@Override
-	public void execBackButton(){
-		this.disconnect();
-	}
-	
+//
+//	@Override
+//	public void execBackButton(){
+//		this.disconnect();
+//	}
+//	
 	
 	//============WebSocketClient==============>
 	protected WebSocketClient client;
