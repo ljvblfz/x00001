@@ -4,8 +4,6 @@
 
 package io.vov.vitamio.widget;
 
-import com.broadsoft.xmeeting.R;
-
 import io.vov.utils.Log;
 import io.vov.utils.StringUtils;
 import android.content.Context;
@@ -26,6 +24,9 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+
+import com.broadsoft.xmeeting.R;
+import com.nmbb.oplayer.ui.VideoPlayerActivity;
 
 
 /**
@@ -78,6 +79,7 @@ public class MediaController extends FrameLayout {
 	private static final int SHOW_PROGRESS = 2;
 	private boolean mFromXml = false;
 	private ImageButton mPauseButton;
+	private ImageButton backButton;
 
 	private AudioManager mAM;
 
@@ -148,7 +150,11 @@ public class MediaController extends FrameLayout {
 			mPauseButton.requestFocus();
 			mPauseButton.setOnClickListener(mPauseListener);
 		}
-
+		backButton = (ImageButton) v.findViewById(R.id.mediacontroller_play_pause_2);
+		if (backButton != null) {
+			backButton.requestFocus();
+			backButton.setOnClickListener(mBackListener);
+		}
 		mProgress = (ProgressBar) v.findViewById(R.id.mediacontroller_seekbar);
 		if (mProgress != null) {
 			if (mProgress instanceof SeekBar) {
@@ -402,6 +408,14 @@ public class MediaController extends FrameLayout {
 		}
 	};
 
+	private View.OnClickListener mBackListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+//			System.exit(0);
+			((VideoPlayerActivity)v.getContext()).finish();
+		}
+	};
+	
 	private void updatePausePlay() {
 		if (mRoot == null || mPauseButton == null)
 			return;
