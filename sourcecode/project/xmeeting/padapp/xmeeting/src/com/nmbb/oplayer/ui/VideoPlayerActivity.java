@@ -43,13 +43,13 @@ public class VideoPlayerActivity extends Activity implements OnCompletionListene
 	private ImageView mOperationBg;
 	private ImageView mOperationPercent;
 	private AudioManager mAudioManager;
-	/** ×î´óÉùÒô */
+	/** æœ€å¤§å£°éŸ³ */
 	private int mMaxVolume;
-	/** µ±Ç°ÉùÒô */
+	/** å½“å‰å£°éŸ³ */
 	private int mVolume = -1;
-	/** µ±Ç°ÁÁ¶È */
+	/** å½“å‰äº®åº¦ */
 	private float mBrightness = -1f;
-	/** µ±Ç°Ëõ·ÅÄ£Ê½ */
+	/** å½“å‰ç¼©æ”¾æ¨¡å¼ */
 	private int mLayout = VideoView.VIDEO_LAYOUT_ZOOM;
 	private GestureDetector mGestureDetector;
 	private MediaController mMediaController;
@@ -59,21 +59,21 @@ public class VideoPlayerActivity extends Activity implements OnCompletionListene
 	public void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
 
-		// ~~~ ¼ì²âVitamioÊÇ·ñ½âÑ¹½âÂë°ü
+		// ~~~ æ£€æµ‹Vitamioæ˜¯å¦è§£å‹è§£ç åŒ…
 		if (!LibsChecker.checkVitamioLibs(this, R.string.init_decoders))
 			return;
 
-		// ~~~ »ñÈ¡²¥·ÅµØÖ·ºÍ±êÌâ
+		// ~~~ è·å–æ’­æ”¾åœ°å€å’Œæ ‡é¢˜
 		Intent intent = getIntent();
 		mPath = intent.getStringExtra("path");
 		mTitle = intent.getStringExtra("title");
 		if (TextUtils.isEmpty(mPath)) {
-			mPath = Environment.getExternalStorageDirectory() + "/video/ÄãÌ«²ş¿ñ.flv";
+			mPath = Environment.getExternalStorageDirectory() + "/video/ä½ å¤ªçŒ–ç‹‚.flv";
 
 		} else if (intent.getData() != null)
 			mPath = intent.getData().toString();
 
-		// ~~~ °ó¶¨¿Ø¼ş
+		// ~~~ ç»‘å®šæ§ä»¶
 		setContentView(R.layout.videoview);
 		mVideoView = (VideoView) findViewById(R.id.surface_view);
 		mVolumeBrightnessLayout = findViewById(R.id.operation_volume_brightness);
@@ -81,11 +81,11 @@ public class VideoPlayerActivity extends Activity implements OnCompletionListene
 		mOperationPercent = (ImageView) findViewById(R.id.operation_percent);
 		mLoadingView = findViewById(R.id.video_loading);
 
-		// ~~~ °ó¶¨ÊÂ¼ş
+		// ~~~ ç»‘å®šäº‹ä»¶
 		mVideoView.setOnCompletionListener(this);
 		mVideoView.setOnInfoListener(this);
 
-		// ~~~ °ó¶¨Êı¾İ
+		// ~~~ ç»‘å®šæ•°æ®
 		mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 		mMaxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
 		if (mPath.startsWith("http:"))
@@ -93,7 +93,7 @@ public class VideoPlayerActivity extends Activity implements OnCompletionListene
 		else
 			mVideoView.setVideoPath(mPath);
 
-		//ÉèÖÃÏÔÊ¾Ãû³Æ
+		//è®¾ç½®æ˜¾ç¤ºåç§°
 		mMediaController = new MediaController(this);
 		mMediaController.setFileName(mTitle);
 		mVideoView.setMediaController(mMediaController);
@@ -129,7 +129,7 @@ public class VideoPlayerActivity extends Activity implements OnCompletionListene
 		if (mGestureDetector.onTouchEvent(event))
 			return true;
 
-		// ´¦ÀíÊÖÊÆ½áÊø
+		// å¤„ç†æ‰‹åŠ¿ç»“æŸ
 		switch (event.getAction() & MotionEvent.ACTION_MASK) {
 		case MotionEvent.ACTION_UP:
 			endGesture();
@@ -139,19 +139,19 @@ public class VideoPlayerActivity extends Activity implements OnCompletionListene
 		return super.onTouchEvent(event);
 	}
 
-	/** ÊÖÊÆ½áÊø */
+	/** æ‰‹åŠ¿ç»“æŸ */
 	private void endGesture() {
 		mVolume = -1;
 		mBrightness = -1f;
 
-		// Òş²Ø
+		// éšè—
 		mDismissHandler.removeMessages(0);
 		mDismissHandler.sendEmptyMessageDelayed(0, 500);
 	}
 
 	private class MyGestureListener extends SimpleOnGestureListener {
 
-		/** Ë«»÷ */
+		/** åŒå‡» */
 		@Override
 		public boolean onDoubleTap(MotionEvent e) {
 			if (mLayout == VideoView.VIDEO_LAYOUT_ZOOM)
@@ -163,7 +163,7 @@ public class VideoPlayerActivity extends Activity implements OnCompletionListene
 			return true;
 		}
 
-		/** »¬¶¯ */
+		/** æ»‘åŠ¨ */
 		@Override
 		public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
 			float mOldX = e1.getX(), mOldY = e1.getY();
@@ -172,16 +172,16 @@ public class VideoPlayerActivity extends Activity implements OnCompletionListene
 			int windowWidth = disp.getWidth();
 			int windowHeight = disp.getHeight();
 
-			if (mOldX > windowWidth * 4.0 / 5)// ÓÒ±ß»¬¶¯
+			if (mOldX > windowWidth * 4.0 / 5)// å³è¾¹æ»‘åŠ¨
 				onVolumeSlide((mOldY - y) / windowHeight);
-			else if (mOldX < windowWidth / 5.0)// ×ó±ß»¬¶¯
+			else if (mOldX < windowWidth / 5.0)// å·¦è¾¹æ»‘åŠ¨
 				onBrightnessSlide((mOldY - y) / windowHeight);
 
 			return super.onScroll(e1, e2, distanceX, distanceY);
 		}
 	}
 
-	/** ¶¨Ê±Òş²Ø */
+	/** å®šæ—¶éšè— */
 	private Handler mDismissHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -190,7 +190,7 @@ public class VideoPlayerActivity extends Activity implements OnCompletionListene
 	};
 
 	/**
-	 * »¬¶¯¸Ä±äÉùÒô´óĞ¡
+	 * æ»‘åŠ¨æ”¹å˜å£°éŸ³å¤§å°
 	 * 
 	 * @param percent
 	 */
@@ -200,7 +200,7 @@ public class VideoPlayerActivity extends Activity implements OnCompletionListene
 			if (mVolume < 0)
 				mVolume = 0;
 
-			// ÏÔÊ¾
+			// æ˜¾ç¤º
 			mOperationBg.setImageResource(R.drawable.video_volumn_bg);
 			mVolumeBrightnessLayout.setVisibility(View.VISIBLE);
 		}
@@ -211,17 +211,17 @@ public class VideoPlayerActivity extends Activity implements OnCompletionListene
 		else if (index < 0)
 			index = 0;
 
-		// ±ä¸üÉùÒô
+		// å˜æ›´å£°éŸ³
 		mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, index, 0);
 
-		// ±ä¸ü½ø¶ÈÌõ
+		// å˜æ›´è¿›åº¦æ¡
 		ViewGroup.LayoutParams lp = mOperationPercent.getLayoutParams();
 		lp.width = findViewById(R.id.operation_full).getLayoutParams().width * index / mMaxVolume;
 		mOperationPercent.setLayoutParams(lp);
 	}
 
 	/**
-	 * »¬¶¯¸Ä±äÁÁ¶È
+	 * æ»‘åŠ¨æ”¹å˜äº®åº¦
 	 * 
 	 * @param percent
 	 */
@@ -233,7 +233,7 @@ public class VideoPlayerActivity extends Activity implements OnCompletionListene
 			if (mBrightness < 0.01f)
 				mBrightness = 0.01f;
 
-			// ÏÔÊ¾
+			// æ˜¾ç¤º
 			mOperationBg.setImageResource(R.drawable.video_brightness_bg);
 			mVolumeBrightnessLayout.setVisibility(View.VISIBLE);
 		}
@@ -276,14 +276,14 @@ public class VideoPlayerActivity extends Activity implements OnCompletionListene
 		return mVideoView != null && mVideoView.isPlaying();
 	}
 
-	/** ÊÇ·ñĞèÒª×Ô¶¯»Ö¸´²¥·Å£¬ÓÃÓÚ×Ô¶¯ÔİÍ££¬»Ö¸´²¥·Å */
+	/** æ˜¯å¦éœ€è¦è‡ªåŠ¨æ¢å¤æ’­æ”¾ï¼Œç”¨äºè‡ªåŠ¨æš‚åœï¼Œæ¢å¤æ’­æ”¾ */
 	private boolean needResume;
 
 	@Override
 	public boolean onInfo(MediaPlayer arg0, int arg1, int arg2) {
 		switch (arg1) {
 		case MediaPlayer.MEDIA_INFO_BUFFERING_START:
-			//¿ªÊ¼»º´æ£¬ÔİÍ£²¥·Å
+			//å¼€å§‹ç¼“å­˜ï¼Œæš‚åœæ’­æ”¾
 			if (isPlaying()) {
 				stopPlayer();
 				needResume = true;
@@ -291,13 +291,13 @@ public class VideoPlayerActivity extends Activity implements OnCompletionListene
 			mLoadingView.setVisibility(View.VISIBLE);
 			break;
 		case MediaPlayer.MEDIA_INFO_BUFFERING_END:
-			//»º´æÍê³É£¬¼ÌĞø²¥·Å
+			//ç¼“å­˜å®Œæˆï¼Œç»§ç»­æ’­æ”¾
 			if (needResume)
 				startPlayer();
 			mLoadingView.setVisibility(View.GONE);
 			break;
 		case MediaPlayer.MEDIA_INFO_DOWNLOAD_RATE_CHANGED:
-			//ÏÔÊ¾ ÏÂÔØËÙ¶È
+			//æ˜¾ç¤º ä¸‹è½½é€Ÿåº¦
 			Logger.e("download rate:" + arg2);
 			//mListener.onDownloadRateChanged(arg2);
 			break;
