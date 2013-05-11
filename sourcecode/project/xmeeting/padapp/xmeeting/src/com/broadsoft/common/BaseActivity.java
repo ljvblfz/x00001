@@ -106,14 +106,18 @@ public class BaseActivity extends Activity implements OnClickListener,
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
+		try{
+			wm.removeView(floatBackButton);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		super.onPause();
-		wm.removeView(floatBackButton); 
 	}	
 	
 	private View.OnClickListener mBackListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) { 
-			wm.removeView(floatBackButton); 
+//			wm.removeView(floatBackButton); 
 			finish();
 		}
 	};
