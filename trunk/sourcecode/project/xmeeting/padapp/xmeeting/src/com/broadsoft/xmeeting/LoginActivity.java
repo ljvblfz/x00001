@@ -1,5 +1,6 @@
 package com.broadsoft.xmeeting;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -25,7 +26,7 @@ import com.broadsoft.xmeeting.dao.PersonDAO;
  * @author lu.zhen
  * 
  */
-public class LoginActivity extends BaseActivity  {
+public class LoginActivity extends Activity  {
 	
 	private String TAG="LoginActivity";
 	private static int REQUEST_CODE = 2;

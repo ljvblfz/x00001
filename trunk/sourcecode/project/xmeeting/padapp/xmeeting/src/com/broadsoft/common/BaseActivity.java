@@ -1,14 +1,20 @@
 package com.broadsoft.common;
 
 import android.app.Activity;
+import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnSystemUiVisibilityChangeListener;
+import android.view.View.OnTouchListener;
+import android.view.WindowManager.LayoutParams;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ViewFlipper;
 
 import com.broadsoft.xmeeting.R;
 
@@ -22,9 +28,96 @@ public class BaseActivity extends Activity implements OnClickListener,
 		OnSystemUiVisibilityChangeListener {
 	protected static int REQUEST_CODE=2;
 
+	private WindowManager wm = null; 
+	private WindowManager.LayoutParams wmParams = null; 
+//	private Button play1; 
+	private Button cache1; 
+	private int mAlpha = 0; 
+	private ViewFlipper viewFlipper = null; 
+
 //	protected SystemUiHider mSystemUiHider;
 //	protected static final int HIDER_FLAGS = SystemUiHider.FLAG_HIDE_NAVIGATION;
 
+	private void initFloatview() {
+		wm = (WindowManager) getApplicationContext().getSystemService("window");
+		wmParams = new WindowManager.LayoutParams();
+		// wmParams=new WindowManager.LayoutParams();
+		// wmParams.type=LayoutParams.TYPE_PHONE;
+		// wmParams.format=PixelFormat.RGBA_8888;
+		// wmParams.flags=LayoutParams.FLAG_NOT_TOUCH_MODAL|LayoutParams.FLAG_NOT_FOCUSABLE;
+		// wmParams.x=0;
+		// wmParams.y=0;
+		// wmParams.width=100;
+		// wmParams.height=100;
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		// 启动的方法不用写在oncreate中
+		super.onResume();			
+//		try {
+//			Thread.sleep(2000);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
+		initFloatview();
+//		play1 = new Button(this);
+		cache1 = new Button(this);
+		createRightButton();
+//		System.out.println("resume");
+	}
+
+	
+	// 右悬浮键 
+	private void createRightButton() {
+		wmParams.type = LayoutParams.TYPE_PHONE;
+		wmParams.format = PixelFormat.RGBA_8888;
+		wmParams.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL
+				| LayoutParams.FLAG_NOT_FOCUSABLE;
+		cache1.setBackgroundResource(R.drawable.back);
+		cache1.getBackground().setAlpha(180);
+		cache1.setPadding(10,10,10,10);
+		cache1.setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {
+					cache1.setBackgroundResource(R.drawable.back);
+					cache1.getBackground().setAlpha(255);
+				} else if (event.getAction() == MotionEvent.ACTION_UP) {
+					cache1.setBackgroundResource(R.drawable.back);
+					cache1.getBackground().setAlpha(180);
+				}
+				return false;
+			}
+		});
+		// cache1.setAlpha(0);
+		//cache1.setText("缓存");
+		cache1.setOnClickListener(mBackListener);
+		wmParams.width = 35;
+		wmParams.height = 35;
+		wmParams.gravity = Gravity.RIGHT | Gravity.BOTTOM;
+		wmParams.x = 40;
+		wmParams.y = 20;
+		wm.addView(cache1, wmParams);
+	}
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		wm.removeView(cache1); 
+	}	
+	
+	private View.OnClickListener mBackListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) { 
+			wm.removeView(cache1); 
+			finish();
+		}
+	};
+	
 	/**
 	 * Disable back key
 	 */

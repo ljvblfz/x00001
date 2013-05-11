@@ -317,7 +317,7 @@ public class FragmentFileOld extends FragmentBase implements OnItemClickListener
 		intent.putExtra("path", f.path);
 		intent.putExtra("title", f.title);
 		startActivity(intent);
-		mParent.removeBack();
+//		mParent.removeBack();
 	}
 
 	private class DataTask extends AsyncTask<Void, Void, List<POMedia>> {
