@@ -77,21 +77,20 @@
 <!-- 	        android:layout_height="match_parent"  -->
 <!-- 	        android:src="@drawable/welcome" /> -->
 
- 	 <RelativeLayout android:layout_width="match_parent"  android:layout_height="match_parent" >
-
-        <Button
-            android:id="@+id/btnSendMMS"
-            android:layout_width="200dp"
-            android:layout_height="60dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="447dp"
-            android:background="@color/Cyan"
-            android:text="发送彩信"
-            android:textColor="@color/White"
-            android:textSize="30dp" />
-         
-    </RelativeLayout>
+	 	 <RelativeLayout android:layout_width="match_parent"  android:layout_height="match_parent" >
+	        <Button
+	            android:id="@+id/btnSendMMS"
+	            android:layout_width="200dp"
+	            android:layout_height="60dp"
+	            android:layout_alignParentLeft="true"
+	            android:layout_centerVertical="true"
+	            android:layout_marginLeft="447dp"
+	            android:background="@color/Cyan"
+	            android:text="发送彩信"
+	            android:textColor="@color/White"
+	            android:textSize="30dp" />
+	         
+	    </RelativeLayout>
     </LinearLayout>
     
 <!--     <RelativeLayout -->

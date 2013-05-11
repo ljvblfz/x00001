@@ -10,7 +10,7 @@
         android:layout_height="wrap_content" 
         android:layout_marginTop="100dip"
         android:layout_marginLeft="100dip" 
-        android:textSize="40dip"
+        android:textSize="40dip" android:textColor="@color/Violet"
         android:text="11月1日(星期四)  南京  \n  晴,最高温度26 ℃～ 17 ℃  ,最低温度 17 ℃～ 13 ℃  \n 西南风 3-4级." />
 
 </LinearLayout>

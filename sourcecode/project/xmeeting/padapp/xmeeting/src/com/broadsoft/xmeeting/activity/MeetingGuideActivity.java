@@ -6,12 +6,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.TabHost;
 
 import com.broadsoft.common.BaseActivity;
 import com.broadsoft.xmeeting.R;
-import com.broadsoft.xmeeting.R.drawable;
-import com.broadsoft.xmeeting.R.id;
-import com.broadsoft.xmeeting.R.layout;
 import com.broadsoft.xmeeting.adapter.DataGridAdapter;
 
 public class MeetingGuideActivity extends BaseActivity {
@@ -151,10 +149,40 @@ public class MeetingGuideActivity extends BaseActivity {
 				initBtnBackgroundColor(); 
 				btnnavmeetingmember.setBackgroundResource(R.drawable.button_shape_pressed);
 				Log.d("Button--->onClick","btnnavmeetingmealshotel"); 
-				GridView memberinfo = (GridView) getLayoutInflater().inflate(R.layout.meetingguide_memberinfo, null); 
+//				GridView memberinfo = (GridView) getLayoutInflater().inflate(R.layout.meetingguide_memberinfo, null); 
+//		        memberinfo.setAdapter(new DataGridAdapter(meetingcontent.getContext()));
+//				meetingcontent.removeAllViewsInLayout();
+//				meetingcontent.addView(memberinfo);
+		        
+
+				GridView memberinfo1 = (GridView) getLayoutInflater().inflate(R.layout.meetingguide_memberinfo, null); 
+		        memberinfo1.setAdapter(new DataGridAdapter(meetingcontent.getContext())); 
+		        
+
+				GridView memberinfo2 = (GridView) getLayoutInflater().inflate(R.layout.meetingguide_memberinfo, null); 
+		        memberinfo2.setAdapter(new DataGridAdapter(meetingcontent.getContext())); 
+				
+		        //江苏电力
+				TabHost tabHost = (TabHost) getLayoutInflater().inflate(R.layout.meetingguide_membertabhost,null);
+				tabHost.setup();
+				TabHost.TabSpec  tabSpec1=tabHost.newTabSpec("tab_1");
+				tabSpec1.setContent(R.id.LinearLayout1);
+				tabSpec1.setIndicator("江苏电力");
+				LinearLayout linearLayout1=(LinearLayout)tabHost.findViewById(R.id.LinearLayout1);
+				linearLayout1.removeAllViewsInLayout();
+				linearLayout1.addView(memberinfo1);
+				tabHost.addTab(tabSpec1);
+				//外地
+				TabHost.TabSpec  tabSpec2=tabHost.newTabSpec("tab_2"); 
+				tabSpec2.setContent(R.id.LinearLayout2);
+				tabSpec2.setIndicator("外地"); 
+				LinearLayout linearLayout2=(LinearLayout)tabHost.findViewById(R.id.LinearLayout2);
+				linearLayout2.removeAllViewsInLayout();
+				linearLayout2.addView(memberinfo2);
+				tabHost.addTab(tabSpec2);
+				tabHost.setCurrentTab(1);
 				meetingcontent.removeAllViewsInLayout();
-				meetingcontent.addView(memberinfo);
-		        memberinfo.setAdapter(new DataGridAdapter(meetingcontent.getContext()));
+				meetingcontent.addView(tabHost); 
 				
 			}
 		});
