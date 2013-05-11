@@ -70,10 +70,10 @@ public class DocumentsListActivity extends BaseBrowserActivity {
 //			}
 //		});
 
-		LinearLayout controlBar = (LinearLayout) findViewById(R.id.controlbar);
-		LinearLayout personalinfo = (LinearLayout) getLayoutInflater().inflate(R.layout.controlbar, null);
-		controlBar.removeAllViewsInLayout();
-		controlBar.addView(personalinfo);
+//		LinearLayout controlBar = (LinearLayout) findViewById(R.id.controlbar);
+//		LinearLayout personalinfo = (LinearLayout) getLayoutInflater().inflate(R.layout.controlbar, null);
+//		controlBar.removeAllViewsInLayout();
+//		controlBar.addView(personalinfo);
 
 
 	}
