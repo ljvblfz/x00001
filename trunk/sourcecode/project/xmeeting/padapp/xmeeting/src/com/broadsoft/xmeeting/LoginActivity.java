@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -16,7 +17,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.broadsoft.appsupport.AndroidSupport;
-import com.broadsoft.common.BaseActivity;
 import com.broadsoft.xmeeting.dao.Person;
 import com.broadsoft.xmeeting.dao.PersonDAO;
 
@@ -58,6 +58,34 @@ public class LoginActivity extends Activity  {
  
 	}
 
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		getWindow().getDecorView().setSystemUiVisibility(
+				View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN); 
+	}
+	
+	/**
+	 * Disable back key
+	 */
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		Log.d("BaseActivity--->onKeyDown", "onKeyDown  keyCode----->" + keyCode);
+		Log.d("BaseActivity--->onKeyDown", "onKeyDown  KEYCODE_BACK----->" +  KeyEvent.KEYCODE_BACK);
+		Log.d("BaseActivity--->onKeyDown", "onKeyDown  KEYCODE_HOME----->" +  KeyEvent.KEYCODE_HOME);
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			// do something
+			return false;
+		} else if (keyCode == KeyEvent.KEYCODE_HOME) {
+			// do something
+			return false;
+		}
+		 
+		return super.onKeyDown(keyCode, event); 
+		// Disable all keys
+//		return false;
+	}
 	
 	
 	public void initData(Context context){
