@@ -38,6 +38,8 @@ public class LoginActivity extends BaseActivity  {
 				WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
 				WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+//		getActionBar().hide();
 		//
 		setContentView(R.layout.login_activity_main);
  
@@ -138,7 +140,7 @@ public class LoginActivity extends BaseActivity  {
 		btnlogin.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent();
-				intent.setClass(LoginActivity.this, DesktopActivity.class);// 指定了跳转前的Activity和跳转后的Activity
+				intent.setClass(LoginActivity.this, WelcomeActivity.class);// 指定了跳转前的Activity和跳转后的Activity
 				intent.setData(Uri.parse("one"));// 向下一个Activity传递了string类型参数"one"
 				startActivityForResult(intent, REQUEST_CODE);// 以传递参数的方式跳转到下一个Activity
 

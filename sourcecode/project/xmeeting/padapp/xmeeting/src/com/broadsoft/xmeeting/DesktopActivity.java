@@ -11,7 +11,6 @@ import com.broadsoft.xmeeting.activity.CallServiceActivity;
 import com.broadsoft.xmeeting.activity.CompanyInfoActivity;
 import com.broadsoft.xmeeting.activity.DocumentsListActivity;
 import com.broadsoft.xmeeting.activity.ImageGallaryMainActivity;
-import com.broadsoft.xmeeting.activity.InternetBrowserActivity;
 import com.broadsoft.xmeeting.activity.MeetingGuideActivity;
 import com.broadsoft.xmeeting.activity.MessageServiceActivity;
 import com.broadsoft.xmeeting.activity.SysSettingActivity;
@@ -37,11 +36,11 @@ public class DesktopActivity extends BaseActivity {
 		initNavButtonForCallService();
 		initNavButtonForCompanyInfo();
 		initNavButtonForImageGallary();
-		initNavButtonForVote();
+//		initNavButtonForVote();
 		initNavButtonSysSetting();
 		initNavButtonTimerService();
-		initNavButtonMessageService();
-		initNavButtonInternetBrowser();
+//		initNavButtonMessageService();
+//		initNavButtonInternetBrowser();
 		
 		initNavButtonForDocuments();
 		initNavButtonForVideos();
@@ -138,19 +137,19 @@ public class DesktopActivity extends BaseActivity {
 	}//
 
 	//
-	public void initNavButtonForVote() {
-		Button btnnavvote = (Button) findViewById(R.id.desktop_btnnavvote);
-		btnnavvote.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) { 
-				Intent intent = new Intent();
-				intent.setClass(DesktopActivity.this, VotingActivity.class);// 指定了跳转前的Activity和跳转后的Activity
-				intent.setData(Uri.parse("one"));// 向下一个Activity传递了string类型参数"one"
-				startActivityForResult(intent, REQUEST_CODE);// 以传递参数的方式跳转到下一个Activity
-
-			}//end of on click
-		});
-
-	}//
+//	public void initNavButtonForVote() {
+//		Button btnnavvote = (Button) findViewById(R.id.desktop_btnnavvote);
+//		btnnavvote.setOnClickListener(new View.OnClickListener() {
+//			public void onClick(View v) { 
+//				Intent intent = new Intent();
+//				intent.setClass(DesktopActivity.this, VotingActivity.class);// 指定了跳转前的Activity和跳转后的Activity
+//				intent.setData(Uri.parse("one"));// 向下一个Activity传递了string类型参数"one"
+//				startActivityForResult(intent, REQUEST_CODE);// 以传递参数的方式跳转到下一个Activity
+//
+//			}//end of on click
+//		});
+//
+//	}//
 	//
 	public void initNavButtonSysSetting() {
 		Button btnnavsetting = (Button) findViewById(R.id.desktop_btnnavsyssetting);
@@ -182,35 +181,35 @@ public class DesktopActivity extends BaseActivity {
 	
 	
 
-	public void initNavButtonMessageService() {
-		Button btnnavmessage = (Button) findViewById(R.id.desktop_btnnavmessage);
-		btnnavmessage.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) { 
-				Intent intent = new Intent();
-				intent.setClass(DesktopActivity.this, MessageServiceActivity.class);// 指定了跳转前的Activity和跳转后的Activity
-				intent.setData(Uri.parse("one"));// 向下一个Activity传递了string类型参数"one"
-				startActivityForResult(intent, REQUEST_CODE);// 以传递参数的方式跳转到下一个Activity
-
-			}//end of on click
-		});
-
-	}//
+//	public void initNavButtonMessageService() {
+//		Button btnnavmessage = (Button) findViewById(R.id.desktop_btnnavmessage);
+//		btnnavmessage.setOnClickListener(new View.OnClickListener() {
+//			public void onClick(View v) { 
+//				Intent intent = new Intent();
+//				intent.setClass(DesktopActivity.this, MessageServiceActivity.class);// 指定了跳转前的Activity和跳转后的Activity
+//				intent.setData(Uri.parse("one"));// 向下一个Activity传递了string类型参数"one"
+//				startActivityForResult(intent, REQUEST_CODE);// 以传递参数的方式跳转到下一个Activity
+//
+//			}//end of on click
+//		});
+//
+//	}//
 	
 	
 
-	public void initNavButtonInternetBrowser() {
-		Button btnnavmessage = (Button) findViewById(R.id.desktop_btnnavinternetbrowser);
-		btnnavmessage.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) { 
-				Intent intent = new Intent();
-				intent.setClass(DesktopActivity.this, InternetBrowserActivity.class);// 指定了跳转前的Activity和跳转后的Activity
-				intent.setData(Uri.parse("one"));// 向下一个Activity传递了string类型参数"one"
-				startActivityForResult(intent, REQUEST_CODE);// 以传递参数的方式跳转到下一个Activity
-
-			}//end of on click
-		});
-
-	}//
+//	public void initNavButtonInternetBrowser() {
+//		Button btnnavmessage = (Button) findViewById(R.id.desktop_btnnavinternetbrowser);
+//		btnnavmessage.setOnClickListener(new View.OnClickListener() {
+//			public void onClick(View v) { 
+//				Intent intent = new Intent();
+//				intent.setClass(DesktopActivity.this, InternetBrowserActivity.class);// 指定了跳转前的Activity和跳转后的Activity
+//				intent.setData(Uri.parse("one"));// 向下一个Activity传递了string类型参数"one"
+//				startActivityForResult(intent, REQUEST_CODE);// 以传递参数的方式跳转到下一个Activity
+//
+//			}//end of on click
+//		});
+//
+//	}//
 	
 	
 }
