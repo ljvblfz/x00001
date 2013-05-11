@@ -14,6 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.broadsoft.common.BaseActivity;
 import com.broadsoft.xmeeting.R;
 import com.poqop.document.events.CurrentPageListener;
 import com.poqop.document.events.DecodingProgressListener;
@@ -22,7 +23,7 @@ import com.poqop.document.models.DecodingProgressModel;
 import com.poqop.document.models.ZoomModel;
 import com.poqop.document.views.PageViewZoomControls;
 
-public abstract class BaseViewerActivity extends Activity implements DecodingProgressListener, CurrentPageListener
+public abstract class BaseViewerActivity extends BaseActivity implements DecodingProgressListener, CurrentPageListener
 {
     private static final int MENU_EXIT = 0;
     private static final int MENU_GOTO = 1;
@@ -49,7 +50,7 @@ public abstract class BaseViewerActivity extends Activity implements DecodingPro
         currentPageModel = new CurrentPageModel();
         currentPageModel.addEventListener(this);
         documentView = new DocumentView(this, zoomModel, progressModel, currentPageModel);
-//        zoomModel.addEventListener(documentView);
+        zoomModel.addEventListener(documentView);
         documentView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
         decodeService.setContentResolver(getContentResolver());
         decodeService.setContainerView(documentView);
@@ -60,8 +61,8 @@ public abstract class BaseViewerActivity extends Activity implements DecodingPro
 
         final FrameLayout frameLayout = createMainContainer();
         frameLayout.addView(documentView);
-//        frameLayout.addView(createZoomControls(zoomModel));
-        frameLayout.addView(createControlBar());
+        frameLayout.addView(createZoomControls(zoomModel));
+//        frameLayout.addView(createControlBar());
         setFullScreen();
         setContentView(frameLayout);
 
@@ -98,7 +99,12 @@ public abstract class BaseViewerActivity extends Activity implements DecodingPro
         pageNumberToast.show();
         saveCurrentPage();
     }
-
+	@Override
+	protected void onResume() {
+		setxy(15,10);
+		super.onResume();
+	}
+    
     private void setWindowTitle()
     {
         final String name = getIntent().getData().getLastPathSegment();
