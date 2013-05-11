@@ -163,8 +163,6 @@ public class VideosListActivity extends FragmentActivity implements OnClickListe
 				} else if (event.getAction() == MotionEvent.ACTION_UP) {
 					cache1.setBackgroundResource(R.drawable.back);
 					cache1.getBackground().setAlpha(180);
-//					play1.setBackgroundResource(R.drawable.back);
-//					play1.getBackground().setAlpha(255);
 				}
 				return false;
 			}

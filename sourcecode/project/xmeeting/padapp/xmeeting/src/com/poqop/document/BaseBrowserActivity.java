@@ -3,7 +3,6 @@ package com.poqop.document;
 import java.io.File;
 import java.io.FileFilter;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -13,11 +12,12 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TabHost;
 
+import com.broadsoft.common.BaseActivity;
 import com.broadsoft.xmeeting.R;
 import com.poqop.document.presentation.BrowserAdapter;
 import com.poqop.document.presentation.UriBrowserAdapter;
 
-public abstract class BaseBrowserActivity extends Activity
+public abstract class BaseBrowserActivity extends BaseActivity
 {
     private BrowserAdapter adapter;
     private static final String CURRENT_DIRECTORY = "currentDirectory";
