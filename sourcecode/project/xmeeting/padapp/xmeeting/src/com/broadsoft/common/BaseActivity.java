@@ -34,6 +34,14 @@ public class BaseActivity extends Activity implements OnClickListener,
 	private Button floatBackButton; 
 	private int mAlpha = 0; 
 	private ViewFlipper viewFlipper = null; 
+	
+	private int x =40;
+	private int y=20;
+	
+	protected void setxy(int x,int y){
+		this.x=x;
+		this.y=y;
+	}
 
 //	protected SystemUiHider mSystemUiHider;
 //	protected static final int HIDER_FLAGS = SystemUiHider.FLAG_HIDE_NAVIGATION;
@@ -98,8 +106,8 @@ public class BaseActivity extends Activity implements OnClickListener,
 		wmParams.width = 35;
 		wmParams.height = 35;
 		wmParams.gravity = Gravity.RIGHT | Gravity.BOTTOM;
-		wmParams.x = 40;
-		wmParams.y = 20;
+		wmParams.x = this.x;
+		wmParams.y = this.y;
 		wm.addView(floatBackButton, wmParams);
 	}
 
