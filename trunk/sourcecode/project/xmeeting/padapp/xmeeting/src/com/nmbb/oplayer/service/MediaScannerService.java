@@ -34,28 +34,28 @@ import com.nmbb.oplayer.util.PinyinUtils;
 import com.nmbb.oplayer.util.StringUtils;
 //import com.nmbb.oplayer.util.PinyinUtils;
 
-/** Ã½ÌåÉ¨Ãè */
+/** åª’ä½“æ‰«æ */
 public class MediaScannerService extends Service implements Runnable {
 
 	private static final String SERVICE_NAME = "com.nmbb.oplayer.service.MediaScannerService";
-	/** É¨ÃèÎÄ¼ş¼Ğ */
+	/** æ‰«ææ–‡ä»¶å¤¹ */
 	public static final String EXTRA_DIRECTORY = "scan_directory";
-	/** É¨ÃèÎÄ¼ş */
+	/** æ‰«ææ–‡ä»¶ */
 	public static final String EXTRA_FILE_PATH = "scan_file";
 	public static final String EXTRA_MIME_TYPE = "mimetype";
 
 	public static final int SCAN_STATUS_NORMAL = -1;
-	/** ¿ªÊ¼É¨Ãè */
+	/** å¼€å§‹æ‰«æ */
 	public static final int SCAN_STATUS_START = 0;
-	/** ÕıÔÚÉ¨Ãè É¨Ãèµ½Ò»¸öÊÓÆµÎÄ¼ş */
+	/** æ­£åœ¨æ‰«æ æ‰«æåˆ°ä¸€ä¸ªè§†é¢‘æ–‡ä»¶ */
 	public static final int SCAN_STATUS_RUNNING = 1;
-	/** É¨ÃèÍê³É */
+	/** æ‰«æå®Œæˆ */
 	public static final int SCAN_STATUS_END = 2;
 	/**  */
 	private ArrayList<IMediaScannerObserver> observers = new ArrayList<IMediaScannerObserver>();
 	private ConcurrentHashMap<String, String> mScanMap = new ConcurrentHashMap<String, String>();
 
-	/** µ±Ç°×´Ì¬ */
+	/** å½“å‰çŠ¶æ€ */
 	private volatile int mServiceStatus = SCAN_STATUS_NORMAL;
 	private DbHelper<POMedia> mDbHelper;
 	private Map<String, Object> mDbWhere = new HashMap<String, Object>(2);
@@ -67,7 +67,7 @@ public class MediaScannerService extends Service implements Runnable {
 		mDbHelper = new DbHelper<POMedia>();
 	}
 
-	/** ÊÇ·ñÕıÔÚÔËĞĞ */
+	/** æ˜¯å¦æ­£åœ¨è¿è¡Œ */
 	public static boolean isRunning() {
 		ActivityManager manager = (ActivityManager) OPlayerApplication.getContext().getSystemService(Context.ACTIVITY_SERVICE);
 		for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
@@ -85,18 +85,18 @@ public class MediaScannerService extends Service implements Runnable {
 		return super.onStartCommand(intent, flags, startId);
 	}
 
-	/** ½âÎöIntent */
+	/** è§£æIntent */
 	private void parseIntent(final Intent intent) {
 		final Bundle arguments = intent.getExtras();
 		if (arguments != null) {
 			if (arguments.containsKey(EXTRA_DIRECTORY)) {
 				String directory = arguments.getString(EXTRA_DIRECTORY);
 				Logger.i("onStartCommand:" + directory);
-				//É¨ÃèÎÄ¼ş¼Ğ
+				//æ‰«ææ–‡ä»¶å¤¹
 				if (!mScanMap.containsKey(directory))
 					mScanMap.put(directory, "");
 			} else if (arguments.containsKey(EXTRA_FILE_PATH)) {
-				//µ¥ÎÄ¼ş
+				//å•æ–‡ä»¶
 				String filePath = arguments.getString(EXTRA_FILE_PATH);
 				Logger.i("onStartCommand:" + filePath);
 				if (!StringUtils.isEmpty(filePath)) {
@@ -118,9 +118,9 @@ public class MediaScannerService extends Service implements Runnable {
 		scan();
 	}
 
-	/** É¨Ãè */
+	/** æ‰«æ */
 	private void scan() {
-		//¿ªÊ¼É¨Ãè
+		//å¼€å§‹æ‰«æ
 		notifyObservers(SCAN_STATUS_START, null);
 
 		while (mScanMap.keySet().size() > 0) {
@@ -138,11 +138,11 @@ public class MediaScannerService extends Service implements Runnable {
 					scanFile(path, mimeType);
 				}
 
-				//É¨ÃèÍê³ÉÒ»¸ö
+				//æ‰«æå®Œæˆä¸€ä¸ª
 				mScanMap.remove(path);
 			}
 
-			//ÈÎÎñÖ®¼äĞªÏ¢Ò»Ãë
+			//ä»»åŠ¡ä¹‹é—´æ­‡æ¯ä¸€ç§’
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
@@ -150,15 +150,15 @@ public class MediaScannerService extends Service implements Runnable {
 			}
 		}
 
-		//È«²¿É¨ÃèÍê³É
+		//å…¨éƒ¨æ‰«æå®Œæˆ
 		notifyObservers(SCAN_STATUS_END, null);
 
-		//µÚÒ»´ÎÉ¨Ãè
+		//ç¬¬ä¸€æ¬¡æ‰«æ
 		OPreference pref = new OPreference(this);
 		if (pref.getBoolean(OPlayerApplication.PREF_KEY_FIRST, true))
 			pref.putBooleanAndCommit(OPlayerApplication.PREF_KEY_FIRST, false);
 
-		//Í£Ö¹·şÎñ
+		//åœæ­¢æœåŠ¡
 		stopSelf();
 	}
 
@@ -174,17 +174,17 @@ public class MediaScannerService extends Service implements Runnable {
 		}
 	};
 
-	/** É¨ÃèÎÄ¼ş */
+	/** æ‰«ææ–‡ä»¶ */
 	private void scanFile(String path, String mimeType) {
 		save(new POMedia(path, mimeType));
 	}
 
-	/** É¨ÃèÎÄ¼ş¼Ğ */
+	/** æ‰«ææ–‡ä»¶å¤¹ */
 	private void scanDirectory(String path) {
 		eachAllMedias(new File(path));
 	}
 
-	/** µİ¹é²éÕÒÊÓÆµ */
+	/** é€’å½’æŸ¥æ‰¾è§†é¢‘ */
 	private void eachAllMedias(File f) {
 		if (f != null && f.exists() && f.isDirectory()) {
 			File[] files = f.listFiles();
@@ -192,7 +192,7 @@ public class MediaScannerService extends Service implements Runnable {
 				for (File file : f.listFiles()) {
 					//					Logger.i(f.getAbsolutePath());
 					if (file.isDirectory()) {
-						//ºöÂÔ.¿ªÍ·µÄÎÄ¼ş¼Ğ
+						//å¿½ç•¥.å¼€å¤´çš„æ–‡ä»¶å¤¹
 						if (!file.getAbsolutePath().startsWith("."))
 							eachAllMedias(file);
 					} else if (file.exists() && file.canRead() && FileUtils.isVideo(file)) {
@@ -204,14 +204,14 @@ public class MediaScannerService extends Service implements Runnable {
 	}
 
 	/**
-	 * ±£´æÈë¿â
+	 * ä¿å­˜å…¥åº“
 	 * 
 	 * @throws FileNotFoundException
 	 */
 	private void save(POMedia media) {
 		mDbWhere.put("path", media.path);
 		mDbWhere.put("last_modify_time", media.last_modify_time);
-		//¼ì²â
+		//æ£€æµ‹
 		if (!mDbHelper.exists(media, mDbWhere)) {
 			try {
 				if (media.title != null && media.title.length() > 0)
@@ -221,36 +221,36 @@ public class MediaScannerService extends Service implements Runnable {
 			}
 			media.last_access_time = System.currentTimeMillis();
 
-			//ÌáÈ¡ËõÂÔÍ¼
+			//æå–ç¼©ç•¥å›¾
 			//			extractThumbnail(media);
 //			media.mime_type = FileUtils.getMimeType(media.path);
 
-			//Èë¿â
+			//å…¥åº“
 			mDbHelper.create(media);
 
-			//É¨Ãèµ½Ò»¸ö
+			//æ‰«æåˆ°ä¸€ä¸ª
 			notifyObservers(SCAN_STATUS_RUNNING, media);
 		}
 	}
 
-	/** ÌáÈ¡Éú³ÉËõÂÔÍ¼ */
+	/** æå–ç”Ÿæˆç¼©ç•¥å›¾ */
 	private void extractThumbnail(POMedia media) {
 		final Context ctx = OPlayerApplication.getContext();
 		//		ThumbnailUtils.
 		Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(ctx, media.path, ThumbnailUtils.MINI_KIND);
 		try {
 			if (bitmap == null) {
-				//ËõÂÔÍ¼´´½¨Ê§°Ü
+				//ç¼©ç•¥å›¾åˆ›å»ºå¤±è´¥
 				bitmap = Bitmap.createBitmap(ThumbnailUtils.TARGET_SIZE_MINI_THUMBNAIL_WIDTH, ThumbnailUtils.TARGET_SIZE_MINI_THUMBNAIL_HEIGHT, Bitmap.Config.RGB_565);
 			}
 
 			media.width = bitmap.getWidth();
 			media.height = bitmap.getHeight();
 
-			//ËõÂÔÍ¼
+			//ç¼©ç•¥å›¾
 			bitmap = ThumbnailUtils.extractThumbnail(bitmap, ConvertUtils.dipToPX(ctx, ThumbnailUtils.TARGET_SIZE_MICRO_THUMBNAIL_WIDTH), ConvertUtils.dipToPX(ctx, ThumbnailUtils.TARGET_SIZE_MICRO_THUMBNAIL_HEIGHT), ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
 			if (bitmap != null) {
-				//½«ËõÂÔÍ¼´æµ½ÊÓÆµµ±Ç°Â·¾¶
+				//å°†ç¼©ç•¥å›¾å­˜åˆ°è§†é¢‘å½“å‰è·¯å¾„
 				File thum = new File(OPlayerApplication.OPLAYER_VIDEO_THUMB, UUID.randomUUID().toString());
 				media.thumb_path = thum.getAbsolutePath();
 				//thum.createNewFile();
@@ -259,7 +259,7 @@ public class MediaScannerService extends Service implements Runnable {
 				iStream.close();
 			}
 
-			//Èë¿â
+			//å…¥åº“
 
 		} catch (Exception ex) {
 			Logger.e(ex);
@@ -270,14 +270,14 @@ public class MediaScannerService extends Service implements Runnable {
 		}
 	}
 
-	// ~~~ ×´Ì¬¸Ä±ä 
+	// ~~~ çŠ¶æ€æ”¹å˜ 
 
-	/** Í¨Öª×´Ì¬¸Ä±ä */
+	/** é€šçŸ¥çŠ¶æ€æ”¹å˜ */
 	private void notifyObservers(int flag, POMedia media) {
 		mHandler.sendMessage(mHandler.obtainMessage(flag, media));
 	}
 
-	/** Ôö¼Ó¹Û²ìÕß */
+	/** å¢åŠ è§‚å¯Ÿè€… */
 	public void addObserver(IMediaScannerObserver s) {
 		synchronized (this) {
 			if (!observers.contains(s)) {
@@ -286,12 +286,12 @@ public class MediaScannerService extends Service implements Runnable {
 		}
 	}
 
-	/** É¾³ı¹Û²ìÕß */
+	/** åˆ é™¤è§‚å¯Ÿè€… */
 	public synchronized void deleteObserver(IMediaScannerObserver s) {
 		observers.remove(s);
 	}
 
-	/** É¾³ıËùÓĞ¹Û²ìÕß */
+	/** åˆ é™¤æ‰€æœ‰è§‚å¯Ÿè€… */
 	public synchronized void deleteObservers() {
 		observers.clear();
 	}
@@ -299,8 +299,8 @@ public class MediaScannerService extends Service implements Runnable {
 	public interface IMediaScannerObserver {
 		/**
 		 * 
-		 * @param flag 0 ¿ªÊ¼É¨Ãè 1 ÕıÔÚÉ¨Ãè 2 É¨ÃèÍê³É
-		 * @param file É¨Ãèµ½µÄÊÓÆµÎÄ¼ş
+		 * @param flag 0 å¼€å§‹æ‰«æ 1 æ­£åœ¨æ‰«æ 2 æ‰«æå®Œæˆ
+		 * @param file æ‰«æåˆ°çš„è§†é¢‘æ–‡ä»¶
 		 */
 		public void update(int flag, POMedia media);
 	}
