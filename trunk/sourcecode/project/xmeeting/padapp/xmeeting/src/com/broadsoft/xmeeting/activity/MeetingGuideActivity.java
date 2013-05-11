@@ -163,7 +163,7 @@ public class MeetingGuideActivity extends BaseActivity {
 		        memberinfo2.setAdapter(new DataGridAdapter(meetingcontent.getContext())); 
 				
 		        //江苏电力
-				TabHost tabHost = (TabHost) getLayoutInflater().inflate(R.layout.meetingguide_membertabhost,null);
+				TabHost tabHost = (TabHost) getLayoutInflater().inflate(R.layout.meetingguide_member_tab,null);
 				tabHost.setup();
 				TabHost.TabSpec  tabSpec1=tabHost.newTabSpec("tab_1");
 				tabSpec1.setContent(R.id.LinearLayout1);
@@ -180,7 +180,7 @@ public class MeetingGuideActivity extends BaseActivity {
 				linearLayout2.removeAllViewsInLayout();
 				linearLayout2.addView(memberinfo2);
 				tabHost.addTab(tabSpec2);
-				tabHost.setCurrentTab(1);
+				tabHost.setCurrentTab(0);
 				meetingcontent.removeAllViewsInLayout();
 				meetingcontent.addView(tabHost); 
 				

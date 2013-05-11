@@ -12,11 +12,9 @@ import com.broadsoft.xmeeting.activity.CompanyInfoActivity;
 import com.broadsoft.xmeeting.activity.DocumentsListActivity;
 import com.broadsoft.xmeeting.activity.ImageGallaryMainActivity;
 import com.broadsoft.xmeeting.activity.MeetingGuideActivity;
-import com.broadsoft.xmeeting.activity.MessageServiceActivity;
 import com.broadsoft.xmeeting.activity.SysSettingActivity;
 import com.broadsoft.xmeeting.activity.TimerServiceActivity;
 import com.broadsoft.xmeeting.activity.VideosListActivity;
-import com.broadsoft.xmeeting.activity.VotingActivity;
 
 /**
  * http://blog.csdn.net/Class_Raito/article/details/3390737
@@ -27,6 +25,7 @@ import com.broadsoft.xmeeting.activity.VotingActivity;
  * 
  */
 public class DesktopActivity extends BaseActivity { 
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
