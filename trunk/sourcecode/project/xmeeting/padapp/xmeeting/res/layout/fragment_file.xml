@@ -71,15 +71,15 @@
         android:layout_height="wrap_content"
         android:background="@drawable/sd_bar_bg" >
 
-        <ProgressBar
-            android:id="@android:id/progress"
-            style="?android:attr/progressBarStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dip"
-            android:visibility="gone" />
+<!--         <ProgressBar -->
+<!--             android:id="@android:id/progress" -->
+<!--             style="?android:attr/progressBarStyleSmall" -->
+<!--             android:layout_width="wrap_content" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:layout_alignParentLeft="true" -->
+<!--             android:layout_centerVertical="true" -->
+<!--             android:layout_marginLeft="5dip" -->
+<!--             android:visibility="gone" /> -->
 
         <TextView
             android:id="@+id/sd_block"
@@ -91,5 +91,4 @@
             android:textColor="@color/white" />
     </RelativeLayout>
 
- 	<include layout="@layout/common_toolbar"/>  
 </LinearLayout>
