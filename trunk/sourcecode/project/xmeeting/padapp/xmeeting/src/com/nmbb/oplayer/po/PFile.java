@@ -68,7 +68,7 @@ public final class PFile {
 	public Bitmap getThumb(Context ctx) {
 //		return null;
 //		return Video.Thumbnails.getThumbnail(ctx.getApplicationContext(), ctx.getContentResolver(), _id, Video.Thumbnails.MICRO_KIND, null);
-		return toRoundCorner(getVideoThumbnail(path, 60, 60,
+		return toRoundCorner(getVideoThumbnail(path, 100, 100,
 				MediaStore.Images.Thumbnails.FULL_SCREEN_KIND),10);
 	}
 	
