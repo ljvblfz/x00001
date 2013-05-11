@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="0.5dip"
-                android:layout_weight="10"
+                android:layout_weight="10" android:textSize="40dip"
                 android:background="@color/White"
                 android:text="x" />
 
@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="0.5dip"
-                android:layout_weight="25"
+                android:layout_weight="25" android:textSize="40dip"
                 android:background="@color/White"
                 android:text="x" />
 
@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="0.5dip"
-                android:layout_weight="30"
+                android:layout_weight="30" android:textSize="40dip"
                 android:background="@color/White"
                 android:text="x" />
 
@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="0.5dip"
-                android:layout_weight="10"
+                android:layout_weight="10" android:textSize="40dip"
                 android:background="@color/White"
                 android:text="x" />
             
@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="0.5dip"
-                android:layout_weight="20"
+                android:layout_weight="20"  android:textSize="40dip"
                 android:background="@color/White"
                 android:text="x" />
         </TableRow>

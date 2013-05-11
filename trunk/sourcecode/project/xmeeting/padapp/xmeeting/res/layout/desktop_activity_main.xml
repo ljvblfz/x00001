@@ -4,8 +4,7 @@
     android:background="@drawable/iphone"
     android:gravity="center_horizontal"
     android:orientation="vertical" >
-
-<!--          -->
+ 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -31,14 +30,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="系统通知"
+                    android:text=""
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
                 <TextView
                     android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="会议将如期举行"
+                    android:text=""
                     android:textAppearance="?android:attr/textAppearanceLarge" />
             </LinearLayout>
 
@@ -54,14 +53,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="最新消息"
+                    android:text=""
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
                 <TextView
                     android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="XXX，您好！请您出来一下，紧急事情！"
+                    android:text=""
                     android:textAppearance="?android:attr/textAppearanceLarge" />
             </LinearLayout>
         </LinearLayout>
@@ -91,7 +90,7 @@
                         android:layout_weight="1"
                         android:drawableBottom="@drawable/company"
                         android:gravity="center"
-                        android:text="公司简介" />
+                        android:text="公司简介" android:textSize="40dip"/>
 
                     <Button
                         android:id="@+id/desktop_btnnavmeetingguide"
@@ -100,7 +99,7 @@
                         android:layout_weight="1"
                         android:drawableBottom="@drawable/huiyizhinan"
                         android:gravity="center"
-                        android:text="会议指南" />
+                        android:text="会议指南" android:textSize="40dip"/>
 
                     <Button
                         android:id="@+id/desktop_btnnavcallservice"
@@ -109,7 +108,7 @@
                         android:layout_weight="1"
                         android:drawableBottom="@drawable/hujiaofuwu"
                         android:gravity="center"
-                        android:text="呼叫服务" />
+                        android:text="呼叫服务" android:textSize="40dip"/>
 
                     <Button
                         android:id="@+id/desktop_btnnavdocument"
@@ -118,16 +117,16 @@
                         android:layout_weight="1"
                         android:drawableBottom="@drawable/yanshiwengao"
                         android:gravity="center"
-                        android:text="演示文稿" />
+                        android:text="会议材料" android:textSize="40dip"/>
 
-                    <Button
-                        android:id="@+id/desktop_btnnavtimer"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:drawableBottom="@drawable/fayan"
-                        android:gravity="center"
-                        android:text="发言计时" />
+<!--                     <Button -->
+<!--                         android:id="@+id/desktop_btnnavmessage" -->
+<!--                         android:layout_width="match_parent" -->
+<!--                         android:layout_height="match_parent" -->
+<!--                         android:layout_weight="1" -->
+<!--                         android:drawableBottom="@drawable/shortmessage" -->
+<!--                         android:gravity="center" -->
+<!--                         android:text="消息服务" /> -->
                     
                 </TableRow>
 
@@ -144,7 +143,7 @@
                         android:layout_weight="1"
                         android:drawableBottom="@drawable/imagegallary"
                         android:gravity="center"
-                        android:text="图片展示" />
+                        android:text="图片展示" android:textSize="40dip"/>
                     <Button
                         android:id="@+id/desktop_btnnavvideo"
                         android:layout_width="match_parent"
@@ -152,23 +151,25 @@
                         android:layout_weight="1"
                         android:drawableBottom="@drawable/video"
                         android:gravity="center"
-                        android:text="视频点播" />
+                        android:text="视频展示" android:textSize="40dip"/>
+<!--                     <Button -->
+<!--                         android:id="@+id/desktop_btnnavvote" -->
+<!--                         android:layout_width="match_parent" -->
+<!--                         android:layout_height="match_parent" -->
+<!--                         android:layout_weight="1" -->
+<!--                         android:drawableBottom="@drawable/vote" -->
+<!--                         android:gravity="center" -->
+<!--                         android:text="投票服务" /> -->
+
                     <Button
-                        android:id="@+id/desktop_btnnavvote"
+                        android:id="@+id/desktop_btnnavtimer"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:drawableBottom="@drawable/vote"
+                        android:drawableBottom="@drawable/fayan"
                         android:gravity="center"
-                        android:text="投票服务" />
-                    <Button
-                        android:id="@+id/desktop_btnnavmessage"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:drawableBottom="@drawable/shortmessage"
-                        android:gravity="center"
-                        android:text="消息服务" />
+                        android:text="发言计时" android:textSize="40dip"/>
+                    
                     <Button
                         android:id="@+id/desktop_btnnavsyssetting"
                         android:layout_width="match_parent"
@@ -176,7 +177,7 @@
                         android:layout_weight="1"
                         android:drawableBottom="@drawable/systemsetting"
                         android:gravity="center"
-                        android:text="系统设置" /> 
+                        android:text="系统设置" android:textSize="40dip"/> 
                   
                 </TableRow>
 
@@ -184,9 +185,9 @@
                     android:id="@+id/tableRow3"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" >
+                    android:layout_weight="1" > 
                     
-<!--                          -->
+				<!--                          
                     <Button
                         android:id="@+id/desktop_btnnavinternetbrowser"
                         android:layout_width="match_parent"
@@ -227,37 +228,13 @@
             			android:background="#00000000"
                         android:gravity="center"
                         android:text="" /> 
+                -->
                 </TableRow>
             </TableLayout>
         </LinearLayout>
     </LinearLayout>
     
-    
-<!--     <RelativeLayout -->
-<!--         android:layout_width="fill_parent" -->
-<!--         android:layout_height="65dip" -->
-<!--         android:background="@color/DarkGreen" -->
-<!--         android:orientation="horizontal" > -->
-
-<!--         <Button -->
-<!--             android:id="@+id/btnnavhome" -->
-<!--             android:layout_width="wrap_content" -->
-<!--             android:layout_height="wrap_content" -->
-<!--             android:layout_alignParentRight="true" -->
-<!--             android:drawableTop="@drawable/home3" -->
-<!--             android:gravity="center" -->
-<!--             android:text="主界面" /> -->
-
-<!--         <Button -->
-<!--             android:id="@+id/btnnavreturn" -->
-<!--             android:layout_width="wrap_content" -->
-<!--             android:layout_height="wrap_content" -->
-<!--             android:layout_marginRight="10dp" -->
-<!--             android:layout_toLeftOf="@+id/btnnavhome" -->
-<!--             android:drawableTop="@drawable/back" -->
-<!--             android:gravity="center" -->
-<!--             android:text="返    回" /> -->
-<!--     </RelativeLayout> -->
+     
  	<include layout="@layout/common_toolbar"/>  
 
 </LinearLayout>
