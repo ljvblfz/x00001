@@ -16,7 +16,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1" 
             android:gravity="center"  android:background="@drawable/button_selector"
-            android:text="基本信息" />
+            android:text="公司简介" />
         
         
         <Button
