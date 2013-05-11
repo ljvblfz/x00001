@@ -71,7 +71,7 @@ public class FragmentFileOld extends FragmentBase implements OnItemClickListener
 	private VideosListActivity mParent;
 	private TextView mSDAvailable;
 	/** 左下角进度显示 */
-	private View mProgress;
+//	private View mProgress;
 
 	private MediaScannerService mMediaScannerService;
 
@@ -98,7 +98,7 @@ public class FragmentFileOld extends FragmentBase implements OnItemClickListener
 		alphabet_scroller = (ImageView) v.findViewById(R.id.alphabet_scroller);
 		mTempListView = (ListView) v.findViewById(R.id.templist);
 		mSDAvailable = (TextView) v.findViewById(R.id.sd_block);
-		mProgress = v.findViewById(android.R.id.progress);
+//		mProgress = v.findViewById(android.R.id.progress);
 
 		// ~~~~~~~~~ 绑定事件
 		alphabet_scroller.setClickable(true);
@@ -143,8 +143,8 @@ public class FragmentFileOld extends FragmentBase implements OnItemClickListener
 
 			break;
 		case MediaScannerService.SCAN_STATUS_END://扫描完成
-			if (mProgress != null)
-				mProgress.setVisibility(View.GONE);
+//			if (mProgress != null)
+//				mProgress.setVisibility(View.GONE);
 			new DataTask().execute();
 			break;
 		case MediaScannerService.SCAN_STATUS_RUNNING://扫到一个文件
@@ -163,10 +163,10 @@ public class FragmentFileOld extends FragmentBase implements OnItemClickListener
 		//SD卡剩余数量
 		mSDAvailable.setText(FileUtils.showFileAvailable());
 
-		if (MediaScannerService.isRunning())
-			mProgress.setVisibility(View.VISIBLE);
-		else
-			mProgress.setVisibility(View.GONE);
+//		if (MediaScannerService.isRunning())
+//			mProgress.setVisibility(View.VISIBLE);
+//		else
+//			mProgress.setVisibility(View.GONE);
 	}
 
 	ListView.OnCreateContextMenuListener OnListViewMenu = new ListView.OnCreateContextMenuListener() {
@@ -317,6 +317,7 @@ public class FragmentFileOld extends FragmentBase implements OnItemClickListener
 		intent.putExtra("path", f.path);
 		intent.putExtra("title", f.title);
 		startActivity(intent);
+		mParent.removeBack();
 	}
 
 	private class DataTask extends AsyncTask<Void, Void, List<POMedia>> {
