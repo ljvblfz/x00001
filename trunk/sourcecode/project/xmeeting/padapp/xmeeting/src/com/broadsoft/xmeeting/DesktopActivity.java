@@ -37,7 +37,7 @@ public class DesktopActivity extends BaseActivity {
 		initNavButtonForImageGallary();
 //		initNavButtonForVote();
 		initNavButtonSysSetting();
-		initNavButtonTimerService();
+//		initNavButtonTimerService();
 //		initNavButtonMessageService();
 //		initNavButtonInternetBrowser();
 		
@@ -164,19 +164,19 @@ public class DesktopActivity extends BaseActivity {
 
 	}//
 	//
-	public void initNavButtonTimerService() {
-		Button btnnavsetting = (Button) findViewById(R.id.desktop_btnnavtimer);
-		btnnavsetting.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) { 
-				Intent intent = new Intent();
-				intent.setClass(DesktopActivity.this, TimerServiceActivity.class);// 指定了跳转前的Activity和跳转后的Activity
-				intent.setData(Uri.parse("one"));// 向下一个Activity传递了string类型参数"one"
-				startActivityForResult(intent, REQUEST_CODE);// 以传递参数的方式跳转到下一个Activity
-
-			}//end of on click
-		});
-
-	}//
+//	public void initNavButtonTimerService() {
+//		Button btnnavsetting = (Button) findViewById(R.id.desktop_btnnavtimer);
+//		btnnavsetting.setOnClickListener(new View.OnClickListener() {
+//			public void onClick(View v) { 
+//				Intent intent = new Intent();
+//				intent.setClass(DesktopActivity.this, TimerServiceActivity.class);// 指定了跳转前的Activity和跳转后的Activity
+//				intent.setData(Uri.parse("one"));// 向下一个Activity传递了string类型参数"one"
+//				startActivityForResult(intent, REQUEST_CODE);// 以传递参数的方式跳转到下一个Activity
+//
+//			}//end of on click
+//		});
+//
+//	}//
 	
 	
 

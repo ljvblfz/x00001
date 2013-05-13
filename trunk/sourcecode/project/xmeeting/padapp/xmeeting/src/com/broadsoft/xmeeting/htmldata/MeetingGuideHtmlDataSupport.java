@@ -11,7 +11,7 @@ public class MeetingGuideHtmlDataSupport {
 		sb.append("<table style='font-size:30px;' width='100%'>");
 		for(int i=0;i<5;i++){
 			sb.append("<tr>");
-			sb.append("		<td colspn='2' style='font-color:red;'>第"+(i+1)+"天(2012-12-2"+i+")</td>");  
+			sb.append("		<td colspn='2' style='color:red;'>第"+(i+1)+"天(2012-12-2"+i+")</td>");  
 			sb.append("</tr>"); 
 			
 			for(int j=0;j<5;j++){
@@ -118,8 +118,8 @@ public class MeetingGuideHtmlDataSupport {
 	public static String genContact(JSONObject data){
 		StringBuilder sb=new StringBuilder();
 		sb.append("<br/><br/><br/> "); 
-		sb.append("江苏省电力公司接待服务联系人  <br/><br/><br/> "); 
-		sb.append("吴 骏     办公室主任   <br/><br/><br/>  "); 
+		sb.append("江苏省电力公司接待服务联系人  <br/>  "); 
+		sb.append("吴 骏     办公室主任   <br/>  "); 
 		sb.append("电话: 15150556655"); 
 		sb.append(" ");  
 		return sb.toString();
