@@ -1,6 +1,6 @@
 package com.broadsoft.common;
 
-import android.app.Activity;
+import android.app.ActivityGroup;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,10 +11,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnSystemUiVisibilityChangeListener;
 import android.view.View.OnTouchListener;
-import android.view.WindowManager.LayoutParams;
 import android.view.WindowManager;
+import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
-import android.widget.ViewFlipper;
 
 import com.broadsoft.xmeeting.R;
 
@@ -24,7 +23,7 @@ import com.broadsoft.xmeeting.R;
  * @author lu.zhen
  * 
  */
-public class BaseActivity extends Activity implements OnClickListener,
+public class BaseActivityGroup extends ActivityGroup implements OnClickListener,
 		OnSystemUiVisibilityChangeListener {
 	protected static int REQUEST_CODE=2;
 
@@ -32,14 +31,6 @@ public class BaseActivity extends Activity implements OnClickListener,
 	private WindowManager.LayoutParams wmParams = null; 
 //	private Button play1; 
 	private Button floatBackButton;  
-	
-	private int x =40;
-	private int y=20;
-	
-	protected void setxy(int x,int y){
-		this.x=x;
-		this.y=y;
-	}
 
 //	protected SystemUiHider mSystemUiHider;
 //	protected static final int HIDER_FLAGS = SystemUiHider.FLAG_HIDE_NAVIGATION;
@@ -104,8 +95,8 @@ public class BaseActivity extends Activity implements OnClickListener,
 		wmParams.width = 35;
 		wmParams.height = 35;
 		wmParams.gravity = Gravity.RIGHT | Gravity.BOTTOM;
-		wmParams.x = this.x;
-		wmParams.y = this.y;
+		wmParams.x = 40;
+		wmParams.y = 20;
 		wm.addView(floatBackButton, wmParams);
 	}
 
