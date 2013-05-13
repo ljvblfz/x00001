@@ -3,6 +3,8 @@ package com.broadsoft.xmeeting.activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -11,6 +13,7 @@ import android.widget.TabHost;
 import com.broadsoft.common.BaseActivity;
 import com.broadsoft.xmeeting.R;
 import com.broadsoft.xmeeting.adapter.DataGridAdapter;
+import com.broadsoft.xmeeting.htmldata.MeetingGuideHtmlDataSupport;
 
 public class MeetingGuideActivity extends BaseActivity {
 
@@ -63,9 +66,20 @@ public class MeetingGuideActivity extends BaseActivity {
 				initBtnBackgroundColor(); 
 				btnnavmeetingbusinfo.setBackgroundResource(R.drawable.button_shape_pressed); 
 				Log.d("Button--->onClick","btnnavmeetingbusinfo"); 
-				LinearLayout personalinfo = (LinearLayout) getLayoutInflater().inflate(R.layout.meetingguide_businfo, null);
+//				LinearLayout personalinfo = (LinearLayout) getLayoutInflater().inflate(R.layout.meetingguide_businfo, null);
+//				meetingcontent.removeAllViewsInLayout();
+//				meetingcontent.addView(personalinfo); 
+				
+
+				WebView webView = new WebView(MeetingGuideActivity.this);
+				webView.setWebViewClient(new WebViewClient());
+				String htmlBasicInfo="<html><body style='font-size:30px'>  " ;
+				htmlBasicInfo+=MeetingGuideHtmlDataSupport.genBus(null);
+				htmlBasicInfo+="</body></html>"; 
+				webView.loadDataWithBaseURL(null, htmlBasicInfo, "text/html", "utf-8", null);
+				//  
 				meetingcontent.removeAllViewsInLayout();
-				meetingcontent.addView(personalinfo); 
+				meetingcontent.addView(webView); 
 			}
  
 		});
@@ -81,9 +95,19 @@ public class MeetingGuideActivity extends BaseActivity {
 				initBtnBackgroundColor(); 
 				btnnavmeetingweatherinfo.setBackgroundResource(R.drawable.button_shape_pressed); 
 				Log.d("Button--->onClick","btnnavmeetingweatherinfo"); 
-				LinearLayout personalinfo = (LinearLayout) getLayoutInflater().inflate(R.layout.meetingguide_weatherinfo, null);
+//				LinearLayout weatherinfo = (LinearLayout) getLayoutInflater().inflate(R.layout.meetingguide_weatherinfo, null);
+//				meetingcontent.removeAllViewsInLayout();
+//				meetingcontent.addView(weatherinfo); 
+				
+				WebView webView = new WebView(MeetingGuideActivity.this);
+				webView.setWebViewClient(new WebViewClient());
+				String htmlBasicInfo="<html><body style='font-size:30px'>" ;
+				htmlBasicInfo+=MeetingGuideHtmlDataSupport.genWeatherInfo(null);
+				htmlBasicInfo+="</body></html>"; 
+				webView.loadDataWithBaseURL(null, htmlBasicInfo, "text/html", "utf-8", null);
+				//  
 				meetingcontent.removeAllViewsInLayout();
-				meetingcontent.addView(personalinfo); 
+				meetingcontent.addView(webView); 
 			}
  
 		});
@@ -97,10 +121,19 @@ public class MeetingGuideActivity extends BaseActivity {
 			public void onClick(View view) {  
 				initBtnBackgroundColor(); 
 				btnnavmeetingcontactinfo.setBackgroundResource(R.drawable.button_shape_pressed); 
-				Log.d("Button--->onClick","btnnavmeetingcontactinfo"); 
-				LinearLayout meetingcontactinfo = (LinearLayout) getLayoutInflater().inflate(R.layout.meetingguide_contactinfo, null);
+				Log.d("Button--->onClick","btnnavmeetingcontactinfo");  
+				
+				
+
+				WebView webView = new WebView(MeetingGuideActivity.this);
+				webView.setWebViewClient(new WebViewClient());
+				String htmlBasicInfo="<html><body style='font-size:30px'>联系方式: <br/> " ;
+				htmlBasicInfo+=MeetingGuideHtmlDataSupport.genContact(null);
+				htmlBasicInfo+="</body></html>"; 
+				webView.loadDataWithBaseURL(null, htmlBasicInfo, "text/html", "utf-8", null);
+				//  
 				meetingcontent.removeAllViewsInLayout();
-				meetingcontent.addView(meetingcontactinfo);
+				meetingcontent.addView(webView); 
 				
 			}
 		});
@@ -116,9 +149,20 @@ public class MeetingGuideActivity extends BaseActivity {
 				btnnavmeetingschedule.setBackgroundResource(R.drawable.button_shape_pressed); 
 		
 				Log.d("Button--->onClick","btnnavmeetingschedule"); 
-				LinearLayout meetingschedule = (LinearLayout) getLayoutInflater().inflate(R.layout.meetingguide_schedule, null);
+//				LinearLayout meetingschedule = (LinearLayout) getLayoutInflater().inflate(R.layout.meetingguide_schedule, null);
+//				meetingcontent.removeAllViewsInLayout();
+//				meetingcontent.addView(meetingschedule);
+				
+
+				WebView webView = new WebView(MeetingGuideActivity.this);
+				webView.setWebViewClient(new WebViewClient());
+				String htmlBasicInfo="<html><body style='font-size:30px'>" ;
+				htmlBasicInfo+=MeetingGuideHtmlDataSupport.genSchedule(null);
+				htmlBasicInfo+="</body></html>"; 
+				webView.loadDataWithBaseURL(null, htmlBasicInfo, "text/html", "utf-8", null);
+				//  
 				meetingcontent.removeAllViewsInLayout();
-				meetingcontent.addView(meetingschedule);
+				meetingcontent.addView(webView); 
 				
 			}
 		});
@@ -148,19 +192,25 @@ public class MeetingGuideActivity extends BaseActivity {
 			public void onClick(View view) {  
 				initBtnBackgroundColor(); 
 				btnnavmeetingmember.setBackgroundResource(R.drawable.button_shape_pressed);
-				Log.d("Button--->onClick","btnnavmeetingmealshotel"); 
-//				GridView memberinfo = (GridView) getLayoutInflater().inflate(R.layout.meetingguide_memberinfo, null); 
-//		        memberinfo.setAdapter(new DataGridAdapter(meetingcontent.getContext()));
-//				meetingcontent.removeAllViewsInLayout();
-//				meetingcontent.addView(memberinfo);
+				Log.d("Button--->onClick","btnnavmeetingmealshotel");   
 		        
 
-				GridView memberinfo1 = (GridView) getLayoutInflater().inflate(R.layout.meetingguide_memberinfo, null); 
-		        memberinfo1.setAdapter(new DataGridAdapter(meetingcontent.getContext())); 
-		        
+				WebView memberinfo1 = new WebView(MeetingGuideActivity.this);
+				memberinfo1.setWebViewClient(new WebViewClient());
+				String htmlBasicInfo="<html><body style='font-size:30px'>" ;
+				htmlBasicInfo+=MeetingGuideHtmlDataSupport.genMemberInfo(null);
+				htmlBasicInfo+="</body></html>"; 
+				memberinfo1.loadDataWithBaseURL(null, htmlBasicInfo, "text/html", "utf-8", null);
+				//   
+				 
+				
 
-				GridView memberinfo2 = (GridView) getLayoutInflater().inflate(R.layout.meetingguide_memberinfo, null); 
-		        memberinfo2.setAdapter(new DataGridAdapter(meetingcontent.getContext())); 
+				WebView memberinfo2 = new WebView(MeetingGuideActivity.this);
+				memberinfo2.setWebViewClient(new WebViewClient());
+				String htmlBasicInfo2="<html><body style='font-size:30px'>" ;
+				htmlBasicInfo2+=MeetingGuideHtmlDataSupport.genMemberInfo(null);
+				htmlBasicInfo2+="</body></html>"; 
+				memberinfo2.loadDataWithBaseURL(null, htmlBasicInfo2, "text/html", "utf-8", null);
 				
 		        //江苏电力
 				TabHost tabHost = (TabHost) getLayoutInflater().inflate(R.layout.meetingguide_member_tab,null);
