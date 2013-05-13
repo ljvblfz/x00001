@@ -161,14 +161,14 @@
 <!--                         android:gravity="center" -->
 <!--                         android:text="投票服务" /> -->
 
-                    <Button
-                        android:id="@+id/desktop_btnnavtimer"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:drawableBottom="@drawable/fayan"
-                        android:gravity="center"
-                        android:text="发言计时" android:textSize="40dip"/>
+<!--                     <Button -->
+<!--                         android:id="@+id/desktop_btnnavtimer" -->
+<!--                         android:layout_width="match_parent" -->
+<!--                         android:layout_height="match_parent" -->
+<!--                         android:layout_weight="1" -->
+<!--                         android:drawableBottom="@drawable/fayan" -->
+<!--                         android:gravity="center" -->
+<!--                         android:text="发言计时" android:textSize="40dip"/> -->
                     
                     <Button
                         android:id="@+id/desktop_btnnavsyssetting"
@@ -178,6 +178,14 @@
                         android:drawableBottom="@drawable/systemsetting"
                         android:gravity="center"
                         android:text="系统设置" android:textSize="40dip"/> 
+                        
+                    
+                    <Button 
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" 
+                        android:gravity="center" 
+                		android:background="@android:color/transparent"   /> 
                   
                 </TableRow>
 
