@@ -67,9 +67,9 @@ public class ImageGallaryViewFlipperActivity extends BaseActivity   implements  
         
         
         
-//        loadFromPath();  
+        loadFromSDCard();  
         
-        loadFromAssets();  
+//        loadFromAssets();  
         
         
         //set auto start
@@ -93,7 +93,7 @@ public class ImageGallaryViewFlipperActivity extends BaseActivity   implements  
         }
 	}
 
-	private void loadFromPath() {
+	private void loadFromSDCard() {
 		List<Drawable> listOfDrawble=getDrawableList(""); 
         for(Drawable drawable:listOfDrawble){ 
         	Log.d(TAG,"drawable------>"+drawable); 
@@ -136,12 +136,11 @@ public class ImageGallaryViewFlipperActivity extends BaseActivity   implements  
 	public List<Drawable> getDrawableList(String dir){
 		List<Drawable> listOfDrawble=new ArrayList<Drawable>();
 //		Drawable d=Drawable.createFromPath("/sdcard/a.jpg"); 
-		Drawable d1=Drawable.createFromPath("assets/imagegallary/demo1.jpg"); 
-		Drawable d2=Drawable.createFromPath("assets/imagegallary/demo2.jpg"); 
-		Drawable d3=Drawable.createFromPath("assets/imagegallary/demo3.jpg"); 
-		Drawable d4=Drawable.createFromPath("assets/imagegallary/demo4.jpg"); 
-		Drawable d5=Drawable.createFromPath("assets/imagegallary/demo5.jpg"); 
-		 
+		Drawable d1=Drawable.createFromPath("/sdcard/xmeeting/10001/imagegallary/demo1.jpg"); 
+		Drawable d2=Drawable.createFromPath("/sdcard/xmeeting/10001/imagegallary/demo2.jpg"); 
+		Drawable d3=Drawable.createFromPath("/sdcard/xmeeting/10001/imagegallary/demo3.jpg"); 
+		Drawable d4=Drawable.createFromPath("/sdcard/xmeeting/10001/imagegallary/demo4.jpg"); 
+		Drawable d5=Drawable.createFromPath("/sdcard/xmeeting/10001/imagegallary/demo5.jpg");  
 		
 		listOfDrawble.add(d1);
 		listOfDrawble.add(d2);
