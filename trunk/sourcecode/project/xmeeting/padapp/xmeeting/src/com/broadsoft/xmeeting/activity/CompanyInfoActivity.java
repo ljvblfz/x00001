@@ -2,9 +2,11 @@ package com.broadsoft.xmeeting.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TabHost;
 
 import com.broadsoft.common.BaseActivityGroup;
+import com.broadsoft.common.MulitPointTouchListener;
 import com.broadsoft.xmeeting.R;
 
 public class CompanyInfoActivity extends BaseActivityGroup {
@@ -37,8 +39,15 @@ public class CompanyInfoActivity extends BaseActivityGroup {
 		tabHost.addTab(tabSpec3);
 
 		//
-		tabHost.setCurrentTab(1);
+		tabHost.setCurrentTab(0);
+		
+		//
 
+		ImageView tabOrginfoImageView = (ImageView) findViewById(R.id.tabOrginfoImageView);
+		tabOrginfoImageView.setOnTouchListener(new MulitPointTouchListener()); 
+
+		ImageView tabLeaderinfoImageView = (ImageView) findViewById(R.id.tabLeaderinfoImageView);
+		tabLeaderinfoImageView.setOnTouchListener(new MulitPointTouchListener());
 	}
 
 }

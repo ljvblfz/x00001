@@ -18,7 +18,7 @@
                 android:background="@color/SlateBlue"
                 android:textSize="30sp" 
                 android:gravity="center_horizontal"
-                android:text="江苏电力工会活动展览"  />
+                android:text="图片展示"  />
         
     </LinearLayout>
 
@@ -30,32 +30,7 @@
         android:orientation="vertical" >
  
     </LinearLayout>
-
-<!--     <RelativeLayout -->
-<!--         android:layout_width="fill_parent" -->
-<!--         android:layout_height="65dip" -->
-<!--         android:background="@color/DarkGreen" -->
-<!--         android:orientation="horizontal" > -->
-
-<!--         <Button -->
-<!--             android:id="@+id/btnnavhome" -->
-<!--             android:layout_width="wrap_content" -->
-<!--             android:layout_height="wrap_content" -->
-<!--             android:layout_alignParentRight="true" -->
-<!--             android:drawableTop="@drawable/home3" -->
-<!--             android:gravity="center" -->
-<!--             android:text="主界面" /> -->
-
-<!--         <Button -->
-<!--             android:id="@+id/btnnavreturn" -->
-<!--             android:layout_width="wrap_content" -->
-<!--             android:layout_height="wrap_content" -->
-<!--             android:layout_marginRight="10dp" -->
-<!--             android:layout_toLeftOf="@+id/btnnavhome" -->
-<!--             android:drawableTop="@drawable/back" -->
-<!--             android:gravity="center" -->
-<!--             android:text="返    回" /> -->
-<!--     </RelativeLayout> -->
+ 
 
  	<include layout="@layout/common_toolbar"/>  
 

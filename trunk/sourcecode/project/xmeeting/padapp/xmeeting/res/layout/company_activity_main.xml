@@ -47,8 +47,8 @@
 
                     <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/company_leader" />
+                        android:layout_height="match_parent"  android:id="@+id/tabLeaderinfoImageView"
+                        android:src="@drawable/company_leader" android:scaleType="matrix" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -58,8 +58,8 @@
 
                     <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/company_org" />
+                        android:layout_height="match_parent" android:id="@+id/tabOrginfoImageView"
+                        android:src="@drawable/company_org"  android:scaleType="matrix" />
                 </LinearLayout>
             </FrameLayout>
         </LinearLayout>
