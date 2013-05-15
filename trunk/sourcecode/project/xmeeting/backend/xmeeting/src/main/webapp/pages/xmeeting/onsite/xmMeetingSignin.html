@@ -5,7 +5,7 @@
 			<ul class="searchContent">
 				<li>
 					<label>会议名称：</label>
-					<input type="text" name="xmmiGuid" value=""/>
+					<input type="text" name="xmmiName" value=""/>
 				</li> 
 			</ul>
 			<div class="subBar">
@@ -33,16 +33,16 @@
 	<table class="table" layoutH="138" width="100%">
 		<thead>
 			<tr  searchMethod="xmMeetingSigninSearch"><th width="22"><input type="checkbox" group="xmmsGuids" class="checkboxCtrl"></th>
-						<th width="60" orderField="xmmiGuid">会议</th>
-						<th width="60" orderField="xmmsPersonnel">签到人员</th>
-						<th width="60" orderField="xmmsTime">签到时间</th> 
+						<th width="60"  >会议名称</th>
+						<th width="60"  >签到人员</th>
+						<th width="60"  >签到时间</th> 
 			</tr>
 		</thead>
 		<tbody>
 			<tr name="xmMeetingSigninTrTemplate" target="slt_uid">
 				<td name="xmmsGuid" type="check"><input name="xmmsGuids" value="" type="checkbox"></td>
-						<td name="xmmiGuid"></td>
-						<td name="xmmsPersonnel"></td>
+						<td name="xmmiName"></td>
+						<td name="xmpiName"></td>
 						<td name="xmmsTime"></td> 
 			</tr>
 		</tbody>

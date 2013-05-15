@@ -17,13 +17,14 @@ import org.restlet.resource.ResourceException;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.broadsoft.xmeeting.xmeeting.meeting.dao.XmeetingOnsiteDaoImpl;
+import com.broadsoft.xmeeting.xmeeting.meeting.vo.XmMeetingCallIVO;
+import com.broadsoft.xmeeting.xmeeting.onsite.dao.XmMeetingCallDaoImpl;
+import com.broadsoft.xmeeting.xmeeting.onsite.po.XmMeetingCall;
 import com.founder.sipbus.common.annotation.RestletResource;
 import com.founder.sipbus.common.page.PageResponse;
 import com.founder.sipbus.common.util.JsonUtils;
 import com.founder.sipbus.common.util.PMGridCopyUtil;
-import com.broadsoft.xmeeting.xmeeting.onsite.dao.XmMeetingCallDaoImpl;
-import com.broadsoft.xmeeting.xmeeting.onsite.po.XmMeetingCall;
-import com.broadsoft.xmeeting.xmeeting.onsite.vo.XmMeetingCallSearchVO;
 import com.founder.sipbus.syweb.au.base.SyBaseResource;
 
 @Component
@@ -36,14 +37,29 @@ public class XmMeetingCallsResource extends SyBaseResource {
 	public void setXmMeetingCallDao(XmMeetingCallDaoImpl xmMeetingCallDao) {
 		this.xmMeetingCallDao = xmMeetingCallDao;
 	}
+	
+
+	private XmeetingOnsiteDaoImpl xmeetingOnsiteDao;
+
+	public void setXmeetingOnsiteDao(XmeetingOnsiteDaoImpl xmeetingOnsiteDao) {
+		this.xmeetingOnsiteDao = xmeetingOnsiteDao;
+	}
+	
+	
+	
 
 	@SuppressWarnings("unchecked")
 	@Get
 	public Representation get(Representation entity) throws Exception {
 		form = new Form(entity); 
-		XmMeetingCallSearchVO sVO=new XmMeetingCallSearchVO();
-		PMGridCopyUtil.copyGridToDto(sVO,getQueryMap());
-		PageResponse p = xmMeetingCallDao.findPage(getPageRequest(),fillDetachedCriteria(XmMeetingCall.class,sVO));
+//		XmMeetingCallSearchVO sVO=new XmMeetingCallSearchVO();
+//		PMGridCopyUtil.copyGridToDto(sVO,getQueryMap());
+//		PageResponse p = xmMeetingCallDao.findPage(getPageRequest(),fillDetachedCriteria(XmMeetingCall.class,sVO));
+//		JSON jp = JSONSerializer.toJSON(getPageResponse(p),config);
+		
+
+		PageResponse<XmMeetingCallIVO> p = xmeetingOnsiteDao.searchMeetingCallByName(getPageRequest(), getQueryMap());
+	 
 		JSON jp = JSONSerializer.toJSON(getPageResponse(p),config);
 		return getJsonGzipRepresentation(JsonUtils.genSuccessReturnJson(jp));   
 	}
