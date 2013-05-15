@@ -200,9 +200,8 @@ public class MeetingGuideActivity extends BaseActivity {
 			public void onClick(View view) {  
 				initBtnBackgroundColor(); 
 				btnnavmeetingmember.setBackgroundResource(R.drawable.button_shape_pressed);
-				Log.d("Button--->onClick","btnnavmeetingmealshotel");   
+				Log.d("Button--->onClick","btnnavmeetingmember");   
 
-//		        mExpandableListView = (ExpandableListView)findViewById(R.id.m_list);
 
 				LinearLayout memberCompnyList = (LinearLayout) getLayoutInflater().inflate(R.layout.meetingguide_member_companylist, null);
 				ExpandableListView mExpandableListView = (ExpandableListView)memberCompnyList.findViewById(R.id.m_list); 
@@ -210,6 +209,7 @@ public class MeetingGuideActivity extends BaseActivity {
 		        memberInfoAdapter.initializeData();
 		        mExpandableListView.setAdapter(memberInfoAdapter);
 		        mExpandableListView.setCacheColorHint(0);  //设置拖动列表的时候防止出现黑色背景 
+		        mExpandableListView.expandGroup(0); 
 				meetingcontent.removeAllViewsInLayout();
 				meetingcontent.addView(memberCompnyList); 
 				
