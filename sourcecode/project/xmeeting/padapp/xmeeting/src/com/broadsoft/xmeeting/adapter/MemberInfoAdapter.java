@@ -11,8 +11,6 @@ import android.widget.AbsListView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
-import com.broadsoft.xmeeting.activity.MeetingGuideMemberInfoActivity;
-
 public class   MemberInfoAdapter extends BaseExpandableListAdapter{
 
 	private List<String> group;           //组列表 
