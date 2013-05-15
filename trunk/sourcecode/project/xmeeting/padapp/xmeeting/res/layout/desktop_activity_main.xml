@@ -21,47 +21,54 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.6"
+                android:layout_weight="1"
                 android:orientation="vertical"
                 android:padding="10dp" >
 
-                <TextView
-                    android:id="@+id/textView2"
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text=""
-                    android:textAppearance="?android:attr/textAppearanceLarge" />
-
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textAppearance="?android:attr/textAppearanceLarge" />
+                    android:src="@drawable/jssgcc_logo" />
+ 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.6"
+                android:layout_weight="1"
                 android:orientation="vertical"
+                android:background="@color/white"
                 android:padding="10dp" >
 
                 <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/systemlabel"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text=""
-                    android:textAppearance="?android:attr/textAppearanceLarge" />
+                    android:textSize="60dp" 
+                    android:textColor="@color/LightBlue"
+                    android:text="服务指南"  />
 
+			    <ImageView 
+			        android:layout_width="fill_parent"
+			        android:layout_height="wrap_content" 
+			        android:src="@drawable/jssgcc_line" /> 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/meetingname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=""
-                    android:textAppearance="?android:attr/textAppearanceLarge" />
+                    android:textSize="30dp"
+                    android:textColor="@color/LightBlue"
+                    android:text="上海市电力公司领导赴江苏省电力公司考察"  />
+            </LinearLayout>
+            
+              <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:orientation="vertical" 
+                android:padding="10dp" >
+ 
             </LinearLayout>
         </LinearLayout>
 
@@ -88,8 +95,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:drawableBottom="@drawable/company"
+                        android:drawableTop="@drawable/company"
                         android:gravity="center"
+                		android:background="@android:color/transparent"  
+                		android:textColor="@color/yellow"
                         android:text="公司简介" android:textSize="40dip"/>
 
                     <Button
@@ -97,8 +106,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:drawableBottom="@drawable/huiyizhinan"
+                        android:drawableTop="@drawable/huiyizhinan"
                         android:gravity="center"
+                		android:background="@android:color/transparent" 
+                		android:textColor="@color/yellow" 
                         android:text="会议指南" android:textSize="40dip"/>
 
                     <Button
@@ -106,8 +117,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:drawableBottom="@drawable/hujiaofuwu"
+                        android:drawableTop="@drawable/hujiaofuwu"
                         android:gravity="center"
+                		android:background="@android:color/transparent"  
+                		android:textColor="@color/yellow"
                         android:text="呼叫服务" android:textSize="40dip"/>
 
                     <Button
@@ -115,8 +128,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:drawableBottom="@drawable/yanshiwengao"
+                        android:drawableTop="@drawable/yanshiwengao"
                         android:gravity="center"
+                		android:background="@android:color/transparent"  
+                		android:textColor="@color/yellow"
                         android:text="会议材料" android:textSize="40dip"/>
 
 <!--                     <Button -->
@@ -141,16 +156,20 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:drawableBottom="@drawable/imagegallary"
+                        android:drawableTop="@drawable/imagegallary"
                         android:gravity="center"
+                		android:background="@android:color/transparent"  
+                		android:textColor="@color/yellow"
                         android:text="图片展示" android:textSize="40dip"/>
                     <Button
                         android:id="@+id/desktop_btnnavvideo"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:drawableBottom="@drawable/video"
+                        android:drawableTop="@drawable/video"
                         android:gravity="center"
+                		android:background="@android:color/transparent"  
+                		android:textColor="@color/yellow"
                         android:text="视频展示" android:textSize="40dip"/>
 <!--                     <Button -->
 <!--                         android:id="@+id/desktop_btnnavvote" -->
@@ -175,8 +194,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:drawableBottom="@drawable/systemsetting"
+                        android:drawableTop="@drawable/systemsetting"
                         android:gravity="center"
+                		android:background="@android:color/transparent"  
+                		android:textColor="@color/yellow"
                         android:text="系统设置" android:textSize="40dip"/> 
                         
                     
