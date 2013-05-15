@@ -16,6 +16,8 @@ public class CompanyInfoBasicIntroductionActivity extends Activity {
 		setContentView(R.layout.company_basicinfo_webview); 
 
 		WebView webView =(WebView)findViewById(R.id.wvBasicInfoStandalone); 
+		webView.setBackgroundColor(0x00000000);
+		webView.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null);
 		webView.setWebViewClient(new WebViewClient());
 		String htmlBasicInfo="<html><body style='font-size:30px'>" ;
 		htmlBasicInfo+="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;江苏省电力公司主要从事江苏省境内电网建设、运行与管理，经营江苏电力销售业务。公司下辖13个市、51个县供电公司及20多个检修、施工、科研等单位，服务全省3300余万电力客户。公司现有职工约4.1万人、农电工约4.4万人；管辖35千伏及以上变电站2750余座、输电线路8.1万公里。";

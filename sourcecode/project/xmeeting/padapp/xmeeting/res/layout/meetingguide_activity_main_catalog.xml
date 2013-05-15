@@ -26,15 +26,6 @@
 			            android:background="@drawable/textview_shape_bottomline"
 			            android:text="会 议 指 南"  />
  
-                </TableRow>
-                <TableRow
-                    android:id="@+id/tableRow1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-			        android:gravity="center"  
-                    android:layout_weight="1" > 
-                    
- 
                 </TableRow> 
 			    
                 <TableRow
