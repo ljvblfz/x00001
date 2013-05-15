@@ -136,11 +136,11 @@ public class ImageGallaryViewFlipperActivity extends BaseActivity   implements  
 	public List<Drawable> getDrawableList(String dir){
 		List<Drawable> listOfDrawble=new ArrayList<Drawable>();
 //		Drawable d=Drawable.createFromPath("/sdcard/a.jpg"); 
-		Drawable d1=Drawable.createFromPath("/sdcard/xmeeting/10001/imagegallary/demo1.jpg"); 
-		Drawable d2=Drawable.createFromPath("/sdcard/xmeeting/10001/imagegallary/demo2.jpg"); 
-		Drawable d3=Drawable.createFromPath("/sdcard/xmeeting/10001/imagegallary/demo3.jpg"); 
-		Drawable d4=Drawable.createFromPath("/sdcard/xmeeting/10001/imagegallary/demo4.jpg"); 
-		Drawable d5=Drawable.createFromPath("/sdcard/xmeeting/10001/imagegallary/demo5.jpg");  
+		Drawable d1=Drawable.createFromPath("/sdcard2/xmeeting/10001/imagegallary/demo1.jpg"); 
+		Drawable d2=Drawable.createFromPath("/sdcard2/xmeeting/10001/imagegallary/demo2.jpg"); 
+		Drawable d3=Drawable.createFromPath("/sdcard2/xmeeting/10001/imagegallary/demo3.jpg"); 
+		Drawable d4=Drawable.createFromPath("/sdcard2/xmeeting/10001/imagegallary/demo4.jpg"); 
+		Drawable d5=Drawable.createFromPath("/sdcard2/xmeeting/10001/imagegallary/demo5.jpg");  
 		
 		listOfDrawble.add(d1);
 		listOfDrawble.add(d2);
