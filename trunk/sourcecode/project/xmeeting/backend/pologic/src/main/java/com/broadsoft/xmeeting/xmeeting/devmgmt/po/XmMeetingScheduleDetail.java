@@ -2,7 +2,7 @@
  * Copyright 2012 [founder], Inc. All rights reserved.
  * 
  */
- package com.broadsoft.xmeeting.xmeeting.devmgmt.po;
+package com.broadsoft.xmeeting.xmeeting.devmgmt.po;
 
 import javax.persistence.*;
 
@@ -18,116 +18,132 @@ import com.founder.sipbus.common.po.BaseEntity;
 public class XmMeetingScheduleDetail extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
-	public static String XMMSD_GUID= "xmmsdGuid";
-	public static String XMMS_GUID= "xmmsGuid";
-	public static String XMMSD_TIME= "xmmsdTime";
-	public static String XMMSD_DESCRIPTION= "xmmsdDescription";
-	public static String XMMSD_SORTNO= "xmmsdSortno"; 
+	public static String XMMSD_GUID = "xmmsdGuid";
+	public static String XMMS_GUID = "xmmsGuid";
+	public static String XMMSD_TIME = "xmmsdTime";
+	public static String XMMSD_DESCRIPTION = "xmmsdDescription";
+	public static String XMMSD_SORTNO = "xmmsdSortno";
 
-	//primary key
+	// primary key
 	/** PID */
 	private java.lang.String xmmsdGuid;
 	/** 会议PID */
 	private java.lang.String xmmsGuid;
 	/** 时间 */
 	private java.lang.String xmmsdTime;
+	/** 标题 */
+	private java.lang.String xmmsdTitle;
 	/** 描述 */
 	private java.lang.String xmmsdDescription;
 	/** 顺序 */
-	private java.lang.Integer xmmsdSortno; 
+	private java.lang.Integer xmmsdSortno;
 
-	
-
-	public XmMeetingScheduleDetail(){
+	public XmMeetingScheduleDetail() {
 	}
 
-	public XmMeetingScheduleDetail(java.lang.String xmmsdGuid ){
+	public XmMeetingScheduleDetail(java.lang.String xmmsdGuid) {
 		this.xmmsdGuid = xmmsdGuid;
 	}
 
-
 	/**
-	 * 取得PID
-	 * return PID
+	 * 取得PID return PID
 	 */
 	@Id
-	@GeneratedValue(generator = "trustIdGenerator")      
-	@GenericGenerator(name = "trustIdGenerator", strategy = "com.founder.sipbus.common.util.FounderHibernateIDGenerator")     
+	@GeneratedValue(generator = "trustIdGenerator")
+	@GenericGenerator(name = "trustIdGenerator", strategy = "com.founder.sipbus.common.util.FounderHibernateIDGenerator")
 	public java.lang.String getXmmsdGuid() {
 		return this.xmmsdGuid;
 	}
-	
+
 	/**
 	 * 设置PID
-	 * @param xmmsdGuid PID
+	 * 
+	 * @param xmmsdGuid
+	 *            PID
 	 */
 	public void setXmmsdGuid(java.lang.String xmmsdGuid) {
 		this.xmmsdGuid = xmmsdGuid;
 	}
-		/**
-		 * 取得会议PID
-		 * return 会议PID
-		 */
+
+	/**
+	 * 取得会议PID return 会议PID
+	 */
 	public java.lang.String getXmmsGuid() {
 		return this.xmmsGuid;
 	}
-	
+
 	/**
 	 * 设置会议PID
-	 * @param xmmsGuid 会议PID
+	 * 
+	 * @param xmmsGuid
+	 *            会议PID
 	 */
 	public void setXmmsGuid(java.lang.String value) {
 		this.xmmsGuid = value;
 	}
-		/**
-		 * 取得时间
-		 * return 时间
-		 */
+
+	/**
+	 * 取得时间 return 时间
+	 */
 	public java.lang.String getXmmsdTime() {
 		return this.xmmsdTime;
 	}
-	
+
 	/**
 	 * 设置时间
-	 * @param xmmsdTime 时间
+	 * 
+	 * @param xmmsdTime
+	 *            时间
 	 */
 	public void setXmmsdTime(java.lang.String value) {
 		this.xmmsdTime = value;
 	}
-		/**
-		 * 取得描述
-		 * return 描述
-		 */
+
+	/**
+	 * 取得描述 return 描述
+	 */
 	public java.lang.String getXmmsdDescription() {
 		return this.xmmsdDescription;
 	}
-	
+
+	public java.lang.String getXmmsdTitle() {
+		return xmmsdTitle;
+	}
+
+	public void setXmmsdTitle(java.lang.String xmmsdTitle) {
+		this.xmmsdTitle = xmmsdTitle;
+	}
+
 	/**
 	 * 设置描述
-	 * @param xmmsdDescription 描述
+	 * 
+	 * @param xmmsdDescription
+	 *            描述
 	 */
 	public void setXmmsdDescription(java.lang.String value) {
 		this.xmmsdDescription = value;
 	}
-		/**
-		 * 取得顺序
-		 * return 顺序
-		 */
+
+	/**
+	 * 取得顺序 return 顺序
+	 */
 	public java.lang.Integer getXmmsdSortno() {
 		return this.xmmsdSortno;
 	}
-	
+
 	/**
 	 * 设置顺序
-	 * @param xmmsdSortno 顺序
+	 * 
+	 * @param xmmsdSortno
+	 *            顺序
 	 */
 	public void setXmmsdSortno(java.lang.Integer value) {
 		this.xmmsdSortno = value;
-	} 
+	}
 
 	public int compareTo(Object obj) {
 		int compare = -1;
-	
+
 		if (obj == null)
 			compare = -1;
 		else if (this == obj)
@@ -144,7 +160,7 @@ public class XmMeetingScheduleDetail extends BaseEntity {
 		}
 		return compare;
 	}
-		
+
 	public boolean equals(Object obj) {
 		boolean isEqual = false;
 		if (obj == null) {
@@ -164,4 +180,3 @@ public class XmMeetingScheduleDetail extends BaseEntity {
 		return isEqual;
 	}
 }
-
