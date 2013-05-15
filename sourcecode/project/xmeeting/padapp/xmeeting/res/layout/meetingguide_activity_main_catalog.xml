@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/iphone"
+    android:orientation="vertical" > 
+        
+   
+			<TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"  >
+ 				<TableRow
+                    android:id="@+id/tableRow1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+			        android:gravity="right"  
+                    android:layout_weight="1" > 
+                    
+			        <TextView
+			            android:id="@+id/systemlabel"
+			            android:layout_width="fill_parent"
+			            android:layout_height="wrap_content"
+			            android:gravity="left"  android:paddingLeft="50dip"
+			            android:textSize="60dp" 
+			            android:textColor="@color/LightBlue"
+			            android:background="@drawable/textview_shape_bottomline"
+			            android:text="会 议 指 南"  />
+ 
+                </TableRow>
+                <TableRow
+                    android:id="@+id/tableRow1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+			        android:gravity="right"  
+                    android:layout_weight="1" > 
+                    
+ 
+                </TableRow>
+                <TableRow
+                    android:id="@+id/tableRow1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+			        android:gravity="right"  
+                    android:layout_weight="1" > 
+                    
+ 
+                </TableRow>
+			    
+                <TableRow
+                    android:id="@+id/tableRow1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+			        android:gravity="right"  
+                    android:layout_weight="1" > 
+                    
+
+			        <Button
+			            android:id="@+id/btnnavmeetingschedule"
+			            android:layout_width="800dip"
+			            android:layout_height="80dip" 
+			            android:gravity="left"  android:paddingLeft="50dip"  android:paddingTop="15dip"
+			            android:background="@drawable/button_shape_round_corner_01"
+			            android:textSize="40dip"  
+			            
+			            android:text="一、行程安排" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tableRow2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+			        android:gravity="right"  
+                    android:layout_weight="1"  > 
+                     
+			        <Button
+			            android:id="@+id/btnnavmeetingmember"
+			            android:layout_width="fill_parent"
+			            android:layout_height="80dip" 
+			            android:gravity="left"  android:paddingLeft="50dip"  android:paddingTop="15dip"
+			            android:background="@drawable/button_shape_round_corner_02"
+			            android:textSize="40dip" 
+			            android:text="二、人员名单" />
+                  
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tableRow3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+			        android:gravity="right"  
+                    android:layout_weight="1" > 
+                    
+			        <Button
+			            android:id="@+id/btnnavmeetingbusinfo"
+			            android:layout_width="fill_parent"
+			            android:layout_height="80dip" 
+			            android:gravity="left"  android:paddingLeft="50dip"  android:paddingTop="15dip"
+			            android:background="@drawable/button_shape_round_corner_03"
+			            android:textSize="40dip" 
+			            android:text="三、车辆安排" />
+				 
+                </TableRow>
+                <TableRow
+                    android:id="@+id/tableRow4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+			        android:gravity="right"  
+                    android:layout_weight="1" > 
+                    
+			        <Button
+			            android:id="@+id/btnnavmeetingweatherinfo"
+			            android:layout_width="fill_parent" 
+			            android:layout_height="80dip" 
+			            android:gravity="left"  android:paddingLeft="50dip"  android:paddingTop="15dip"
+			            android:background="@drawable/button_shape_round_corner_04" 
+			            android:textSize="40dip"
+			            android:text="四、天气情况" />
+				 
+                </TableRow>
+                <TableRow
+                    android:id="@+id/tableRow5"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+			        android:gravity="right"  
+                    android:layout_weight="1" > 
+                    
+			        <Button
+			            android:id="@+id/btnnavmeetingcontactinfo"
+			            android:layout_width="200dip"
+			            android:layout_height="80dip" 
+			            android:gravity="left"  android:paddingLeft="50dip"  android:paddingTop="15dip" 
+			            android:background="@drawable/button_shape_round_corner_05"
+			            android:textSize="40dip" 
+			            android:text="五、通讯服务" /> 
+				 
+                </TableRow>
+                <TableRow
+                    android:id="@+id/tableRow1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+			        android:gravity="right"  
+                    android:layout_weight="1" > 
+                    
+ 
+                </TableRow>
+                <TableRow
+                    android:id="@+id/tableRow1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+			        android:gravity="right"  
+                    android:layout_weight="1" > 
+                    
+ 
+                </TableRow>
+                <TableRow
+                    android:id="@+id/tableRow1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+			        android:gravity="right"  
+                    android:layout_weight="1" > 
+                    
+ 
+                </TableRow>
+                <TableRow
+                    android:id="@+id/tableRow1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+			        android:gravity="right"  
+                    android:layout_weight="1" > 
+                    
+ 
+                </TableRow>
+            </TableLayout>
+ 	<include layout="@layout/common_toolbar"/>  
+
+</LinearLayout>

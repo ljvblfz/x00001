@@ -23,8 +23,17 @@
     <color name="durationtext">#ff7d7d7d</color>
     <color name="background">#ffc3ddea</color>
     <color name="yellow">#ffffcc00</color>
-    <color name="title">#ff274462</color>
- 
-
+    <color name="title">#ff274462</color> 
+    
+    
+    
+    <color name="Orange2">#FFA500</color>
+    <color name="Brown2">#A52A2A</color>
+    <color name="Yellow2">#FFFF00</color>
+    <color name="Blue2">#0000FF</color>
+    <color name="Green2">#008000</color>
     <color name="Violet">#8D38C9</color>
+ 
+    
+    <!-- # -->
 </resources>
