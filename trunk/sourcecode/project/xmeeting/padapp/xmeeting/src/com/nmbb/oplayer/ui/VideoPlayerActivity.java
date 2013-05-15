@@ -25,13 +25,16 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Display;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.GestureDetector;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 
 public class VideoPlayerActivity extends Activity implements OnCompletionListener, OnInfoListener {
@@ -304,4 +307,66 @@ public class VideoPlayerActivity extends Activity implements OnCompletionListene
 		}
 		return true;
 	}
+	
+	/**
+	 * Disable back key
+	 */
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		Log.d("BaseActivity--->onKeyDown", "onKeyDown  keyCode----->" + keyCode);
+		Log.d("BaseActivity--->onKeyDown", "onKeyDown  KEYCODE_BACK----->" +  KeyEvent.KEYCODE_BACK);
+		Log.d("BaseActivity--->onKeyDown", "onKeyDown  KEYCODE_HOME----->" +  KeyEvent.KEYCODE_HOME);
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			// do something
+			return false;
+		} else if (keyCode == KeyEvent.KEYCODE_HOME) {
+			// do something
+			return false;
+		}
+		 
+		return super.onKeyDown(keyCode, event); 
+		// Disable all keys
+//		return false;
+	}
+ 
+	//bottom navigation button
+	private Button btnnavhome;
+	private Button btnnavback;
+	
+	public void registerHomeButton() { 
+//		Object objView= findViewById(R.id.btnnavhome);  
+//		if(objView==null){
+//			return;
+//		}
+//		btnnavhome = (Button)objView;
+//		btnnavhome.setOnClickListener(new Button.OnClickListener() { 
+//			@Override
+//			public void onClick(View view) { 
+//				Log.d("System Nav Button--->onClick","btnnavhome"); 
+//				
+//			}
+//		});
+	}
+	
+//	
+//	public void registerBackButton() { 
+//		Object objView= findViewById(R.id.btnnavback);  
+//		if(objView==null){
+//			return;
+//		}
+//		btnnavback = (Button) objView;
+//		btnnavback.setOnClickListener(new Button.OnClickListener() { 
+//			@Override
+//			public void onClick(View view) { 
+//				Log.d("System Nav Button--->onClick","btnnavback"); 
+//				finish(); 
+//				execBackButton();
+//			}
+//		});
+//	}
+	
+//	public void execBackButton(){
+//		
+//	}
+ 
 }

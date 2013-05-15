@@ -101,11 +101,11 @@ public class DocumentsListActivity extends BaseBrowserActivity {
 	@Override
 	protected void showDocument(Uri uri) {
         if(uri.getScheme().equals("http")){
-        	File f = new File("/sdcard/xxx.pdf");
+        	File f = new File(getSDPath()+"/xmeeting/10001/docs/xxx.pdf");
 			if (!f.exists()) {
 
 		        PTTJDownLoadUtil p = new PTTJDownLoadUtil(null);
-		        p.downFiletoSDCard(uri.toString(), "", "xxx.pdf");
+		        p.downFiletoSDCard(uri.toString(), "", getSDPath()+"/xmeeting/10001/docs/xxx.pdf");
 			}
 //				DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
 //
@@ -129,7 +129,7 @@ public class DocumentsListActivity extends BaseBrowserActivity {
 //				long id = downloadManager.enqueue(request);
 //				// TODO 把id保存好，在接收者里面要用，最好保存在Preferences里面
 //			}
-			uri = Uri.fromFile(new File("/sdcard/xxx.pdf"));
+			uri = Uri.fromFile(new File(getSDPath()+"/xmeeting/10001/docs/xxx.pdf"));
         }
         
         final Intent intent = new Intent(Intent.ACTION_VIEW, uri);

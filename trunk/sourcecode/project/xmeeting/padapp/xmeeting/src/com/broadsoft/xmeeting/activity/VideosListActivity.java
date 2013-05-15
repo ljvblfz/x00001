@@ -1,16 +1,20 @@
 package com.broadsoft.xmeeting.activity;
 
 
+import java.io.File;
+
 import io.vov.vitamio.widget.MediaController;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,7 +25,10 @@ import android.widget.Button;
 import android.widget.ViewFlipper;
 
 import com.broadsoft.xmeeting.R;
+import com.nmbb.oplayer.OPlayerApplication;
 import com.nmbb.oplayer.OPreference;
+import com.nmbb.oplayer.database.DbHelper;
+import com.nmbb.oplayer.po.POMedia;
 import com.nmbb.oplayer.service.MediaScannerService;
 import com.nmbb.oplayer.ui.FragmentBase;
 import com.nmbb.oplayer.ui.FragmentFileOld;
@@ -39,17 +46,27 @@ public class VideosListActivity extends FragmentActivity implements OnClickListe
 	public FileDownloadHelper mFileDownload;
 	private MediaController mMediaController;
 
+	public String getSDPath() {
+		File sdDir = null;
+//		boolean sdCardExist = Environment.getExternalStorageState().equals(
+//				Android.os.Environment.MEDIA_MOUNTED); // 判断sd卡是否存在
+//		if (sdCardExist) {
+			sdDir = Environment.getExternalStorageDirectory();// 获取跟目录
+//		}
+		return sdDir.getAbsolutePath();
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		new DbHelper<POMedia>().removeAll(POMedia.class);
+		new DbHelper<POMedia>().removeAll(POMedia.class);
 //		LibsChecker.checkVitamioLibs(ctx)
 		if (!LibsChecker.checkVitamioLibs(this, R.string.init_decoders))
 			return;
 
 		OPreference pref = new OPreference(this);
 		
-		String scanPath = "/mnt/sdcard/xmeeting/10001/videos";//Environment.getExternalStorageDirectory().getAbsolutePath();
+		String scanPath = getSDPath()+"/xmeeting/10001/videos";//Environment.getExternalStorageDirectory().getAbsolutePath();
 		//	首次运行，扫描SD卡
 //		if (pref.getBoolean(OPlayerApplication.PREF_KEY_FIRST, true)) {
 			getApplicationContext()
@@ -177,18 +194,20 @@ public class VideosListActivity extends FragmentActivity implements OnClickListe
 		wmParams.y = 20;
 		wm.addView(cache1, wmParams);
 	}
+	
+	@Override
+		protected void onPause() {
+			wm.removeView(cache1); 
+			super.onPause();
+		}
 
 	private View.OnClickListener mBackListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) { 
-			wm.removeView(cache1); 
 			finish();
 		}
 	};
 	
-	public void removeBack(){
-		wm.removeView(cache1); 
-	}
 	
 	private FragmentPagerAdapter mAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
 
@@ -196,16 +215,20 @@ public class VideosListActivity extends FragmentActivity implements OnClickListe
 		@Override
 		public Fragment getItem(int position) {
 			Fragment result = null;
-			switch (position) {
-			case 1:
-				result = new FragmentOnline();// 在线视频
-				break;
-			case 0:
-			default:
-				result = new FragmentFileOld();// 本地视频
-				mFileDownload = new FileDownloadHelper(((FragmentFileOld) result).mDownloadHandler);
-				break;
-			}
+			
+			
+			result = new FragmentFileOld();// 本地视频
+			mFileDownload = new FileDownloadHelper(((FragmentFileOld) result).mDownloadHandler);
+//			switch (position) {
+//			case 1:
+//				result = new FragmentOnline();// 在线视频
+//				break;
+//			case 0:
+//			default:
+//				result = new FragmentFileOld();// 本地视频
+//				mFileDownload = new FileDownloadHelper(((FragmentFileOld) result).mDownloadHandler);
+//				break;
+//			}
 			return result;
 		}
 
@@ -278,5 +301,26 @@ public class VideosListActivity extends FragmentActivity implements OnClickListe
 		
 		public void execBackButton(){
 			
+		}
+		
+		/**
+		 * Disable back key
+		 */
+		@Override
+		public boolean onKeyDown(int keyCode, KeyEvent event) {
+			Log.d("BaseActivity--->onKeyDown", "onKeyDown  keyCode----->" + keyCode);
+			Log.d("BaseActivity--->onKeyDown", "onKeyDown  KEYCODE_BACK----->" +  KeyEvent.KEYCODE_BACK);
+			Log.d("BaseActivity--->onKeyDown", "onKeyDown  KEYCODE_HOME----->" +  KeyEvent.KEYCODE_HOME);
+			if (keyCode == KeyEvent.KEYCODE_BACK) {
+				// do something
+				return false;
+			} else if (keyCode == KeyEvent.KEYCODE_HOME) {
+				// do something
+				return false;
+			}
+			 
+			return super.onKeyDown(keyCode, event); 
+			// Disable all keys
+//			return false;
 		}
 }

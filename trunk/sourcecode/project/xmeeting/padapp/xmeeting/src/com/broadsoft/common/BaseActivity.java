@@ -1,8 +1,11 @@
 package com.broadsoft.common;
 
+import java.io.File;
+
 import android.app.Activity;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -11,10 +14,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnSystemUiVisibilityChangeListener;
 import android.view.View.OnTouchListener;
-import android.view.WindowManager.LayoutParams;
 import android.view.WindowManager;
+import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
-import android.widget.ViewFlipper;
 
 import com.broadsoft.xmeeting.R;
 
@@ -27,7 +29,19 @@ import com.broadsoft.xmeeting.R;
 public class BaseActivity extends Activity implements OnClickListener,
 		OnSystemUiVisibilityChangeListener {
 	protected static int REQUEST_CODE=2;
-
+	
+	public String getSDPath() {
+		File sdDir = null;
+//		boolean sdCardExist = Environment.getExternalStorageState().equals(
+//				Android.os.Environment.MEDIA_MOUNTED); // 判断sd卡是否存在
+//		if (sdCardExist) {
+			sdDir = Environment.getExternalStorageDirectory();// 获取跟目录
+//		}
+		return sdDir.getAbsolutePath();
+	}
+	
+	protected boolean isShowBackBtn=true; 
+	
 	private WindowManager wm = null; 
 	private WindowManager.LayoutParams wmParams = null; 
 //	private Button play1; 
@@ -67,11 +81,13 @@ public class BaseActivity extends Activity implements OnClickListener,
 //		} catch (InterruptedException e) {
 //			e.printStackTrace();
 //		}
-		initFloatview();
-//		play1 = new Button(this);
-		floatBackButton = new Button(this);
-		createRightButton();
-//		System.out.println("resume");
+		if(isShowBackBtn){
+			initFloatview();
+	//		play1 = new Button(this);
+			floatBackButton = new Button(this);
+			createRightButton();
+	//		System.out.println("resume");
+		}
 	}
 
 	
