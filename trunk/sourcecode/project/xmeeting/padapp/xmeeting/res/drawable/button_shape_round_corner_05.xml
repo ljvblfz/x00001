@@ -4,7 +4,9 @@
     android:shape="rectangle" >
 
     <!-- you can use any color you want I used here gray color -->
-    <solid android:color="@color/Green2" />
+<!--     <solid android:color="@color/Green2" /> -->
+
+    <solid android:color="#00806A" />
 
     <!-- 
         android:bottomRightRadius="10dp" 
