@@ -11,9 +11,8 @@ import com.broadsoft.xmeeting.activity.CallServiceActivity;
 import com.broadsoft.xmeeting.activity.CompanyInfoActivity;
 import com.broadsoft.xmeeting.activity.DocumentsListActivity;
 import com.broadsoft.xmeeting.activity.ImageGallaryMainActivity;
-import com.broadsoft.xmeeting.activity.MeetingGuideActivity;
+import com.broadsoft.xmeeting.activity.MeetingGuideCatalogActivity;
 import com.broadsoft.xmeeting.activity.SysSettingActivity;
-import com.broadsoft.xmeeting.activity.TimerServiceActivity;
 import com.broadsoft.xmeeting.activity.VideosListActivity;
 
 /**
@@ -80,7 +79,8 @@ public class DesktopActivity extends BaseActivity {
 		btnnavmeetingguide.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) { 
 				Intent intent = new Intent();
-				intent.setClass(DesktopActivity.this, MeetingGuideActivity.class);// 指定了跳转前的Activity和跳转后的Activity
+//				intent.setClass(DesktopActivity.this, MeetingGuideActivity.class);// 指定了跳转前的Activity和跳转后的Activity
+				intent.setClass(DesktopActivity.this, MeetingGuideCatalogActivity.class);// 指定了跳转前的Activity和跳转后的Activity
 				intent.setData(Uri.parse("one"));// 向下一个Activity传递了string类型参数"one"
 				startActivityForResult(intent, REQUEST_CODE);// 以传递参数的方式跳转到下一个Activity
 

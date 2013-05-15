@@ -40,6 +40,16 @@
         
         <!-- 各个功能模块的activity -->
         <activity android:name="com.broadsoft.xmeeting.activity.MeetingGuideActivity" android:screenOrientation="landscape" android:label="@string/app_name" />
+        <activity android:name="com.broadsoft.xmeeting.activity.MeetingGuideCatalogActivity" android:screenOrientation="landscape" android:label="@string/app_name" /> 
+        
+        
+        <activity android:name="com.broadsoft.xmeeting.activity.MeetingGuideCatalogBusInfoActivity"      android:screenOrientation="landscape" android:label="@string/app_name" /> 
+        <activity android:name="com.broadsoft.xmeeting.activity.MeetingGuideCatalogContactInfoActivity"  android:screenOrientation="landscape" android:label="@string/app_name" /> 
+        <activity android:name="com.broadsoft.xmeeting.activity.MeetingGuideCatalogMemberInfoActivity"   android:screenOrientation="landscape" android:label="@string/app_name" /> 
+        <activity android:name="com.broadsoft.xmeeting.activity.MeetingGuideCatalogScheduleInfoActivity" android:screenOrientation="landscape" android:label="@string/app_name" /> 
+        <activity android:name="com.broadsoft.xmeeting.activity.MeetingGuideCatalogWeatherInfoActivity"  android:screenOrientation="landscape" android:label="@string/app_name" /> 
+        
+        
         <activity android:name="com.broadsoft.xmeeting.activity.CallServiceActivity" android:screenOrientation="landscape"  android:label="@string/app_name" />
         <activity android:name="com.broadsoft.xmeeting.activity.CompanyInfoActivity" android:screenOrientation="landscape" android:label="@string/app_name" />
         <activity android:name="com.broadsoft.xmeeting.activity.CompanyInfoBasicIntroductionActivity" android:screenOrientation="landscape" android:label="@string/app_name" />
