@@ -67,9 +67,9 @@ public class ImageGallaryViewFlipperActivity extends BaseActivity   implements  
         
         
         
-        loadFromSDCard();  
-        
 //        loadFromAssets();  
+        
+        loadFromSDCard();  
         
         
         //set auto start
@@ -83,7 +83,7 @@ public class ImageGallaryViewFlipperActivity extends BaseActivity   implements  
 	}//end of onCreate
 
 	private void loadFromAssets() {
-		List<Bitmap> listOfBitmap=getBitmapList("");
+		List<Bitmap> listOfBitmap=getBitmapListFromAsset("");
         for(Bitmap bm:listOfBitmap){ 
         	Log.d(TAG,"Bitmap---->"+bm); 
             ImageView iv = new ImageView(this);    
@@ -94,7 +94,7 @@ public class ImageGallaryViewFlipperActivity extends BaseActivity   implements  
 	}
 
 	private void loadFromSDCard() {
-		List<Drawable> listOfDrawble=getDrawableList(""); 
+		List<Drawable> listOfDrawble=getBitmapListFromSDCard(""); 
         for(Drawable drawable:listOfDrawble){ 
         	Log.d(TAG,"drawable------>"+drawable); 
             ImageView iv = new ImageView(this);    
@@ -104,7 +104,7 @@ public class ImageGallaryViewFlipperActivity extends BaseActivity   implements  
         }
 	}
 
-	public List<Bitmap> getBitmapList(String dir){
+	public List<Bitmap> getBitmapListFromAsset(String dir){
 
 		List<Bitmap> listOfDrawble=new ArrayList<Bitmap>();
 		Bitmap b1=getBitmapFromAssets("imagegallary/demo1.jpg");
@@ -133,7 +133,7 @@ public class ImageGallaryViewFlipperActivity extends BaseActivity   implements  
 		    return bitmap;
 	}
 
-	public List<Drawable> getDrawableList(String dir){
+	public List<Drawable> getBitmapListFromSDCard(String dir){
 		List<Drawable> listOfDrawble=new ArrayList<Drawable>();
 //		Drawable d=Drawable.createFromPath("/sdcard/a.jpg"); 
 		Drawable d1=Drawable.createFromPath(getSDPath()+"/xmeeting/10001/imagegallary/demo1.jpg"); 
