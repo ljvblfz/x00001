@@ -22,6 +22,7 @@
 	<sqlMap resource="sqlMap/sys/view/viewdata.xml" />
 	
 	<sqlMap resource="sqlMap/xmeeting/xmeeting.xml" /> 
+	<sqlMap resource="sqlMap/xmeeting/onsite.xml" /> 
 	<sqlMap resource="sqlMap/xmeeting/open.xml" /> 
 	
 	<sqlMap resource="sqlMap/viewcustom/viewdemo.xml" /> 

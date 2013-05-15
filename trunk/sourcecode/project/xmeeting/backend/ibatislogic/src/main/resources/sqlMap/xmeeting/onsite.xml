@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"       "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="xmeeting.onsite">
+ 
+    
+
+    
+    <select id="searchMeetingSigninByName" parameterClass="java.util.HashMap"  resultClass="com.broadsoft.xmeeting.xmeeting.meeting.vo.XmMeetingSigninlIVO">
+	    <![CDATA[
+			        select 	a.xmms_guid   xmmsGuid,to_char(a.xmms_time,'yyyy-mm-dd hh24:mi:ss') xmmsTime,
+							b.xmmi_name xmmiName,b.xmmi_guid xmmiGuid,c.xmpi_name xmpiName,c.xmpi_guid xmpiGuid
+					from xm_meeting_signin    a, XM_MEETING_INFO  b, XM_PERSONNEL_INFO c
+					where		 1=1 
+							and  a.xmmi_guid=b.xmmi_guid
+							and  a.xmms_personnel=c.xmpi_guid
+				
+		]]> 	
+		<isNotEmpty prepend="and" property="xmmiName"> 
+		     		 <![CDATA[b.xmmi_name like '%'||#xmmiName#||'%' ]]>
+		</isNotEmpty>	  
+		
+<!-- 						and  b.xmmi_name like '%%' -->
+		<![CDATA[ 
+					order by a.xmms_guid  desc 
+		]]>  
+		 
+	</select>
+    
+   
+    <select id="searchMeetingCallByName" parameterClass="java.util.HashMap"  resultClass="com.broadsoft.xmeeting.xmeeting.meeting.vo.XmMeetingCallIVO">
+	    <![CDATA[
+			        
+					select 	a.xmmcall_guid xmmcallGuid, a.xmmcall_caller xmmcllCaller,
+					
+							a.xmmcall_message xmmcallMessage,  a.XMMCALL_CALLER_DISPLAYNAME xmmcallCallerDisplayname,
+							to_char(a.XMMCALL_TIME,'yyyy-mm-dd hh24:mi:ss') xmmcallTime,
+							
+							b.xmmi_name xmmiName,b.xmmi_guid xmmiGuid 
+					
+					from  XM_MEETING_CALL a,XM_MEETING_INFO  b 
+					
+					where 			1=1 
+							and 	a.xmmi_guid=b.xmmi_guid
+				
+		]]> 	
+		<isNotEmpty prepend="and" property="xmmiName"> 
+		     		 <![CDATA[b.xmmi_name like '%'||#xmmiName#||'%' ]]>
+		</isNotEmpty>	  
+		
+<!-- 						and  b.xmmi_name like '%%' -->
+		<![CDATA[ 
+					 order by a.xmmcall_guid  desc 
+		]]>  
+		 
+	</select>
+	
+    
+    <select id="searchMeetingMessageByName" parameterClass="java.util.HashMap"  resultClass="com.broadsoft.xmeeting.xmeeting.meeting.vo.XmMeetingMessageIVO">
+	    <![CDATA[ 
+
+		select * from (
+					select 
+						a.xmmm_guid xmmmGuid , a.xmmm_from xmmmFrom,a.xmmm_to xmmmTo ,
+						a.XMMM_FROM_DISPLAYNAME xmmmFromDisplayname,
+						a.XMMM_TO_DISPLAYNAME xmmmToDisplayname, 
+						a.xmmm_message xmmmMessage,to_char(a.XMMM_TIME,'yyyy-mm-dd hh24:mi:ss')   xmmmTime,
+						b.xmmi_name xmmiName,b.xmmi_guid xmmiGuid 
+						
+					from XM_MEETING_MESSAGE a, XM_MEETING_INFO  b 
+					
+					
+					where       1=1 
+							and a.xmmi_guid=b.xmmi_guid
+						
+		]]> 	
+		<isNotEmpty prepend="and" property="xmmiName"> 
+		     		 <![CDATA[b.xmmi_name like '%'||#xmmiName#||'%' ]]>
+		</isNotEmpty>	  
+		 
+		<![CDATA[ 
+					 order by a.xmmm_guid  desc 
+					 
+			)
+		]]>  
+		 
+	</select>
+	
+	 
+	
+	
+	
+
+</sqlMap>
+
