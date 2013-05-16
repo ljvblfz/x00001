@@ -90,14 +90,18 @@ public class LoginActivity extends Activity  {
 	
 	public void initData(Context context){
 		
-		PersonDAO personDAO=new PersonDAO(context);
-//		personDAO.initPersons();
-		
-		Person person=personDAO.findByName("立马");
-		
-		Log.d(TAG, "person is=------>"+person);
-		Log.d(TAG, "unique id=------>"+AndroidSupport.getAndroidId(this));
+//		PersonDAO personDAO=new PersonDAO(context); 
+//		
+//		Person person=personDAO.findByName("立马");
+//		
+//		Log.d(TAG, "person is=------>"+person);
+//		Log.d(TAG, "unique id=------>"+AndroidSupport.getAndroidId(this));
 	}
+	
+	
+	
+ 
+	
 	
 	//
 

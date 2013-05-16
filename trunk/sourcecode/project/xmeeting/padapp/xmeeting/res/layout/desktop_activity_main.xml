@@ -37,9 +37,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:background="@color/white"
                 android:padding="10dp" >
 
+<!--                 android:background="@color/white" -->
                 <TextView
                     android:id="@+id/systemlabel"
                     android:layout_width="fill_parent"
