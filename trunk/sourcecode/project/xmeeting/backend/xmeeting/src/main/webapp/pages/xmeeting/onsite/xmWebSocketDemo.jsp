@@ -5,14 +5,42 @@
 
 
 <%
-	SysUser sysUser = SsoUtil.getLoginUser(request);
-	String userid = sysUser.getUserid();
-	System.out.println("userid------>" + userid);
+	//SysUser sysUser = SsoUtil.getLoginUser(request);
+	//Sting userid = sysUser.getUserid();
+	//System.out.println("userid------>" + userid);
 %>
 
-<h2 class="contentTitle" name="showTitle">实时服务</h2>
+<h2 class="contentTitle" name="showTitle">实时监控</h2>
+
+
 <form name="pageForm" method="post" class="required-validate pageForm">
-	<div class="pageFormContent" layoutH="400">
+	<div class="pageFormContent" layoutH="600"> 
+		<p><label>用户ID:</label> <input type="text" name="memberId" class="required"   maxlength="50" value="system"/></p> 
+		<p><label>用户名称:</label> <input type="text" name="memberDisplayName" class="required"  maxlength="50" value="system(服务员)"/></p>
+		<p><label>会议ID:</label> <input type="text" name="meetingId" class="required"   maxlength="50" value="000000000XMMEETINGINFO13041820484043"/></p>
+	</div>
+
+	<div class="formBar">
+		<ul>
+			<li><div class="buttonActive">
+					<div class="buttonContent">
+						<button type="button" onclick="loginWS()">登陆</button>
+					</div>
+				</div>
+			</li> 
+			<li><div class="buttonActive">
+					<div class="buttonContent">
+						<button type="button" onclick="logoutWS()">登出</button>
+					</div>
+				</div>
+			</li> 
+		</ul>
+	</div>
+</form>
+
+
+<form name="pageForm" method="post" class="required-validate pageForm">
+	<div class="pageFormContent" layoutH="450">
 		<p>
 			<label>类型:</label> <select    name="msgtype" class="required"> 
 				<option value="01">呼叫服务</option>
@@ -47,32 +75,43 @@
 
 <!-- class="pageContent" -->
 <div id="xmWebSocketDemo">
-	<div name="chatrecord"
-		style="height: 350px; width: 100%; overflow-y: scroll;"></div>
+	<div name="chatrecord" style="height: 350px; width: 100%; overflow-y: scroll;"></div>
 
 </div>
 <script type="text/javascript">
-
-	var memberId='<%=userid%>';
-	var meetingId='000000000XMMEETINGINFO13041820484043';
+ 
 	var ws = null;
 	$(function() {
+	});
+	
+	
+	function loginWS(){
+		var memberId=findName("memberId").val();
+		var memberDisplayName=findName("memberDisplayName").val();
+		var meetingId=findName("meetingId").val();
+		
+		
 		if (ws) {
 			ws.close();
 			ws = null;
 		}
-		ws = createWebSocket(meetingId,memberId);
-		startWebSocket(memberId);
-	});
+		ws = createWebSocket(meetingId,memberId,memberDisplayName);
+		startWebSocket(memberId,memberDisplayName);
+	}
+	
 
-	function createWebSocket(meetingId,memberId) {
+	function logoutWS(){
+		close();
+	}
+
+	function createWebSocket(meetingId,memberId,memberDisplayName) {
 		var ws = null;
 		if ('WebSocket' in window) {
 			ws = new WebSocket(configuration.wshostprefix
-					+ "ws/controller?meetingId="+meetingId+"&memberId=" + memberId);
+					+ "ws/controller?meetingId="+meetingId+"&memberId=" + memberId+"&memberDisplayName=" + memberDisplayName);
 		} else if ('MozWebSocket' in window) {
 			ws = new MozWebSocket(configuration.wshostprefix
-					+ "ws/controller?meetingId="+meetingId+"&memberId=" + memberId);
+					+ "ws/controller?meetingId="+meetingId+"&memberId=" + memberId+"&memberDisplayName=" + memberDisplayName);
 		} else {
 			alert("not support");
 		}
@@ -81,25 +120,22 @@
 
 	
 	var responseCount=0;
-	function startWebSocket(name) {
-		ws.onmessage = function(evt) {
-			//alert(evt.data); 
+	function startWebSocket(memberId,memberDisplayName) {
+		ws.onmessage = function(evt) { 
 			var obj=JSON.parse(evt.data);
 			var content=obj.from+">>>>"+obj.msgcontent;
 			responseCount++;
 			findNameWithParentID("chatrecord", "xmWebSocketDemo").append( responseCount+"***"+content + "<br/>");
 		};
 
-		ws.onclose = function(evt) {
-			//alert("close");
-			findNameWithParentID("chatrecord", "xmWebSocketDemo").append( "<span style='color:red'>"+name + ",你已退出呼叫服务系统!!!" + "</span><br/>");
+		ws.onclose = function(evt) { 
+			findNameWithParentID("chatrecord", "xmWebSocketDemo").append( "<span style='color:red'>"+memberDisplayName + ",你已退出呼叫服务系统!!!" + "</span><br/>");
 		};
 
-		ws.onopen = function(evt) {
-			//alert("open");
-			findNameWithParentID("chatrecord", "xmWebSocketDemo").append("<span style='color:red'>"+name + "你好,欢迎进入呼叫服务系统!!!" + "</span><br/>");
+		ws.onopen = function(evt) { 
+			findNameWithParentID("chatrecord", "xmWebSocketDemo").append("<span style='color:red'>"+memberDisplayName + "你好,欢迎进入呼叫服务系统!!!" + "</span><br/>");
 		};
-	}
+	}//end of startWebSocket
 
 	function close() {
 		ws.close();
