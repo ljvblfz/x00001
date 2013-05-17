@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<androidconfig id="appconfig"> 
+     
+  <appname>智能会议系统</appname> 
+  <sdcarddir>/sdcard/</sdcarddir>
+</androidconfig>
