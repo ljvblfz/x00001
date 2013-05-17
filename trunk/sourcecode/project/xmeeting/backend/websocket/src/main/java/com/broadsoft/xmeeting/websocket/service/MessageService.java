@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.broadsoft.xmeeting.websocket.controller.SpringDaoHolder;
+import com.broadsoft.xmeeting.springholder.SpringDaoHolder;
 import com.broadsoft.xmeeting.xmeeting.onsite.dao.XmMeetingMessageDaoImpl;
 import com.broadsoft.xmeeting.xmeeting.onsite.po.XmMeetingMessage;
 

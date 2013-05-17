@@ -9,6 +9,7 @@ import org.apache.catalina.websocket.WebSocketServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.broadsoft.xmeeting.springholder.SpringDaoHolder;
 import com.broadsoft.xmeeting.xmeeting.onsite.dao.XmMeetingCallDaoImpl;
 import com.broadsoft.xmeeting.xmeeting.onsite.dao.XmMeetingMessageDaoImpl;
 import com.broadsoft.xmeeting.xmeeting.onsite.dao.XmMeetingVoteDaoImpl;
@@ -28,15 +29,7 @@ public class ControllerWebSocketServlet extends WebSocketServlet {
 
 		 if(logger.isTraceEnabled()){
 			logger.trace("====ControllerWebSocketServlet======init=====begin====="); 
-		 }
-//		 XmMeetingVoteDaoImpl xmMeetingVoteDao= (XmMeetingVoteDaoImpl)ApplicationContextUtil.getBean("xmMeetingVoteDao");
-//		 XmMeetingVoteDetailDaoImpl xmMeetingVoteDetailDao=(XmMeetingVoteDetailDaoImpl)ApplicationContextUtil.getBean("xmMeetingVoteDetailDao");  
-//		 XmMeetingCallDaoImpl xmMeetingCallDao= (XmMeetingCallDaoImpl)ApplicationContextUtil.getBean("xmMeetingCallDao");
-//		 XmMeetingMessageDaoImpl xmMeetingMessageDao=(XmMeetingMessageDaoImpl)ApplicationContextUtil.getBean("xmMeetingMessageDao"); 
-//		 SpringDaoHolder.getInstance().setXmMeetingVoteDao(xmMeetingVoteDao);
-//		 SpringDaoHolder.getInstance().setXmMeetingVoteDetailDao(xmMeetingVoteDetailDao);
-//		 SpringDaoHolder.getInstance().setXmMeetingCallDao(xmMeetingCallDao);
-//		 SpringDaoHolder.getInstance().setXmMeetingMessageDao(xmMeetingMessageDao);
+		 } 
 		 if(logger.isTraceEnabled()){
 			 logger.trace("xmMeetingVoteDao---------->"+SpringDaoHolder.getInstance().getXmMeetingVoteDao()); 
 			 logger.trace("xmMeetingVoteDetailDao---------->"+SpringDaoHolder.getInstance().getXmMeetingVoteDetailDao());

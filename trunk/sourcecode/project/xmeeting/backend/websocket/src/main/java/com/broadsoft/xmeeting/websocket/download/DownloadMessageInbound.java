@@ -1,4 +1,4 @@
-package com.broadsoft.xmeeting.websocket.controller;
+package com.broadsoft.xmeeting.websocket.download;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -23,15 +23,14 @@ import com.broadsoft.xmeeting.websocket.service.ServiceFactory;
  * @author lu.zhen
  *
  */
-public class ControllerMessageInbound extends MessageInbound {
-	private Logger logger = LoggerFactory.getLogger(ControllerMessageInbound.class);
-	 
-	private String meetingId;
-	private String memberId;
-	public ControllerMessageInbound(String memberId,String meetingId){
-		super();
-		this.memberId=memberId; 
-		this.meetingId=meetingId;
+public class DownloadMessageInbound extends MessageInbound {
+	private Logger logger = LoggerFactory.getLogger(DownloadMessageInbound.class);
+	  
+	
+	private String padId;
+	public DownloadMessageInbound( String padId){
+		super(); 
+		this.padId=padId;
 	}
 
 	@Override
@@ -56,9 +55,7 @@ public class ControllerMessageInbound extends MessageInbound {
 		JSONObject jsonObject=null;
 		try {
 			jsonObject=new JSONObject(strMsg);
-			String msgType=jsonObject.getString("msgtype"); 
-			IService service=ServiceFactory.createService(msgType);
-			service.execute(jsonObject);  
+			String msgType=jsonObject.getString("msgtype");  
 		} catch (JSONException e) { 
 			e.printStackTrace(); 
 			if(logger.isErrorEnabled()){
@@ -78,8 +75,8 @@ public class ControllerMessageInbound extends MessageInbound {
 			logger.trace("onClose--->{}.",status);
 			System.out.println("onClose--->"+status);
 		} 
-		if(ControllerMessageInboundHolder.checkIfExist(this)){
-			ControllerMessageInboundHolder.getSocketListByMeetingId(meetingId).remove(this);
+		if(DownloadInboundHolder.checkIfExist(this)){
+			DownloadInboundHolder.getSocketListByMeetingId(padId).remove(this);
 			super.onClose(status);
 		}
 	}
@@ -94,26 +91,20 @@ public class ControllerMessageInbound extends MessageInbound {
 		if(logger.isTraceEnabled()){
 			logger.trace("onOpen--->"); 
 		}  
-		if(!ControllerMessageInboundHolder.checkIfExist(this)){
-			if(logger.isTraceEnabled()){
-				logger.trace("用户[{}]可以添加.",memberId); 
-			} 
+		if(!DownloadInboundHolder.checkIfExist(this)){ 
 			super.onOpen(outbound);
-			ControllerMessageInboundHolder.getSocketListByMeetingId(meetingId).add(this); 
+			DownloadInboundHolder.getSocketList().add(this); 
 		}else{ 
 			if(logger.isTraceEnabled()){
-				logger.trace("用户[{}]已经存在.",memberId); 
+				logger.trace("PadID[{}]已经存在.",padId); 
 			} 
 		}
 	}
 
-	public String getMeetingId() {
-		return meetingId;
+	public String getPadId() {
+		return padId;
 	}
-
-	public String getMemberId() {
-		return memberId;
-	}
+ 
  
 	
 	//
