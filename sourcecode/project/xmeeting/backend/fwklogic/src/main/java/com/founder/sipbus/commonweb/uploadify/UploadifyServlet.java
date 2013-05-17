@@ -40,8 +40,14 @@ public class UploadifyServlet extends HttpServlet {
 	 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		String meetingId=request.getParameter("meetingId");  
+//		String xmmpicGuid=request.getParameter("xmmpicGuid"); 
+		
+		
 
-//		System.out.println("doPost-------->");
+		System.out.println("doPost----meetingId---->"+meetingId);
+//		System.out.println("doPost----xmmpicGuid---->"+xmmpicGuid);
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/json");
 		PrintWriter out = response.getWriter();
@@ -51,11 +57,32 @@ public class UploadifyServlet extends HttpServlet {
 		
 		String[] arrUri=requestURI.split("/"); 
 		String[] arrName=arrUri[2].split("\\.");
-		String module=arrName[0];
+		String module=arrName[0]; 
 
 //		System.out.println("doPost------2-->");
-		String fileUrlPathPrefix=this.getBaseUplodUrl()+module+"/";
-		String fileDirectory=this.getBaseUplodDirectory()+module+"/"; 
+		String fileUrlPathPrefix=this.getBaseUplodUrl();
+		String fileDirectory=this.getBaseUplodDirectory();
+
+		
+		if(null!=meetingId){
+			String xmmpicGuid=null;
+			if(meetingId.indexOf("-")>0){
+				String[] idarr=meetingId.split("-");
+				meetingId=idarr[0];
+				xmmpicGuid=idarr[1];
+			}
+			
+			fileUrlPathPrefix+="xmeeting"+"/"+meetingId+"/"+module+"/";
+			fileDirectory+="xmeeting"+"/"+meetingId+"/"+module+"/"; 
+			//图片主题
+			if(null!=xmmpicGuid){
+				fileUrlPathPrefix+=xmmpicGuid+"/";
+				fileDirectory+=xmmpicGuid+"/";
+			}
+		}else{ 
+			fileUrlPathPrefix+=module+"/";
+			fileDirectory+=module+"/"; 
+		} 
 	 
 		//创建文件夹
 		File dirFile = new File(fileDirectory);
