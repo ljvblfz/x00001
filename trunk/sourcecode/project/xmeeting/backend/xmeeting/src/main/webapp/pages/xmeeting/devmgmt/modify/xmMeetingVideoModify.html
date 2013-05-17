@@ -52,6 +52,7 @@
 		var xmmvGuid=navTab._getParam("xmmvGuid"); 
 		var xmmiGuid=navTab._getParam("xmmiGuid");
 		findName('xmmiGuid').val(xmmiGuid);
+		$("#xmmvFileFile").attr("script","xmeeting_meetingvideo.uploadify?meetingId="+xmmiGuid);
 		if(xmmvGuid){
 			findName('showTitle').html('修改视频文件');
 			doGetAjax(CPATH.domain_3 + "/rs/xmMeetingVideo/" +xmmvGuid ,null,function(data){$form.find("[name]").populate(data);});

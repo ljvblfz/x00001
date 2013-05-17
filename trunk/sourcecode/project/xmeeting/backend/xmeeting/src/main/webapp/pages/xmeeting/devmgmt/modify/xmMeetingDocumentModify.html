@@ -51,16 +51,17 @@
 		var $form = findName("pageForm");
 		var url = navTab._getTabUrl();
 		var xmmdGuid=navTab._getParam("xmmdGuid"); 
-		var xmmiGuid=navTab._getParam("xmmiGuid");
-		findName('xmmiGuid').val(xmmiGuid);
+		var xmmiGuid=navTab._getParam("xmmiGuid"); 
+		$("#xmmdFileFile").attr("script","xmeeting_meetingdocument.uploadify?meetingId="+xmmiGuid);
 		if(xmmdGuid){
 			findName('showTitle').html('修改资料文件');
 			doGetAjax(CPATH.domain_3 + "/rs/xmMeetingDocument/" +xmmdGuid ,null,function(data){$form.find("[name]").populate(data);});
 			$form.attr('action',CPATH.domain_3 + '/rs/xmMeetingDocument/'+xmmdGuid+'?method=put');
 		}else{
+			findName('xmmiGuid').val(xmmiGuid);
 			findName('showTitle').html('新增资料文件');
 			$form.attr('action',CPATH.domain_3 + '/rs/xmMeetingDocument');
-		}
+		} 
 	}); 
 
 	//

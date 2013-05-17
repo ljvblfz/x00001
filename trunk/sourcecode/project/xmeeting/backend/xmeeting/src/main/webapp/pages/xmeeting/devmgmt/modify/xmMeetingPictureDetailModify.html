@@ -61,12 +61,19 @@
 		var url = navTab._getTabUrl();
 		var xmmpicdGuid=navTab._getParam("xmmpicdGuid"); 
 		var xmmpicGuid=navTab._getParam("xmmpicGuid");
+		var xmmiGuid=navTab._getParam("xmmiGuid");
 		findName('xmmpicGuid').val(xmmpicGuid);
+		$("#xmmpicImageFileFile").attr("script","xmeeting_meetingimage.uploadify?meetingId="+xmmiGuid+"-"+xmmpicGuid);
 		
 		
 		if(xmmpicdGuid){
 			findName('showTitle').html('修改图片');
-			doGetAjax(CPATH.domain_3 + "/rs/xmMeetingPictureDetail/" +xmmpicdGuid ,null,function(data){$form.find("[name]").populate(data);});
+			doGetAjax(CPATH.domain_3 + "/rs/xmMeetingPictureDetail/" +xmmpicdGuid ,null,function(data){
+				$form.find("[name]").populate(data);
+
+				findName('xmmpicImageFilePreview').attr('src',data.xmmpicImageFile);
+				findName('xmmpicImageFilePreview').css("display","block");
+			});
 			$form.attr('action',CPATH.domain_3 + '/rs/xmMeetingPictureDetail/'+xmmpicdGuid+'?method=put');
 		}else{
 			findName('showTitle').html('新增图片');
