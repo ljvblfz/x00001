@@ -74,6 +74,10 @@
 		var xmmiGuid=navTab._getParam("xmmiGuid");
 		var xurl="/pages/xmeeting/devmgmt/modify/xmMeetingVideoModify.html?xmmiGuid="+xmmiGuid+"";
 		findClass("add").attr("href",getURL(CPATH.domain_3,xurl));
+		
+		
+		var xurledit="/pages/xmeeting/devmgmt/modify/xmMeetingVideoModify.html?xmmvGuid={slt_uid}&xmmiGuid="+xmmiGuid;
+		findClass("edit").attr("href",getURL(CPATH.domain_3,xurledit));
 		//
 		var opts={xmmiGuid:xmmiGuid}; 
 		xmMeetingVideoSearch(opts);

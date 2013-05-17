@@ -26,7 +26,7 @@
 			<li><a class="edit" target="navTab" rel="6userNav1" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/modify/xmMeetingPictureModify.html?xmmpicGuid={slt_uid}');" title="修改xmMeetingPicture"   multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
 			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_3,'/rs/xmMeetingPicture')"  rel="xmmpicGuids" callBackMethod="xmMeetingPictureSearch"	title="确认删除?" ><span>删除</span></a></li> 
 			<li class="line">line</li>
-			<li><a class="edit" target="navTab" rel="userNav1" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/xmMeetingPictureDetail.html?xmmpicGuid={slt_uid}');" title="编辑图片"   multiable="no" warn="请选择一条记录"><span>编辑图片</span></a></li>
+			<li><a class="edit" name="editpicdetail" target="navTab" rel="userNav1" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/xmMeetingPictureDetail.html?xmmpicGuid={slt_uid}');" title="编辑图片"   multiable="no" warn="请选择一条记录"><span>编辑图片</span></a></li>
 		
 		</ul>
 	</div>
@@ -74,6 +74,9 @@
 		var xmmiGuid=navTab._getParam("xmmiGuid");
 		var xurl="/pages/xmeeting/devmgmt/modify/xmMeetingPictureModify.html?xmmiGuid="+xmmiGuid+"";
 		findClass("add").attr("href",getURL(CPATH.domain_3,xurl));
+		
+		var editpicdetailurl="/pages/xmeeting/devmgmt/xmMeetingPictureDetail.html?xmmpicGuid={slt_uid}&xmmiGuid="+xmmiGuid; 
+		findName("editpicdetail").attr("href",getURL(CPATH.domain_3,editpicdetailurl));
 		//
 		var opts={xmmiGuid:xmmiGuid}; 
 		xmMeetingPictureSearch(opts);

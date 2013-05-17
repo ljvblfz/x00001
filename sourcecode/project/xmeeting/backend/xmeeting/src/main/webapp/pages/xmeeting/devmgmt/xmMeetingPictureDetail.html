@@ -72,9 +72,12 @@
     $(function(){
 		var url = navTab._getTabUrl();
 		var xmmpicGuid=navTab._getParam("xmmpicGuid");
-		var xurl="/pages/xmeeting/devmgmt/modify/xmMeetingPictureDetailModify.html?xmmpicGuid="+xmmpicGuid+"";
+		var xmmiGuid=navTab._getParam("xmmiGuid");
+		var xurl="/pages/xmeeting/devmgmt/modify/xmMeetingPictureDetailModify.html?xmmpicGuid="+xmmpicGuid+"&xmmiGuid="+xmmiGuid;
 		findClass("add").attr("href",getURL(CPATH.domain_3,xurl));
 		//
+		var xurledit="/pages/xmeeting/devmgmt/modify/xmMeetingPictureDetailModify.html?xmmpicdGuid={slt_uid}&xmmpicGuid="+xmmpicGuid+"&xmmiGuid="+xmmiGuid;
+		findClass("edit").attr("href",getURL(CPATH.domain_3,xurledit));
 		var opts={xmmpicGuid:xmmpicGuid}; 
 		xmMeetingPictureDetailSearch(opts);
 	});  
