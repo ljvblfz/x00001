@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.broadsoft.xmeeting.websocket.controller.ControllerMessageInbound;
-import com.broadsoft.xmeeting.websocket.controller.MessageInboundHolder;
+import com.broadsoft.xmeeting.websocket.controller.ControllerMessageInboundHolder;
 
 
 /**
@@ -35,7 +35,7 @@ public class BaseService implements IService{
 		String from=context.getString("from");
 		String to=context.getString("to");
 		try { 
-			for (ControllerMessageInbound messageInbound : MessageInboundHolder.getSocketListByMeetingId(meetingid)) { 
+			for (ControllerMessageInbound messageInbound : ControllerMessageInboundHolder.getSocketListByMeetingId(meetingid)) { 
 				//检查消息是否要发给此人
 				if(validateMember(to, messageInbound)){
 					writeResponse(meetingid, msgtype, msgcontent, from, to, messageInbound);

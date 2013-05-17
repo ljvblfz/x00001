@@ -8,8 +8,8 @@ import org.apache.catalina.websocket.MessageInbound;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MessageInboundHolder {
-	private Logger logger = LoggerFactory.getLogger(MessageInboundHolder.class);
+public class ControllerMessageInboundHolder {
+	private Logger logger = LoggerFactory.getLogger(ControllerMessageInboundHolder.class);
 
 	
 	
@@ -41,11 +41,5 @@ public class MessageInboundHolder {
 	}
 
 	
-	
-	//=======================
-	private static List<MessageInbound> socketList = new ArrayList<MessageInbound>();
-
-	public static List<MessageInbound> getSocketList2() {
-		return socketList;
-	}
+ 
 }

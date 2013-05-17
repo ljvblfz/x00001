@@ -68,6 +68,13 @@
 		<servlet-class>com.broadsoft.xmeeting.websocket.controller.ControllerWebSocketServlet</servlet-class>
 		<load-on-startup>0</load-on-startup> 
 	</servlet>
+	
+	
+	<servlet>
+		<servlet-name>DownloadWebSocketServlet</servlet-name>
+		<servlet-class>com.broadsoft.xmeeting.websocket.download.DownloadWebSocketServlet</servlet-class>
+		<load-on-startup>0</load-on-startup> 
+	</servlet>
     	
     <servlet-mapping>   
         <servlet-name>restlet</servlet-name>   
@@ -77,6 +84,12 @@
 	<servlet-mapping>
 		<servlet-name>ControllerWebSocketServlet</servlet-name>
 		<url-pattern>/ws/controller</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet-mapping>
+		<servlet-name>DownloadWebSocketServlet</servlet-name>
+		<url-pattern>/ws/download</url-pattern>
 	</servlet-mapping>
      
     
