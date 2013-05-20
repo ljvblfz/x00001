@@ -28,10 +28,12 @@ public class ControllerMessageInbound extends MessageInbound {
 	 
 	private String meetingId;
 	private String memberId;
-	public ControllerMessageInbound(String memberId,String meetingId){
+	private String memberDisplayName;
+	public ControllerMessageInbound(String meetingId,String memberId,String memberDisplayName){
 		super();
-		this.memberId=memberId; 
 		this.meetingId=meetingId;
+		this.memberId=memberId; 
+		this.memberDisplayName=memberDisplayName;
 	}
 
 	@Override
@@ -123,6 +125,10 @@ public class ControllerMessageInbound extends MessageInbound {
 
 	public String getMemberId() {
 		return memberId;
+	}
+
+	public String getMemberDisplayName() {
+		return memberDisplayName;
 	}
  
 	

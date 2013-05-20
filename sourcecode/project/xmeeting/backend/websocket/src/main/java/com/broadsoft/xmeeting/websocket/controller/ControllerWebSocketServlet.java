@@ -37,6 +37,11 @@ public class ControllerWebSocketServlet extends WebSocketServlet {
 		 
 	 }
 
+	
+	
+	/**
+	 * 
+	 */
 	@Override
 	protected StreamInbound createWebSocketInbound(String subProtocol, HttpServletRequest request) {
 		if(logger.isTraceEnabled()){
@@ -45,7 +50,8 @@ public class ControllerWebSocketServlet extends WebSocketServlet {
 		}
 		String memberId=request.getParameter("memberId");
 		String meetingId=request.getParameter("meetingId");
-		return new ControllerMessageInbound(memberId,meetingId);
+		String memberDisplayName=request.getParameter("meetingId");
+		return new ControllerMessageInbound(meetingId,memberId,memberDisplayName);
 	}
 	
 
