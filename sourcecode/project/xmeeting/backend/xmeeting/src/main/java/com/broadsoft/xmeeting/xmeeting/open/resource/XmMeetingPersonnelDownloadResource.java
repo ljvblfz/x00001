@@ -52,6 +52,10 @@ public class XmMeetingPersonnelDownloadResource extends SyBaseResource{
 	@Get
 	public Representation get(Representation entity) throws ResourceException { 
 		JSONObject allInfo=new JSONObject();  
+		//会议基本信息
+		XmMeetingInfo xmMeetingInfo=xmMeetingInfoDao.findById(xmmiGuid); 
+		xmMeetingInfoDao.evict(xmMeetingInfo); 
+		allInfo.put("xmMeetingInfo", xmMeetingInfo);
 		//Init param
 		PageRequest pageRequest=new PageRequest();
 		pageRequest.setPageNumber(1);
@@ -70,7 +74,12 @@ public class XmMeetingPersonnelDownloadResource extends SyBaseResource{
 	}
 	
 	
-	//=============IOC=================================  
+	//=============IOC=================================   
+	private XmMeetingInfoDaoImpl xmMeetingInfoDao;
+	
+	public void setXmMeetingInfoDao(XmMeetingInfoDaoImpl xmMeetingInfoDao) {
+		this.xmMeetingInfoDao = xmMeetingInfoDao;
+	}
 	private XmeetingDaoImpl xmeetingDao;
 
 	public void setXmeetingDao(XmeetingDaoImpl xmeetingDao) {
