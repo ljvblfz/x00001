@@ -6,8 +6,7 @@
 	default-autowire="byName" default-lazy-init="true">
 
 
-	<bean id="springDaoHolder"
-		class="com.broadsoft.xmeeting.websocket.controller.SpringDaoHolder" factory-method="getInstance" scope="singleton"  lazy-init="false">
+	<bean id="springDaoHolder" class="com.broadsoft.xmeeting.springholder.SpringDaoHolder" factory-method="getInstance" scope="singleton"  lazy-init="false">
 		<property name="xmMeetingVoteDao" ref="xmMeetingVoteDao" />
 		<property name="xmMeetingVoteDetailDao" ref="xmMeetingVoteDetailDao" />
 		<property name="xmMeetingMessageDao" ref="xmMeetingMessageDao" />

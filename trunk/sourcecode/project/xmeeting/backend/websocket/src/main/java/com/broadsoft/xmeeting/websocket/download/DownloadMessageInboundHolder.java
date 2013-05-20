@@ -6,8 +6,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DownloadInboundHolder {
-	private Logger logger = LoggerFactory.getLogger(DownloadInboundHolder.class); 
+public class DownloadMessageInboundHolder {
+	private Logger logger = LoggerFactory.getLogger(DownloadMessageInboundHolder.class); 
 	
 	private static List<DownloadMessageInbound> socketList = new ArrayList<DownloadMessageInbound>(); 
 	public static synchronized List<DownloadMessageInbound> getSocketList() {

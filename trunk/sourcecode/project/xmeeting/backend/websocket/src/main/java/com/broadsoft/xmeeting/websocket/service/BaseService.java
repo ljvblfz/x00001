@@ -24,10 +24,13 @@ public class BaseService implements IService{
 
 	
 	/**
-	 * 
+	 * 发送消息
 	 */
 	@Override
 	public void execute(JSONObject context) throws JSONException {
+		if(logger.isTraceEnabled()){
+			logger.trace("execute--->begin"); 
+		} 
 		// TODO Auto-generated method stub
 		String meetingid=context.getString("meetingid");  
 		String msgtype=context.getString("msgtype");  
@@ -47,6 +50,9 @@ public class BaseService implements IService{
 				logger.error("raised the error---->{}.",e);
 			}
 		}
+		if(logger.isTraceEnabled()){
+			logger.trace("execute--->end"); 
+		} 
 	}//end of execute
 	
 

@@ -10,11 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.broadsoft.xmeeting.springholder.SpringDaoHolder;
-import com.broadsoft.xmeeting.xmeeting.onsite.dao.XmMeetingCallDaoImpl;
-import com.broadsoft.xmeeting.xmeeting.onsite.dao.XmMeetingMessageDaoImpl;
-import com.broadsoft.xmeeting.xmeeting.onsite.dao.XmMeetingVoteDaoImpl;
-import com.broadsoft.xmeeting.xmeeting.onsite.dao.XmMeetingVoteDetailDaoImpl;
-import com.founder.sipbus.common.util.ApplicationContextUtil;
+ 
 
 public class ControllerWebSocketServlet extends WebSocketServlet {
 
