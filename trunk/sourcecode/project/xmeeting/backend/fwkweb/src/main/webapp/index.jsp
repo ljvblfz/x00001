@@ -5,7 +5,17 @@
 <%@page import="com.founder.sipbus.common.util.RsaKey"%>
 <%@page import="com.founder.sipbus.syweb.au.util.SsoUtil"%>
 <%@page import="com.founder.sipbus.syweb.au.util.MemcachedUtil"%>
-<%@page import="com.founder.sipbus.syweb.au.util.ISSOManager"%>
+<%@page import="com.founder.sipbus.syweb.au.util.ISSOManager"%>  
+<%@ page import="com.founder.sipbus.syweb.au.po.SysUser"%>
+
+<%
+	SysUser sysUser = SsoUtil.getLoginUser(request);
+	String userid ="";
+	if(null!=sysUser){
+		userid = sysUser.getUserid(); 
+	}
+%>
+
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -243,6 +253,11 @@ $(function(){
      }
      
      initTopNav();
+	 
+	 
+	 //websocket
+	 var loginName='<%=userid%>';
+	 downloadLoginWS(loginName);
 });
 
 	function doLogout(){
@@ -256,6 +271,9 @@ $(function(){
 	}
 	
 	function logoutSuccess(){
+	 	//websocket logout
+	 	downloadLogoutWS();
+		//
 	 	window.top.location="login.html";
 	}
 
