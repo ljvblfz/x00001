@@ -19,14 +19,11 @@ function controllerLogoutWS() {
 
 function controllerCreateWebSocket(meetingId, memberId, memberDisplayName) {
 	var wsController = null;
+	var urlx=configuration.wshostprefix + "ws/controller?meetingId=" + meetingId + "&memberId=" + memberId + "&memberDisplayName=" + memberDisplayName;
 	if ('WebSocket' in window) {
-		wsController = new WebSocket(configuration.wshostprefix
-				+ "ws/controller?meetingId=" + meetingId + "&memberId="
-				+ memberId + "&memberDisplayName=" + memberDisplayName);
+		wsController = new WebSocket(urlx);
 	} else if ('MozWebSocket' in window) {
-		wsController = new MozWebSocket(configuration.wshostprefix
-				+ "ws/controller?meetingId=" + meetingId + "&memberId="
-				+ memberId + "&memberDisplayName=" + memberDisplayName);
+		wsController = new MozWebSocket(urlx);
 	} else {
 		alert("not support");
 	}
