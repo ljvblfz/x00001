@@ -8,6 +8,6 @@ var configuration={
 	workflow_enabled:"false",
 	homeimage:"bushome.jpg",
 	//websocket配置
-	wshostprefix:'ws://172.29.135.75:8080/websocket/'
+	wshostprefix:'ws://172.29.135.151:8080/websocket/'
 		
 }
