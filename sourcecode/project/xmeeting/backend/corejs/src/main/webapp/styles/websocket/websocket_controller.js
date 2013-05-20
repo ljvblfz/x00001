@@ -1,6 +1,6 @@
 var wsController = null;
 
-function loginWS() {
+function controllerLoginWS() {
 	var memberId = findName("memberId").val();
 	var memberDisplayName = findName("memberDisplayName").val();
 	var meetingId = findName("meetingId").val();
@@ -9,15 +9,15 @@ function loginWS() {
 		wsController.close();
 		wsController = null;
 	}
-	wsController = createWebSocket(meetingId, memberId, memberDisplayName);
-	startWebSocket(memberId, memberDisplayName);
+	wsController = controllerCreateWebSocket(meetingId, memberId, memberDisplayName);
+	controllerStartWebSocket(memberId, memberDisplayName);
 }
 
-function logoutWS() {
-	close();
+function controllerLogoutWS() {
+	controllerClose();
 }
 
-function createWebSocket(meetingId, memberId, memberDisplayName) {
+function controllerCreateWebSocket(meetingId, memberId, memberDisplayName) {
 	var wsController = null;
 	if ('WebSocket' in window) {
 		wsController = new WebSocket(configuration.wshostprefix
@@ -33,14 +33,14 @@ function createWebSocket(meetingId, memberId, memberDisplayName) {
 	return wsController;
 }
 
-var responseCount = 0;
-function startWebSocket(memberId, memberDisplayName) {
+var controllerResponseCount = 0;
+function controllerStartWebSocket(memberId, memberDisplayName) {
 	wsController.onmessage = function(evt) {
 		var obj = JSON.parse(evt.data);
 		var content = obj.from + ">>>>" + obj.msgcontent;
-		responseCount++;
+		controllerResponseCount++;
 		findNameWithParentID("chatrecord", "xmWebSocketDemo").append(
-				responseCount + "***" + content + "<br/>");
+				controllerResponseCount + "***" + content + "<br/>");
 	};
 
 	wsController.onclose = function(evt) {
@@ -56,12 +56,14 @@ function startWebSocket(memberId, memberDisplayName) {
 	};
 }// end of startWebSocket
 
-function close() {
+function controllerClose() {
 	wsController.close();
 }
 
-function sendMsg() {
-	var message = new Object();
+function controllerSendMsg() {
+	var message = new Object(); 
+	var meetingId = findName("meetingId").val();
+	var memberId = findName("memberId").val();
 	var msgtype = findName("msgtype").val();
 	logger.info("sendMsg msgtype--1-->" + msgtype);
 	if (msgtype.length == 0) {
