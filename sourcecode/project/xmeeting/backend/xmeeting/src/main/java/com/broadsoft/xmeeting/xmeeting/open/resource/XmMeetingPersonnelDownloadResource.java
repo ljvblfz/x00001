@@ -54,10 +54,10 @@ public class XmMeetingPersonnelDownloadResource extends SyBaseResource{
 		JSONObject allInfo=new JSONObject();  
 		//Init param
 		PageRequest pageRequest=new PageRequest();
-		Map<String,String> paramMap=new HashMap<String,String>();
-		paramMap.put("xmmiGuid", xmmiGuid); 
 		pageRequest.setPageNumber(1);
 		pageRequest.setPageSize(200); 
+		Map<String,String> paramMap=new HashMap<String,String>();
+		paramMap.put("xmmiGuid", xmmiGuid); 
 		//会议参与人员
 		PageResponse<XmMeetingPersonnelSeatPadIVO>  responseOfXmMeetingPersonnelSeatPadIVO=xmeetingDao.findMeetingPersonnelSeatPadByMeetingID(pageRequest, paramMap); 
 		List<XmMeetingPersonnelSeatPadIVO> listOfXmMeetingPersonnelSeatPadIVO= responseOfXmMeetingPersonnelSeatPadIVO.getList(); 
