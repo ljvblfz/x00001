@@ -10,8 +10,9 @@ public class XmMeetingPersonnelSeatPadIVO {
 	/** 人员 */
 	public String xmpiName;
 	public String xmpiGuid; 
-	/** 设备P */
+	/** 设备资产编号 */
 	public String xmpdCode;
+	public String xmpdDeviceId;
 	/** 会议室座位 */
 	public String xmridSeatno;
 	/** 人员会议角色 */
