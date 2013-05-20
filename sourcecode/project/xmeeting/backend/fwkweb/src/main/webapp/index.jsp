@@ -58,6 +58,10 @@
 <script src="/corejs/styles/json/json2.js" type="text/javascript"></script>
 
 
+<script src="/corejs/styles/websocket/websocket_controller.js" type="text/javascript"></script>
+<script src="/corejs/styles/websocket/websocket_download.js"   type="text/javascript"></script>
+
+
 <script src="styles/util/cursorposition.js" type="text/javascript"></script>
 
 
