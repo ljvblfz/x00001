@@ -48,24 +48,34 @@ public class ControllerMessageInbound extends MessageInbound {
 	 */
 	@Override
 	protected void onTextMessage(CharBuffer msg) throws IOException { 
+		if(logger.isTraceEnabled()){
+			logger.trace("onTextMessage--->begin"); 
+		} 
 		String strMsg=msg.toString();
 		if(logger.isTraceEnabled()){
 			logger.trace("onTextMessage--->strMsg={}.",strMsg); 
 		} 
 		//
-		JSONObject jsonObject=null;
+		JSONObject jsonObject=null; 
 		try {
 			jsonObject=new JSONObject(strMsg);
-			String msgType=jsonObject.getString("msgtype"); 
+			String msgType=jsonObject.getString("msgtype");  
 			IService service=ServiceFactory.createService(msgType);
+			//发送消息
 			service.execute(jsonObject);  
 		} catch (JSONException e) { 
 			e.printStackTrace(); 
 			if(logger.isErrorEnabled()){
 				logger.error("raise the error--->{} .",  e);
 			}
+		}   
+		if(logger.isTraceEnabled()){
+			logger.trace("onTextMessage--->end"); 
 		} 
-	}
+	}//end of onTextMessage
+ 
+	 
+	
 
 	
 	

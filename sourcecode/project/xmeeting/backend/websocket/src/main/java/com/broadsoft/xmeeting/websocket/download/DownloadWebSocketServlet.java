@@ -21,7 +21,7 @@ public class DownloadWebSocketServlet extends WebSocketServlet {
 	 }
 
 	/**
-	 *   /websocket/ws/download?padId=xxxx
+	 *   /websocket/ws/download?padId=xxxx&roleName=device
 	 */
 	@Override
 	protected StreamInbound createWebSocketInbound(String subProtocol, HttpServletRequest request) {
@@ -30,7 +30,8 @@ public class DownloadWebSocketServlet extends WebSocketServlet {
 			System.out.println("-------->createWebSocketInbound---->"+subProtocol);
 		}
 		String padId=request.getParameter("padId"); 
-		return new DownloadMessageInbound(padId);
+		String roleName=request.getParameter("roleName"); 
+		return new DownloadMessageInbound(padId,roleName);
 	} 
 
 }
