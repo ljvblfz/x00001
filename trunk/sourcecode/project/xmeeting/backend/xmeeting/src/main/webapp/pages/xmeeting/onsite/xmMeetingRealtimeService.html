@@ -4,12 +4,49 @@
 </style>
 
 <script type="text/javascript">
+
+
+function realtime_monitor(){
 	
+}
+
+function realtime_cancel(){
+	
+}
+function showDialog_xmMeetingPersonnelInfo2(xlabel,xhidden){  
+	//
+	
+	//
+	var title = "会议选择";
+	var rel = "xmMeetingInfo2";
+	var options = {}; 
+	options.width = 500;
+	options.height = 400;
+	options.max =false;
+	options.mask = true;
+	options.maxable = false;
+	options.minable = false;
+	options.fresh = true;
+	options.resizable = false;
+	options.drawable = true;
+	options.close = "";
+	options.param = {xlabel:xlabel,xhidden:xhidden};
+	options.zIndex = "1000";
+
+	var url = "/xmeeting/pages/xmeeting/onsite/chooser/xmMeetingInfoChooser.html";
+
+	$.pdialog.open(url, rel, title, options);
+	
+}//end of showDialog_xmMeetingPersonnelInfo2
 </script>
 
 
 <h2 class="contentTitle">
-	会议名称:<label style="font-size:18px;color:red">电力公司技术交流会</label>
+	  会议名称:   <input type="text" name="xmmiGuidLabel" readonlye="true" class="required"  /> <input type="hidden" name="xmmiGuid"  />
+				<a   href="javascript:showDialog_xmMeetingPersonnelInfo2('xmmiGuidLabel','xmmiGuid')" class="btnLook">查找带回</a>    
+				<input type="button" name="monitor" 		onclick="realtime_monitor()" value="监控"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="button" name="cancelmonitor" 	onclick="realtime_cancel()" value="取消"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	 <label style="color:red">已经监控/取消监控</label>
 </h2>
 
 <div class="pageContent sortDrag" selector="h1" layoutH="42">
@@ -44,7 +81,7 @@
 	</div>
 
 
-	<!-- ======================消息服务========================== -->
+	<!-- ======================消息服务========================== 
 	<div class="panel collapse" defH="150">
 		<h1>消息服务</h1>
 		<div>
@@ -75,7 +112,7 @@
 			 
 		</div>
 	</div>
-
+	-->
 	<!-- ======================投票管理========================== 
 	<div class="panel collapse" minH="100" defH="150">
 		<h1>投票管理</h1>

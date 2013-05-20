@@ -31,7 +31,7 @@ import com.founder.sipbus.syweb.au.base.SyBaseResource;
 
 
 /**
- * 此服务为pad展示所需的信息
+ * 此服务为会议人员信息
  * @author lu.zhen
  *
  */
