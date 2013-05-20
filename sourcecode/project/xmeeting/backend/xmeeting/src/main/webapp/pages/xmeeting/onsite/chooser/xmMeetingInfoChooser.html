@@ -1,0 +1,128 @@
+<form method="get" name="xmMeetingInfoSearchForm" action="/rs/xmMeetingInfo" onsubmit="return false;" >
+	<input type="hidden" name="pageNum" value="1" />
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>会议名称：</label>
+					<input type="text" name="xmmiGuid" value=""/>
+				</li> 
+			</ul>
+			<div class="subBar">
+				<ul>						
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="xmMeetingInfoSearch({pageNum:1})">查询</button></div></div></li>
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="javascript:findDialogName('xmMeetingInfoSearchForm')[0].reset()">清空</button></div></div></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="pageContent">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+			 <li><a class="edit"  href="javascript:xmMeetingInfoBringBack()" title="选择带回"   multiable="no" warn="请选择一条记录"><span>选择带回</span></a></li>
+			
+ 		</ul>
+	</div>
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr  searchMethod="xmMeetingInfoSearch">
+						<th width="22"></th>
+						<th width="60" >会议名称</th>
+						<th width="60" style="display:none">xmriGuid</th>
+						<th width="60" >会议室</th>
+						<th width="60" >会议描述</th>
+						<th width="60">会议状态</th> 
+						
+						
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="xmMeetingInfoTrTemplate" target="slt_uid">
+						<td type="radio"><input name="xmmiGuids" value="" type="radio"  groups="xmmiGuid" ></td> 
+						<td name="xmmiName"></td>
+						<td name="xmriGuid" style="display:none"></td>
+						<td name="xmriName"></td>
+						<td name="xmmiDescription"></td>
+						<td name="status"></td> 
+				
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage" onchange="xmMeetingInfoSearch({numPerPage:this.value,pageNum:1})">
+				<option value="10">10</option>
+				<option value="40">40</option>
+				<option value="100">100</option>
+				<option value="200">200</option>
+			</select>
+			<span name="xmMeetingInfoCountDiv">条，共-条</span>
+		</div>
+		<div name="xmMeetingInfoPageBar" class="pagination" searchMethod="xmMeetingInfoSearch" targetType="navTab" totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+</div>
+<script type="text/javascript">
+	//定义默认参数
+	var xmMeetingInfoArgs={};
+	 //查询方法
+	 
+
+    $(function(){  
+	    xmMeetingInfoSearch();
+	}); 
+	 
+	 
+
+	function xmMeetingInfoCallback(objCheck,url){ 
+		var xmriGuid=objCheck.parent().parent().parent().find("td:[name=xmriGuid]").html()
+		logger.info("xmriGuid------>"+xmriGuid);
+		url+="&xmriGuid="+xmriGuid
+		logger.info("url------>"+url);
+		return url;
+		
+	}
+	 
+	function xmMeetingInfoSearch(opt){
+		//序列化表单值，并扩展到xmMeetingInfoArgs对象中
+		$.extend(xmMeetingInfoArgs,findDialogName('xmMeetingInfoSearchForm').serializeJson(),opt?opt:{});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_3,"/rs/xmMeetingInfo"),xmMeetingInfoArgs,xmMeetingInfoList);
+	}
+	
+	//拼装
+	function xmMeetingInfoList(data){
+		var sampleRow=findDialogName('xmMeetingInfoTrTemplate');
+		pageResponse2Table(sampleRow,data);
+        printPageBarDiv(findDialogName('xmMeetingInfoPageBar'),findDialogName('xmMeetingInfoCountDiv'),data.jsonData);
+	}
+	
+	//
+	 
+	function xmMeetingInfoBringBack(){ 
+		var chooser_xhidden="";
+		var chooser_xlabel="";
+		var param =  $.pdialog.getCurrent().data("param");  
+		if(param && param != ""){
+			param = DWZ.jsonEval(param);  
+			chooser_xhidden=param.xhidden;
+			chooser_xlabel=param.xlabel;
+		}  
+		$('input[name="xmmiGuids"]:radio:checked').each(function(){    
+// 			   alert($(this).val()); 
+			   $.pdialog.closeCurrent();
+			   findName(chooser_xhidden).val($(this).val());  
+			   var labelvalue=$(this).parent().parent().children().parent().parent().find("td:[name=xmmiName]").html();
+			   findName(chooser_xlabel).val(labelvalue);
+		});    
+	}
+	
+	
+	
+	
+</script>
