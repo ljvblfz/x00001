@@ -80,90 +80,9 @@
 </div>
 <script type="text/javascript">
  
-	var ws = null;
 	$(function() {
 	});
 	
 	
-	function loginWS(){
-		var memberId=findName("memberId").val();
-		var memberDisplayName=findName("memberDisplayName").val();
-		var meetingId=findName("meetingId").val();
-		
-		
-		if (ws) {
-			ws.close();
-			ws = null;
-		}
-		ws = createWebSocket(meetingId,memberId,memberDisplayName);
-		startWebSocket(memberId,memberDisplayName);
-	}
 	
-
-	function logoutWS(){
-		close();
-	}
-
-	function createWebSocket(meetingId,memberId,memberDisplayName) {
-		var ws = null;
-		if ('WebSocket' in window) {
-			ws = new WebSocket(configuration.wshostprefix
-					+ "ws/controller?meetingId="+meetingId+"&memberId=" + memberId+"&memberDisplayName=" + memberDisplayName);
-		} else if ('MozWebSocket' in window) {
-			ws = new MozWebSocket(configuration.wshostprefix
-					+ "ws/controller?meetingId="+meetingId+"&memberId=" + memberId+"&memberDisplayName=" + memberDisplayName);
-		} else {
-			alert("not support");
-		}
-		return ws;
-	}
-
-	
-	var responseCount=0;
-	function startWebSocket(memberId,memberDisplayName) {
-		ws.onmessage = function(evt) { 
-			var obj=JSON.parse(evt.data);
-			var content=obj.from+">>>>"+obj.msgcontent;
-			responseCount++;
-			findNameWithParentID("chatrecord", "xmWebSocketDemo").append( responseCount+"***"+content + "<br/>");
-		};
-
-		ws.onclose = function(evt) { 
-			findNameWithParentID("chatrecord", "xmWebSocketDemo").append( "<span style='color:red'>"+memberDisplayName + ",你已退出呼叫服务系统!!!" + "</span><br/>");
-		};
-
-		ws.onopen = function(evt) { 
-			findNameWithParentID("chatrecord", "xmWebSocketDemo").append("<span style='color:red'>"+memberDisplayName + "你好,欢迎进入呼叫服务系统!!!" + "</span><br/>");
-		};
-	}//end of startWebSocket
-
-	function close() {
-		ws.close();
-	}
-
-	function sendMsg() {
-		var message=new Object();
-		var msgtype = findName("msgtype").val();
-		logger.info("sendMsg msgtype--1-->" + msgtype);
-		if (msgtype.length == 0) {
-			return;
-		}
-		var msgcontent = findName("msgcontent").val();
-		logger.info("sendMsg msgcontent--2-->" + msgcontent);
-		if (msgcontent.length == 0) {
-			return;
-		} 
-		var to = findName("to").val(); 
-		if (to.length == 0) {
-			return;
-		} 
-		//
-		message.meetingid=meetingId;
-		message.msgtype=msgtype;
-		message.msgcontent=msgcontent;
-		message.from=memberId;
-		message.to=to;
-		logger.info("sendMsg content---->" + JSON.stringify(message));
-		ws.send( JSON.stringify(message));
-	}
 </script>
