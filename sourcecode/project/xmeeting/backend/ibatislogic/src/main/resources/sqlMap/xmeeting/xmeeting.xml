@@ -73,6 +73,26 @@
 	
 	
 	
+	<select id="findPadInfoByMeetingID" parameterClass="java.util.HashMap"  resultClass="com.broadsoft.xmeeting.xmeeting.meeting.vo.XmMeetingPadIVO">
+	    <![CDATA[
+			    
+					select b.XMPD_CODE xmpdCode , b.XMPD_DEVICE_ID  xmpdDeviceId, a.xmmi_guid  xmmiGuid
+					
+					from xm_meeting_personnel_seat_pad a , xm_pad_device b
+					
+					where 	1=1  
+							and a.XMPD_GUID=b.XMPD_GUID 
+				
+		]]> 	
+		<isNotEmpty prepend="and" property="xmmiGuid"> 
+		     		 <![CDATA[a.xmmi_guid= #xmmiGuid# ]]>
+		</isNotEmpty>	 
+<!-- 				a.xmmi_guid='000000000XMMEETINGINFO13041820484043' -->
+		<![CDATA[ 
+				order by b.XMPD_CODE  desc 
+		]]>  
+	</select>
+	
 	
 	
 	
