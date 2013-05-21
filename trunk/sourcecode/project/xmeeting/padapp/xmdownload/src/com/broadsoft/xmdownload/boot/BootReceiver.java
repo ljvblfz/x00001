@@ -12,12 +12,10 @@ public class BootReceiver extends BroadcastReceiver {
 	private String TAG="BootReceiver";
 
 	@Override
-	public void onReceive(Context context, Intent intent) {
-		// TODO Auto-generated method stub
-
-		Log.d(TAG, "WWWWWWWWWWWWWWWWWWWWWWWW");
+	public void onReceive(Context context, Intent intent) {  
+		Log.d(TAG, "onReceive begin"); 
 		Intent mBootIntent = new Intent(context, DownloadService.class);
 		context.startService(mBootIntent);
-		Log.d(TAG, "CCCCCCCCCCCCCCCCCCCCCCCC");
+		Log.d(TAG, "onReceive end");
 	}
 }
