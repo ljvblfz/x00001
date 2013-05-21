@@ -60,11 +60,9 @@ public class DomAppConfigFactory {
 		//解析xml
 		try {
 			Document doc = builder.parse(in);
-			Element eleappconfig = doc.getElementById("appconfig");
-
-			AppConfig appConfig = new AppConfig();
-			appConfig.appname = eleappconfig.getAttribute("appname");
-			appConfig.sdcarddir = eleappconfig.getAttribute("sdcarddir");
+			Element eleappconfig = doc.getElementById("appconfig"); 
+			AppConfig appConfig = xmlMapping(eleappconfig); 
+			
 			return appConfig;
 		} catch (SAXException e) {
 			e.printStackTrace();
@@ -72,6 +70,16 @@ public class DomAppConfigFactory {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	private static AppConfig xmlMapping(Element eleappconfig) {
+		AppConfig appConfig = new AppConfig();
+		appConfig.appname = eleappconfig.getAttribute("appname");
+		appConfig.sdcarddir = eleappconfig.getAttribute("sdcarddir");  
+		appConfig.databasename = eleappconfig.getAttribute("databasename");
+		appConfig.databaseversion = eleappconfig.getAttribute("databaseversion");
+		appConfig.serveripport = eleappconfig.getAttribute("serveripport");
+		return appConfig;
 	}
 
 
