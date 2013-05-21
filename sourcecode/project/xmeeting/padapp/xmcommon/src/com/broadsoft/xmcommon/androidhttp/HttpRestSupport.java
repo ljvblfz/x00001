@@ -19,7 +19,8 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
-public class HttpRestSupport {
+public class HttpRestSupport { 
+	private final static String TAG="HttpRestSupport";
 	
 	/**
 	 * 
@@ -27,7 +28,7 @@ public class HttpRestSupport {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String getByHttpClientWithGzip(String path) throws Exception {
+	public static JSONObject getByHttpClientWithGzip(String path) throws Exception {
 		String strResult = "";
 		HttpGet httpRequest = new HttpGet(path);
 		// httpRequest.addHeader("Accept-Encoding", "gzip");
@@ -49,9 +50,9 @@ public class HttpRestSupport {
 				strResult = inputStream2String(is);
 			}
 		}
-		Log.d("MainActivity--strResult->", strResult);
+		Log.d(TAG, strResult);
 		JSONObject jsonObject=createJSONObject(strResult);
-		return strResult;
+		return jsonObject;
 	}
 	
 	/**
@@ -60,7 +61,7 @@ public class HttpRestSupport {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String getByHttpClientUnzip(String path) throws Exception{  
+	public static JSONObject getByHttpClientUnzip(String path) throws Exception{  
     	String strResult = "";
     	HttpGet httpRequest = new HttpGet(path); 
     	
@@ -79,8 +80,8 @@ public class HttpRestSupport {
 
         }   
 		JSONObject jsonObject=createJSONObject(strResult);
-		Log.d("MainActivity--jsonObject->", jsonObject.toString());
-		return strResult;
+		Log.d(TAG, jsonObject.toString());
+		return jsonObject;
      } 
 	
 	/**
@@ -93,7 +94,7 @@ public class HttpRestSupport {
 		try {
 			jObj = new JSONObject(strJson);
 		} catch (JSONException e) {
-			Log.e("JSON Parser", "Error parsing data " + e.toString());
+			Log.e(TAG, "[createJSONObject]Error parsing data " + e.toString());
 		}
 		return jObj;
 	}
@@ -110,7 +111,7 @@ public class HttpRestSupport {
 			outputStream.close();
 			inputStream.close();
 		} catch (IOException e) {
-			Log.e("InputStream2String",e.toString());
+			Log.e(TAG,"[inputStream2String]Error parsing data " + e.toString());
 		}
 		return outputStream.toString();
 	}

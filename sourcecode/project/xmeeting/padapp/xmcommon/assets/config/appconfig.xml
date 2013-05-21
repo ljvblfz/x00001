@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?> 
-<androidconfig id="appconfig"> 
-     
+<androidconfig id="appconfig">  
   <appname>智能会议系统</appname> 
   <sdcarddir>/sdcard/</sdcarddir>
+  <databasename>xmeeting</databasename>
+  <databaseversion>1</databaseversion>
+  <serveripport>172.29.135.151:8080</serveripport>
 </androidconfig>
