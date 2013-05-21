@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.broadsoft.xmcommon.androidconfig.DomAppConfigFactory;
 import com.broadsoft.xmdownload.wsservice.WsServiceSupport;
 
 /**
@@ -19,7 +20,8 @@ public class DownloadService extends Service {
 	@Override
 	public void onCreate() {
 		Log.d(TAG, "onCreate begin");
-		super.onCreate();
+		super.onCreate(); 
+		DomAppConfigFactory.init(getAssets());
 		// 监听websocket消息
 		WsServiceSupport.getInstance().initData(getAndroidID());
 		WsServiceSupport.getInstance().connect();
