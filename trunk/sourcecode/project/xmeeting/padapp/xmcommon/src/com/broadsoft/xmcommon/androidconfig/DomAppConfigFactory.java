@@ -12,12 +12,14 @@ import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import android.content.res.AssetManager;
+import android.util.Log;
 
 /*
  * DOM解析
  */
 public class DomAppConfigFactory {
- 
+
+	private final static String TAG="DomAppConfigFactory";
 
 	private DomAppConfigFactory() {
 	}
@@ -25,13 +27,16 @@ public class DomAppConfigFactory {
 	
 	private  static AppConfig appConfig; 
 	
-	public static AppConfig buildAppConfig(AssetManager assetManager){
-		if(null!=appConfig){
-			return appConfig;
-		}else{
-			parse(assetManager);
-			return appConfig;
-		}
+	public static void init(AssetManager assetManager){
+		Log.d(TAG, "init begin");
+		parse(assetManager);
+		Log.d(TAG, "init end");
+	}
+	
+	
+	
+	public static AppConfig getAppConfig(){ 
+		return appConfig;
 	}
 	
 	/**
@@ -44,9 +49,12 @@ public class DomAppConfigFactory {
 		try {
 			InputStream istr = assetManager.open(assetConfig);
 			appConfig=doParse(istr);
+			
 		}catch (IOException e) {
 			e.printStackTrace();
 		} 
+		
+		
 	}
 
 	/**
