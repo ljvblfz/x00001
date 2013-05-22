@@ -9,10 +9,16 @@
 <%@ page import="com.founder.sipbus.syweb.au.po.SysUser"%>
 
 <%
-	SysUser sysUser = SsoUtil.getLoginUser(request);
-	String userid ="";
-	if(null!=sysUser){
-		userid = sysUser.getUserid(); 
+	SysUser sysUser =null;
+	String userid ="undefined";
+	try{
+		sysUser = SsoUtil.getLoginUser(request);
+		
+		if(null!=sysUser){
+			userid = sysUser.getUserid(); 
+		}
+	}catch(Exception e){
+		e.printStackTrace();
 	}
 %>
 
