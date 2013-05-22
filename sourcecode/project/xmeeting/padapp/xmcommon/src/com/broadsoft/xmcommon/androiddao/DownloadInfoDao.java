@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.broadsoft.xmcommon.androidsqllite.DownloadInfoConstant;
 import com.broadsoft.xmcommon.androidsqllite.SQLiteOpenHelperSupport;
@@ -18,6 +19,8 @@ import com.broadsoft.xmcommon.androidsqllite.SQLiteOpenHelperSupport;
  */
 public class DownloadInfoDao extends DownloadInfoConstant implements
 		IDao<DownloadInfoEntity> {
+	
+	private final static String TAG="DownloadInfoDao";
 
 	public final static String RAW_SELECT_ALL_QUERY = "SELECT  " + COLUMN_GUID + " , "
 			+ COLUMN_MEETING_ID + " , " + COLUMN_MEETING_NAME + " , "
@@ -104,8 +107,9 @@ public class DownloadInfoDao extends DownloadInfoConstant implements
 		Cursor cursor = db.query(TABLE_DOWNLOADINFO, COLUMNS, COLUMN_GUID
 				+ "=?", new String[] { String.valueOf(guid) }, null, null,
 				null, null);
-		if (cursor != null) {
-			cursor.moveToFirst();
+		boolean flag=cursor.moveToFirst();
+		Log.d(TAG, "[findByPK]flag--->"+flag);
+		if (cursor != null&&flag) { 
 			DownloadInfoEntity entity = new DownloadInfoEntity();
 			entity.setGuid(cursor.getString(0));
 			entity.setMeetingId(cursor.getString(1));
@@ -133,7 +137,9 @@ public class DownloadInfoDao extends DownloadInfoConstant implements
 	    Cursor cursor = db.rawQuery(RAW_SELECT_ALL_QUERY, null);
 	   
 	    // looping through all rows and adding to list
-	    if (null!=cursor&&cursor.moveToFirst()) {
+		boolean flag=cursor.moveToFirst();
+		Log.d(TAG, "[findAll]flag--->"+flag);
+		if (cursor != null&&flag) { 
 	        do {
 	        	DownloadInfoEntity entity = new DownloadInfoEntity(); 
 	            // Adding  to list
@@ -163,8 +169,9 @@ public class DownloadInfoDao extends DownloadInfoConstant implements
 		Cursor cursor = db.query(TABLE_DOWNLOADINFO, COLUMNS, COLUMN_MEETING_ID
 				+ "=?", new String[] { String.valueOf(meetingId) }, null, null,
 				null, null);
-		if (cursor != null) {
-			cursor.moveToFirst();
+		boolean flag=cursor.moveToFirst();
+		Log.d(TAG, "[findByMeetingId]flag--->"+flag);
+		if (cursor != null&&flag) { 
 			DownloadInfoEntity entity = new DownloadInfoEntity();
 			entity.setGuid(cursor.getString(0));
 			entity.setMeetingId(cursor.getString(1));

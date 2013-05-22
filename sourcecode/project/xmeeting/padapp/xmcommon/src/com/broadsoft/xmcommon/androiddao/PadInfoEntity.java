@@ -32,4 +32,10 @@ public class PadInfoEntity {
 		this.assetCode = assetCode;
 	}
 
+	@Override
+	public String toString() {
+		return "PadInfoEntity [guid=" + guid + ", androidId=" + androidId
+				+ ", assetCode=" + assetCode + "]";
+	}
+
 }
