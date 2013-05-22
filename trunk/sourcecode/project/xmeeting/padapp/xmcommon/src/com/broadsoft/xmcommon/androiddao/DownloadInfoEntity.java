@@ -72,6 +72,15 @@ public class DownloadInfoEntity {
 	public void setJsonData(String jsonData) {
 		this.jsonData = jsonData;
 	}
+	@Override
+	public String toString() {
+		return "DownloadInfoEntity [guid=" + guid + ", meetingId=" + meetingId
+				+ ", meetingName=" + meetingName + ", memberId=" + memberId
+				+ ", memberDisplayName=" + memberDisplayName + ", seatno="
+				+ seatno + ", serviceMemberId=" + serviceMemberId
+				+ ", serviceMemberDisplayName=" + serviceMemberDisplayName
+				+ ", status=" + status + ", jsonData=" + jsonData + "]";
+	}
 
  
 
