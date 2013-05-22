@@ -59,14 +59,21 @@ public class XmMeetingPersonnelSeatPadIVO {
 	public void setXmpiGuid(String xmpiGuid) {
 		this.xmpiGuid = xmpiGuid;
 	}
+	public String getXmpdDeviceId() {
+		return xmpdDeviceId;
+	}
+	public void setXmpdDeviceId(String xmpdDeviceId) {
+		this.xmpdDeviceId = xmpdDeviceId;
+	}
 	@Override
 	public String toString() {
 		return "XmMeetingPersonnelSeatPadIVO [xmmpspGuid=" + xmmpspGuid
 				+ ", xmmiGuid=" + xmmiGuid + ", xmpiName=" + xmpiName
 				+ ", xmpiGuid=" + xmpiGuid + ", xmpdCode=" + xmpdCode
-				+ ", xmridSeatno=" + xmridSeatno + ", meetingRole="
-				+ meetingRole + "]";
+				+ ", xmpdDeviceId=" + xmpdDeviceId + ", xmridSeatno="
+				+ xmridSeatno + ", meetingRole=" + meetingRole + "]";
 	}
+ 
  
 	
 	
