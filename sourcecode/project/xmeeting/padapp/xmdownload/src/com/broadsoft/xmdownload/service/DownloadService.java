@@ -6,6 +6,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.broadsoft.xmcommon.androidconfig.DomAppConfigFactory;
+import com.broadsoft.xmcommon.androiddao.DaoHolder;
 import com.broadsoft.xmdownload.wsservice.WsServiceSupport;
 
 /**
@@ -15,7 +16,7 @@ import com.broadsoft.xmdownload.wsservice.WsServiceSupport;
  * 
  */
 public class DownloadService extends Service {
-	private String TAG = "TestService";
+	private String TAG = "DownloadService";
 
 	@Override
 	public void onCreate() {
@@ -25,6 +26,9 @@ public class DownloadService extends Service {
 		// 监听websocket消息
 		WsServiceSupport.getInstance().initData(getAndroidID());
 		WsServiceSupport.getInstance().connect();
+		// 初始化数据库		
+		DaoHolder.getInstance().init(getApplicationContext());
+
 
 		Log.d(TAG, "onCreate end");
 
