@@ -45,7 +45,7 @@
 			<li><a class="edit" target="navTab" rel="userNav11" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/xmMeetingVote.html?xmmiGuid={slt_uid}');"     title="会议投票"   		multiable="no" warn="请选择一条记录"><span>会议投票</span></a></li>
 			<li class="line">line</li>
 			<!--  -->
-			<li><a class="edit"  rel="userNav12" href="javascript:xmMeetingInfoDownload();"     title="发起下载"   		multiable="no" warn="请选择一条记录"><span>发起下载</span></a></li>
+<!-- 			<li><a class="edit"  rel="userNav12" href="javascript:xmMeetingInfoDownload();"     title="发起下载"   		multiable="no" warn="请选择一条记录"><span>发起下载</span></a></li> -->
 			
 			
  		</ul>
@@ -134,59 +134,59 @@
 	
 	//
 	
-	function xmMeetingInfoDownload(){ 
-		logger.info("xmMeetingInfoDownload begin");
+// 	function xmMeetingInfoDownload(){ 
+// 		logger.info("xmMeetingInfoDownload begin");
 		
-		$("input[name='xmmiGuids']").each(function() {
-			  var attrChecked=$(this).attr("checked");
-			  var meetingGuid=$(this).attr("value");
-			   logger.info("each ......attrChecked===>"+attrChecked+"    meetingGuid===>"+meetingGuid);
-			  if(attrChecked){
-				 	xmMeetingInfoPadAndroidID(meetingGuid);
-			  }//end of if
+// 		$("input[name='xmmiGuids']").each(function() {
+// 			  var attrChecked=$(this).attr("checked");
+// 			  var meetingGuid=$(this).attr("value");
+// 			   logger.info("each ......attrChecked===>"+attrChecked+"    meetingGuid===>"+meetingGuid);
+// 			  if(attrChecked){
+// 				 	xmMeetingInfoPadAndroidID(meetingGuid);
+// 			  }//end of if
 			  
-		}); 
-		logger.info("xmMeetingInfoDownload end");
+// 		}); 
+// 		logger.info("xmMeetingInfoDownload end");
 		
 		
-	}
+// 	}
 	
 	
 
-	function xmMeetingInfoPadAndroidID(meetingGuid){
-		logger.info("xmMeetingInfoPadAndroidID begin  meetingGuid====>"+meetingGuid);
-		var urlx=getURL(CPATH.domain_3,"/rs/getPadIdsByMeetingIdResource/"+meetingGuid);
+// 	function xmMeetingInfoPadAndroidID(meetingGuid){
+// 		logger.info("xmMeetingInfoPadAndroidID begin  meetingGuid====>"+meetingGuid);
+// 		var urlx=getURL(CPATH.domain_3,"/rs/getPadIdsByMeetingIdResource/"+meetingGuid);
 		
 		
-		dtdXHR = $.ajax({
-			  type: "GET",
-			  url: urlx,
-			  dataType: "json",
-			  cache:false,
-			  global:false
-		});
+// 		dtdXHR = $.ajax({
+// 			  type: "GET",
+// 			  url: urlx,
+// 			  dataType: "json",
+// 			  cache:false,
+// 			  global:false
+// 		});
 			
-		dtdXHR.done(function(respJson){    
-			logger.info("done--->"+respJson);
+// 		dtdXHR.done(function(respJson){    
+// 			logger.info("done--->"+respJson);
 			
-			var padList=respJson.jsonData.listOfXmMeetingPadIVO; 
+// 			var padList=respJson.jsonData.listOfXmMeetingPadIVO; 
 			
-			var padIdArray=new Array();
-			for(var i=0;i<padList.length;i++){
-				padIdArray.push(padList[i].xmpdDeviceId);
-			} 
+// 			var padIdArray=new Array();
+// 			for(var i=0;i<padList.length;i++){
+// 				padIdArray.push(padList[i].xmpdDeviceId);
+// 			} 
 
-			logger.info("padIdArray.toString--->"+padIdArray.toString());
-			downloadSendMsg(meetingGuid,padIdArray.toString());
+// 			logger.info("padIdArray.toString--->"+padIdArray.toString());
+// 			downloadSendMsg(meetingGuid,padIdArray.toString());
 			
-			alertMsg.correct('发起下载已经提交成功！')
+// 			alertMsg.correct('发起下载已经提交成功！')
 		
-		});
-		dtdXHR.fail(function(respJson){    
-			logger.info("fail--->"+respJson);
-		});
+// 		});
+// 		dtdXHR.fail(function(respJson){    
+// 			logger.info("fail--->"+respJson);
+// 		});
 		
-	}
+// 	}
 	
 	
 	
