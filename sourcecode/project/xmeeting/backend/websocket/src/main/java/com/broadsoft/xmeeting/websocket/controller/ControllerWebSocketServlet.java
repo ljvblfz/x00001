@@ -22,17 +22,17 @@ public class ControllerWebSocketServlet extends WebSocketServlet {
 	@Override
 	public void init(ServletConfig config) throws ServletException{
 		 super.init(config);
-
-		 if(logger.isTraceEnabled()){
-			logger.trace("====ControllerWebSocketServlet======init=====begin====="); 
-		 } 
-		 if(logger.isTraceEnabled()){
-			 logger.trace("xmMeetingVoteDao---------->"+SpringDaoHolder.getInstance().getXmMeetingVoteDao()); 
-			 logger.trace("xmMeetingVoteDetailDao---------->"+SpringDaoHolder.getInstance().getXmMeetingVoteDetailDao());
-			 logger.trace("xmMeetingCallDao---------->"+SpringDaoHolder.getInstance().getXmMeetingCallDao());
-			 logger.trace("xmMeetingMessageDao---------->"+SpringDaoHolder.getInstance().getXmMeetingMessageDao());
-			 logger.trace("====ControllerWebSocketServlet=====init======end======"); 
-		 }
+//
+//		 if(logger.isTraceEnabled()){
+//			logger.trace("====ControllerWebSocketServlet======init=====begin====="); 
+//		 } 
+//		 if(logger.isTraceEnabled()){
+//			 logger.trace("xmMeetingVoteDao---------->"+SpringDaoHolder.getInstance().getXmMeetingVoteDao()); 
+//			 logger.trace("xmMeetingVoteDetailDao---------->"+SpringDaoHolder.getInstance().getXmMeetingVoteDetailDao());
+//			 logger.trace("xmMeetingCallDao---------->"+SpringDaoHolder.getInstance().getXmMeetingCallDao());
+//			 logger.trace("xmMeetingMessageDao---------->"+SpringDaoHolder.getInstance().getXmMeetingMessageDao());
+//			 logger.trace("====ControllerWebSocketServlet=====init======end======"); 
+//		 }
 		  
 		 
 	 }
@@ -50,7 +50,7 @@ public class ControllerWebSocketServlet extends WebSocketServlet {
 		}
 		String memberId=request.getParameter("memberId");
 		String meetingId=request.getParameter("meetingId");
-		String memberDisplayName=request.getParameter("meetingId");
+		String memberDisplayName=request.getParameter("memberDisplayName");
 		return new ControllerMessageInbound(meetingId,memberId,memberDisplayName);
 	}
 	

@@ -25,6 +25,14 @@ public class ControllerMessageInboundHolder {
 		} 
 	}//end of getSocketListByMeetingId
 	
+	
+	public static synchronized ConcurrentHashMap<String, List<ControllerMessageInbound>>  getAllSocketList() {
+		return socketMapList;
+	}//end of getAllSocketList
+	
+	
+	
+	
 	public static synchronized boolean checkIfExist(ControllerMessageInbound messageInbound) {
 		String meetingId=messageInbound.getMeetingId();
 		String memberId=messageInbound.getMemberId();
