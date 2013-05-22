@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.broadsoft.xmcommon.androidconfig.DomAppConfigFactory;
 import com.broadsoft.xmcommon.androiddao.DaoHolder;
+import com.broadsoft.xmcommon.androidutil.AndroidIdSupport;
 import com.broadsoft.xmdownload.wsservice.WsServiceSupport;
 
 /**
@@ -24,7 +25,7 @@ public class DownloadService extends Service {
 		super.onCreate(); 
 		DomAppConfigFactory.init(getAssets());
 		// 监听websocket消息
-		WsServiceSupport.getInstance().initData(getAndroidID());
+		WsServiceSupport.getInstance().initData(AndroidIdSupport.getAndroidID());
 		WsServiceSupport.getInstance().connect();
 		// 初始化数据库		
 		DaoHolder.getInstance().init(getApplicationContext());
@@ -34,10 +35,7 @@ public class DownloadService extends Service {
 
 	}
 
-	private String getAndroidID() {
-		String padId = "000000000XMMEETINGINFO13041820484043";
-		return padId;
-	}
+	
 
 	@Override
 	public void onDestroy() {
