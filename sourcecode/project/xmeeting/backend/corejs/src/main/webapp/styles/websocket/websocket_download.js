@@ -8,7 +8,7 @@ function downloadLoginWS(padId) {
 		wsDownload.close();
 		wsDownload = null;
 	}
-	wsDownload = downloadCreateWebSocket(padId);
+	wsDownload = downloadCreateWebSocket(padId,roleName);
 	downloadStartWebSocket(padId, roleName);
 	logger.info("downloadLoginWS end");
 	
