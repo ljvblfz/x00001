@@ -8,26 +8,27 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.broadsoft.xmcommon.androidsqllite.PadInfoSQLiteOpenHelper;
+import com.broadsoft.xmcommon.androidsqllite.PadInfoConstant;
+import com.broadsoft.xmcommon.androidsqllite.SQLiteOpenHelperSupport;
 
 /**
  * 
  * @author lu.zhen
  * 
  */
-public class PadInfoDao extends PadInfoSQLiteOpenHelper implements
+public class PadInfoDao extends PadInfoConstant implements
 		IDao<PadInfoEntity> {
 
 	public final static String RAW_SELECT_ALL_QUERY = "SELECT  "+ COLUMN_GUID+ " , "+ COLUMN_ANDROID_ID+ " , "+COLUMN_ASSET_CODE+" FROM " + TABLE_PADINFO;
 	public final static String[] COLUMNS={ COLUMN_GUID, COLUMN_ANDROID_ID, COLUMN_ASSET_CODE };
- 
+	private SQLiteOpenHelperSupport sqliteOpenHelperSupport;
 	public PadInfoDao(Context context) {
-		super(context);
+		this.sqliteOpenHelperSupport=new SQLiteOpenHelperSupport(context);	 
 	}
 
 	@Override
 	public boolean add(PadInfoEntity entity) {
-		SQLiteDatabase db = this.getWritableDatabase();
+		SQLiteDatabase db = sqliteOpenHelperSupport.getWritableDatabase();
 		ContentValues values = new ContentValues();
 		values.put(COLUMN_GUID, GuidGeneration.generateGuid(TABLE_PADINFO));
 		values.put(COLUMN_ANDROID_ID, entity.getAndroidId());
@@ -39,7 +40,7 @@ public class PadInfoDao extends PadInfoSQLiteOpenHelper implements
 
 	@Override
 	public boolean update(PadInfoEntity entity) {
-		SQLiteDatabase db = this.getWritableDatabase();
+		SQLiteDatabase db = sqliteOpenHelperSupport.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
 		// values.put(COLUMN_GUID, entity.getGuid());
@@ -55,7 +56,7 @@ public class PadInfoDao extends PadInfoSQLiteOpenHelper implements
 
 	@Override
 	public boolean delete(String guid) {
-		SQLiteDatabase db = this.getWritableDatabase();
+		SQLiteDatabase db = sqliteOpenHelperSupport.getWritableDatabase();
 		// deleting row
 		int count = db.delete(TABLE_PADINFO, COLUMN_GUID + " = ?", new String[] { String.valueOf(guid) });
 		db.close();
@@ -65,7 +66,7 @@ public class PadInfoDao extends PadInfoSQLiteOpenHelper implements
 	
 	@Override
 	public PadInfoEntity findByPK(String guid) {
-		SQLiteDatabase db = this.getReadableDatabase();
+		SQLiteDatabase db = sqliteOpenHelperSupport.getReadableDatabase();
 		Cursor cursor = db.query(TABLE_PADINFO,COLUMNS , COLUMN_GUID + "=?", new String[] { String.valueOf(guid) }, null, null, null, null);
 		if (cursor != null){
 			cursor.moveToFirst(); 
@@ -88,7 +89,7 @@ public class PadInfoDao extends PadInfoSQLiteOpenHelper implements
 	public List<PadInfoEntity> findAll() {
 		List<PadInfoEntity> entityList = new ArrayList<PadInfoEntity>();
 	    // Select All Query 
-	    SQLiteDatabase db = this.getWritableDatabase();
+	    SQLiteDatabase db = sqliteOpenHelperSupport.getWritableDatabase();
 	    Cursor cursor = db.rawQuery(RAW_SELECT_ALL_QUERY, null);
 	   
 	    // looping through all rows and adding to list
