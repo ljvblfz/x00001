@@ -8,19 +8,16 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.broadsoft.xmcommon.androidsqllite.DownloadInfoSQLiteOpenHelper;
+import com.broadsoft.xmcommon.androidsqllite.DownloadInfoConstant;
+import com.broadsoft.xmcommon.androidsqllite.SQLiteOpenHelperSupport;
 
 /**
  * 
  * @author lu.zhen
  * 
  */
-public class DownloadInfoDao extends DownloadInfoSQLiteOpenHelper implements
+public class DownloadInfoDao extends DownloadInfoConstant implements
 		IDao<DownloadInfoEntity> {
-
-	public DownloadInfoDao(Context context) {
-		super(context);
-	}
 
 	public final static String RAW_SELECT_ALL_QUERY = "SELECT  " + COLUMN_GUID + " , "
 			+ COLUMN_MEETING_ID + " , " + COLUMN_MEETING_NAME + " , "
@@ -29,11 +26,25 @@ public class DownloadInfoDao extends DownloadInfoSQLiteOpenHelper implements
 			+ COLUMN_SERVICE_MEMBER_DISPLAY_NAME + " , " + COLUMN_STATUS
 			+ " , " + COLUMN_JSON_DATA + " FROM " + TABLE_DOWNLOADINFO;
 	
+
+	public final static String[] COLUMNS = { COLUMN_GUID, COLUMN_MEETING_ID,
+			COLUMN_MEETING_NAME, COLUMN_MEMBER_ID, COLUMN_MEMBER_DISPLAY_NAME,
+			COLUMN_SEATNO, COLUMN_SERVICE_MEMBER_ID,
+			COLUMN_SERVICE_MEMBER_DISPLAY_NAME, COLUMN_STATUS, COLUMN_JSON_DATA };
+	
+	
+	
+	private SQLiteOpenHelperSupport sqliteOpenHelperSupport;
+	public DownloadInfoDao(Context context) {
+		this.sqliteOpenHelperSupport=new SQLiteOpenHelperSupport(context);	 
+	}
+
+	
 	
 
 	@Override
 	public boolean add(DownloadInfoEntity entity) {
-		SQLiteDatabase db = this.getWritableDatabase();
+		SQLiteDatabase db = sqliteOpenHelperSupport.getWritableDatabase();
 		ContentValues values = new ContentValues();
 		values.put(COLUMN_GUID, GuidGeneration.generateGuid(TABLE_DOWNLOADINFO));
 		values.put(COLUMN_MEETING_ID, entity.getMeetingId());
@@ -53,7 +64,7 @@ public class DownloadInfoDao extends DownloadInfoSQLiteOpenHelper implements
 
 	@Override
 	public boolean update(DownloadInfoEntity entity) {
-		SQLiteDatabase db = this.getWritableDatabase();
+		SQLiteDatabase db = sqliteOpenHelperSupport.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
 		// values.put(COLUMN_GUID,
@@ -77,7 +88,7 @@ public class DownloadInfoDao extends DownloadInfoSQLiteOpenHelper implements
 
 	@Override
 	public boolean delete(String guid) {
-		SQLiteDatabase db = this.getWritableDatabase();
+		SQLiteDatabase db = sqliteOpenHelperSupport.getWritableDatabase();
 		// deleting row
 		int count = db.delete(TABLE_DOWNLOADINFO, COLUMN_GUID + " = ?",
 				new String[] { String.valueOf(guid) });
@@ -86,14 +97,10 @@ public class DownloadInfoDao extends DownloadInfoSQLiteOpenHelper implements
 	}
 	
 
-	public final static String[] COLUMNS = { COLUMN_GUID, COLUMN_MEETING_ID,
-			COLUMN_MEETING_NAME, COLUMN_MEMBER_ID, COLUMN_MEMBER_DISPLAY_NAME,
-			COLUMN_SEATNO, COLUMN_SERVICE_MEMBER_ID,
-			COLUMN_SERVICE_MEMBER_DISPLAY_NAME, COLUMN_STATUS, COLUMN_JSON_DATA };
 
 	@Override
 	public DownloadInfoEntity findByPK(String guid) {
-		SQLiteDatabase db = this.getReadableDatabase();
+		SQLiteDatabase db = sqliteOpenHelperSupport.getReadableDatabase();
 		Cursor cursor = db.query(TABLE_DOWNLOADINFO, COLUMNS, COLUMN_GUID
 				+ "=?", new String[] { String.valueOf(guid) }, null, null,
 				null, null);
@@ -122,7 +129,7 @@ public class DownloadInfoDao extends DownloadInfoSQLiteOpenHelper implements
 	public List<DownloadInfoEntity> findAll() {
 		List<DownloadInfoEntity> entityList = new ArrayList<DownloadInfoEntity>();
 	    // Select All Query 
-	    SQLiteDatabase db = this.getWritableDatabase();
+	    SQLiteDatabase db = sqliteOpenHelperSupport.getWritableDatabase();
 	    Cursor cursor = db.rawQuery(RAW_SELECT_ALL_QUERY, null);
 	   
 	    // looping through all rows and adding to list
@@ -152,7 +159,7 @@ public class DownloadInfoDao extends DownloadInfoSQLiteOpenHelper implements
 	
 
 	public DownloadInfoEntity findByMeetingId(String meetingId) {
-		SQLiteDatabase db = this.getReadableDatabase();
+		SQLiteDatabase db = sqliteOpenHelperSupport.getReadableDatabase();
 		Cursor cursor = db.query(TABLE_DOWNLOADINFO, COLUMNS, COLUMN_MEETING_ID
 				+ "=?", new String[] { String.valueOf(meetingId) }, null, null,
 				null, null);

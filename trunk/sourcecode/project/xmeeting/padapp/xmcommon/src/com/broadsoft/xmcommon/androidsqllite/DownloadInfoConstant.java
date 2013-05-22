@@ -1,8 +1,5 @@
 package com.broadsoft.xmcommon.androidsqllite;
 
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 /**
  * http://www.androidhive.info/2011/11/android-sqlite-database-tutorial/
@@ -11,8 +8,8 @@ import android.util.Log;
  * @author lu.zhen
  * 
  */
-public class DownloadInfoSQLiteOpenHelper extends BaseSQLiteOpenHelper {
-	private static final String TAG = "DownloadInfoSQLiteOpenHelper";
+public class DownloadInfoConstant   {
+	private static final String TAG = "DownloadInfoConstant";
 
 	// Contacts table name
 	public static final String TABLE_DOWNLOADINFO = "DOWNLOADINFO";
@@ -34,33 +31,11 @@ public class DownloadInfoSQLiteOpenHelper extends BaseSQLiteOpenHelper {
 			+ COLUMN_MEMBER_ID + " TEXT," + COLUMN_MEMBER_DISPLAY_NAME
 			+ " TEXT," + COLUMN_SEATNO + " TEXT," + COLUMN_SERVICE_MEMBER_ID
 			+ " TEXT," + COLUMN_SERVICE_MEMBER_DISPLAY_NAME + " TEXT,"
-			+ COLUMN_STATUS + " TEXT," + COLUMN_JSON_DATA + " TEXT" + ")";
+			+ COLUMN_STATUS + " TEXT," + COLUMN_JSON_DATA + " TEXT" + ")";  
+	
 
-	/**
-	 * 
-	 * @param context
-	 * @param name
-	 * @param factory
-	 * @param version
-	 */
-	public DownloadInfoSQLiteOpenHelper(Context context) {
-		super(context, DATABASE_NAME, null, DATABASE_VERSION);
-	}
+	public final static String UPGRADE_DOWNLOADINFO_TABLE = "DROP TABLE IF EXISTS " + TABLE_DOWNLOADINFO;
 
-	@Override
-	public void onCreate(SQLiteDatabase db) {
-		Log.d(TAG, CREATE_DOWNLOADINFO_TABLE); 
-		db.execSQL(CREATE_DOWNLOADINFO_TABLE);
-
-	}
-
-	@Override
-	public void onUpgrade(SQLiteDatabase db, int arg1, int arg2) {
-		// Drop older table if existed
-		db.execSQL("DROP TABLE IF EXISTS " + TABLE_DOWNLOADINFO);
-		// Create tables again
-		onCreate(db);
-
-	}
+ 
 
 }
