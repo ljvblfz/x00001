@@ -1,0 +1,166 @@
+<form method="get" name="xmMeetingInfoDownloadSearchForm" action="/rs/xmMeetingInfo" onsubmit="return false;" >
+	<input type="hidden" name="pageNum" value="1" />
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>会议名称：</label>
+					<input type="text" name="xmmiGuid" value=""/>
+				</li> 
+			</ul>
+			<div class="subBar">
+				<ul>						
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="xmMeetingInfoDownloadSearch({pageNum:1})">查询</button></div></div></li>
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="javascript:findName('xmMeetingInfoDownloadSearchForm')[0].reset()">清空</button></div></div></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="pageContent">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+			<!--  -->
+			<li><a class="edit"  rel="userNav12" href="javascript:xmMeetingInfoDownloadDownload();"     title="发起下载"   		multiable="no" warn="请选择一条记录"><span>发起下载</span></a></li>
+			
+			
+ 		</ul>
+	</div>
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr  searchMethod="xmMeetingInfoDownloadSearch">
+						<th width="22"><input type="checkbox" group="xmmiGuids" class="checkboxCtrl"></th>
+						<th width="60" >会议名称</th>
+						<th width="60" style="display:none">xmriGuid</th>
+						<th width="60" >会议室</th>
+						<th width="60" >会议描述</th>
+						<th width="60">会议状态</th> 
+						
+						
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="xmMeetingInfoDownloadTrTemplate" target="slt_uid">
+						<td name="xmmiGuid" type="check"><input name="xmmiGuids" value="" type="checkbox"   callbackMethod="xmMeetingInfoDownloadCallback"></td>
+						<td name="xmmiName"></td>
+						<td name="xmriGuid" style="display:none"></td>
+						<td name="xmriName"></td>
+						<td name="xmmiDescription"></td>
+						<td name="status"></td> 
+				
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage" onchange="xmMeetingInfoDownloadSearch({numPerPage:this.value,pageNum:1})">
+				<option value="10">10</option>
+				<option value="40">40</option>
+				<option value="100">100</option>
+				<option value="200">200</option>
+			</select>
+			<span name="xmMeetingInfoDownloadCountDiv">条，共-条</span>
+		</div>
+		<div name="xmMeetingInfoDownloadPageBar" class="pagination" searchMethod="xmMeetingInfoDownloadSearch" targetType="navTab" totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+</div>
+<script type="text/javascript">
+	//定义默认参数
+	var xmMeetingInfoDownloadArgs={};
+	 //查询方法
+	 
+
+    $(function(){  
+	    xmMeetingInfoDownloadSearch();
+	}); 
+	 
+	 
+
+	function xmMeetingInfoDownloadCallback(objCheck,url){ 
+		var xmriGuid=objCheck.parent().parent().parent().find("td:[name=xmriGuid]").html()
+		logger.info("xmriGuid------>"+xmriGuid);
+		url+="&xmriGuid="+xmriGuid
+		logger.info("url------>"+url);
+		return url;
+		
+	}
+	 
+	function xmMeetingInfoDownloadSearch(opt){
+		//序列化表单值，并扩展到xmMeetingInfoDownloadArgs对象中
+		$.extend(xmMeetingInfoDownloadArgs,findName('xmMeetingInfoDownloadSearchForm').serializeJson(),opt?opt:{});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_3,"/rs/xmMeetingInfo"),xmMeetingInfoDownloadArgs,xmMeetingInfoDownloadList);
+	}
+	
+	//拼装
+	function xmMeetingInfoDownloadList(data){
+		var sampleRow=findName('xmMeetingInfoDownloadTrTemplate');
+		pageResponse2Table(sampleRow,data);
+        printPageBarDiv(findName('xmMeetingInfoDownloadPageBar'),findName('xmMeetingInfoDownloadCountDiv'),data.jsonData);
+	}
+	
+	//
+	
+	function xmMeetingInfoDownloadDownload(){ 
+		logger.info("xmMeetingInfoDownloadDownload begin");
+		
+		$("input[name='xmmiGuids']").each(function() {
+			  var attrChecked=$(this).attr("checked");
+			  var meetingGuid=$(this).attr("value");
+			   logger.info("each ......attrChecked===>"+attrChecked+"    meetingGuid===>"+meetingGuid);
+			  if(attrChecked){
+				 	xmMeetingInfoDownloadPadAndroidID(meetingGuid);
+			  }//end of if
+			  
+		}); 
+		logger.info("xmMeetingInfoDownloadDownload end");
+		
+		
+	}
+	
+	
+
+	function xmMeetingInfoDownloadPadAndroidID(meetingGuid){
+		logger.info("xmMeetingInfoDownloadPadAndroidID begin  meetingGuid====>"+meetingGuid);
+		var urlx=getURL(CPATH.domain_3,"/rs/getPadIdsByMeetingIdResource/"+meetingGuid);
+		
+		
+		dtdXHR = $.ajax({
+			  type: "GET",
+			  url: urlx,
+			  dataType: "json",
+			  cache:false,
+			  global:false
+		});
+			
+		dtdXHR.done(function(respJson){    
+			logger.info("done--->"+respJson);
+			
+			var padList=respJson.jsonData.listOfXmMeetingPadIVO; 
+			
+			var padIdArray=new Array();
+			for(var i=0;i<padList.length;i++){
+				padIdArray.push(padList[i].xmpdDeviceId);
+			} 
+
+			logger.info("padIdArray.toString--->"+padIdArray.toString());
+			downloadSendMsg(meetingGuid,padIdArray.toString());
+			
+			alertMsg.correct('发起下载已经提交成功！')
+		
+		});
+		dtdXHR.fail(function(respJson){    
+			logger.info("fail--->"+respJson);
+		});
+		
+	}
+	
+	
+	
+	
+</script>

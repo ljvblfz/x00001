@@ -24,13 +24,13 @@
 		<ul>
 			<li><div class="buttonActive">
 					<div class="buttonContent">
-						<button type="button" onclick="loginWS()">登陆</button>
+						<button type="button" onclick="controllerLoginWS()">登陆</button>
 					</div>
 				</div>
 			</li> 
 			<li><div class="buttonActive">
 					<div class="buttonContent">
-						<button type="button" onclick="logoutWS()">登出</button>
+						<button type="button" onclick="controllerLogoutWS()">登出</button>
 					</div>
 				</div>
 			</li> 
