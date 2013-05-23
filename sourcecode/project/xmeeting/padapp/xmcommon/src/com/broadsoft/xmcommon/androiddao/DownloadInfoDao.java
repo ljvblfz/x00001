@@ -190,5 +190,46 @@ public class DownloadInfoDao extends DownloadInfoConstant implements
 		db.close();
 		return null; 
 	}
+	
+	 
+	public boolean activate(String meetingId) {
+		SQLiteDatabase db = sqliteOpenHelperSupport.getWritableDatabase(); 
+		db.beginTransaction();  
+		db.execSQL("UPDATE "+TABLE_DOWNLOADINFO+" SET "+this.COLUMN_STATUS+" = '0' "); 
+		db.execSQL("UPDATE "+TABLE_DOWNLOADINFO+" SET "+this.COLUMN_STATUS+" = '1'  WHERE "+COLUMN_MEETING_ID+"=?", new String[]{meetingId}); 
+		db.setTransactionSuccessful();
+		db.endTransaction();
+		db.close();
+		return true;
+	}
+	
+	
+
+	public DownloadInfoEntity findByActivate() {
+		SQLiteDatabase db = sqliteOpenHelperSupport.getReadableDatabase();
+		Cursor cursor = db.query(TABLE_DOWNLOADINFO, COLUMNS, COLUMN_STATUS
+				+ "=?", new String[] { "1"}, null, null,
+				null, null);
+		boolean flag=cursor.moveToFirst();
+		Log.d(TAG, "[findByMeetingId]flag--->"+flag);
+		if (cursor != null&&flag) { 
+			DownloadInfoEntity entity = new DownloadInfoEntity();
+			entity.setGuid(cursor.getString(0));
+			entity.setMeetingId(cursor.getString(1));
+			entity.setMeetingName(cursor.getString(2));
+			entity.setMemberId(cursor.getString(3));
+			entity.setMemberDisplayName(cursor.getString(4));
+			entity.setSeatno(cursor.getString(5));
+			entity.setServiceMemberId(cursor.getString(6));
+			entity.setServiceMemberDisplayName(cursor.getString(7));
+			entity.setStatus(cursor.getString(8));
+			entity.setJsonData(cursor.getString(9));
+			cursor.close();
+			db.close();
+			return entity;
+		}
+		db.close();
+		return null; 
+	}
 
 }
