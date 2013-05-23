@@ -11,9 +11,11 @@
 			        select a.xmmi_name xmmiName,a.xmmi_guid xmmiGuid,a.xmmi_description xmmiDescription ,b.xmri_name xmriName,b.xmri_guid xmriGuid,c.value_desc status
 					from XM_MEETING_INFO a,XM_ROOM_INFO b ,
 									(select value_code,value_desc from sy_code  where type_id in (select type_id from sy_code_type where type_name='3006')) c
-					where 1=1 
-						and a.xmri_guid=b.xmri_guid 
-						and a.xmmi_status=c.value_code
+					where 		1=1 
+						and  a.xmri_guid=b.xmri_guid 
+						and  a.xmmi_status=c.value_code
+						and  a.del_flag=0 
+						and  b.del_flag=0 
 				
 		]]> 	
 		<isNotEmpty prepend="and" property="xmmiName"> 
@@ -34,10 +36,14 @@
 				from XM_MEETING_PERSONNEL_SEAT_PAD a, XM_PERSONNEL_INFO b,XM_PAD_DEVICE c,XM_ROOM_INFO_DETAIL d ,
 				(select value_code,value_desc from sy_code  where type_id in (select type_id from sy_code_type where type_name='3010')) e
 				where 1=1
-				and a.xmpi_guid=b.xmpi_guid  
-				and c.xmpd_guid=a.xmpd_guid  
-				and d.xmrid_guid=a.xmrid_guid 
-				and a.xmmpsp_meeting_role =e.value_code 
+						and a.xmpi_guid=b.xmpi_guid  
+						and c.xmpd_guid=a.xmpd_guid  
+						and d.xmrid_guid=a.xmrid_guid 
+						and a.xmmpsp_meeting_role =e.value_code 
+						and  a.del_flag=0 
+						and  b.del_flag=0  
+						and  c.del_flag=0 
+						and  d.del_flag=0 
 				
 		]]> 	
 		<isNotEmpty prepend="and" property="xmmiGuid"> 
@@ -60,6 +66,8 @@
 					where 1=1 
 					and a.xmpi_guid = b.xmpi_guid
 					and a.xmmsp_service_role=c.value_code  
+					and  a.del_flag=0 
+					and  b.del_flag=0 
 				
 		]]> 	
 		<isNotEmpty prepend="and" property="xmmiGuid"> 
@@ -80,8 +88,10 @@
 					
 					from xm_meeting_personnel_seat_pad a , xm_pad_device b
 					
-					where 	1=1  
+					where 		1=1  
 							and a.XMPD_GUID=b.XMPD_GUID 
+							and  a.del_flag=0 
+							and  b.del_flag=0 
 				
 		]]> 	
 		<isNotEmpty prepend="and" property="xmmiGuid"> 
