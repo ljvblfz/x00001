@@ -14,6 +14,9 @@
 					where		 1=1 
 							and  a.xmmi_guid=b.xmmi_guid
 							and  a.xmms_personnel=c.xmpi_guid
+							and  a.del_flag=0 
+							and  b.del_flag=0
+							and  c.del_flag=0
 				
 		]]> 	
 		<isNotEmpty prepend="and" property="xmmiName"> 
@@ -41,7 +44,9 @@
 					from  XM_MEETING_CALL a,XM_MEETING_INFO  b 
 					
 					where 			1=1 
-							and 	a.xmmi_guid=b.xmmi_guid
+							and  a.xmmi_guid=b.xmmi_guid
+							and  a.del_flag=0 
+							and  b.del_flag=0 
 				
 		]]> 	
 		<isNotEmpty prepend="and" property="xmmiName"> 
@@ -70,8 +75,10 @@
 					from XM_MEETING_MESSAGE a, XM_MEETING_INFO  b 
 					
 					
-					where       1=1 
-							and a.xmmi_guid=b.xmmi_guid
+					where       	1=1 
+							and  a.xmmi_guid=b.xmmi_guid
+							and  a.del_flag=0 
+							and  b.del_flag=0 
 						
 		]]> 	
 		<isNotEmpty prepend="and" property="xmmiName"> 
