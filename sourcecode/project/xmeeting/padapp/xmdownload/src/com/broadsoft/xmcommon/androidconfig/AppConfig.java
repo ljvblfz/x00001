@@ -7,6 +7,7 @@ public class AppConfig {
 
 	public String databasename;
 	public String databaseversion;
+	public String serverenable;
 	public String serveripport;
 
 	public String getAppname() {
@@ -49,11 +50,20 @@ public class AppConfig {
 		this.serveripport = serveripport;
 	}
 
+	public String getServerenable() {
+		return serverenable;
+	}
+
+	public void setServerenable(String serverenable) {
+		this.serverenable = serverenable;
+	}
+
 	@Override
 	public String toString() {
 		return "AppConfig [appname=" + appname + ", sdcarddir=" + sdcarddir
 				+ ", databasename=" + databasename + ", databaseversion="
-				+ databaseversion + ", serveripport=" + serveripport + "]";
+				+ databaseversion + ", serverenable=" + serverenable
+				+ ", serveripport=" + serveripport + "]";
 	}
 
 }

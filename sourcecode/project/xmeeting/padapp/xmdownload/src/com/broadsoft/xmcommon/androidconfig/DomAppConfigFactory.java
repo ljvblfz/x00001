@@ -100,8 +100,10 @@ public class DomAppConfigFactory {
 				appConfig.databaseversion = textContent;
 			}else if("serveripport".equals(nodeName.toLowerCase())){
 				appConfig.serveripport =textContent;
+			} else if("serverenable".equals(nodeName.toLowerCase())){
+				appConfig.serverenable=textContent;
 			} 
-		} 
+		} //end of for
 		return appConfig;
 	}
 

@@ -1,5 +1,6 @@
 package com.broadsoft.xmdownload.rsservice;
 
+import java.io.File;
 import java.text.MessageFormat;
 
 import org.json.JSONArray;
@@ -13,12 +14,16 @@ import com.broadsoft.xmcommon.androiddao.DaoHolder;
 import com.broadsoft.xmcommon.androiddao.DownloadInfoEntity;
 import com.broadsoft.xmcommon.androidhttp.HttpDownloadSupport;
 import com.broadsoft.xmcommon.androidhttp.HttpRestSupport;
+import com.broadsoft.xmcommon.androidsdcard.SDCardSupport;
 import com.broadsoft.xmcommon.androidutil.AndroidIdSupport;
 
 public class RsServiceSupport {
 	private static final String TAG="RsServiceSupport";
 	
 		
+	
+	
+	
 	public static void download(String meetingId){
 		Log.d(TAG, String.format("download begin, meetingId:  %s", meetingId));
 		// 
@@ -86,13 +91,18 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 			downloadInfoEntityParam.setStatus("0");
 			this.saveDBForDownloadInfo(downloadInfoEntityParam); 
 			//下载文件
+			cleanFileForDownloadInfo(jsonDataMeetingInfo);
 			saveFileForDownloadInfo(jsonDataMeetingInfo); 
 		} catch (Exception e) { 
 			e.printStackTrace();
 			Log.d(TAG, "[run]Raise the error is : "+e.getMessage());
 			
+			
 		}
 	}
+	
+	
+	
 	
 
 	public DownloadInfoEntity createDownloadInfoEntity(JSONObject jsonMeetingInfo,JSONObject jsonMeetingPersonnel) throws JSONException{
@@ -153,6 +163,38 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 	}
 	
 	
+	
+	
+	
+	
+	
+	public void cleanFileForDownloadInfo(JSONObject jsonMeetingInfo) throws JSONException{
+		JSONObject jsonObjectMeetingInfo=jsonMeetingInfo.getJSONObject("xmMeetingInfo");
+		String meetingId=jsonObjectMeetingInfo.getString("xmmiGuid"); 
+		String sdcardDir = SDCardSupport.getSDCardDirectory(); 
+//		String localDir=sdcardDir+"/upload/xmeeting/"+meetingId; 
+		String localDir=sdcardDir+"/upload"; 
+		Log.d(TAG, "clean the  localDir is : "+localDir);
+		File fileDir=new File(localDir);
+		deleteDirectory(fileDir); 
+	}
+
+	
+	public void deleteDirectory(File dir) { 
+		if (dir.isDirectory()) {
+			String[] children = dir.list();
+			for (int i = 0; i < children.length; i++) {
+				File child = new File(dir, children[i]);
+				if (child.isDirectory()) {
+					deleteDirectory(child);
+					child.delete();
+				} else {
+					child.delete(); 
+				}
+			}//end of for
+			dir.delete();
+		}//end of if
+	}
 	
 	public void saveFileForDownloadInfo(JSONObject jsonMeetingInfo) throws JSONException{
 		String serveriport=DomAppConfigFactory.getAppConfig().getServeripport();
