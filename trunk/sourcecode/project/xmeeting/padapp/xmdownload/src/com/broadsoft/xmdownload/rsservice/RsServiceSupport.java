@@ -8,19 +8,21 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
+import com.broadsoft.xmcommon.androidconfig.DomAppConfigFactory;
 import com.broadsoft.xmcommon.androiddao.DaoHolder;
 import com.broadsoft.xmcommon.androiddao.DownloadInfoEntity;
+import com.broadsoft.xmcommon.androidhttp.HttpDownloadSupport;
 import com.broadsoft.xmcommon.androidhttp.HttpRestSupport;
 import com.broadsoft.xmcommon.androidutil.AndroidIdSupport;
 
 public class RsServiceSupport {
 	private static final String TAG="RsServiceSupport";
 	
-	
+		
 	public static void download(String meetingId){
 		Log.d(TAG, String.format("download begin, meetingId:  %s", meetingId));
 		// 
-		String serveriport="172.29.135.151:8080";
+		String serveriport=DomAppConfigFactory.getAppConfig().getServeripport();
 		String[] arguments={serveriport,meetingId};
 		
 		String rspathMeetingInfoResult = MessageFormat.format(rspathMeetingInfo,arguments);
@@ -35,6 +37,12 @@ public class RsServiceSupport {
 	}//end of download
 	
 	
+	
+	
+//	public static String getServeripport(){
+//		String serveriport="172.29.135.151:8080";
+//		return serveriport;
+//	}
 	
 	
 
@@ -69,11 +77,16 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 			JSONObject jsonMeetingInfo=HttpRestSupport.getByHttpClientWithGzip(rspathMeetingInfoResult); 
 			JSONObject jsonMeetingPersonnel=HttpRestSupport.getByHttpClientWithGzip(rspathMeetingPersonnelResult); 
 			//更新数据库
-			Log.d(TAG, "[run]jsonMeetingInfo--->"+jsonMeetingInfo.getJSONObject("jsonData"));
-			Log.d(TAG, "[run]jsonMeetingPersonnel--->"+jsonMeetingPersonnel.getJSONObject("jsonData"));
-			DownloadInfoEntity downloadInfoEntityParam=this.createDownloadInfoEntity(jsonMeetingInfo.getJSONObject("jsonData"), jsonMeetingPersonnel.getJSONObject("jsonData"));
+			
+			JSONObject jsonDataMeetingInfo=jsonMeetingInfo.getJSONObject("jsonData");
+			JSONObject jsonDataPersonnelInfo=jsonMeetingPersonnel.getJSONObject("jsonData");
+			Log.d(TAG, "[run]jsonDataMeetingInfo--->"+jsonDataMeetingInfo);
+			Log.d(TAG, "[run]jsonDataPersonnelInfo--->"+jsonDataPersonnelInfo);
+			DownloadInfoEntity downloadInfoEntityParam=this.createDownloadInfoEntity(jsonDataMeetingInfo,jsonDataPersonnelInfo );
 			downloadInfoEntityParam.setStatus("0");
-			this.saveDBForDownloadInfo(downloadInfoEntityParam);
+			this.saveDBForDownloadInfo(downloadInfoEntityParam); 
+			//下载文件
+			saveFileForDownloadInfo(jsonDataMeetingInfo); 
 		} catch (Exception e) { 
 			e.printStackTrace();
 			Log.d(TAG, "[run]Raise the error is : "+e.getMessage());
@@ -87,7 +100,11 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 		JSONObject basicMeetingInfo=jsonMeetingInfo.getJSONObject("xmMeetingInfo");
 		downloadInfoEntityParam.setMeetingId(basicMeetingInfo.getString("xmmiGuid"));
 		downloadInfoEntityParam.setMeetingName(basicMeetingInfo.getString("xmmiName")); 
-		downloadInfoEntityParam.setJsonData(jsonMeetingInfo.toString());
+		
+		JSONObject jsoninfo=new JSONObject();
+		jsoninfo.put("meetingInfo", jsonMeetingInfo);
+		jsoninfo.put("personnelInfo", jsonMeetingPersonnel);
+		downloadInfoEntityParam.setJsonData(jsoninfo.toString());
 		//pad人员  
 		String androidId=AndroidIdSupport.getAndroidID();
 		JSONArray listOfXmMeetingPersonnelSeatPadIVO=jsonMeetingPersonnel.getJSONArray("listOfXmMeetingPersonnelSeatPadIVO");
@@ -133,6 +150,40 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 		}else{//update
 			downloadInfoEntityParam.setGuid(downloadInfoEntity.getGuid());
 		}
+	}
+	
+	
+	
+	public void saveFileForDownloadInfo(JSONObject jsonMeetingInfo) throws JSONException{
+		String serveriport=DomAppConfigFactory.getAppConfig().getServeripport();
+		//会议文稿
+		JSONArray listOfXmMeetingDocument=jsonMeetingInfo.getJSONArray("listOfXmMeetingDocument"); 
+		for(int i=0;i<listOfXmMeetingDocument.length();i++){
+			JSONObject docJson=listOfXmMeetingDocument.getJSONObject(i);
+			String docFile=docJson.getString("xmmdFile");
+			HttpDownloadSupport.downloadFile(serveriport, docFile);
+		}
+		
+		//会议图片
+		JSONArray listOfXmMeetingPicture=jsonMeetingInfo.getJSONArray("listOfXmMeetingPicture"); 
+		for(int i=0;i<listOfXmMeetingPicture.length();i++){
+			JSONObject picJSONObject=listOfXmMeetingPicture.getJSONObject(i);
+			JSONArray listOfXmMeetingPictureDetail=picJSONObject.getJSONArray("listOfXmMeetingPictureDetail");
+			for(int j=0;j<listOfXmMeetingPictureDetail.length();j++){
+				JSONObject picJson=listOfXmMeetingPictureDetail.getJSONObject(j);
+				String picFile=picJson.getString("xmmpicImageFile");
+				HttpDownloadSupport.downloadFile(serveriport, picFile); 
+			}//end of for j 
+		}
+		
+		//会议视频
+		JSONArray listOfXmMeetingVideo=jsonMeetingInfo.getJSONArray("listOfXmMeetingVideo"); 
+		for(int i=0;i<listOfXmMeetingVideo.length();i++){
+			JSONObject videoJson=listOfXmMeetingVideo.getJSONObject(i);
+			String videoFile=videoJson.getString("xmmvFile");
+			HttpDownloadSupport.downloadFile(serveriport, videoFile);  
+		}
+		
 	}
 	
 }//end of DownloadMeetingInfoRunnable

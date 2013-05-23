@@ -10,17 +10,25 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
+import com.broadsoft.xmcommon.androiddao.DaoHolder;
 import com.broadsoft.xmcommon.androidwebsocket.WebSocketClient;
 import com.broadsoft.xmdownload.rsservice.RsServiceSupport;
 
-public class WsServiceSupport {
 
-	private String wspath="ws://172.29.135.151:8080/websocket/ws/download?padId=android&roleName=DEVICE";
+/**
+ * 
+ * @author lu.zhen
+ *
+ */
+public class WsServiceSupport {
 	private final String TAG="WsServiceSupport";
+
+//	private String wspath="ws://172.29.135.151:8080/websocket/ws/download?padId=android&roleName=DEVICE";
+	private String wspath;
 	protected WebSocketClient client;
 	
 	
-	private String padId="000000000XMMEETINGINFO13041820484043"; 
+	private String padId; //android id
 	
 	private static WsServiceSupport wsServiceSupport=new WsServiceSupport();
 	
@@ -33,9 +41,10 @@ public class WsServiceSupport {
 	} 
 	
 	
-	public void initData( String padId){  
+	public void initData(String padId){  
 		this.padId=padId;  
-		this.wspath="ws://172.29.135.151:8080/websocket/ws/download?padId="+padId+"&roleName=DEVICE";
+		String serveripport="172.29.135.151:8080";
+		this.wspath="ws://"+serveripport+"/websocket/ws/download?padId="+padId+"&roleName=DEVICE";
 	}
 	
 	/**
@@ -46,9 +55,11 @@ public class WsServiceSupport {
 		
 		URI uri=URI.create(wspath); 
 		client = new WebSocketClient(uri, new WebSocketClient.Listener() {
+			
+			
 		    @Override
 		    public void onConnect() {
-		        Log.d(TAG, "Listener=========>Connected!");
+		        Log.d(TAG, "[Listener]onConnect=========>Connected!");
 		    }
 
 		    
@@ -59,13 +70,15 @@ public class WsServiceSupport {
 		     */
 		    @Override
 		    public void onMessage(String message) {
-		        Log.d(TAG, String.format("Listener=========>Got string message! %s", message));
+		        Log.d(TAG, String.format("[Listener]onMessage=========>Got string message! %s", message));
+		        Log.d(TAG, "padId--->"+padId);
 		        //convert to JSONOjbect
 				try {
 					JSONObject jsonObject=new JSONObject(message);
 					String msgtype=jsonObject.getString("msgtype");
 					String meetingid=jsonObject.getString("meetingid");
 					String to=jsonObject.getString("to");
+
 					if(null!=to){
 						String[] toList=null;
 						if(to.indexOf(",")>0){
@@ -73,15 +86,22 @@ public class WsServiceSupport {
 						}else{
 							toList=new String[1];
 							toList[0]=to;
-						}
-						
-						for(String strTo:toList){
-							if(strTo.equals(padId)){
-								RsServiceSupport.download(meetingid);
+						} 
+						if("01".equals(msgtype)){//下载
+							for(String strTo:toList){
+								if(strTo.equals(padId)){
+									RsServiceSupport.download(meetingid);
+								}
 							}
+						}  else if("02".equals(msgtype)){//激活会议
+							for(String strTo:toList){
+								if(strTo.equals(padId)){
+									DaoHolder.getInstance().getDownloadInfoDao().activate(meetingid);
+								}
+							} 
 						}
 						
-					}//end of if  
+					}//end of if
 					
 					
 				} catch (JSONException e) { 
@@ -90,21 +110,20 @@ public class WsServiceSupport {
 		    }
 
 		    @Override
-		    public void onMessage(byte[] data) {
-//			        Log.d(TAG, String.format("Got binary message! %s", toHexString(data)));
-		        Log.d(TAG, String.format("Listener=========>Got binary message! %s", data.toString()));
+		    public void onMessage(byte[] data) { 
+		        Log.d(TAG, String.format("[Listener]onMessage=========>Got binary message! %s", data.toString()));
 		        
 		        
 		    }
 
 		    @Override
 		    public void onDisconnect(int code, String reason) {
-		        Log.d(TAG, String.format("Listener=========>Disconnected! Code: %d Reason: %s", code, reason));
+		        Log.d(TAG, String.format("[Listener]onDisconnect=========>Disconnected! Code: %d Reason: %s", code, reason));
 		    }
 
 		    @Override
 		    public void onError(Exception error) {
-		        Log.e(TAG, "Listener=========>Error!", error);
+		        Log.e(TAG, "[Listener]onError=========>Error!", error);
 		    }
 		}, extraHeaders); 
 		client.connect();
@@ -116,12 +135,16 @@ public class WsServiceSupport {
 	 * disconnect
 	 */
 	public void disconnect(){
-		client.disconnect();
+		if(null!=client){
+			client.disconnect();
+			client=null;
+		}
 		
 	}
 	
 	
 	public final static String MSG_TYPE_DOWNLOADSERVICE="01";//下载服务  
+	public final static String MSG_TYPE_ACTIVATESERVICE="02";//激活服务  
 	
  
 	
