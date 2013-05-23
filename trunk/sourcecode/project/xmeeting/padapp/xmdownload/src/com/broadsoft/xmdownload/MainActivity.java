@@ -40,6 +40,8 @@ public class MainActivity extends Activity {
 
 		String sdcardDir = SDCardSupport.getSDCardDirectory();
 		Log.d(TAG, "[Dir]sdcardDir---->"+sdcardDir);
+		// 初始化数据库		
+		DaoHolder.getInstance().init(getApplicationContext()); 
 		//
 		if("0".equals(appConfig.getServerenable())){ 
 			//初始化demo数据
@@ -53,10 +55,8 @@ public class MainActivity extends Activity {
 			WsServiceSupport.getInstance().connect(); 
 			Log.d(TAG, "[WS]connect---->done.");
 		}
-		// 初始化数据库		
-		DaoHolder.getInstance().init(getApplicationContext()); 
+		//读取会议信息
 		DownloadInfoEntity entity=DaoHolder.getInstance().getDownloadInfoDao().findByActivate();
-		
 	}//end of onCreate 
 	
 	
