@@ -17,7 +17,7 @@ import com.broadsoft.xmeeting.xmeeting.devmgmt.po.*;
 public class XmMeetingBusDaoImpl extends DefaultBaseDaoImpl<XmMeetingBus,java.lang.String> {
 	
 	public List<XmMeetingBus> findByXmmiGuid(String xmmiGuid){
-		String hql="from XmMeetingBus  a where a.xmmiGuid=?   ";
+		String hql="from XmMeetingBus  a where a.xmmiGuid=? and a.delFlag=0   ";
 		List<XmMeetingBus> listOfXmMeetingBus=super.findByHql(hql, xmmiGuid);
 		return listOfXmMeetingBus; 
 	}

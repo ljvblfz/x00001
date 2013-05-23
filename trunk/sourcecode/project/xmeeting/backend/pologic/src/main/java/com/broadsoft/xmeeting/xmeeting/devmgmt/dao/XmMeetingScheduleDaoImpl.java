@@ -18,7 +18,8 @@ public class XmMeetingScheduleDaoImpl extends DefaultBaseDaoImpl<XmMeetingSchedu
 	
 	
 	public List<XmMeetingSchedule> findByXmmiGuid(String xmmiGuid){
-		String hql="from XmMeetingSchedule  a where a.xmmiGuid=?  order by a.xmmsSortno";
+		String hql="from XmMeetingSchedule  a where a.xmmiGuid=? and a.delFlag=0 order by a.xmmsSortno";
+		 
 		List<XmMeetingSchedule> listOfXmMeetingSchedule=super.findByHql(hql, xmmiGuid);
 		return listOfXmMeetingSchedule; 
 	}

@@ -18,7 +18,7 @@ import com.broadsoft.xmeeting.xmeeting.onsite.po.*;
 public class XmMeetingVoteDaoImpl extends DefaultBaseDaoImpl<XmMeetingVote,java.lang.String> {
 	
 	public List<XmMeetingVote> findByXmmiGuid(String xmmiGuid){
-		String hql="from XmMeetingVote  a where a.xmmiGuid=?  order by a.xmmvGuid ";
+		String hql="from XmMeetingVote  a where a.xmmiGuid=? and a.delFlag=0  order by a.xmmvGuid ";
 		List<XmMeetingVote> listOfXmMeetingVote=super.findByHql(hql, xmmiGuid);
 		return listOfXmMeetingVote; 
 	}

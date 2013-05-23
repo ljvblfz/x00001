@@ -18,7 +18,7 @@ public class XmMeetingPersonnelSeatPadDaoImpl extends DefaultBaseDaoImpl<XmMeeti
 	
 	
 	public XmMeetingPersonnelSeatPad findByXmpdGuid(String xmpdGuid){
-		String hql="select a from XmMeetingPersonnelSeatPad a ,XmMeetingInfo b where a.xmmiGuid=b.xmmiGuid and a.xmpdGuid=? and b.xmmiStatus='1'";
+		String hql="select a from XmMeetingPersonnelSeatPad a ,XmMeetingInfo b where a.xmmiGuid=b.xmmiGuid and a.xmpdGuid=? and a.delFlag=0  and b.xmmiStatus='1'";
 		
 		List<XmMeetingPersonnelSeatPad> listOfXmMeetingPersonnelSeatPad=super.findByHql(hql, xmpdGuid);
 		
