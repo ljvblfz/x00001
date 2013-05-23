@@ -1,6 +1,11 @@
 package com.broadsoft.xmdownload;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 import android.app.Activity;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -10,6 +15,7 @@ import com.broadsoft.xmcommon.androiddao.DaoHolder;
 import com.broadsoft.xmcommon.androiddao.DownloadInfoEntity;
 import com.broadsoft.xmcommon.androidsdcard.SDCardSupport;
 import com.broadsoft.xmcommon.androidutil.AndroidIdSupport;
+import com.broadsoft.xmcommon.androidutil.AssetManagerSupport;
 import com.broadsoft.xmdownload.wsservice.WsServiceSupport;
 
 
@@ -21,8 +27,7 @@ import com.broadsoft.xmdownload.wsservice.WsServiceSupport;
  */
 public class MainActivity extends Activity {
 	private static final String TAG="MainActivity"; 
-	
-	 
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,16 +40,26 @@ public class MainActivity extends Activity {
 
 		String sdcardDir = SDCardSupport.getSDCardDirectory();
 		Log.d(TAG, "[Dir]sdcardDir---->"+sdcardDir);
-		// 监听websocket消息
-		WsServiceSupport.getInstance().initData(AndroidIdSupport.getAndroidID());
-		WsServiceSupport.getInstance().disconnect();
-		WsServiceSupport.getInstance().connect(); 
-		Log.d(TAG, "[WS]connect---->done.");
+		//
+		if("0".equals(appConfig.getServerenable())){ 
+			//初始化demo数据
+			String jsonData=AssetManagerSupport.readText(this.getAssets()); 
+			DemoDataInit.init(jsonData); 
+			Log.d(TAG, "[Demo]jsonData---->"+jsonData);
+		}else{ 
+			// 监听websocket消息
+			WsServiceSupport.getInstance().initData(AndroidIdSupport.getAndroidID());
+			WsServiceSupport.getInstance().disconnect();
+			WsServiceSupport.getInstance().connect(); 
+			Log.d(TAG, "[WS]connect---->done.");
+		}
 		// 初始化数据库		
 		DaoHolder.getInstance().init(getApplicationContext()); 
 		DownloadInfoEntity entity=DaoHolder.getInstance().getDownloadInfoDao().findByActivate();
-		Log.d(TAG, "[Activate]DownloadInfoEntity---->"+entity);
+		
 	}//end of onCreate 
+	
+	
 	
 
 	@Override
