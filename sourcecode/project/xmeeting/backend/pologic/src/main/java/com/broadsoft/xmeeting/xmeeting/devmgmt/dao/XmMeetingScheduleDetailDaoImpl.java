@@ -17,7 +17,7 @@ import com.broadsoft.xmeeting.xmeeting.devmgmt.po.*;
 public class XmMeetingScheduleDetailDaoImpl extends DefaultBaseDaoImpl<XmMeetingScheduleDetail,java.lang.String> {
 	
 	public List<XmMeetingScheduleDetail> findByXmmsGuid(String xmmsGuid){
-		String hql="from XmMeetingScheduleDetail  a where a.xmmsGuid=?  order by a.xmmsdSortno";
+		String hql="from XmMeetingScheduleDetail  a where a.xmmsGuid=? and a.delFlag=0  order by a.xmmsdSortno";
 		List<XmMeetingScheduleDetail> listOfXmMeetingScheduleDetail=super.findByHql(hql, xmmsGuid);
 		return listOfXmMeetingScheduleDetail; 
 	}

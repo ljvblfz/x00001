@@ -17,7 +17,7 @@ import com.broadsoft.xmeeting.xmeeting.devmgmt.po.*;
 public class XmMeetingWeatherDaoImpl extends DefaultBaseDaoImpl<XmMeetingWeather,java.lang.String> {
 	
 	public List<XmMeetingWeather> findByXmmiGuid(String xmmiGuid){
-		String hql="from XmMeetingWeather  a where a.xmmiGuid=?   ";
+		String hql="from XmMeetingWeather  a where a.xmmiGuid=? and a.delFlag=0   ";
 		List<XmMeetingWeather> listOfXmMeetingWeather=super.findByHql(hql, xmmiGuid);
 		return listOfXmMeetingWeather; 
 	}
