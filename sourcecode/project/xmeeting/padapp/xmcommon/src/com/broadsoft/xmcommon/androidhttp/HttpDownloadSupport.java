@@ -1,6 +1,7 @@
 package com.broadsoft.xmcommon.androidhttp;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,7 +45,8 @@ public class HttpDownloadSupport {
 		if(null==docPathFile||"".equals(docPathFile.trim())){
 			return 4;
 		}
-		String urlStr = "http://" + serveriport + "";  
+		String urlStr = "http://" + serveriport + docPathFile;  
+		Log.d(TAG, "Download the file url ---->"+urlStr);
 		OutputStream output = null;
 		int retFlag=0;
  
@@ -64,23 +66,21 @@ public class HttpDownloadSupport {
 				String newLocalDir=sdcardDir;
 				for(int i=0;i<dirArray.length-1;i++){
 					String dir=dirArray[i];
-					newLocalDir+="/"+dir;
-					Log.d(TAG, "File dir created: "+newLocalDir);
+					if(i==0){
+						newLocalDir+=dir; 
+					}else{ 
+						newLocalDir+="/"+dir;
+					}
 					File fileDir=new File(newLocalDir);
 					if(!fileDir.exists()){
+						Log.d(TAG, "File dir created: "+newLocalDir);
 						fileDir.mkdir();
-					}
-					
+					} 
 				} 
 				Log.d(TAG, "localDir is : "+localDir); 
 				file.createNewFile();// 新建文件
-				output = new FileOutputStream(file);
-				// 读取大文件
-				byte[] buffer = new byte[4 * 1024];
-				while (input.read(buffer) != -1) {
-					output.write(buffer);
-				}
-				output.flush();
+				output = new FileOutputStream(file); 
+				writeFile(input,output,docPathFile);
 			}
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
@@ -89,18 +89,37 @@ public class HttpDownloadSupport {
 			e.printStackTrace();
 			retFlag= 0;
 		} finally {
-			try {
-				if(null!=output){
-					output.close(); 
-				}
-			} catch (IOException e) { 
-				e.printStackTrace();
-				retFlag= 0;
-			}
+			 
 		}
 		Log.d(TAG, "downloadFile end");
 		retFlag= 1;
 		return retFlag;
-	}//end of downloadFile
+	}//end of downloadFile 
+	
+	private static  void writeFile(InputStream input,OutputStream output,String fileName){ 
+		long totalRead=0;
+		try { 
+			int bytesRead = 0;
+			byte[] data = new byte[1024*10];
+			while((bytesRead = input.read(data))!=-1){
+				output.write(data, 0, bytesRead);
+				totalRead += bytesRead;
+			}
+			int totalReadInKB = (int) (totalRead / 1024);
+			Log.d(TAG, "[File("+fileName+") Download] totalReadInKB--->"+totalReadInKB+"  KB");
+		} catch (FileNotFoundException e) { 
+			e.printStackTrace();
+		} catch (IOException e) { 
+			e.printStackTrace();
+		}finally{
+			try {
+				output.flush();
+				output.close();
+				input.close();
+			} catch (IOException e) { 
+				e.printStackTrace();
+			} 
+		} 
+	}
 
 }//end of HttpDownloadSupport
