@@ -9,7 +9,7 @@ public class SQLiteOpenHelperSupport extends SQLiteOpenHelper{
 	
 	private final static String TAG="SQLiteOpenHelperSupport";
 
-	public static final int DATABASE_VERSION = 20;
+	public static final int DATABASE_VERSION = 21;
 	// Database Name
 	public static final String DATABASE_NAME = "xmeeting";
 	public SQLiteOpenHelperSupport(Context context) {
@@ -20,6 +20,7 @@ public class SQLiteOpenHelperSupport extends SQLiteOpenHelper{
 	public void onCreate(SQLiteDatabase db) { 
 		Log.d(TAG, "onCreate begin");
 		db.execSQL(PadInfoConstant.CREATE_PADINFO_TABLE);
+		db.execSQL(CompanyInfoConstant.CREATE_COMPANYINFO_TABLE);
 		db.execSQL(DownloadInfoConstant.CREATE_DOWNLOADINFO_TABLE);
 		Log.d(TAG, "onCreate end");
 	}
@@ -29,6 +30,7 @@ public class SQLiteOpenHelperSupport extends SQLiteOpenHelper{
 		Log.d(TAG, "onUpgrade begin");
 		// Drop older table if existed
 		db.execSQL(PadInfoConstant.UPGRADE_PADINFO_TABLE);
+		db.execSQL(CompanyInfoConstant.UPGRADE_COMPANYINFO_TABLE);
 		db.execSQL(DownloadInfoConstant.UPGRADE_DOWNLOADINFO_TABLE);
 		// Create tables again
 		onCreate(db);
