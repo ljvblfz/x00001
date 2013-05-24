@@ -8,10 +8,7 @@ public class DaoHolder {
 	private String TAG = "DaoHolder";
 	private DownloadInfoDao downloadInfoDao;
 	private PadInfoDao padInfoDao;
-	
-	
-	
-	
+	private CompanyInfoDao companyInfoDao; 
 	
 	private static DaoHolder daoHolder=new DaoHolder();
 	public static DaoHolder getInstance(){
@@ -22,6 +19,7 @@ public class DaoHolder {
 		Log.d(TAG, "init begin");
 		this.downloadInfoDao=new DownloadInfoDao(context);
 		this.padInfoDao=new PadInfoDao(context); 
+		this.companyInfoDao=new CompanyInfoDao(context); 
 		Log.d(TAG, "init end");
 		
 	}
@@ -33,6 +31,10 @@ public class DaoHolder {
 	
 	public PadInfoDao getPadInfoDao(){ 
 		return padInfoDao;
+	}
+
+	public CompanyInfoDao getCompanyInfoDao() {
+		return companyInfoDao;
 	}
 
 }

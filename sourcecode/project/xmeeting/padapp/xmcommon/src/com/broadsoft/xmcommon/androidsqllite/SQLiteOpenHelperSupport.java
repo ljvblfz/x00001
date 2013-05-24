@@ -9,7 +9,7 @@ public class SQLiteOpenHelperSupport extends SQLiteOpenHelper{
 	
 	private final static String TAG="SQLiteOpenHelperSupport";
 
-	public static final int DATABASE_VERSION = 21;
+	public static final int DATABASE_VERSION = 22;
 	// Database Name
 	public static final String DATABASE_NAME = "xmeeting";
 	public SQLiteOpenHelperSupport(Context context) {
