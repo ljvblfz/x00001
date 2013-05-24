@@ -72,3 +72,40 @@ function downloadSendMsg(meetingId,to) {
 	logger.info("downloadSendMsg content: " + JSON.stringify(message));
 	wsDownload.send(JSON.stringify(message));
 }
+
+
+
+function activateSendMsg(meetingId,to) {
+	var message = new Object(); 
+	//
+	message.meetingid = meetingId;
+	//下载
+	message.msgtype = '02';  
+	message.to = to;
+	logger.info("activateSendMsg content: " + JSON.stringify(message));
+	wsDownload.send(JSON.stringify(message));
+}
+
+
+
+function padinfoSendMsg(to) {
+	var message = new Object(); 
+	// 
+	//下载
+	message.msgtype = '03';  
+	message.to = to;
+	logger.info("padinfoSendMsg content: " + JSON.stringify(message));
+	wsDownload.send(JSON.stringify(message));
+}
+
+
+
+
+function companyinfoSendMsg(to) {
+	var message = new Object();  
+	//下载
+	message.msgtype = '04';  
+	message.to = to;
+	logger.info("companyinfoSendMsg content: " + JSON.stringify(message));
+	wsDownload.send(JSON.stringify(message));
+}
