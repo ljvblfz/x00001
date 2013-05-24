@@ -22,10 +22,10 @@ public class XmPadDeviceDaoImpl extends DefaultBaseDaoImpl<XmPadDevice,java.lang
 	 * @return
 	 */
 	public XmPadDevice findByXmpdDeviceId(String xmpdDeviceId){ 
-		String hql=" from XmPadDevice a where a.xmpdDeviceId=?";
+		String hql=" from XmPadDevice a where a.xmpdDeviceId=? ";
 		List<XmPadDevice> listOfXmPadDevice= super.findByHql(hql,xmpdDeviceId);
 		
-		if(null!=listOfXmPadDevice){
+		if(null!=listOfXmPadDevice&&!listOfXmPadDevice.isEmpty()){
 			return listOfXmPadDevice.get(0);
 		}
 		return null; 
