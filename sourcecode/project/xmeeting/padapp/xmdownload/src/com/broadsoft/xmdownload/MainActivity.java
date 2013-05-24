@@ -1,22 +1,22 @@
 package com.broadsoft.xmdownload;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
 import android.app.Activity;
-import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.broadsoft.xmcommon.androidconfig.AppConfig;
 import com.broadsoft.xmcommon.androidconfig.DomAppConfigFactory;
+import com.broadsoft.xmcommon.androiddao.CompanyInfoEntity;
 import com.broadsoft.xmcommon.androiddao.DaoHolder;
 import com.broadsoft.xmcommon.androiddao.DownloadInfoEntity;
+import com.broadsoft.xmcommon.androiddao.PadInfoEntity;
 import com.broadsoft.xmcommon.androidsdcard.SDCardSupport;
 import com.broadsoft.xmcommon.androidutil.AndroidIdSupport;
 import com.broadsoft.xmcommon.androidutil.AssetManagerSupport;
 import com.broadsoft.xmdownload.wsservice.WsServiceSupport;
+
+
+
 
 
 
@@ -28,6 +28,8 @@ import com.broadsoft.xmdownload.wsservice.WsServiceSupport;
 public class MainActivity extends Activity {
 	private static final String TAG="MainActivity"; 
 
+	
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +58,12 @@ public class MainActivity extends Activity {
 			Log.d(TAG, "[WS]connect---->done.");
 		}
 		//读取会议信息
-		DownloadInfoEntity entity=DaoHolder.getInstance().getDownloadInfoDao().findByActivate();
+		DownloadInfoEntity downloadInfoEntity=DaoHolder.getInstance().getDownloadInfoDao().findByActivate();
+		Log.d(TAG, "[Sqlite]DownloadInfoEntity---->"+downloadInfoEntity);
+		PadInfoEntity padInfoEntity=DaoHolder.getInstance().getPadInfoDao().uniqueOne();
+		Log.d(TAG, "[Sqlite]PadInfoEntity---->"+padInfoEntity);
+		CompanyInfoEntity companyInfoEntity=DaoHolder.getInstance().getCompanyInfoDao().uniqueOne();
+		Log.d(TAG, "[Sqlite]CompanyInfoEntity---->"+companyInfoEntity);
 	}//end of onCreate 
 	
 	

@@ -17,12 +17,8 @@ import com.broadsoft.xmcommon.androidhttp.HttpRestSupport;
 import com.broadsoft.xmcommon.androidsdcard.SDCardSupport;
 import com.broadsoft.xmcommon.androidutil.AndroidIdSupport;
 
-public class RsServiceSupport {
-	private static final String TAG="RsServiceSupport";
-	
-		
-	
-	
+public class RsServiceOnMeetingInfoSupport {
+	private static final String TAG="RsServiceOnMeetingInfoSupport"; 
 	
 	public static void download(String meetingId){
 		Log.d(TAG, String.format("download begin, meetingId:  %s", meetingId));
@@ -159,6 +155,7 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 			DaoHolder.getInstance().getDownloadInfoDao().add(downloadInfoEntityParam);
 		}else{//update
 			downloadInfoEntityParam.setGuid(downloadInfoEntity.getGuid());
+			DaoHolder.getInstance().getDownloadInfoDao().update(downloadInfoEntityParam);
 		}
 	}
 	
@@ -172,8 +169,7 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 		JSONObject jsonObjectMeetingInfo=jsonMeetingInfo.getJSONObject("xmMeetingInfo");
 		String meetingId=jsonObjectMeetingInfo.getString("xmmiGuid"); 
 		String sdcardDir = SDCardSupport.getSDCardDirectory(); 
-//		String localDir=sdcardDir+"/upload/xmeeting/"+meetingId; 
-		String localDir=sdcardDir+"/upload"; 
+		String localDir=sdcardDir+"/upload/xmeeting/"+meetingId;  
 		Log.d(TAG, "clean the  localDir is : "+localDir);
 		File fileDir=new File(localDir);
 		deleteDirectory(fileDir); 

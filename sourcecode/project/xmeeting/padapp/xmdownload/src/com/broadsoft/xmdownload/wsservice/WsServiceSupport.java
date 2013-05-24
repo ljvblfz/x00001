@@ -12,7 +12,9 @@ import android.util.Log;
 
 import com.broadsoft.xmcommon.androiddao.DaoHolder;
 import com.broadsoft.xmcommon.androidwebsocket.WebSocketClient;
-import com.broadsoft.xmdownload.rsservice.RsServiceSupport;
+import com.broadsoft.xmdownload.rsservice.RsServiceOnCompanyInfoSupport;
+import com.broadsoft.xmdownload.rsservice.RsServiceOnMeetingInfoSupport;
+import com.broadsoft.xmdownload.rsservice.RsServiceOnPadInfoSupport;
 
 
 /**
@@ -74,9 +76,13 @@ public class WsServiceSupport {
 		        Log.d(TAG, "padId--->"+padId);
 		        //convert to JSONOjbect
 				try {
+					
 					JSONObject jsonObject=new JSONObject(message);
 					String msgtype=jsonObject.getString("msgtype");
-					String meetingid=jsonObject.getString("meetingid");
+					String meetingid="";
+					if(jsonObject.has("meetingid")){
+						meetingid=jsonObject.getString("meetingid");
+					}
 					String to=jsonObject.getString("to");
 
 					if(null!=to){
@@ -87,16 +93,28 @@ public class WsServiceSupport {
 							toList=new String[1];
 							toList[0]=to;
 						} 
-						if("01".equals(msgtype)){//下载
+						if("01".equals(msgtype)){//下载会议
 							for(String strTo:toList){
 								if(strTo.equals(padId)){
-									RsServiceSupport.download(meetingid);
+									RsServiceOnMeetingInfoSupport.download(meetingid);
 								}
 							}
 						}  else if("02".equals(msgtype)){//激活会议
 							for(String strTo:toList){
 								if(strTo.equals(padId)){
 									DaoHolder.getInstance().getDownloadInfoDao().activate(meetingid);
+								}
+							} 
+						} else if("03".equals(msgtype)){//下载设备信息
+							for(String strTo:toList){
+								if(strTo.equals(padId)){ 
+									RsServiceOnPadInfoSupport.download();
+								}
+							} 
+						} else if("04".equals(msgtype)){//下载公司信息
+							for(String strTo:toList){
+								if(strTo.equals(padId)){ 
+									RsServiceOnCompanyInfoSupport.download();
 								}
 							} 
 						}
