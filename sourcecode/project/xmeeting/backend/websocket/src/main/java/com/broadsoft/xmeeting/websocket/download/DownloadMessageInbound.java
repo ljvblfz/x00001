@@ -11,8 +11,6 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.broadsoft.xmeeting.websocket.controller.ControllerMessageInbound;
-
 
 /**
  * message.to
@@ -64,7 +62,10 @@ public class DownloadMessageInbound extends MessageInbound {
 		try {
 			jsonObject=new JSONObject(strMsg);
 			String msgType=jsonObject.getString("msgtype");  
-			String meetingId=jsonObject.getString("meetingid");
+			String meetingId="";
+			if(jsonObject.has("meetingid")){
+				meetingId=jsonObject.getString("meetingid");
+			}
 			String to=jsonObject.getString("to");
 			
 			if(to!=null){
