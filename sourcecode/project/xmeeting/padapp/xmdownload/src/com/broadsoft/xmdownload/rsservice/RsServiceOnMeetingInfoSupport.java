@@ -12,47 +12,46 @@ import android.util.Log;
 import com.broadsoft.xmcommon.androidconfig.DomAppConfigFactory;
 import com.broadsoft.xmcommon.androiddao.DaoHolder;
 import com.broadsoft.xmcommon.androiddao.DownloadInfoEntity;
+import com.broadsoft.xmcommon.androiddao.EntityInfoHolder;
 import com.broadsoft.xmcommon.androidhttp.HttpDownloadSupport;
 import com.broadsoft.xmcommon.androidhttp.HttpRestSupport;
 import com.broadsoft.xmcommon.androidsdcard.SDCardSupport;
 import com.broadsoft.xmcommon.androidutil.AndroidIdSupport;
 
 public class RsServiceOnMeetingInfoSupport {
-	private static final String TAG="RsServiceOnMeetingInfoSupport"; 
+	private static final String TAG="RsServiceOnMeetingInfoSupport";  
+	private final static String rspathMeetingPersonnel="http://{0}/xmeeting/rs/open/meetingpersonnel/download/xmmiGuid/{1}"; 
+	private final static String rspathMeetingInfo="http://{0}/xmeeting/rs/open/meetingallinfo/download/xmmiGuid/{1}";
+	private final static String rspathDownloadStatusSave="http://{0}/xmeeting/rs/open/downloadstatus/save";
+	
+	
 	
 	public static void download(String meetingId){
 		Log.d(TAG, String.format("download begin, meetingId:  %s", meetingId));
 		// 
 		String serveriport=DomAppConfigFactory.getAppConfig().getServeripport();
 		String[] arguments={serveriport,meetingId};
+		String[] arguments2={serveriport};
 		
 		String rspathMeetingInfoResult = MessageFormat.format(rspathMeetingInfo,arguments);
 		String rspathMeetingPersonnelResult = MessageFormat.format(rspathMeetingPersonnel,arguments);
+		String rspathDownloadStatusSaveResult = MessageFormat.format(rspathDownloadStatusSave,arguments2);
 		Log.d(TAG, "rspathMeetingInfoResult is : "+rspathMeetingInfoResult);
 		Log.d(TAG, "rspathMeetingPersonnelResult  is : "+rspathMeetingPersonnelResult);
+		Log.d(TAG, "rspathMeetingPersonnelResult  is : "+rspathDownloadStatusSaveResult);
 		
-		Thread thread=new Thread(new DownloadMeetingInfoRunnable(meetingId,rspathMeetingInfoResult,rspathMeetingPersonnelResult));
+		Thread thread=new Thread(new DownloadMeetingInfoRunnable(meetingId,rspathMeetingInfoResult,rspathMeetingPersonnelResult,rspathDownloadStatusSaveResult));
 		thread.start();
 		
 		Log.d(TAG, "download end"); 
 	}//end of download
 	
 	
-	
-	
-//	public static String getServeripport(){
-//		String serveriport="172.29.135.151:8080";
-//		return serveriport;
-//	}
+ 
 	
 	
 
-
-	private final static String rspathMeetingPersonnel="http://{0}/xmeeting/rs/open/meetingpersonnel/download/xmmiGuid/{1}";
-
-	private final static String rspathMeetingInfo="http://{0}/xmeeting/rs/open/meetingallinfo/download/xmmiGuid/{1}";
-	
-	
+ 
  
 
 }
@@ -63,17 +62,22 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 	private final static String TAG="DownloadMeetingInfoRunnable";
 	private String rspathMeetingInfoResult;
 	private String rspathMeetingPersonnelResult;
+	private String rspathDownloadStatusSaveResult;
 	private String meetingId;
-	public DownloadMeetingInfoRunnable(String meetingId,String rspathMeetingInfoResult,String rspathMeetingPersonnelResult){
+	
+	private JSONObject jsonDownloadStatus;
+	public DownloadMeetingInfoRunnable(String meetingId,String rspathMeetingInfoResult,String rspathMeetingPersonnelResult,String rspathDownloadStatusSaveResult){
 		this.meetingId=meetingId;
 		this.rspathMeetingInfoResult=rspathMeetingInfoResult;
-		this.rspathMeetingPersonnelResult=rspathMeetingPersonnelResult;
+		this.rspathMeetingPersonnelResult=rspathMeetingPersonnelResult; 
+		this.rspathDownloadStatusSaveResult=rspathDownloadStatusSaveResult;
+		jsonDownloadStatus=new JSONObject(); 
 	}
 
 	
 	
 	@Override
-	public void run() { 
+	public void run() {  
 		try {
 			JSONObject jsonMeetingInfo=HttpRestSupport.getByHttpClientWithGzip(rspathMeetingInfoResult); 
 			JSONObject jsonMeetingPersonnel=HttpRestSupport.getByHttpClientWithGzip(rspathMeetingPersonnelResult); 
@@ -87,8 +91,13 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 			downloadInfoEntityParam.setStatus("0");
 			this.saveDBForDownloadInfo(downloadInfoEntityParam); 
 			//下载文件
+			long begintime=System.currentTimeMillis();
 			cleanFileForDownloadInfo(jsonDataMeetingInfo);
 			saveFileForDownloadInfo(jsonDataMeetingInfo); 
+			long endtime=System.currentTimeMillis();
+			Log.d(TAG, "[run]download elapsed time is : "+(endtime-begintime)/1000  +" s");
+			//更新下载状态
+			postMeetingInfoDownloadStatus();
 		} catch (Exception e) { 
 			e.printStackTrace();
 			Log.d(TAG, "[run]Raise the error is : "+e.getMessage());
@@ -222,6 +231,18 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 			HttpDownloadSupport.downloadFile(serveriport, videoFile);  
 		}
 		
+	}
+
+	
+	public void postMeetingInfoDownloadStatus() throws Exception{
+		jsonDownloadStatus.put("xmmiGuid", meetingId);
+		jsonDownloadStatus.put("xmpdGuid", EntityInfoHolder.getInstance().getXmpdGuid()); 
+		jsonDownloadStatus.put("xmdsMeetingSchedule", "1");
+		jsonDownloadStatus.put("xmdsDocument", "1");
+		jsonDownloadStatus.put("xmdsVideo", "1");
+		jsonDownloadStatus.put("xmdsImage", "1");  
+		Log.d(TAG, "jsonDownloadStatus is : "+jsonDownloadStatus);
+		HttpRestSupport.postByHttpClientWithGzip(rspathDownloadStatusSaveResult, jsonDownloadStatus); 
 	}
 	
 }//end of DownloadMeetingInfoRunnable
