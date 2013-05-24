@@ -3,20 +3,24 @@ package com.broadsoft.xmcommon.androidhttp;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.zip.GZIPInputStream;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,21 +43,39 @@ public class HttpRestSupport {
 	public static JSONObject postByHttpClientWithGzip(String path,JSONObject paramJson) throws Exception {
 		HttpPost request = new HttpPost(path);
 		// 先封装一个 JSON 对象  绑定到请求 Entity
-		StringEntity se = new StringEntity(paramJson.toString()); 
-		request.setEntity(se);
+//		StringEntity se = new StringEntity(paramJson.toString()); 
+//		request.setEntity(se);
+
+        // 添加form数据
+        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+        Iterator<String> keys=paramJson.keys();
+        while(keys.hasNext()){
+        	String key=keys.next();
+        	String value=paramJson.getString(key);  
+            nameValuePairs.add(new BasicNameValuePair(key,value));  
+        } 
+        request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 		// 发送请求
 		HttpClient httpclient = creteHttpClient();
 		HttpResponse httpResponse = httpclient.execute(request);
 		// 得到应答的字符串，这也是一个 JSON 格式保存的数据 
 		JSONObject resultJson = null;
 		if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {//
-			String strResult = EntityUtils.toString(httpResponse.getEntity());
-			// 生成 JSON 对象
-			Log.d(TAG,"postByHttpClientWithGzip----->"+ strResult);
-			resultJson = new JSONObject( strResult);
+			HttpEntity entity = httpResponse.getEntity();
+			InputStream is = entity.getContent();
+
+			if (entity.getContentEncoding().getValue().contains("gzip")) {
+				is = new GZIPInputStream(is);
+				String strResult = inputStream2String(is);
+				Log.d(TAG,"postByHttpClientWithGzip----->"+ strResult);
+				// 生成 JSON 对象
+				resultJson = new JSONObject( strResult);
+			}
 		}
 		return resultJson;  
 	}
+	
+	
 	
 	/**
 	 * 
