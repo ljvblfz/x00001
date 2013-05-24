@@ -32,19 +32,18 @@ public class XmPadDownloadStatusSaveResource extends SyBaseResource {
 	
 	@Post
 	public Representation post(Representation entity)
-			throws ResourceException { 
-		System.out.println("XmPadDownloadStatusSaveResource        post==========>"+entity);
+			throws ResourceException {  
 		form = new Form(entity);
 		String xmdsGuid =  form.getFirstValue("xmdsGuid"); 
-		System.out.println("XmPadDownloadStatusSaveResource        debug begin==========>");
-		System.out.println("xmdsGuid------>"+ form.getFirstValue("xmdsGuid")); 
-		System.out.println("xmmiGuid------>"+ form.getFirstValue("xmmiGuid")); 
-		System.out.println("xmpdGuid------>"+ form.getFirstValue("xmpdGuid")); 
-		System.out.println("xmdsMeetingSchedule------>"+ form.getFirstValue("xmdsMeetingSchedule")); 
-		System.out.println("xmdsDocument------>"+ form.getFirstValue("xmdsDocument")); 
-		System.out.println("xmdsVideo------>"+ form.getFirstValue("xmdsVideo")); 
-		System.out.println("xmdsImage------>"+ form.getFirstValue("xmdsImage"));  
-		System.out.println("XmPadDownloadStatusSaveResource        debug end==========>");
+//		System.out.println("XmPadDownloadStatusSaveResource        debug begin==========>");
+//		System.out.println("xmdsGuid------>"+ form.getFirstValue("xmdsGuid")); 
+//		System.out.println("xmmiGuid------>"+ form.getFirstValue("xmmiGuid")); 
+//		System.out.println("xmpdGuid------>"+ form.getFirstValue("xmpdGuid")); 
+//		System.out.println("xmdsMeetingSchedule------>"+ form.getFirstValue("xmdsMeetingSchedule")); 
+//		System.out.println("xmdsDocument------>"+ form.getFirstValue("xmdsDocument")); 
+//		System.out.println("xmdsVideo------>"+ form.getFirstValue("xmdsVideo")); 
+//		System.out.println("xmdsImage------>"+ form.getFirstValue("xmdsImage"));  
+//		System.out.println("XmPadDownloadStatusSaveResource        debug end==========>");
 		if(xmdsGuid==null||xmdsGuid.trim().equals("")){
 			XmDownloadStatus xmDownloadStatusInsert = new XmDownloadStatus();
 			PMGridCopyUtil.copyGridToDto(xmDownloadStatusInsert, form.getValuesMap());
