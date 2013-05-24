@@ -10,17 +10,50 @@ import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
 
 public class HttpRestSupport { 
-	private final static String TAG="HttpRestSupport";
+	private final static String TAG="HttpRestSupport"; 
+
+	/**
+	 * 
+	 * JSONObject param = new JSONObject(); 
+	 * param.put("name", "rarnu");
+	 * param.put("password", "123456");
+	 * 
+	 * @param path
+	 * @param paramJson
+	 * @return
+	 * @throws Exception
+	 */
+	public static JSONObject postByHttpClientWithGzip(String path,JSONObject paramJson) throws Exception {
+		HttpPost request = new HttpPost(path);
+		// 先封装一个 JSON 对象  绑定到请求 Entity
+		StringEntity se = new StringEntity(paramJson.toString()); 
+		request.setEntity(se);
+		// 发送请求
+		HttpClient httpclient = creteHttpClient();
+		HttpResponse httpResponse = httpclient.execute(request);
+		// 得到应答的字符串，这也是一个 JSON 格式保存的数据 
+		JSONObject resultJson = null;
+		if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {//
+			String strResult = EntityUtils.toString(httpResponse.getEntity());
+			// 生成 JSON 对象
+			Log.d(TAG,"postByHttpClientWithGzip----->"+ strResult);
+			resultJson = new JSONObject( strResult);
+		}
+		return resultJson;  
+	}
 	
 	/**
 	 * 
@@ -34,11 +67,7 @@ public class HttpRestSupport {
 		// httpRequest.addHeader("Accept-Encoding", "gzip");
 		httpRequest.addHeader("Accept-Encoding", "utf-8");
 
-		HttpParams httpParameters = new BasicHttpParams(); 
-		HttpConnectionParams.setConnectionTimeout(httpParameters, 3000); 
-		HttpConnectionParams.setSoTimeout(httpParameters, 5000);
-
-		HttpClient httpclient = new DefaultHttpClient(httpParameters);
+		HttpClient httpclient = creteHttpClient();
 		HttpResponse httpResponse = httpclient.execute(httpRequest);
 
 		if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
@@ -50,9 +79,22 @@ public class HttpRestSupport {
 				strResult = inputStream2String(is);
 			}
 		}
-		Log.d(TAG, strResult);
+		Log.d(TAG,"getByHttpClientWithGzip----->"+ strResult);
 		JSONObject jsonObject=createJSONObject(strResult);
 		return jsonObject;
+	}
+
+	
+	/**
+	 * 
+	 * @return
+	 */
+	private static HttpClient creteHttpClient() {
+		HttpParams httpParameters = new BasicHttpParams(); 
+		HttpConnectionParams.setConnectionTimeout(httpParameters, 3000); 
+		HttpConnectionParams.setSoTimeout(httpParameters, 5000); 
+		HttpClient httpclient = new DefaultHttpClient(httpParameters);
+		return httpclient;
 	}
 	
 	/**
@@ -65,11 +107,7 @@ public class HttpRestSupport {
     	String strResult = "";
     	HttpGet httpRequest = new HttpGet(path); 
     	
-    	HttpParams  httpParameters = new BasicHttpParams(); 
-        HttpConnectionParams.setConnectionTimeout(httpParameters, 3000);
-        HttpConnectionParams.setSoTimeout(httpParameters, 5000);  
-        
-        HttpClient httpclient = new DefaultHttpClient(httpParameters); 
+    	HttpClient httpclient = creteHttpClient(); 
         HttpResponse httpResponse = httpclient.execute(httpRequest); 
        
         if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) 

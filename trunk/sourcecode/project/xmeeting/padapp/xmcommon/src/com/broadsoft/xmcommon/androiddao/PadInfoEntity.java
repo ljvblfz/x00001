@@ -5,6 +5,7 @@ public class PadInfoEntity {
 	private String guid;
 	private String androidId;
 	private String assetCode;
+	private String jsonData;
 
  
 
@@ -32,10 +33,18 @@ public class PadInfoEntity {
 		this.assetCode = assetCode;
 	}
 
+	public String getJsonData() {
+		return jsonData;
+	}
+
+	public void setJsonData(String jsonData) {
+		this.jsonData = jsonData;
+	}
+
 	@Override
 	public String toString() {
 		return "PadInfoEntity [guid=" + guid + ", androidId=" + androidId
-				+ ", assetCode=" + assetCode + "]";
+				+ ", assetCode=" + assetCode + ", jsonData=" + jsonData + "]";
 	}
 
 }
