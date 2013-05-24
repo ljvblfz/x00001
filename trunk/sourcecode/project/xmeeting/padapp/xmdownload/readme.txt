@@ -20,6 +20,8 @@ shell)		sqlite3 xmeeting
 sqllite)	.tables
 sqllite)	select meeting_id,status from downloadinfo;
 sqllite)	select * from downloadinfo;
+sqllite)	select * from padinfo;
+sqllite)	select * from companyinfo;
 
 
 

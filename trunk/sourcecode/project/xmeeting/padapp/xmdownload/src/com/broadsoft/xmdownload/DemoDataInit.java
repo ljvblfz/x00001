@@ -7,6 +7,9 @@ public class DemoDataInit {
 	
 	
 	
+	
+	
+	
 	public static void init(String jsonData){
 
 		DownloadInfoEntity downloadInfoEntityParam=new DownloadInfoEntity();
