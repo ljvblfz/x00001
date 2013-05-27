@@ -153,7 +153,7 @@ public class WsServiceSupport {
 	 * disconnect
 	 */
 	public void disconnect(){
-		if(null!=client){
+		if(null!=client){ 
 			client.disconnect();
 			client=null;
 		}
