@@ -26,6 +26,12 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
+
+/**
+ * http://www.androidsnippets.com/executing-a-http-post-request-with-httpclient
+ * @author lu.zhen
+ *
+ */
 public class HttpRestSupport { 
 	private final static String TAG="HttpRestSupport"; 
 
