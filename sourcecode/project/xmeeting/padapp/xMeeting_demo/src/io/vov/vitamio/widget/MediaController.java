@@ -150,11 +150,6 @@ public class MediaController extends FrameLayout {
 			mPauseButton.requestFocus();
 			mPauseButton.setOnClickListener(mPauseListener);
 		}
-		backButton = (ImageButton) v.findViewById(R.id.mediacontroller_play_pause_2);
-		if (backButton != null) {
-			backButton.requestFocus();
-			backButton.setOnClickListener(mBackListener);
-		}
 		mProgress = (ProgressBar) v.findViewById(R.id.mediacontroller_seekbar);
 		if (mProgress != null) {
 			if (mProgress instanceof SeekBar) {

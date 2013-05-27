@@ -27,7 +27,7 @@ import com.poqop.document.BaseBrowserActivity;
 public class DocumentsListActivity extends BaseBrowserActivity {
 	ListView listView;
 	String[] titles={"关于电力资源合理利用","电力系统电网规划简要原则","URI设计真重要","URI设计真重要"};
-	String[] texts={"2012-11-20  25页","2012-11-20  22页","2012-11-20  22页","2012-11-20  22页"};
+//	String[] texts={"2012-11-20  25页","2012-11-20  22页","2012-11-20  22页","2012-11-20  22页"};
 	int[] resIds={R.drawable.pdf,R.drawable.word,R.drawable.excel,R.drawable.ppt};
 	
 	@Override
@@ -83,7 +83,7 @@ public class DocumentsListActivity extends BaseBrowserActivity {
 
 		for (int i = 0; i < titles.length; i++) {
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("text", texts[i]);
+//			map.put("text", texts[i]);
 			map.put("img", resIds[i]);
 			map.put("title", titles[i]);
 			list.add(map);

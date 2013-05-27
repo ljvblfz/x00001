@@ -39,7 +39,6 @@ import com.broadsoft.xmeeting.activity.MeetingGuideCatalogActivity;
 import com.broadsoft.xmeeting.activity.SysSettingActivity;
 import com.broadsoft.xmeeting.activity.VideosListActivity;
 import com.broadsoft.xmeeting.po.DownloadinfoPO;
-import com.broadsoft.xmeeting.util.DownloadMeetingUtil;
 import com.nmbb.oplayer.OPlayerApplication;
 import com.nmbb.oplayer.database.MeetingDbHelper;
 import com.nmbb.oplayer.database.MeetingSQLiteHelperOrm;
@@ -107,7 +106,7 @@ public class DesktopActivity extends Activity {
 	}
 	
 	private void initMeetingData() {
-		DownloadMeetingUtil.downloadMeetingInfo(getOPA());
+//		DownloadMeetingUtil.downloadMeetingInfo(getOPA());
 	}
 	
 	
