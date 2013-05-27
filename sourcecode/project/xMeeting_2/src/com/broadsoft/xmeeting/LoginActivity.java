@@ -14,11 +14,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
-
-import com.broadsoft.appsupport.AndroidSupport;
-import com.broadsoft.xmeeting.dao.Person;
-import com.broadsoft.xmeeting.dao.PersonDAO;
+import android.widget.Toast; 
 
 /**
  * http://blog.csdn.net/Class_Raito/article/details/3390737
@@ -51,8 +47,7 @@ public class LoginActivity extends Activity  {
 //				HIDER_FLAGS);
 //		mSystemUiHider.setup();
 //		contentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-		
-		initData(this);
+		 
  
 	}
 
@@ -86,16 +81,7 @@ public class LoginActivity extends Activity  {
 	}
 	
 	
-	public void initData(Context context){
-		
-		PersonDAO personDAO=new PersonDAO(context);
-//		personDAO.initPersons();
-		
-		Person person=personDAO.findByName("立马");
-		
-		Log.d(TAG, "person is=------>"+person);
-		Log.d(TAG, "unique id=------>"+AndroidSupport.getAndroidId(this));
-	}
+ 
 	
 	//
 
