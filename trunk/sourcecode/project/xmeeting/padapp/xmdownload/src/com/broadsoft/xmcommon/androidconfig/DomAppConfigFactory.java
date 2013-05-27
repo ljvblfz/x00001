@@ -25,6 +25,8 @@ public class DomAppConfigFactory {
 
 	private DomAppConfigFactory() {
 	}
+	
+	
 
 	
 	private  static AppConfig appConfig; 
