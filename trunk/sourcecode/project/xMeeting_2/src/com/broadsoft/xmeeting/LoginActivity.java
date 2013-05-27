@@ -1,5 +1,8 @@
 package com.broadsoft.xmeeting;
 
+import com.broadsoft.common.Constants;
+import com.broadsoft.xmcommon.appsupport.AppInitSupport;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -24,12 +27,22 @@ import android.widget.Toast;
  */
 public class LoginActivity extends Activity  {
 	
+	private final static boolean flag=true;
+	
 	private String TAG="LoginActivity";
 	private static int REQUEST_CODE = 2;
 //	View contentView;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		Log.d(TAG, "onCreate onCreate");
 		super.onCreate(savedInstanceState);
+		
+		if(!Constants.enableAutoBoot){
+			AppInitSupport.initApp(this.getApplicationContext(), this.getAssets()); 
+		}else{ 
+			AppInitSupport.debugAppData();
+		}
+		
 		// 应用程序开机不锁屏
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD,
 				WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
@@ -46,10 +59,17 @@ public class LoginActivity extends Activity  {
 //		mSystemUiHider = SystemUiHider.getInstance(this, contentView,
 //				HIDER_FLAGS);
 //		mSystemUiHider.setup();
-//		contentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-		 
+//		contentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION); 
+		Log.d(TAG, "onCreate end");
  
-	}
+	}//end of onCreate
+
+	@Override
+	protected void onDestroy(){
+		Log.d(TAG, "onDestroy begin");
+		super.onDestroy();
+		Log.d(TAG, "onDestroy end");
+	}//end of onDestroy
 
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
@@ -57,7 +77,7 @@ public class LoginActivity extends Activity  {
 		getWindow().getDecorView().setSystemUiVisibility(
 				View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN); 
-	}
+	}//end of onPostCreate
 	
 	/**
 	 * Disable back key
@@ -73,10 +93,8 @@ public class LoginActivity extends Activity  {
 		} else if (keyCode == KeyEvent.KEYCODE_HOME) {
 			// do something
 			return false;
-		}
-		 
-		return super.onKeyDown(keyCode, event); 
-		// Disable all keys
+		} 
+		return super.onKeyDown(keyCode, event);  
 //		return false;
 	}
 	

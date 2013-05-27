@@ -13,6 +13,7 @@ import com.broadsoft.xmcommon.androiddao.EntityInfoHolder;
 import com.broadsoft.xmcommon.androiddao.PadInfoEntity;
 import com.broadsoft.xmcommon.androidsdcard.SDCardSupport;
 import com.broadsoft.xmcommon.androidutil.AndroidIdSupport;
+import com.broadsoft.xmdownload.wsservice.WsServiceSupport;
 
 public class AppInitSupport {
 	private static final String TAG="AppInitSupport"; 
@@ -37,7 +38,19 @@ public class AppInitSupport {
 			String jsonData=AssetManagerSupport.readText(assetManager); 
 			DemoDataInit.init(jsonData); 
 			Log.d(TAG, "[Demo]jsonData---->"+jsonData);
-		} 
+		} else{ 
+			// 监听websocket消息
+			WsServiceSupport.getInstance().initData(AndroidIdSupport.getAndroidID());
+//			try{
+//				WsServiceSupport.getInstance().disconnect();
+//				
+//			}catch(Exception e){
+//
+//				Log.d(TAG, "[WS]disconnect---exception--"+e.getMessage());
+//			}
+			WsServiceSupport.getInstance().connect(); 
+			Log.d(TAG, "[WS]connect---->done.");
+		}
 		//读取会议信息
 		PadInfoEntity padInfoEntity=DaoHolder.getInstance().getPadInfoDao().uniqueOne();
 		Log.d(TAG, "[Sqlite]PadInfoEntity---->"+padInfoEntity);
@@ -49,6 +62,17 @@ public class AppInitSupport {
 		EntityInfoHolder.getInstance().setCompanyInfoEntity(companyInfoEntity);
 		EntityInfoHolder.getInstance().setPadInfoEntity(padInfoEntity);
 		EntityInfoHolder.getInstance().setDownloadInfoEntity(downloadInfoEntity);
+	}
+	
+
+	public static void debugAppData() {
+		//读取会议信息
+		PadInfoEntity padInfoEntity=EntityInfoHolder.getInstance().getPadInfoEntity();
+		Log.d(TAG, "[debugAppData]PadInfoEntity---->"+padInfoEntity);
+		CompanyInfoEntity companyInfoEntity=EntityInfoHolder.getInstance().getCompanyInfoEntity();
+		Log.d(TAG, "[debugAppData]CompanyInfoEntity---->"+companyInfoEntity); 
+		DownloadInfoEntity downloadInfoEntity=EntityInfoHolder.getInstance().getDownloadInfoEntity();
+		Log.d(TAG, "[debugAppData]DownloadInfoEntity---->"+downloadInfoEntity);
 	}
 	
 	
