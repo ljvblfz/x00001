@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+     <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"  >
+ 				<TableRow
+                    android:id="@+id/tableRow1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" 
+                    android:layout_weight="1" > 
+                    
+			        <TextView
+			            android:id="@+id/systemlabel"
+			            android:layout_width="800dip"
+			            android:layout_height="wrap_content"
+			            android:gravity="left"  android:paddingLeft="50dip"
+			            android:textSize="60dip" 
+			            android:textColor="@color/LightBlue"
+			            android:background="@drawable/textview_shape_bottomline"
+			            android:text="人员名单"  />
+ 
+                </TableRow>
+                <TableRow
+                    android:id="@+id/tableRow2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" 
+                    android:layout_weight="12" > 
+ 	 
+					    <ExpandableListView 
+					        android:id="@+id/m_list"               
+						 	android:layout_width="fill_parent"                
+						 	android:layout_height="wrap_content"              
+						 	android:layout_weight="1"               
+						 	android:drawSelectorOnTop="false"/> 
+                </TableRow>
+            </TableLayout>
+</LinearLayout>

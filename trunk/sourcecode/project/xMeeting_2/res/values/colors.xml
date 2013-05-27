@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <!-- http://www.computerhope.com/htmcolor.htm -->
+    <color name="Grey">#808080</color>
+    <color name="Silver">#C0C0C0</color>
+    <color name="SlateGray3">#98AFC7</color>
+    
+    
+    <color name="White">#FFFFFF</color>
+    <color name="LightBlue">#ADD8E6</color>
+    <color name="DarkGreen">#254117</color>
+    <color name="SlateBlue">#357EC7</color>
+    <color name="Cyan">#00FFFF</color>
+    
+    
+    <color name="white">#ffffffff</color>
+    <color name="black">#ff000000</color>
+    <color name="blue">#ff0000ff</color>
+    <color name="green">#ff00ff00</color>
+    <color name="red">#ffff0000</color>
+    <color name="higtlight">#ff0078f0</color>
+    <color name="durationtext">#ff7d7d7d</color>
+    <color name="background">#ffc3ddea</color>
+    <color name="yellow">#ffffcc00</color>
+    <color name="title">#ff274462</color> 
+    
+    
+    
+    <color name="Orange2">#FFA500</color>
+    <color name="Brown2">#A52A2A</color>
+    <color name="Yellow2">#FFFF00</color>
+    <color name="Blue2">#0000FF</color>
+    <color name="Green2">#008000</color>
+    <color name="Violet">#8D38C9</color>
+ 
+    
+    <!-- # -->
+</resources>

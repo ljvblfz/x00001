@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">会议系统</string>
+<!--     <string name="hello_world">Hello world!</string> -->
+    <string name="menu_settings">Settings</string>
+    
+    
+    
+    <string name="meetingbasic">会议基本信息</string>
+    <string name="meetingname">会议名称</string>
+    <string name="meetingnamevalue">办公信息化技术研讨会</string>
+    
+    <string name="meetingorgname1">主办单位</string>
+    <string name="meetingorgname1value">办公信息化委员会</string>
+    <string name="meetingorgname2">承办单位</string>
+    <string name="meetingorgname2value">办公信息化技术公司</string>
+    
+    
+    
+    <string name="personalinfo">你的个人信息</string>
+    <!--  -->
+	<string name="version_name">1.0</string>
+    <string name="title_file">本地视频</string>
+    <string name="title_online">在线视频</string>
+    <string name="init_decoders">正在进行第一次解压解码包...</string>
+    <string name="loadinfo">载入中，请稍后...</string>
+    <string name="file_oper">文件操作</string>
+    <string name="file_rename">重命名</string>
+    <string name="file_rename_failed">重命名失败</string>
+    <string name="file_rename_exists">文件已存在</string>
+    <string name="file_delete">删除</string>
+    <string name="file_delete_confirm">确定删除 (%s) ？</string>
+    <string name="video_layout_loading">正在缓冲...</string>
+    
+    <string name="vitamio_theme_app_name">VPlayer codec</string>
+    <string name="VideoView_error_title">Cannot play video</string>
+    <string name="VideoView_error_text_invalid_progressive_playback">Sorry, this video is not valid for streaming to
+		this device.</string>
+    <string name="VideoView_error_text_unknown">对不起,这个视频不能播放。</string>
+    <string name="VideoView_error_button">OK</string>
+    <string name="mediacontroller_play_pause">Play/Pause</string>
+    
+    
+        <string name="hello">Hello World, WeatherWebServiceActivity!</string>
+    <string name="title">天气预报</string>
+    <string name="city">城市</string>
+    <string name="province">省份</string>
+    <string name="today_wea">今日天气</string>
+    <string name="qiweng">气温：</string>
+    <string name="jinri">今日天气实况</string>
+    <string name="fengli">风力：</string>
+    <string name="shidu">湿度：</string>
+    <string name="kongqi">空气质量：</string>
+    <string name="zhiwai">紫外线强度：</string>
+    <string name="city_str">城</string>
+    <string name="xiaotieshi">今日小贴士今日小贴士今日小贴士今日小贴士今日小贴士</string>
+    
+</resources>
