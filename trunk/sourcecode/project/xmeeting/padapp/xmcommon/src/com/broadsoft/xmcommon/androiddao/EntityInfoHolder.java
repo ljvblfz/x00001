@@ -22,7 +22,7 @@ public class EntityInfoHolder {
 	public String getXmpdGuid() throws JSONException {
 		if (null != xmpdGuid) {
 			return xmpdGuid;
-		} else {
+		}  else {
 			String jsonData = padInfoEntity.getJsonData();
 			JSONObject jsonObject = new JSONObject(jsonData);
 			xmpdGuid = jsonObject.getString("xmpdGuid");

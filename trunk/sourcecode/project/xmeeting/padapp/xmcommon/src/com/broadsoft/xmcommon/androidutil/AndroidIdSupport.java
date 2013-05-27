@@ -16,13 +16,13 @@ public class AndroidIdSupport {
 	}
 	
 	public static String getAndroidID() {
-//		if(null!=androidId&&!androidId.isEmpty()){
-//			return androidId;
-//		}else{
-//			return "android_0001"; 
-//		} 
+		if(null!=androidId&&!androidId.isEmpty()){
+			return androidId;
+		}else{
+			return "android_0001"; 
+		} 
 		
-		return "android_0001"; 
+//		return "android_0001"; 
 	} //end of getAndroidID
 	
 	
