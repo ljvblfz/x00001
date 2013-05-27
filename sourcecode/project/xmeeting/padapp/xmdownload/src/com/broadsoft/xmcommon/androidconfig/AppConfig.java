@@ -2,6 +2,8 @@ package com.broadsoft.xmcommon.androidconfig;
 
 public class AppConfig {
 
+	
+	
 	public String appname;
 	public String sdcarddir;
 

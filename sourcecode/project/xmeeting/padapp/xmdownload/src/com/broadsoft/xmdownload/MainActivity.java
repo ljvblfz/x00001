@@ -2,9 +2,9 @@ package com.broadsoft.xmdownload;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.broadsoft.xmdownload.appsupport.AppInitSupport;
-import com.broadsoft.xmdownload.wsservice.WsServiceSupport;
 
 
 /**
@@ -20,9 +20,11 @@ public class MainActivity extends Activity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		Log.d(TAG, "onCreate begin");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main); 
 		AppInitSupport.initApp(this.getApplicationContext(),this.getAssets());
+		Log.d(TAG, "onCreate end");
 		
 	}//end of onCreate 
 
@@ -34,7 +36,9 @@ public class MainActivity extends Activity {
 
 	@Override
 	protected void onDestroy(){
+		Log.d(TAG, "onDestroy begin");
 		super.onDestroy();
-		WsServiceSupport.getInstance().disconnect();
+		AppInitSupport.destroyApp(this.getApplicationContext(),this.getAssets());
+		Log.d(TAG, "onDestroy end");
 	}
 }//end of MainActivity

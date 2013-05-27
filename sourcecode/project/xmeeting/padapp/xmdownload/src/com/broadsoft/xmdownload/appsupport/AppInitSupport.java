@@ -13,7 +13,6 @@ import com.broadsoft.xmcommon.androiddao.EntityInfoHolder;
 import com.broadsoft.xmcommon.androiddao.PadInfoEntity;
 import com.broadsoft.xmcommon.androidsdcard.SDCardSupport;
 import com.broadsoft.xmcommon.androidutil.AndroidIdSupport;
-import com.broadsoft.xmcommon.androidutil.AssetManagerSupport;
 import com.broadsoft.xmdownload.wsservice.WsServiceSupport;
 
 public class AppInitSupport {
@@ -53,12 +52,12 @@ public class AppInitSupport {
 			Log.d(TAG, "[WS]connect---->done.");
 		}
 		//读取会议信息
-		DownloadInfoEntity downloadInfoEntity=DaoHolder.getInstance().getDownloadInfoDao().findByActivate();
-		Log.d(TAG, "[Sqlite]DownloadInfoEntity---->"+downloadInfoEntity);
 		PadInfoEntity padInfoEntity=DaoHolder.getInstance().getPadInfoDao().uniqueOne();
 		Log.d(TAG, "[Sqlite]PadInfoEntity---->"+padInfoEntity);
 		CompanyInfoEntity companyInfoEntity=DaoHolder.getInstance().getCompanyInfoDao().uniqueOne();
 		Log.d(TAG, "[Sqlite]CompanyInfoEntity---->"+companyInfoEntity); 
+		DownloadInfoEntity downloadInfoEntity=DaoHolder.getInstance().getDownloadInfoDao().findByActivate();
+		Log.d(TAG, "[Sqlite]DownloadInfoEntity---->"+downloadInfoEntity);
 		//
 		EntityInfoHolder.getInstance().setCompanyInfoEntity(companyInfoEntity);
 		EntityInfoHolder.getInstance().setPadInfoEntity(padInfoEntity);
