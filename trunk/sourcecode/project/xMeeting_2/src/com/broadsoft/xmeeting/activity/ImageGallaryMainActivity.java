@@ -537,31 +537,13 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
 	             imageView.setImageBitmap(bitmapWithReflection);
 	             imageView.setLayoutParams(new GalleryFlow.LayoutParams(250, 340));
 	             imageView.setScaleType(ScaleType.FIT_XY);
-	             mImages[index++] = imageView;
-	             
-	             
-	             /*
-	             imageView.setOnClickListener(new View.OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						if (imageView == galleryFlow.getSelectedView())
-						{
-							// TODO Auto-generated method stub
-							Intent intent = new Intent();
-							intent.setClass(act, CallOutActivity.class);
-							startActivity(intent);// 以传递参数的方式跳转到下一个Activity
-						}
-					}
-				});
-				*/
+	             mImages[index++] = imageView; 
 	         }
 	         return true;
 	     }
 
 	     private Resources getResources() 
-	     {
-	         // TODO Auto-generated method stub
+	     { 
 	         return null;
 	     }
 
