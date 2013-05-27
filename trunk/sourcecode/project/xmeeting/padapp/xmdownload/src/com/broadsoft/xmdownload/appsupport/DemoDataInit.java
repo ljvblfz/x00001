@@ -1,4 +1,4 @@
-package com.broadsoft.xmdownload;
+package com.broadsoft.xmdownload.appsupport;
 
 import com.broadsoft.xmcommon.androiddao.DaoHolder;
 import com.broadsoft.xmcommon.androiddao.DownloadInfoEntity;

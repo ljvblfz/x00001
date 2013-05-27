@@ -14,7 +14,6 @@ import com.broadsoft.xmcommon.androiddao.PadInfoEntity;
 import com.broadsoft.xmcommon.androidsdcard.SDCardSupport;
 import com.broadsoft.xmcommon.androidutil.AndroidIdSupport;
 import com.broadsoft.xmcommon.androidutil.AssetManagerSupport;
-import com.broadsoft.xmdownload.DemoDataInit;
 import com.broadsoft.xmdownload.wsservice.WsServiceSupport;
 
 public class AppInitSupport {
@@ -43,7 +42,13 @@ public class AppInitSupport {
 		}else{ 
 			// 监听websocket消息
 			WsServiceSupport.getInstance().initData(AndroidIdSupport.getAndroidID());
-			WsServiceSupport.getInstance().disconnect();
+			try{
+				WsServiceSupport.getInstance().disconnect();
+				
+			}catch(Exception e){
+
+				Log.d(TAG, "[WS]disconnect---exception--"+e.getMessage());
+			}
 			WsServiceSupport.getInstance().connect(); 
 			Log.d(TAG, "[WS]connect---->done.");
 		}
@@ -53,11 +58,17 @@ public class AppInitSupport {
 		PadInfoEntity padInfoEntity=DaoHolder.getInstance().getPadInfoDao().uniqueOne();
 		Log.d(TAG, "[Sqlite]PadInfoEntity---->"+padInfoEntity);
 		CompanyInfoEntity companyInfoEntity=DaoHolder.getInstance().getCompanyInfoDao().uniqueOne();
-		Log.d(TAG, "[Sqlite]CompanyInfoEntity---->"+companyInfoEntity);
-		
+		Log.d(TAG, "[Sqlite]CompanyInfoEntity---->"+companyInfoEntity); 
 		//
 		EntityInfoHolder.getInstance().setCompanyInfoEntity(companyInfoEntity);
 		EntityInfoHolder.getInstance().setPadInfoEntity(padInfoEntity);
 		EntityInfoHolder.getInstance().setDownloadInfoEntity(downloadInfoEntity);
+	}
+	
+	
+
+	public static void destroyApp(Context ctx,AssetManager assetManager) {
+		WsServiceSupport.getInstance().disconnect(); 
+		
 	}
 }

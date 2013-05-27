@@ -8,6 +8,7 @@ import android.util.Log;
 import com.broadsoft.xmcommon.androidconfig.DomAppConfigFactory;
 import com.broadsoft.xmcommon.androiddao.DaoHolder;
 import com.broadsoft.xmcommon.androidutil.AndroidIdSupport;
+import com.broadsoft.xmdownload.appsupport.AppInitSupport;
 import com.broadsoft.xmdownload.wsservice.WsServiceSupport;
 
 /**
@@ -23,16 +24,15 @@ public class DownloadService extends Service {
 	public void onCreate() {
 		Log.d(TAG, "onCreate begin");
 		super.onCreate(); 
-		DomAppConfigFactory.init(getAssets());
-		// 监听websocket消息
-		WsServiceSupport.getInstance().initData(AndroidIdSupport.getAndroidID());
-		WsServiceSupport.getInstance().connect();
-		// 初始化数据库		
-		DaoHolder.getInstance().init(getApplicationContext());
+//		DomAppConfigFactory.init(getAssets());
+//		// 监听websocket消息
+//		WsServiceSupport.getInstance().initData(AndroidIdSupport.getAndroidID());
+//		WsServiceSupport.getInstance().connect();
+//		// 初始化数据库		
+//		DaoHolder.getInstance().init(getApplicationContext()); 
 
-
-		Log.d(TAG, "onCreate end");
-
+		AppInitSupport.initApp(this.getApplicationContext(), this.getAssets()); 
+		Log.d(TAG, "onCreate end"); 
 	}
 
 	
@@ -40,8 +40,8 @@ public class DownloadService extends Service {
 	@Override
 	public void onDestroy() {
 		Log.d(TAG, "onDestroy begin");
-		super.onDestroy();
-		WsServiceSupport.getInstance().disconnect(); 
+		super.onDestroy(); 
+		AppInitSupport.destroyApp(this.getApplicationContext(), this.getAssets());
 		Log.d(TAG, "onDestroy end");
 
 	}
