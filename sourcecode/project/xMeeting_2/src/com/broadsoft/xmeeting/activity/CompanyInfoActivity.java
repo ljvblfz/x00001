@@ -6,16 +6,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TabWidget;
 import android.widget.TextView;
-import android.widget.Button;
 
-import com.broadsoft.common.BaseActivityGroup;
-import com.broadsoft.common.MulitPointTouchListener;
 import com.broadsoft.xmeeting.R;
 
 public class CompanyInfoActivity extends TabActivity{
@@ -48,7 +45,7 @@ public class CompanyInfoActivity extends TabActivity{
         _tabHost.addTab(tabSpec);
         
         
-        tabSpec=iniTabs(CompanyInfoOrg.class,"2","领导风采", 2);
+        tabSpec=iniTabs(CompanyInfoOrg.class,"2","组织架构", 2);
         _tabHost.addTab(tabSpec);
         
         

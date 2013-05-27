@@ -1,13 +1,11 @@
 package com.broadsoft.xmeeting;
 
-import com.broadsoft.common.Constants;
-import com.broadsoft.xmcommon.appsupport.AppInitSupport;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,7 +15,14 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast; 
+import android.widget.Toast;
+
+import com.broadsoft.common.Constants;
+import com.broadsoft.xmcommon.androiddao.DownloadInfoEntity;
+import com.broadsoft.xmcommon.androiddao.EntityInfoHolder;
+import com.broadsoft.xmcommon.androidnetwork.NetworkSupport;
+import com.broadsoft.xmcommon.appsupport.AppInitSupport;
+import com.broadsoft.xmdownload.rsservice.RsServiceOnSignInSupport;
 
 /**
  * http://blog.csdn.net/Class_Raito/article/details/3390737
@@ -151,16 +156,33 @@ public class LoginActivity extends Activity  {
 		builder.show(); 
 	}
 
+	protected boolean isConnected(){
+		ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		return NetworkSupport.isConnected(connMgr);
+	}
+	
 	//
 	public void registerNavButtonForLogin() {
 		Button btnlogin = (Button) findViewById(R.id.btnlogin);
 		btnlogin.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
+			public void onClick(View v) { 
+				//上传签到信息
+				if(isConnected()){
+					DownloadInfoEntity downloadInfoEntity=EntityInfoHolder.getInstance().getDownloadInfoEntity();  
+					String memberId=downloadInfoEntity.getMemberId();
+					String meetingId=downloadInfoEntity.getMeetingId();
+					Log.d(TAG, "memberId----->" + memberId+"  meetingId----->"+meetingId);
+					RsServiceOnSignInSupport.getInstance().signIn(memberId, meetingId);  
+				}else{
+					Toast toast=Toast.makeText(LoginActivity.this, "网络不通,请检查wifi设置,跳过签到!",Toast.LENGTH_LONG);
+					toast.setGravity(Gravity.CENTER, 0, 0);
+					toast.show();
+				}
+				//跳转页面/跳转到下一个Activity
 				Intent intent = new Intent();
 				intent.setClass(LoginActivity.this, WelcomeActivity.class);// 指定了跳转前的Activity和跳转后的Activity
 				intent.setData(Uri.parse("one"));// 向下一个Activity传递了string类型参数"one"
-				startActivityForResult(intent, REQUEST_CODE);// 以传递参数的方式跳转到下一个Activity
-
+				startActivityForResult(intent, REQUEST_CODE);// 以传递参数的方式跳转到下一个Activity 
 			}// end of on click
 		});
 

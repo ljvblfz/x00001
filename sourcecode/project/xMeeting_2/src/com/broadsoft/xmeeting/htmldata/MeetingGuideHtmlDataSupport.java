@@ -107,9 +107,7 @@ public class MeetingGuideHtmlDataSupport {
 			sb.append("</tr>");  
 		}
 		sb.append("</table>"); 
-		return sb.toString();
-		
-		
+		return sb.toString(); 
 	}
 	
 	public static String genContact(JSONObject data){
