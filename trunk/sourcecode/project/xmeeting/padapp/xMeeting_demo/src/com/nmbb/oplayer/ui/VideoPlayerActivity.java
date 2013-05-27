@@ -104,8 +104,21 @@ public class VideoPlayerActivity extends Activity implements OnCompletionListene
 
 		mGestureDetector = new GestureDetector(this, new MyGestureListener());
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+		InitTopbarAndBack();
 	}
 
+	private void InitTopbarAndBack()
+	{
+		( (Button) this.findViewById(R.id.btnBack) ).setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				finish();
+				//overridePendingTransition(R.anim.zoom_enter,android.R.anim.fade_out);
+			}
+		});
+	}
+	
 	@Override
 	protected void onPause() {
 		super.onPause();

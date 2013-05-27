@@ -26,6 +26,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import com.broadsoft.common.util.FolderUtils;
+import com.broadsoft.xmcommon.androiddao.EntityInfoHolder;
 import com.broadsoft.xmeeting.R;
 import com.nmbb.oplayer.OPlayerApplication;
 import com.poqop.document.BaseBrowserActivity;
@@ -43,9 +44,10 @@ public class DocumentsListActivity extends BaseBrowserActivity {
 		this.setTitle("BaseAdapter for ListView");
 		listView=(ListView)this.findViewById(R.id.meetingfilesList);
 //		listView.setAdapter(new ListViewAdapter(titles,texts,resIds));
-		System.out.println("=================================================================================");
-		System.out.println(((OPlayerApplication)getApplicationContext()).getJsonStr());
-		listView.setAdapter(new SimpleAdapter(this, getData("10001"), R.layout.meetingfileimageitem, 
+//		System.out.println("=================================================================================");
+//		System.out.println(((OPlayerApplication)getApplicationContext()).getJsonStr());
+		
+		listView.setAdapter(new SimpleAdapter(this, getData(EntityInfoHolder.getInstance().getDownloadInfoEntity().getMeetingId()), R.layout.meetingfileimageitem, 
 				new String[]{"title", "text", "img"}, new int[]{R.id.itemTitle,R.id.itemText,R.id.itemImage}));
 		
 		listView.setOnItemClickListener(new OnItemClickListener() {

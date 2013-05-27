@@ -19,17 +19,17 @@ public class OPlayerApplication extends Application {
 	/** 首次扫描 */
 	public static final String PREF_KEY_FIRST = "application_first";
 	
-	public static String meetingId ="10001";
-	
-	private String jsonStr;
+//	public static String meetingId ="10001";
+//	
+//	private String jsonStr;
 
-	public String getJsonStr() {
-		return jsonStr;
-	}
-
-	public void setJsonStr(String jsonStr) {
-		this.jsonStr = jsonStr;
-	}
+//	public String getJsonStr() {
+//		return jsonStr;
+//	}
+//
+//	public void setJsonStr(String jsonStr) {
+//		this.jsonStr = jsonStr;
+//	}
 
 	@Override
 	public void onCreate() {

@@ -1,6 +1,13 @@
 package com.broadsoft.xmeeting.activity;
 
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,9 +21,12 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.broadsoft.common.util.FolderUtils;
+import com.broadsoft.xmcommon.androiddao.EntityInfoHolder;
 import com.broadsoft.xmeeting.R;
+import com.nmbb.oplayer.OPlayerApplication;
 import com.nmbb.oplayer.OPreference;
 import com.nmbb.oplayer.database.DbHelper;
+import com.nmbb.oplayer.exception.Logger;
 import com.nmbb.oplayer.po.POMedia;
 import com.nmbb.oplayer.service.MediaScannerService;
 import com.nmbb.oplayer.ui.FragmentBase;
@@ -24,6 +34,8 @@ import com.nmbb.oplayer.ui.FragmentFileOld;
 import com.nmbb.oplayer.ui.helper.FileDownloadHelper;
 import com.nmbb.oplayer.ui.vitamio.LibsChecker;
 //import com.hp.hpl.sparta.ParseSource;
+import com.nmbb.oplayer.util.FileUtils;
+import com.nmbb.oplayer.util.PinyinUtils;
 
 public class VideosListActivity extends FragmentActivity implements OnClickListener {
 
@@ -37,7 +49,7 @@ public class VideosListActivity extends FragmentActivity implements OnClickListe
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		new DbHelper<POMedia>().removeAll(POMedia.class);
+		new DbHelper<POMedia>().removeAll(POMedia.class);
 //		LibsChecker.checkVitamioLibs(ctx)
 		if (!LibsChecker.checkVitamioLibs(this, R.string.init_decoders))
 			return;
@@ -47,13 +59,33 @@ public class VideosListActivity extends FragmentActivity implements OnClickListe
 		String scanPath = FolderUtils.getVideoDir("10001");//getSDPath()+"/xmeeting/10001/videos";//Environment.getExternalStorageDirectory().getAbsolutePath();
 		//	首次运行，扫描SD卡
 //		if (pref.getBoolean(OPlayerApplication.PREF_KEY_FIRST, true)) {
-			getApplicationContext()
-					.startService(
-							new Intent(getApplicationContext(),
-									MediaScannerService.class).putExtra(
-									MediaScannerService.EXTRA_DIRECTORY, scanPath));
-
+//			getApplicationContext()
+//					.startService(
+//							new Intent(getApplicationContext(),
+//									MediaScannerService.class).putExtra(
+//									MediaScannerService.EXTRA_DIRECTORY, scanPath));
+//
 //		}
+			
+			
+		File f = new File(FolderUtils.getVideoDir(EntityInfoHolder.getInstance().getDownloadInfoEntity().getMeetingId()));
+		File[] flist = f.listFiles();
+
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		for(File file : flist ){
+			
+			if(file.isFile() && !file.getAbsolutePath().startsWith(".") && file.canRead() && FileUtils.isVideo(file)){
+				save(new POMedia(file));
+				
+//				Map<String, Object> map = new HashMap<String, Object>();
+////					map.put("text", texts[i]);
+//				map.put("img", R.drawable.pdf);
+//				map.put("title", file.getName().substring(0,file.getName().length()-4));
+//				map.put("path", file.getAbsolutePath());
+//				list.add(map);
+			}
+			
+		}
 
 		setContentView(R.layout.fragment_pager);
 
@@ -311,5 +343,39 @@ public class VideosListActivity extends FragmentActivity implements OnClickListe
 			return super.onKeyDown(keyCode, event); 
 			// Disable all keys
 //			return false;
+		}
+		
+
+		private DbHelper<POMedia> mDbHelper = new DbHelper<POMedia>();;
+		private Map<String, Object> mDbWhere = new HashMap<String, Object>(2);
+		
+		/**
+		 * 保存入库
+		 * 
+		 * @throws FileNotFoundException
+		 */
+		private void save(POMedia media) {
+			mDbWhere.put("path", media.path);
+			mDbWhere.put("last_modify_time", media.last_modify_time);
+			//检测
+			if (!mDbHelper.exists(media, mDbWhere)) {
+				try {
+					if (media.title != null && media.title.length() > 0)
+						media.title_key = PinyinUtils.chineneToSpell(media.title.charAt(0) + "");
+				} catch (Exception ex) {
+					Logger.e(ex);
+				}
+				media.last_access_time = System.currentTimeMillis();
+
+				//提取缩略图
+				//			extractThumbnail(media);
+//				media.mime_type = FileUtils.getMimeType(media.path);
+
+				//入库
+				mDbHelper.create(media);
+
+				//扫描到一个
+//				notifyObservers(SCAN_STATUS_RUNNING, media);
+			}
 		}
 }

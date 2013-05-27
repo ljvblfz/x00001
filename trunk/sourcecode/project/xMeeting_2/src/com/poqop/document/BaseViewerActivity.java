@@ -5,16 +5,18 @@ import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.broadsoft.common.BaseActivity;
 import com.broadsoft.xmeeting.R;
 import com.poqop.document.events.CurrentPageListener;
 import com.poqop.document.events.DecodingProgressListener;
@@ -23,7 +25,7 @@ import com.poqop.document.models.DecodingProgressModel;
 import com.poqop.document.models.ZoomModel;
 import com.poqop.document.views.PageViewZoomControls;
 
-public abstract class BaseViewerActivity extends BaseActivity implements DecodingProgressListener, CurrentPageListener
+public abstract class BaseViewerActivity extends Activity implements DecodingProgressListener, CurrentPageListener
 {
     private static final int MENU_EXIT = 0;
     private static final int MENU_GOTO = 1;
@@ -59,20 +61,38 @@ public abstract class BaseViewerActivity extends BaseActivity implements Decodin
 
         viewerPreferences = new ViewerPreferences(this);
 
+//        final LinearLayout l = new LinearLayout(this);
+        FrameLayout.LayoutParams flp = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.FILL_PARENT,
+        		FrameLayout.LayoutParams.WRAP_CONTENT);  
         final FrameLayout frameLayout = createMainContainer();
-        frameLayout.addView(documentView);
+        LayoutInflater inflater = LayoutInflater.from(this);
+        frameLayout.addView(inflater.inflate(R.layout.headerbar, null),flp);
+
+        FrameLayout.LayoutParams flp2 = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.FILL_PARENT,
+        		FrameLayout.LayoutParams.WRAP_CONTENT);  
+        flp2.topMargin = 45;  
+        frameLayout.addView(documentView,flp2);
         frameLayout.addView(createZoomControls(zoomModel));
-//        frameLayout.addView(createControlBar());
         setFullScreen();
         setContentView(frameLayout);
-
         final SharedPreferences sharedPreferences = getSharedPreferences(DOCUMENT_VIEW_STATE_PREFERENCES, 0);
         documentView.goToPage(sharedPreferences.getInt(getIntent().getData().toString(), 0));
         documentView.showDocument();
 
         viewerPreferences.addRecent(getIntent().getData());
+        InitTopbarAndBack();
     }
 
+	private void InitTopbarAndBack()
+	{
+		( (Button) this.findViewById(R.id.btnBack) ).setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+	}
     public void decodingProgressChanged(final int currentlyDecoding)
     {
         runOnUiThread(new Runnable()
@@ -101,7 +121,6 @@ public abstract class BaseViewerActivity extends BaseActivity implements Decodin
     }
 	@Override
 	protected void onResume() {
-		setxy(15,10);
 		super.onResume();
 	}
     
