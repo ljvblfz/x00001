@@ -5,6 +5,8 @@ import java.io.File;
 import android.os.Environment;
 
 public class FolderUtils {
+	
+	public static String demoMeetingId="10001";
 
 	/**
 	 * 获取sdcard 位置

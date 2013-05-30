@@ -4,6 +4,8 @@ import java.io.File;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.nmbb.oplayer.exception.Logger;
+import com.nmbb.oplayer.util.PinyinUtils;
 
 /**
  * 视频PO类
@@ -68,6 +70,13 @@ public class POMedia {
 		path = f.getAbsolutePath();
 		last_modify_time = f.lastModified();
 		file_size = f.length();
+		try {
+			if (title != null && title.length() > 0)
+				title_key = PinyinUtils.chineneToSpell(title.charAt(0) + "");
+		} catch (Exception ex) {
+			Logger.e(ex);
+		}
+		last_access_time = System.currentTimeMillis();
 	}
 
 	public POMedia(String path, String mimeType) {
