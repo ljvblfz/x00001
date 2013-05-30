@@ -66,7 +66,7 @@ public abstract class BaseViewerActivity extends Activity implements DecodingPro
         		FrameLayout.LayoutParams.WRAP_CONTENT);  
         final FrameLayout frameLayout = createMainContainer();
         LayoutInflater inflater = LayoutInflater.from(this);
-        frameLayout.addView(inflater.inflate(R.layout.headerbar, null),flp);
+//        frameLayout.addView(inflater.inflate(R.layout.headerbar, null),flp);
 
         FrameLayout.LayoutParams flp2 = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.FILL_PARENT,
         		FrameLayout.LayoutParams.WRAP_CONTENT);  
