@@ -388,35 +388,35 @@
 
 	        </LinearLayout>
 
-	        <LinearLayout
-	            android:id="@+id/ly6"
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:layout_gravity="center"
-	            android:background="@drawable/ly_menu_item"
-	            android:paddingBottom="12dp"
-	            android:paddingLeft="20dp"
-	            android:paddingTop="15dp" >
+<!-- 	        <LinearLayout -->
+<!-- 	            android:id="@+id/ly6" -->
+<!-- 	            android:layout_width="match_parent" -->
+<!-- 	            android:layout_height="wrap_content" -->
+<!-- 	            android:layout_gravity="center" -->
+<!-- 	            android:background="@drawable/ly_menu_item" -->
+<!-- 	            android:paddingBottom="12dp" -->
+<!-- 	            android:paddingLeft="20dp" -->
+<!-- 	            android:paddingTop="15dp" > -->
 
-	            <ImageView
-	                android:id="@+id/imageView4"
-	                android:layout_width="24dp"
-	                android:layout_height="24dp"
-	                android:layout_gravity="center"
-	                android:src="@drawable/v5_2_1_desktop_list_settings" />
+<!-- 	            <ImageView -->
+<!-- 	                android:id="@+id/imageView4" -->
+<!-- 	                android:layout_width="24dp" -->
+<!-- 	                android:layout_height="24dp" -->
+<!-- 	                android:layout_gravity="center" -->
+<!-- 	                android:src="@drawable/v5_2_1_desktop_list_settings" /> -->
 
-		        <TextView
-		            android:id="@+id/button1"
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:layout_gravity="center"
-		            android:paddingLeft="15dp"
-		            android:text="天气情况"
-		            android:textAppearance="?android:attr/textAppearanceMedium"
-		            android:textColor="@android:color/white"
-		            android:textSize="18sp" />
+<!-- 		        <TextView -->
+<!-- 		            android:id="@+id/button1" -->
+<!-- 		            android:layout_width="wrap_content" -->
+<!-- 		            android:layout_height="wrap_content" -->
+<!-- 		            android:layout_gravity="center" -->
+<!-- 		            android:paddingLeft="15dp" -->
+<!-- 		            android:text="天气情况" -->
+<!-- 		            android:textAppearance="?android:attr/textAppearanceMedium" -->
+<!-- 		            android:textColor="@android:color/white" -->
+<!-- 		            android:textSize="18sp" /> -->
 	        
-	        </LinearLayout>	   
+<!-- 	        </LinearLayout>	    -->
 	        
 	        <ImageView
 	                android:id="@+id/imageView3"
@@ -446,7 +446,7 @@
 		            android:layout_height="wrap_content"
 		            android:layout_gravity="center"
 		            android:paddingLeft="15dp"
-		            android:text="通讯服务"
+		            android:text="发送彩信"
 		            android:textAppearance="?android:attr/textAppearanceMedium"
 		            android:textColor="@android:color/white"
 		            android:textSize="18sp" />
