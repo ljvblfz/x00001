@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.app.AlertDialog;
 import android.content.ComponentName;
@@ -16,14 +17,14 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.Bitmap.Config;
-import android.graphics.PorterDuff.Mode;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -47,11 +48,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.broadsoft.common.util.FolderUtils;
 import com.broadsoft.xmeeting.R;
 import com.broadsoft.xmeeting.activity.VideosListActivity;
 import com.nmbb.oplayer.business.FileBusiness;
 import com.nmbb.oplayer.database.DbHelper;
-import com.nmbb.oplayer.exception.Logger;
 import com.nmbb.oplayer.po.POMedia;
 import com.nmbb.oplayer.service.MediaScannerService;
 import com.nmbb.oplayer.service.MediaScannerService.IMediaScannerObserver;
@@ -114,6 +115,16 @@ public class FragmentFileOld extends FragmentBase implements OnItemClickListener
 		//			new ScanVideoTask().execute();
 		//		else
 		new DataTask().execute();
+		
+
+//		mLoadingLayout.setVisibility(View.VISIBLE);
+//		mListView.setVisibility(View.GONE);
+		
+//		mAdapter = new FileAdapter(getActivity(), result);
+//		mListView.setAdapter(mAdapter);
+
+//		mLoadingLayout.setVisibility(View.GONE);
+//		mListView.setVisibility(View.VISIBLE);
 
 		getActivity().bindService(new Intent(getActivity().getApplicationContext(), MediaScannerService.class), mMediaScannerServiceConnection, Context.BIND_AUTO_CREATE);
 		return v;
@@ -145,7 +156,7 @@ public class FragmentFileOld extends FragmentBase implements OnItemClickListener
 		case MediaScannerService.SCAN_STATUS_END://扫描完成
 //			if (mProgress != null)
 //				mProgress.setVisibility(View.GONE);
-			new DataTask().execute();
+//			new DataTask().execute();
 			break;
 		case MediaScannerService.SCAN_STATUS_RUNNING://扫到一个文件
 			if (mAdapter != null && media != null) {
@@ -331,16 +342,31 @@ public class FragmentFileOld extends FragmentBase implements OnItemClickListener
 
 		@Override
 		protected List<POMedia> doInBackground(Void... params) {
-			return FileBusiness.getAllSortFiles();
+			
+			List<POMedia> result = new ArrayList<POMedia>();
+			File f = new File(FolderUtils.getVideoDir(FolderUtils.demoMeetingId));
+			File[] flist = f.listFiles();
+			for(File file : flist ){
+				if(file.isFile() && !file.getAbsolutePath().startsWith(".") && file.canRead() && FileUtils.isVideo(file)){
+					result.add(new POMedia(file));
+//					save(new POMedia(file));
+//						Map<String, Object> map = new HashMap<String, Object>();
+////							map.put("text", texts[i]);
+//						map.put("img", R.drawable.pdf);
+//						map.put("title", file.getName().substring(0,file.getName().length()-4));
+//						map.put("path", file.getAbsolutePath());
+//						list.add(map);
+				}
+				
+			}
+			return result;//FileBusiness.getAllSortFiles();
 		}
 
 		@Override
 		protected void onPostExecute(List<POMedia> result) {
 			super.onPostExecute(result);
-
 			mAdapter = new FileAdapter(getActivity(), result);
 			mListView.setAdapter(mAdapter);
-
 			mLoadingLayout.setVisibility(View.GONE);
 			mListView.setVisibility(View.VISIBLE);
 		}

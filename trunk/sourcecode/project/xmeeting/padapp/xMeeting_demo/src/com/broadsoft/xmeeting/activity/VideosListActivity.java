@@ -1,11 +1,15 @@
 package com.broadsoft.xmeeting.activity;
 
 
-import java.io.File;
-
 import io.vov.vitamio.widget.MediaController;
-import android.content.Intent;
-import android.graphics.PixelFormat;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
@@ -13,28 +17,23 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
-import android.view.WindowManager;
-import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
-import android.widget.ViewFlipper;
 
+import com.broadsoft.common.util.FolderUtils;
 import com.broadsoft.xmeeting.R;
-import com.nmbb.oplayer.OPlayerApplication;
 import com.nmbb.oplayer.OPreference;
 import com.nmbb.oplayer.database.DbHelper;
+import com.nmbb.oplayer.exception.Logger;
 import com.nmbb.oplayer.po.POMedia;
-import com.nmbb.oplayer.service.MediaScannerService;
 import com.nmbb.oplayer.ui.FragmentBase;
 import com.nmbb.oplayer.ui.FragmentFileOld;
-import com.nmbb.oplayer.ui.FragmentOnline;
 import com.nmbb.oplayer.ui.helper.FileDownloadHelper;
 import com.nmbb.oplayer.ui.vitamio.LibsChecker;
+import com.nmbb.oplayer.util.FileUtils;
+import com.nmbb.oplayer.util.PinyinUtils;
 //import com.hp.hpl.sparta.ParseSource;
 
 public class VideosListActivity extends FragmentActivity implements OnClickListener {
@@ -66,17 +65,17 @@ public class VideosListActivity extends FragmentActivity implements OnClickListe
 
 		OPreference pref = new OPreference(this);
 		
-		String scanPath = getSDPath()+"/xmeeting/10001/videos";//Environment.getExternalStorageDirectory().getAbsolutePath();
+		String scanPath = FolderUtils.getVideoDir(FolderUtils.demoMeetingId);//getSDPath()+"/xmeeting/10001/videos";//Environment.getExternalStorageDirectory().getAbsolutePath();
 		//	首次运行，扫描SD卡
 //		if (pref.getBoolean(OPlayerApplication.PREF_KEY_FIRST, true)) {
-			getApplicationContext()
-					.startService(
-							new Intent(getApplicationContext(),
-									MediaScannerService.class).putExtra(
-									MediaScannerService.EXTRA_DIRECTORY, scanPath));
+//			getApplicationContext()
+//					.startService(
+//							new Intent(getApplicationContext(),
+//									MediaScannerService.class).putExtra(
+//									MediaScannerService.EXTRA_DIRECTORY, scanPath));
 
 //		}
-
+			
 		setContentView(R.layout.fragment_pager);
 
 		// ~~~~~~ 绑定控件
@@ -127,21 +126,7 @@ public class VideosListActivity extends FragmentActivity implements OnClickListe
 		super.onDestroy();
 		if (mFileDownload != null)
 			mFileDownload.stopALl();
-	}
-
-	private void initFloatview() {
-		wm = (WindowManager) getApplicationContext().getSystemService("window");
-		wmParams = new WindowManager.LayoutParams();
-		// wmParams=new WindowManager.LayoutParams();
-		// wmParams.type=LayoutParams.TYPE_PHONE;
-		// wmParams.format=PixelFormat.RGBA_8888;
-		// wmParams.flags=LayoutParams.FLAG_NOT_TOUCH_MODAL|LayoutParams.FLAG_NOT_FOCUSABLE;
-		// wmParams.x=0;
-		// wmParams.y=0;
-		// wmParams.width=100;
-		// wmParams.height=100;
-	}
-
+	} 
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
@@ -152,10 +137,7 @@ public class VideosListActivity extends FragmentActivity implements OnClickListe
 //		} catch (InterruptedException e) {
 //			e.printStackTrace();
 //		}
-		initFloatview();
 //		play1 = new Button(this);
-		cache1 = new Button(this);
-		createRightButton();
 //		System.out.println("resume");
 	}
 
@@ -163,54 +145,7 @@ public class VideosListActivity extends FragmentActivity implements OnClickListe
 	private FragmentBase getFragmentByPosition(int position) {
 		return (FragmentBase) getSupportFragmentManager().findFragmentByTag("android:switcher:" + mPager.getId() + ":" + position);
 	}
-	
-	private WindowManager wm = null; 
-	private WindowManager.LayoutParams wmParams = null; 
-//	private Button play1; 
-	private Button cache1; 
-	private int mAlpha = 0; 
-	private ViewFlipper viewFlipper = null; 
-
-	
-	// 右悬浮键 
-	private void createRightButton() {
-		wmParams.type = LayoutParams.TYPE_PHONE;
-		wmParams.format = PixelFormat.RGBA_8888;
-		wmParams.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL
-				| LayoutParams.FLAG_NOT_FOCUSABLE;
-		cache1.setBackgroundResource(R.drawable.back);
-		cache1.getBackground().setAlpha(180);
-		cache1.setPadding(10,10,10,10);
-		cache1.setOnTouchListener(new OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				// TODO Auto-generated method stub
-				if (event.getAction() == MotionEvent.ACTION_DOWN) {
-					cache1.setBackgroundResource(R.drawable.back);
-					cache1.getBackground().setAlpha(255);
-				} else if (event.getAction() == MotionEvent.ACTION_UP) {
-					cache1.setBackgroundResource(R.drawable.back);
-					cache1.getBackground().setAlpha(180);
-				}
-				return false;
-			}
-		});
-		// cache1.setAlpha(0);
-		//cache1.setText("缓存");
-		cache1.setOnClickListener(mBackListener);
-		wmParams.width = 35;
-		wmParams.height = 35;
-		wmParams.gravity = Gravity.RIGHT | Gravity.BOTTOM;
-		wmParams.x = 40;
-		wmParams.y = 20;
-		wm.addView(cache1, wmParams);
-	}
-	
-	@Override
-		protected void onPause() {
-			wm.removeView(cache1); 
-			super.onPause();
-		}
+	  
 
 	private View.OnClickListener mBackListener = new View.OnClickListener() {
 		@Override
@@ -245,7 +180,7 @@ public class VideosListActivity extends FragmentActivity implements OnClickListe
 
 		@Override
 		public int getCount() {
-			return 2;
+			return 1;
 		}
 	};
 
@@ -333,5 +268,37 @@ public class VideosListActivity extends FragmentActivity implements OnClickListe
 			return super.onKeyDown(keyCode, event); 
 			// Disable all keys
 //			return false;
+		}
+		private DbHelper<POMedia> mDbHelper = new DbHelper<POMedia>();;
+		private Map<String, Object> mDbWhere = new HashMap<String, Object>(2);
+		
+		/**
+		 * 保存入库
+		 * 
+		 * @throws FileNotFoundException
+		 */
+		private void save(POMedia media) {
+			mDbWhere.put("path", media.path);
+			mDbWhere.put("last_modify_time", media.last_modify_time);
+			//检测
+			if (!mDbHelper.exists(media, mDbWhere)) {
+				try {
+					if (media.title != null && media.title.length() > 0)
+						media.title_key = PinyinUtils.chineneToSpell(media.title.charAt(0) + "");
+				} catch (Exception ex) {
+					Logger.e(ex);
+				}
+				media.last_access_time = System.currentTimeMillis();
+
+				//提取缩略图
+				//			extractThumbnail(media);
+//				media.mime_type = FileUtils.getMimeType(media.path);
+
+				//入库
+				mDbHelper.create(media);
+
+				//扫描到一个
+//				notifyObservers(SCAN_STATUS_RUNNING, media);
+			}
 		}
 }
