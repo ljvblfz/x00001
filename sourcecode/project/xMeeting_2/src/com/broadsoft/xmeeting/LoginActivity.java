@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -37,13 +38,31 @@ public class LoginActivity extends Activity  {
 	private String TAG="LoginActivity";
 	private static int REQUEST_CODE = 2;
 //	View contentView;
+	
+	
+	protected Context getFriendContext(){
+		Context friendContext=null;
+		String packageName="com.broadsoft.xmdownload";
+		try {
+			friendContext = this.createPackageContext(packageName,Context.CONTEXT_IGNORE_SECURITY);
+		} catch (NameNotFoundException e) { 
+			e.printStackTrace();
+			Log.e(TAG, "getFriendContext raise the exception:  "+e.getMessage());
+		}
+		Log.d(TAG, "friendContext is:  "+friendContext);
+		return friendContext;
+	}//end of getFriendContext
+	
+	
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.d(TAG, "onCreate onCreate");
 		super.onCreate(savedInstanceState);
 		
 		if(!Constants.enableAutoBoot){
-			AppInitSupport.initApp(this.getApplicationContext(), this.getAssets()); 
+			AppInitSupport.initApp(this.getFriendContext(), this.getAssets()); 
 		}else{ 
 			AppInitSupport.debugAppData();
 		}
@@ -89,18 +108,18 @@ public class LoginActivity extends Activity  {
 	 */
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		Log.d("BaseActivity--->onKeyDown", "onKeyDown  keyCode----->" + keyCode);
-		Log.d("BaseActivity--->onKeyDown", "onKeyDown  KEYCODE_BACK----->" +  KeyEvent.KEYCODE_BACK);
-		Log.d("BaseActivity--->onKeyDown", "onKeyDown  KEYCODE_HOME----->" +  KeyEvent.KEYCODE_HOME);
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			// do something
-			return false;
-		} else if (keyCode == KeyEvent.KEYCODE_HOME) {
-			// do something
-			return false;
-		} 
-		return super.onKeyDown(keyCode, event);  
-//		return false;
+//		Log.d("BaseActivity--->onKeyDown", "onKeyDown  keyCode----->" + keyCode);
+//		Log.d("BaseActivity--->onKeyDown", "onKeyDown  KEYCODE_BACK----->" +  KeyEvent.KEYCODE_BACK);
+//		Log.d("BaseActivity--->onKeyDown", "onKeyDown  KEYCODE_HOME----->" +  KeyEvent.KEYCODE_HOME);
+//		if (keyCode == KeyEvent.KEYCODE_BACK) {
+//			// do something
+//			return false;
+//		} else if (keyCode == KeyEvent.KEYCODE_HOME) {
+//			// do something
+//			return false;
+//		} 
+		return super.onKeyDown(keyCode, event);   
+		
 	}
 	
 	

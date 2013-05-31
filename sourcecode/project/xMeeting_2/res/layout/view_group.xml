@@ -411,47 +411,47 @@
 		            android:layout_height="wrap_content"
 		            android:layout_gravity="center"
 		            android:paddingLeft="15dp"
-		            android:text="天气情况"
+		            android:text="发送彩信"
 		            android:textAppearance="?android:attr/textAppearanceMedium"
 		            android:textColor="@android:color/white"
 		            android:textSize="18sp" />
 	        
 	        </LinearLayout>	   
 	        
-	        <ImageView
-	                android:id="@+id/imageView3"
-	                android:layout_width="match_parent"
-	                android:layout_height="wrap_content"
-	                android:background="@drawable/v5_0_1_flipper_head_popup_menu_black_divider" />
+<!-- 	        <ImageView -->
+<!-- 	                android:id="@+id/imageView3" -->
+<!-- 	                android:layout_width="match_parent" -->
+<!-- 	                android:layout_height="wrap_content" -->
+<!-- 	                android:background="@drawable/v5_0_1_flipper_head_popup_menu_black_divider" /> -->
 
-	        <LinearLayout
-	            android:id="@+id/ly7"
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:background="@drawable/ly_menu_item"
-	            android:paddingBottom="12dp"
-	            android:paddingLeft="20dp"
-	            android:paddingTop="12dp" >
+<!-- 	        <LinearLayout -->
+<!-- 	            android:id="@+id/ly7" -->
+<!-- 	            android:layout_width="match_parent" -->
+<!-- 	            android:layout_height="wrap_content" -->
+<!-- 	            android:background="@drawable/ly_menu_item" -->
+<!-- 	            android:paddingBottom="12dp" -->
+<!-- 	            android:paddingLeft="20dp" -->
+<!-- 	            android:paddingTop="12dp" > -->
 
-	            <ImageView
-	                android:id="@+id/imageView4"
-	                android:layout_width="24dp"
-	                android:layout_height="24dp"
-	                android:layout_gravity="center"
-	                android:src="@drawable/v5_2_1_desktop_list_log_out" />
+<!-- 	            <ImageView -->
+<!-- 	                android:id="@+id/imageView4" -->
+<!-- 	                android:layout_width="24dp" -->
+<!-- 	                android:layout_height="24dp" -->
+<!-- 	                android:layout_gravity="center" -->
+<!-- 	                android:src="@drawable/v5_2_1_desktop_list_log_out" /> -->
 
-		        <TextView
-		            android:id="@+id/button1"
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:layout_gravity="center"
-		            android:paddingLeft="15dp"
-		            android:text="通讯服务"
-		            android:textAppearance="?android:attr/textAppearanceMedium"
-		            android:textColor="@android:color/white"
-		            android:textSize="18sp" />
+<!-- 		        <TextView -->
+<!-- 		            android:id="@+id/button1" -->
+<!-- 		            android:layout_width="wrap_content" -->
+<!-- 		            android:layout_height="wrap_content" -->
+<!-- 		            android:layout_gravity="center" -->
+<!-- 		            android:paddingLeft="15dp" -->
+<!-- 		            android:text="通讯服务" -->
+<!-- 		            android:textAppearance="?android:attr/textAppearanceMedium" -->
+<!-- 		            android:textColor="@android:color/white" -->
+<!-- 		            android:textSize="18sp" /> -->
 	        
-	        </LinearLayout>	   
+<!-- 	        </LinearLayout>	    -->
 	        
 	        
 	    </LinearLayout>
