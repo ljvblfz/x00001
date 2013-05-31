@@ -22,6 +22,7 @@ import android.widget.Button;
 
 import com.broadsoft.common.util.FolderUtils;
 import com.broadsoft.xmcommon.androiddao.EntityInfoHolder;
+import com.broadsoft.xmeeting.DesktopActivity;
 import com.broadsoft.xmeeting.R;
 import com.nmbb.oplayer.OPlayerApplication;
 import com.nmbb.oplayer.OPreference;
@@ -45,6 +46,13 @@ public class VideosListActivity extends FragmentActivity implements OnClickListe
 //	PRIVATE RADIOBUTTON MRADIOONLINE;
 	public FileDownloadHelper mFileDownload;
 //	private MediaController mMediaController;
+
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		DesktopActivity.releaseLoading(hasFocus);
+		// TODO Auto-generated method stub
+		super.onWindowFocusChanged(hasFocus);
+	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

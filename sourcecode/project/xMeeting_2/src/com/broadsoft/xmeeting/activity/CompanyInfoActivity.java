@@ -13,6 +13,7 @@ import android.widget.TabHost.TabSpec;
 import android.widget.TabWidget;
 import android.widget.TextView;
 
+import com.broadsoft.xmeeting.DesktopActivity;
 import com.broadsoft.xmeeting.R;
 
 public class CompanyInfoActivity extends TabActivity{
@@ -23,6 +24,13 @@ public class CompanyInfoActivity extends TabActivity{
 	private int writeColor = Color.parseColor("#ffffff");
 	private int blackColor = Color.parseColor("#000000");
 	
+
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		DesktopActivity.releaseLoading(hasFocus);
+		// TODO Auto-generated method stub
+		super.onWindowFocusChanged(hasFocus);
+	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

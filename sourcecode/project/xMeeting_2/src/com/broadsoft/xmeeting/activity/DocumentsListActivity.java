@@ -27,6 +27,7 @@ import android.widget.SimpleAdapter;
 
 import com.broadsoft.common.util.FolderUtils;
 import com.broadsoft.xmcommon.androiddao.EntityInfoHolder;
+import com.broadsoft.xmeeting.DesktopActivity;
 import com.broadsoft.xmeeting.R;
 import com.nmbb.oplayer.OPlayerApplication;
 import com.poqop.document.BaseBrowserActivity;
@@ -36,6 +37,13 @@ public class DocumentsListActivity extends BaseBrowserActivity {
 //	String[] titles={"关于电力资源合理利用","电力系统电网规划简要原则","URI设计真重要","URI设计真重要"};
 //	String[] texts={"2012-11-20  25页","2012-11-20  22页","2012-11-20  22页","2012-11-20  22页"};
 	int[] resIds={R.drawable.pdf,R.drawable.word,R.drawable.excel,R.drawable.ppt};
+
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		DesktopActivity.releaseLoading(hasFocus);
+		// TODO Auto-generated method stub
+		super.onWindowFocusChanged(hasFocus);
+	}
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
