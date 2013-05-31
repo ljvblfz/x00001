@@ -13,7 +13,7 @@ import com.broadsoft.xmcommon.androiddao.EntityInfoHolder;
 import com.broadsoft.xmcommon.androiddao.PadInfoEntity;
 import com.broadsoft.xmcommon.androidsdcard.SDCardSupport;
 import com.broadsoft.xmcommon.androidutil.AndroidIdSupport;
-import com.broadsoft.xmdownload.wsservice.WsServiceSupport;
+import com.broadsoft.xmdownload.wsservice.WsDownloadServiceSupport;
 
 public class AppInitSupport {
 	private static final String TAG="AppInitSupport"; 
@@ -40,15 +40,15 @@ public class AppInitSupport {
 			Log.d(TAG, "[Demo]jsonData---->"+jsonData);
 		}else{ 
 			// 监听websocket消息
-			WsServiceSupport.getInstance().initData(AndroidIdSupport.getAndroidID());
+			WsDownloadServiceSupport.getInstance().initData(AndroidIdSupport.getAndroidID());
 			try{
-				WsServiceSupport.getInstance().disconnect();
+				WsDownloadServiceSupport.getInstance().disconnect();
 				
 			}catch(Exception e){
 
 				Log.d(TAG, "[WS]disconnect---exception--"+e.getMessage());
 			}
-			WsServiceSupport.getInstance().connect(); 
+			WsDownloadServiceSupport.getInstance().connect(); 
 			Log.d(TAG, "[WS]connect---->done.");
 		}
 		//读取会议信息
@@ -67,7 +67,7 @@ public class AppInitSupport {
 	
 
 	public static void destroyApp(Context ctx,AssetManager assetManager) {
-		WsServiceSupport.getInstance().disconnect(); 
+		WsDownloadServiceSupport.getInstance().disconnect(); 
 		
 	}
 }
