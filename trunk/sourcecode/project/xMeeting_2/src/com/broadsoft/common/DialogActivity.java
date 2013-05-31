@@ -1,22 +1,12 @@
 package com.broadsoft.common;
 
 
-import com.broadsoft.xmeeting.DesktopActivity;
-import com.broadsoft.xmeeting.R;
-import com.broadsoft.xmeeting.WelcomeActivity;
-
 import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
+
+import com.broadsoft.xmeeting.R;
 
 public class DialogActivity extends Activity {
 	//private MyDialog dialog;

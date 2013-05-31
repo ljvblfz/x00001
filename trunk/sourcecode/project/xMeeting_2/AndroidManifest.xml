@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.broadsoft.xmeeting"
+    android:sharedUserId="broadsoft.xmeeting"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -8,91 +9,156 @@
         android:minSdkVersion="11"
         android:targetSdkVersion="16" />
 
-	<uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-	<uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" /> 
-	
-    <uses-permission android:name="com.android.email.permission.ACCESS_PROVIDER"/>
-    <uses-permission android:name="com.android.email.permission.READ_ATTACHMENT"/>
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
-	
-	
-    <!-- 
-        android:theme="@style/AppTheme" http://blog.csdn.net/feng88724/article/details/6457431 -->
-    <application 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
+    <uses-permission android:name="com.android.email.permission.ACCESS_PROVIDER" />
+    <uses-permission android:name="com.android.email.permission.READ_ATTACHMENT" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+<!--         android:theme="@style/AppTheme" http://blog.csdn.net/feng88724/article/details/6457431 -->
+    <application
         android:name="com.nmbb.oplayer.OPlayerApplication"
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
-        android:theme="@style/ThemeActivity">
+        android:theme="@style/ThemeActivity" >
         <activity
-            android:name="com.broadsoft.xmeeting.LoginActivity" 
-            android:screenOrientation="landscape"
-            android:label="@string/app_name" >
+            android:name="com.broadsoft.xmeeting.LoginActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" /> 
+                <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.HOME" /> 
-				<category android:name="android.intent.category.DEFAULT" /> 
-            </intent-filter> 
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
-        
-        
-        <activity android:name="com.broadsoft.xmeeting.WelcomeActivity"  android:screenOrientation="landscape" android:label="@string/app_name" />
-        
-        <activity android:name="com.broadsoft.xmeeting.DesktopActivity"  android:screenOrientation="landscape" android:label="@string/app_name" />
-        
+        <activity
+            android:name="com.broadsoft.xmeeting.WelcomeActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="com.broadsoft.xmeeting.DesktopActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" />
+
         <!-- 各个功能模块的activity -->
-        <activity android:name="com.broadsoft.xmeeting.activity.MeetingGuideActivity" android:screenOrientation="landscape" android:label="@string/app_name" />
-        <activity android:name="com.broadsoft.xmeeting.activity.MeetingGuideCatalogActivity" android:screenOrientation="landscape" android:label="@string/app_name" /> 
-        
-        
-        <activity android:name="com.broadsoft.xmeeting.activity.MeetingGuideCatalogBusInfoActivity"      android:screenOrientation="landscape" android:label="@string/app_name" /> 
-        <activity android:name="com.broadsoft.xmeeting.activity.MeetingGuideCatalogContactInfoActivity"  android:screenOrientation="landscape" android:label="@string/app_name" /> 
-        <activity android:name="com.broadsoft.xmeeting.activity.MeetingGuideCatalogMemberInfoActivity"   android:screenOrientation="landscape" android:label="@string/app_name" /> 
-        <activity android:name="com.broadsoft.xmeeting.activity.MeetingGuideCatalogScheduleInfoActivity" android:screenOrientation="landscape" android:label="@string/app_name" /> 
-        <activity android:name="com.broadsoft.xmeeting.activity.MeetingGuideCatalogWeatherInfoActivity"  android:screenOrientation="landscape" android:label="@string/app_name" /> 
-        
-        
-        <activity android:name="com.broadsoft.xmeeting.activity.CallServiceActivity" android:screenOrientation="landscape"  android:label="@string/app_name" />
-        <activity android:name="com.broadsoft.xmeeting.activity.CallOutActivity" android:screenOrientation="landscape" android:theme="@style/MyDialogStyleBottom"  android:label="@string/app_name" />
-        
-        <activity android:name="com.broadsoft.xmeeting.activity.CompanyInfoActivity" android:screenOrientation="landscape" android:label="@string/app_name" />
-        <activity android:name="com.broadsoft.xmeeting.activity.CompanyInfoBasic" android:screenOrientation="landscape" android:label="@string/app_name" />
-       
-        <activity android:name="com.broadsoft.xmeeting.activity.CompanyInfoLeader" android:screenOrientation="landscape" android:label="@string/app_name" />
-        <activity android:name="com.broadsoft.xmeeting.activity.CompanyInfoOrg" android:screenOrientation="landscape" android:label="@string/app_name" />
-        
-       
-        <activity android:name="com.broadsoft.xmeeting.activity.ImageGallaryMainActivity" android:screenOrientation="landscape" android:label="@string/app_name" />
-        <activity android:name="com.broadsoft.xmeeting.activity.ImageGallaryViewFlipperActivity" android:theme="@style/MyDialogStyleBottom" android:screenOrientation="landscape" android:label="@string/app_name" />
-        <activity android:name="com.broadsoft.xmeeting.activity.VotingActivity" android:screenOrientation="landscape" android:label="@string/app_name" />
-        <activity android:name="com.broadsoft.xmeeting.activity.SysSettingActivity" android:screenOrientation="landscape" android:label="@string/app_name" />
-        <activity android:name="com.broadsoft.xmeeting.activity.TimerServiceActivity" android:screenOrientation="landscape" android:label="@string/app_name" />
-        <activity android:name="com.broadsoft.xmeeting.activity.MessageServiceActivity" android:screenOrientation="landscape" android:label="@string/app_name" />
-        <activity android:name="com.broadsoft.xmeeting.activity.MessageServiceChatActivity" android:screenOrientation="landscape" android:label="@string/app_name" />
-        
-         <activity android:name="com.broadsoft.common.DialogActivity" android:theme="@style/MyDialogStyleBottom" android:screenOrientation="landscape" android:label="@string/app_name" />
-        
-        <activity android:name="com.broadsoft.xmeeting.activity.InternetBrowserActivity" android:screenOrientation="landscape" android:label="@string/app_name" />
-        
-        <activity android:name="com.broadsoft.xmeeting.activity.DocumentsListActivity" android:screenOrientation="landscape" android:label="@string/app_name" />
-        
-<!--         <activity android:name="com.broadsoft.xmeeting.activity.VideoListActivity" android:screenOrientation="landscape" android:label="@string/app_name" /> -->
-        
-         <!--  -->
-         <activity
-            android:name="com.broadsoft.xmeeting.activity.VideosListActivity"
+        <activity
+            android:name="com.broadsoft.xmeeting.activity.MeetingGuideActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="com.broadsoft.xmeeting.activity.MeetingGuideCatalogActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="com.broadsoft.xmeeting.activity.MeetingGuideCatalogBusInfoActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="com.broadsoft.xmeeting.activity.MeetingGuideCatalogContactInfoActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="com.broadsoft.xmeeting.activity.MeetingGuideCatalogMemberInfoActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="com.broadsoft.xmeeting.activity.MeetingGuideCatalogScheduleInfoActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="com.broadsoft.xmeeting.activity.MeetingGuideCatalogWeatherInfoActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="com.broadsoft.xmeeting.activity.CallServiceActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="com.broadsoft.xmeeting.activity.CallOutActivity"
+            android:label="@string/app_name"
             android:screenOrientation="landscape"
+            android:theme="@style/MyDialogStyleBottom" />
+        <activity
+            android:name="com.broadsoft.xmeeting.activity.CompanyInfoActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="com.broadsoft.xmeeting.activity.CompanyInfoBasic"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="com.broadsoft.xmeeting.activity.CompanyInfoLeader"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="com.broadsoft.xmeeting.activity.CompanyInfoOrg"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="com.broadsoft.xmeeting.activity.ImageGallaryMainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="com.broadsoft.xmeeting.activity.ImageGallaryViewFlipperActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape"
+            android:theme="@style/MyDialogStyleBottom" />
+        <activity
+            android:name="com.broadsoft.xmeeting.activity.VotingActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="com.broadsoft.xmeeting.activity.SysSettingActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="com.broadsoft.xmeeting.activity.TimerServiceActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="com.broadsoft.xmeeting.activity.MessageServiceActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="com.broadsoft.xmeeting.activity.MessageServiceChatActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="com.broadsoft.common.DialogActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape"
+            android:theme="@style/MyDialogStyleBottom" />
+        <activity
+            android:name="com.broadsoft.xmeeting.activity.InternetBrowserActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="com.broadsoft.xmeeting.activity.DocumentsListActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" />
+
+        <!-- <activity android:name="com.broadsoft.xmeeting.activity.VideoListActivity" android:screenOrientation="landscape" android:label="@string/app_name" /> -->
+
+
+        <!--  -->
+        <activity
+            android:name="com.broadsoft.xmeeting.activity.VideosListActivity"
             android:configChanges="orientation|keyboard|keyboardHidden|navigation"
             android:label="@string/app_name"
+            android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar" >
-<!--             <intent-filter> -->
-<!--                 <category android:name="android.intent.category.LAUNCHER" /> -->
-<!--             </intent-filter> -->
+
+            <!-- <intent-filter> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name="com.nmbb.oplayer.ui.VideoPlayerActivity"
@@ -276,29 +342,33 @@
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.NoTitleBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
-         
-         
-         <!-- pdf viewer -->
-        <activity android:name="org.vudroid.pdfdroid.PdfViewerActivity" 
-     		android:theme="@android:style/Theme.NoTitleBar"  android:configChanges="orientation|keyboardHidden">
+
+        <!-- pdf viewer -->
+        <activity
+            android:name="org.vudroid.pdfdroid.PdfViewerActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:mimeType="application/pdf"/>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:mimeType="application/pdf" />
             </intent-filter>
         </activity>
-        
+
         <!-- autoboot -->
-         <receiver android:name="com.broadsoft.common.AutoBootSupport" >
+        <receiver android:name="com.broadsoft.common.AutoBootSupport" >
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" /> 
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+
                 <category android:name="android.intent.category.HOME" />
             </intent-filter>
         </receiver>
-        
-         <!-- video -->
-         <receiver android:name="com.nmbb.oplayer.receiver.MediaScannerReceiver" >
+
+        <!-- video -->
+        <receiver android:name="com.nmbb.oplayer.receiver.MediaScannerReceiver" >
 
             <!-- 重启 -->
             <intent-filter>
@@ -325,7 +395,6 @@
                 <action android:name="io.vov.vitamio.IVitamioService" />
             </intent-filter>
         </service>
-        
         <service android:name="com.nmbb.oplayer.service.MediaScannerService" />
     </application>
 
