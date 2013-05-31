@@ -22,8 +22,8 @@ import com.broadsoft.xmdownload.rsservice.RsServiceOnPadInfoSupport;
  * @author lu.zhen
  *
  */
-public class WsServiceSupport {
-	private final String TAG="WsServiceSupport";
+public class WsDownloadServiceSupport {
+	private final String TAG="WsDownloadServiceSupport";
 
 //	private String wspath="ws://172.29.135.151:8080/websocket/ws/download?padId=android&roleName=DEVICE";
 	private String wspath;
@@ -32,14 +32,14 @@ public class WsServiceSupport {
 	
 	private String padId; //android id
 	
-	private static WsServiceSupport wsServiceSupport=new WsServiceSupport();
+	private static WsDownloadServiceSupport wsDownloadServiceSupport=new WsDownloadServiceSupport();
 	
-	private  WsServiceSupport(){
+	private  WsDownloadServiceSupport(){
 		
 	}
 	
-	public static WsServiceSupport getInstance(){
-		return wsServiceSupport;
+	public static WsDownloadServiceSupport getInstance(){
+		return wsDownloadServiceSupport;
 	} 
 	
 	

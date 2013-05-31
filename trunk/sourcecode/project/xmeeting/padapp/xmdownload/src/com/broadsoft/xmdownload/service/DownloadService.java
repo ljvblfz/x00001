@@ -9,7 +9,7 @@ import com.broadsoft.xmcommon.androidconfig.DomAppConfigFactory;
 import com.broadsoft.xmcommon.androiddao.DaoHolder;
 import com.broadsoft.xmcommon.androidutil.AndroidIdSupport;
 import com.broadsoft.xmdownload.appsupport.AppInitSupport;
-import com.broadsoft.xmdownload.wsservice.WsServiceSupport;
+import com.broadsoft.xmdownload.wsservice.WsDownloadServiceSupport;
 
 /**
  * 下载服务
