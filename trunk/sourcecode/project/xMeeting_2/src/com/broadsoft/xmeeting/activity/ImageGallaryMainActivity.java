@@ -8,6 +8,7 @@ import java.util.Map;
 import com.broadsoft.appsupport.AsyncBitmapLoader;
 import com.broadsoft.common.MyPullDownLayoutView;
 import com.broadsoft.common.MyPullDownLayoutView.OnPullDownListener;
+import com.broadsoft.xmeeting.DesktopActivity;
 import com.broadsoft.xmeeting.R;
 
 
@@ -107,6 +108,13 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
 	
 	private ImageAdapter adapter;
 	
+
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		DesktopActivity.releaseLoading(hasFocus);
+		// TODO Auto-generated method stub
+		super.onWindowFocusChanged(hasFocus);
+	}
 	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

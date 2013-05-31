@@ -125,7 +125,7 @@ public class DesktopActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				new StartActivityTask().execute("1");
+				startActivity("1");
 				
 			}
 		});
@@ -136,7 +136,7 @@ public class DesktopActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				new StartActivityTask().execute("2");
+				startActivity("2");
 			}
 		});
 	
@@ -146,7 +146,7 @@ public class DesktopActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				new StartActivityTask().execute("3");
+				startActivity("3");
 			}
 		});
 		
@@ -156,7 +156,7 @@ public class DesktopActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				new StartActivityTask().execute("4");
+				startActivity("4");
 			}
 		});
 		
@@ -166,7 +166,7 @@ public class DesktopActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				new StartActivityTask().execute("5");
+				startActivity("5");
 			}
 		});
 		
@@ -176,7 +176,7 @@ public class DesktopActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				new StartActivityTask().execute("6");
+				startActivity("6");
 			}
 		});
 		
@@ -186,11 +186,32 @@ public class DesktopActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				new StartActivityTask().execute("7");
+				startActivity("7");
 			}
 		});
 		
 	}
+
+	private void startActivity(String type) {
+		if (!isloading) {
+			isloading = true;
+			new StartActivityTask().execute(type);
+		}
+	}
+	
+	/**
+	 * 释放activity loading 的状态
+	 * @param hasFocus
+	 */
+	public static void releaseLoading(boolean hasFocus){
+		System.out.println("================================hasFocus =========="+hasFocus);
+		if(hasFocus){
+			System.out.println("================================upload isloading =========="+DesktopActivity.isloading);
+			DesktopActivity.isloading=false;
+		}
+	}
+	
+	public static boolean isloading=false;
 	
 	//执行异步的操作
   	private class StartActivityTask extends AsyncTask<String, Void, String[]> {

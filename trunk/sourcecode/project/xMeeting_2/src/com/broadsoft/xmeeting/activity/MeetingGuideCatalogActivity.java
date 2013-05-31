@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.broadsoft.common.BaseActivity;
 import com.broadsoft.common.SlidingMenuView;
+import com.broadsoft.xmeeting.DesktopActivity;
 import com.broadsoft.xmeeting.R;
 import com.broadsoft.xmeeting.htmldata.MeetingGuideHtmlDataSupport;
 
@@ -35,6 +36,13 @@ public class MeetingGuideCatalogActivity extends ActivityGroup {
 	private boolean bsShow = true;
 	private Activity act = this;
 	
+
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		DesktopActivity.releaseLoading(hasFocus);
+		// TODO Auto-generated method stub
+		super.onWindowFocusChanged(hasFocus);
+	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
