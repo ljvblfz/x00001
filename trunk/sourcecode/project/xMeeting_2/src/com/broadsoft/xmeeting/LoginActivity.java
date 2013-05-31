@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.broadsoft.common.Constants;
@@ -36,8 +37,7 @@ public class LoginActivity extends Activity  {
 	private final static boolean flag=true;
 	
 	private String TAG="LoginActivity";
-	private static int REQUEST_CODE = 2;
-//	View contentView;
+	private static int REQUEST_CODE = 2; 
 	
 	
 	protected Context getFriendContext(){
@@ -77,6 +77,10 @@ public class LoginActivity extends Activity  {
 		//
 		setContentView(R.layout.login_activity_main);
 
+
+		TextView loginname=(TextView)this.findViewById(R.id.loginname);
+		String memberName=EntityInfoHolder.getInstance().getDownloadInfoEntity().getMemberDisplayName();
+		loginname.setText(memberName);
 		registerNavButtonForLogin();
 
 //		contentView = findViewById(R.id.login_fullscreen);
