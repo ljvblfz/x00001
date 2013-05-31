@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.broadsoft.xmdownload"
+    android:sharedUserId="broadsoft.xmeeting"
     android:versionCode="1"
     android:versionName="1.0" >
 
