@@ -42,34 +42,34 @@ public class BaseActivity extends Activity implements OnClickListener,
 	
 	protected boolean isShowBackBtn=true; 
 	
-	private WindowManager wm = null; 
-	private WindowManager.LayoutParams wmParams = null; 
+//	private WindowManager wm = null; 
+//	private WindowManager.LayoutParams wmParams = null; 
 //	private Button play1; 
-	private Button floatBackButton;  
+//	private Button floatBackButton;  
 	
-	private int x =40;
-	private int y=20;
-	
-	protected void setxy(int x,int y){
-		this.x=x;
-		this.y=y;
-	}
+//	private int x =40;
+//	private int y=20;
+//	
+//	protected void setxy(int x,int y){
+//		this.x=x;
+//		this.y=y;
+//	}
 
 //	protected SystemUiHider mSystemUiHider;
 //	protected static final int HIDER_FLAGS = SystemUiHider.FLAG_HIDE_NAVIGATION;
 
-	private void initFloatview() {
-		wm = (WindowManager) getApplicationContext().getSystemService("window");
-		wmParams = new WindowManager.LayoutParams();
-		// wmParams=new WindowManager.LayoutParams();
-		// wmParams.type=LayoutParams.TYPE_PHONE;
-		// wmParams.format=PixelFormat.RGBA_8888;
-		// wmParams.flags=LayoutParams.FLAG_NOT_TOUCH_MODAL|LayoutParams.FLAG_NOT_FOCUSABLE;
-		// wmParams.x=0;
-		// wmParams.y=0;
-		// wmParams.width=100;
-		// wmParams.height=100;
-	}
+//	private void initFloatview() {
+//		wm = (WindowManager) getApplicationContext().getSystemService("window");
+//		wmParams = new WindowManager.LayoutParams();
+//		// wmParams=new WindowManager.LayoutParams();
+//		// wmParams.type=LayoutParams.TYPE_PHONE;
+//		// wmParams.format=PixelFormat.RGBA_8888;
+//		// wmParams.flags=LayoutParams.FLAG_NOT_TOUCH_MODAL|LayoutParams.FLAG_NOT_FOCUSABLE;
+//		// wmParams.x=0;
+//		// wmParams.y=0;
+//		// wmParams.width=100;
+//		// wmParams.height=100;
+//	}
 
 	@Override
 	protected void onResume() {
@@ -81,60 +81,60 @@ public class BaseActivity extends Activity implements OnClickListener,
 //		} catch (InterruptedException e) {
 //			e.printStackTrace();
 //		}
-		if(isShowBackBtn){
-			initFloatview();
-	//		play1 = new Button(this);
-			floatBackButton = new Button(this);
-			createRightButton();
-	//		System.out.println("resume");
-		}
+//		if(isShowBackBtn){
+//			initFloatview();
+//	//		play1 = new Button(this);
+//			floatBackButton = new Button(this);
+//			createRightButton();
+//	//		System.out.println("resume");
+//		}
 	}
 
 	
 	// 右悬浮键 
-	private void createRightButton() {
-		wmParams.type = LayoutParams.TYPE_PHONE;
-		wmParams.format = PixelFormat.RGBA_8888;
-		wmParams.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL
-				| LayoutParams.FLAG_NOT_FOCUSABLE;
-		floatBackButton.setBackgroundResource(R.drawable.back);
-		floatBackButton.getBackground().setAlpha(180);
-		floatBackButton.setPadding(10,10,10,10);
-		floatBackButton.setOnTouchListener(new OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				// TODO Auto-generated method stub
-				if (event.getAction() == MotionEvent.ACTION_DOWN) {
-					floatBackButton.setBackgroundResource(R.drawable.back);
-					floatBackButton.getBackground().setAlpha(255);
-				} else if (event.getAction() == MotionEvent.ACTION_UP) {
-					floatBackButton.setBackgroundResource(R.drawable.back);
-					floatBackButton.getBackground().setAlpha(180);
-				}
-				return false;
-			}
-		});
-		// cache1.setAlpha(0);
-		//cache1.setText("缓存");
-		floatBackButton.setOnClickListener(mBackListener);
-		wmParams.width = 35;
-		wmParams.height = 35;
-		wmParams.gravity = Gravity.RIGHT | Gravity.BOTTOM;
-		wmParams.x = this.x;
-		wmParams.y = this.y;
-		wm.addView(floatBackButton, wmParams);
-	}
+//	private void createRightButton() {
+//		wmParams.type = LayoutParams.TYPE_PHONE;
+//		wmParams.format = PixelFormat.RGBA_8888;
+//		wmParams.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL
+//				| LayoutParams.FLAG_NOT_FOCUSABLE;
+//		floatBackButton.setBackgroundResource(R.drawable.back);
+//		floatBackButton.getBackground().setAlpha(180);
+//		floatBackButton.setPadding(10,10,10,10);
+//		floatBackButton.setOnTouchListener(new OnTouchListener() {
+//			@Override
+//			public boolean onTouch(View v, MotionEvent event) {
+//				// TODO Auto-generated method stub
+//				if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//					floatBackButton.setBackgroundResource(R.drawable.back);
+//					floatBackButton.getBackground().setAlpha(255);
+//				} else if (event.getAction() == MotionEvent.ACTION_UP) {
+//					floatBackButton.setBackgroundResource(R.drawable.back);
+//					floatBackButton.getBackground().setAlpha(180);
+//				}
+//				return false;
+//			}
+//		});
+//		// cache1.setAlpha(0);
+//		//cache1.setText("缓存");
+//		floatBackButton.setOnClickListener(mBackListener);
+//		wmParams.width = 35;
+//		wmParams.height = 35;
+//		wmParams.gravity = Gravity.RIGHT | Gravity.BOTTOM;
+//		wmParams.x = this.x;
+//		wmParams.y = this.y;
+//		wm.addView(floatBackButton, wmParams);
+//	}
 
-	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		try{
-			wm.removeView(floatBackButton);
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		super.onPause();
-	}	
+//	@Override
+//	protected void onPause() {
+//		// TODO Auto-generated method stub
+//		try{
+//			wm.removeView(floatBackButton);
+//		}catch(Exception e){
+//			e.printStackTrace();
+//		}
+//		super.onPause();
+//	}	
 	
 	private View.OnClickListener mBackListener = new View.OnClickListener() {
 		@Override

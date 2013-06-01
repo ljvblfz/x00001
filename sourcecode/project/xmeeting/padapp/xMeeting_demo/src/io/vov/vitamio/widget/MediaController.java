@@ -79,7 +79,6 @@ public class MediaController extends FrameLayout {
 	private static final int SHOW_PROGRESS = 2;
 	private boolean mFromXml = false;
 	private ImageButton mPauseButton;
-	private ImageButton backButton;
 
 	private AudioManager mAM;
 
@@ -402,14 +401,6 @@ public class MediaController extends FrameLayout {
 			show(sDefaultTimeout);
 		}
 	};
-
-	private View.OnClickListener mBackListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-//			System.exit(0);
-			((VideoPlayerActivity)v.getContext()).finish();
-		}
-	};
 	
 	private void updatePausePlay() {
 		if (mRoot == null || mPauseButton == null)
@@ -456,6 +447,7 @@ public class MediaController extends FrameLayout {
 				mInfoView.setText(time);
 			if (mCurrentTime != null)
 				mCurrentTime.setText(time);
+//			setProgress();
 		}
 
 		@Override

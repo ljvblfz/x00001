@@ -23,6 +23,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.broadsoft.common.util.FolderUtils;
+import com.broadsoft.xmeeting.DesktopActivity;
 import com.broadsoft.xmeeting.R;
 import com.nmbb.oplayer.OPreference;
 import com.nmbb.oplayer.database.DbHelper;
@@ -127,6 +128,14 @@ public class VideosListActivity extends FragmentActivity implements OnClickListe
 		if (mFileDownload != null)
 			mFileDownload.stopALl();
 	} 
+	
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		DesktopActivity.releaseLoading(hasFocus);
+		// TODO Auto-generated method stub
+		super.onWindowFocusChanged(hasFocus);
+	}
+	
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub

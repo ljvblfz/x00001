@@ -19,8 +19,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
-import com.broadsoft.xmeeting.R;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -36,6 +34,8 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+
+import com.broadsoft.xmeeting.R;
 
 
 /**
@@ -496,10 +496,6 @@ public class VideoView extends SurfaceView implements MediaController.MediaPlaye
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		boolean isKeyCodeSupported = keyCode != KeyEvent.KEYCODE_BACK && keyCode != KeyEvent.KEYCODE_VOLUME_UP && keyCode != KeyEvent.KEYCODE_VOLUME_DOWN && keyCode != KeyEvent.KEYCODE_MENU && keyCode != KeyEvent.KEYCODE_CALL && keyCode != KeyEvent.KEYCODE_ENDCALL;
 		if (isInPlaybackState() && isKeyCodeSupported && mMediaController != null) {
-//			if(keyCode = KeyEvent.){
-//				
-//			}
-			
 			if (keyCode == KeyEvent.KEYCODE_HEADSETHOOK || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_SPACE) {
 				if (mMediaPlayer.isPlaying()) {
 					pause();

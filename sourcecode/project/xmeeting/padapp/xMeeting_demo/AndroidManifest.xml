@@ -20,7 +20,7 @@
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+        android:theme="@style/ThemeActivity">
         <activity
             android:name="com.broadsoft.xmeeting.LoginActivity" 
             android:screenOrientation="landscape"
@@ -83,9 +83,13 @@
             android:configChanges="orientation|keyboard|keyboardHidden|navigation"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar" >
-<!--             <intent-filter> -->
-<!--                 <category android:name="android.intent.category.LAUNCHER" /> -->
-<!--             </intent-filter> -->
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.HOME" /> 
+				<category android:name="android.intent.category.DEFAULT" /> 
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
         </activity>
         <activity
             android:name="com.nmbb.oplayer.ui.VideoPlayerActivity"

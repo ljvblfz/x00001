@@ -17,6 +17,7 @@ import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -87,7 +88,7 @@ public class DesktopActivity extends Activity {
 
 		initGridButton();
 		initWeather();
-		
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 	}
 
@@ -99,7 +100,7 @@ public class DesktopActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				new StartActivityTask().execute("1");
+				startActivity("1");
 				
 			}
 		});
@@ -110,7 +111,7 @@ public class DesktopActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				new StartActivityTask().execute("2");
+				startActivity("2");
 			}
 		});
 	
@@ -120,7 +121,7 @@ public class DesktopActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				new StartActivityTask().execute("3");
+				startActivity("3");
 			}
 		});
 		
@@ -130,7 +131,7 @@ public class DesktopActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				new StartActivityTask().execute("4");
+				startActivity("4");
 			}
 		});
 		
@@ -140,7 +141,7 @@ public class DesktopActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				new StartActivityTask().execute("5");
+				startActivity("5");
 			}
 		});
 		
@@ -149,8 +150,7 @@ public class DesktopActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				new StartActivityTask().execute("6");
+	  				startActivity("6");
 			}
 		});
 		
@@ -160,11 +160,33 @@ public class DesktopActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				new StartActivityTask().execute("7");
+				startActivity("7");
 			}
 		});
 		
 	}
+	
+	private void startActivity(String type) {
+		if (!isloading) {
+			isloading = true;
+			new StartActivityTask().execute(type);
+		}
+
+	}
+	
+	/**
+	 * 释放activity loading 的状态
+	 * @param hasFocus
+	 */
+	public static void releaseLoading(boolean hasFocus){
+		System.out.println("================================hasFocus =========="+hasFocus);
+		if(hasFocus){
+			System.out.println("================================upload isloading =========="+DesktopActivity.isloading);
+			DesktopActivity.isloading=false;
+		}
+	}
+	
+	public static boolean isloading=false;
 	
 	//执行异步的操作
   	private class StartActivityTask extends AsyncTask<String, Void, String[]> {
@@ -190,34 +212,32 @@ public class DesktopActivity extends Activity {
 
   		@Override
           protected void onPostExecute(String[] result) {
-
-            //Call onRefreshComplete when the list has been refreshed.
-  			Intent intent = new Intent();
-  			switch (flag) {
-  			case 1:
-  				intent.setClass(act, CompanyInfoActivity.class);// 指定了跳转前的Activity和跳转后的Activity
-  				break;
-  			case 2:
-  				intent.setClass(act, MeetingGuideCatalogActivity.class);// 指定了跳转前的Activity和跳转后的Activity
-  				break;
-  			case 3:
-  				intent.setClass(act, CallOutActivity.class);// 指定了跳转前的Activity和跳转后的Activity
-  				break;
-  			case 4:
-  				intent.setClass(act, DocumentsListActivity.class);// 指定了跳转前的Activity和跳转后的Activity
-  				break;
-  			case 5:
-  				intent.setClass(act, ImageGallaryMainActivity.class);// 指定了跳转前的Activity和跳转后的Activity
-  				break;
-  			case 6:
-  				intent.setClass(act, VideosListActivity.class);// 指定了跳转前的Activity和跳转后的Activity
-  				break;
-  			case 7:
-  				intent.setClass(act, SysSettingActivity.class);// 指定了跳转前的Activity和跳转后的Activity
-  			}
-  				
-  			startActivity(intent);// 以传递参数的方式跳转到下一个Activity
-
+	            //Call onRefreshComplete when the list has been refreshed.
+	  			Intent intent = new Intent();
+	  			switch (flag) {
+	  			case 1:
+	  				intent.setClass(act, CompanyInfoActivity.class);// 指定了跳转前的Activity和跳转后的Activity
+	  				break;
+	  			case 2:
+	  				intent.setClass(act, MeetingGuideCatalogActivity.class);// 指定了跳转前的Activity和跳转后的Activity
+	  				break;
+	  			case 3:
+	  				intent.setClass(act, CallOutActivity.class);// 指定了跳转前的Activity和跳转后的Activity
+	  				break;
+	  			case 4:
+	  				intent.setClass(act, DocumentsListActivity.class);// 指定了跳转前的Activity和跳转后的Activity
+	  				break;
+	  			case 5:
+	  				intent.setClass(act, ImageGallaryMainActivity.class);// 指定了跳转前的Activity和跳转后的Activity
+	  				break;
+	  			case 6:
+	  				intent.setClass(act, VideosListActivity.class);// 指定了跳转前的Activity和跳转后的Activity
+	  				break;
+	  			case 7:
+	  				intent.setClass(act, SysSettingActivity.class);// 指定了跳转前的Activity和跳转后的Activity
+	  			}
+	
+	  			startActivity(intent);// 以传递参数的方式跳转到下一个Activity
   		}
           
     }

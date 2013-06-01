@@ -2,6 +2,7 @@ package com.broadsoft.xmeeting.activity;
 
 
 import com.broadsoft.common.DialogActivity;
+import com.broadsoft.xmeeting.DesktopActivity;
 import com.broadsoft.xmeeting.R;
 
 import android.app.Activity;
@@ -35,6 +36,13 @@ public class CallOutActivity extends Activity {
 		});
 		initButton();
 	}
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		DesktopActivity.releaseLoading(hasFocus);
+		// TODO Auto-generated method stub
+		super.onWindowFocusChanged(hasFocus);
+	}
+	
 
 	private void initButton()
 	{

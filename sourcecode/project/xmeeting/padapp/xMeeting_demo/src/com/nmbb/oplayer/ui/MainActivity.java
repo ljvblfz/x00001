@@ -50,8 +50,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 //		mRadioOnline = (RadioButton) findViewById(R.id.radio_online);
 
 		// ~~~~~~ 绑定事件
-		mRadioFile.setOnClickListener(this);
-		mRadioOnline.setOnClickListener(this);
+//		mRadioFile.setOnClickListener(this);
+//		mRadioOnline.setOnClickListener(this);
 		mPager.setOnPageChangeListener(mPagerListener);
 
 		// ~~~~~~ 绑定数据
@@ -84,22 +84,22 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		@Override
 		public Fragment getItem(int position) {
 			Fragment result = null;
-			switch (position) {
-			case 1:
-				result = null;//new FragmentOnline();// 在线视频
-				break;
-			case 0:
-			default:
+//			switch (position) {
+//			case 1:
+//				result = null;//new FragmentOnline();// 在线视频
+//				break;
+//			case 0:
+//			default:
 				result = new FragmentFileOld();// 本地视频
 				mFileDownload = new FileDownloadHelper(((FragmentFileOld) result).mDownloadHandler);
-				break;
-			}
+//				break;
+//			}
 			return result;
 		}
 
 		@Override
 		public int getCount() {
-			return 2;
+			return 1;
 		}
 	};
 
@@ -108,10 +108,10 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		public void onPageSelected(int position) {
 			switch (position) {
 			case 0:// 本地视频
-				mRadioFile.setChecked(true);
+//				mRadioFile.setChecked(true);
 				break;
 			case 1:// 在线视频
-				mRadioOnline.setChecked(true);
+//				mRadioOnline.setChecked(true);
 				break;
 			}
 		}
