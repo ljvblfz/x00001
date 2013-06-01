@@ -75,25 +75,6 @@ public class VideosListActivity extends FragmentActivity implements OnClickListe
 //
 //		}
 			
-			
-		File f = new File(FolderUtils.getVideoDir(EntityInfoHolder.getInstance().getDownloadInfoEntity().getMeetingId()));
-		File[] flist = f.listFiles();
-
-		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-		for(File file : flist ){
-			
-			if(file.isFile() && !file.getAbsolutePath().startsWith(".") && file.canRead() && FileUtils.isVideo(file)){
-				save(new POMedia(file));
-				
-//				Map<String, Object> map = new HashMap<String, Object>();
-////					map.put("text", texts[i]);
-//				map.put("img", R.drawable.pdf);
-//				map.put("title", file.getName().substring(0,file.getName().length()-4));
-//				map.put("path", file.getAbsolutePath());
-//				list.add(map);
-			}
-			
-		}
 
 		setContentView(R.layout.fragment_pager);
 

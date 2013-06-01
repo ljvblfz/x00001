@@ -50,15 +50,20 @@
                 android:layout_alignParentTop="true" />
         </RelativeLayout>
 
-        <SeekBar
-            android:id="@+id/mediacontroller_seekbar"
-            style="@style/MediaController_SeekBar"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:focusable="true"
-            android:max="1000" />
-
+<!--         <SeekBar -->
+<!--             android:id="@+id/mediacontroller_seekbar" -->
+<!--             style="@style/MediaController_SeekBar" -->
+<!--             android:layout_width="fill_parent" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:layout_centerVertical="true" -->
+<!--             android:focusable="true" -->
+<!--             android:max="1000" /> -->
+			<SeekBar
+		         android:id="@+id/mediacontroller_seekbar"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_centerVertical="true"
+		        android:max="1000" />
         <TextView
             android:id="@+id/mediacontroller_file_name"
             style="@style/MediaController_Text"

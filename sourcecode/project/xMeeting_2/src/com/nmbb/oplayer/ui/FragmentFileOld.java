@@ -16,14 +16,14 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.Bitmap.Config;
-import android.graphics.PorterDuff.Mode;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -47,11 +47,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.broadsoft.common.util.FolderUtils;
+import com.broadsoft.xmcommon.androiddao.EntityInfoHolder;
 import com.broadsoft.xmeeting.R;
 import com.broadsoft.xmeeting.activity.VideosListActivity;
-import com.nmbb.oplayer.business.FileBusiness;
 import com.nmbb.oplayer.database.DbHelper;
-import com.nmbb.oplayer.exception.Logger;
 import com.nmbb.oplayer.po.POMedia;
 import com.nmbb.oplayer.service.MediaScannerService;
 import com.nmbb.oplayer.service.MediaScannerService.IMediaScannerObserver;
@@ -73,22 +73,22 @@ public class FragmentFileOld extends FragmentBase implements OnItemClickListener
 	/** 左下角进度显示 */
 //	private View mProgress;
 
-	private MediaScannerService mMediaScannerService;
-
-	private ServiceConnection mMediaScannerServiceConnection = new ServiceConnection() {
-
-		@Override
-		public void onServiceDisconnected(ComponentName name) {
-			mMediaScannerService = null;
-		}
-
-		@Override
-		public void onServiceConnected(ComponentName name, IBinder service) {
-			mMediaScannerService = ((MediaScannerServiceBinder) service).getService();
-			mMediaScannerService.addObserver(FragmentFileOld.this);
-			//			Toast.makeText(ComponentServiceActivity.this, "Service绑定成功!", Toast.LENGTH_SHORT).show();
-		}
-	};
+//	private MediaScannerService mMediaScannerService;
+//
+//	private ServiceConnection mMediaScannerServiceConnection = new ServiceConnection() {
+//
+//		@Override
+//		public void onServiceDisconnected(ComponentName name) {
+//			mMediaScannerService = null;
+//		}
+//
+//		@Override
+//		public void onServiceConnected(ComponentName name, IBinder service) {
+//			mMediaScannerService = ((MediaScannerServiceBinder) service).getService();
+//			mMediaScannerService.addObserver(FragmentFileOld.this);
+//			//			Toast.makeText(ComponentServiceActivity.this, "Service绑定成功!", Toast.LENGTH_SHORT).show();
+//		}
+//	};
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -115,7 +115,7 @@ public class FragmentFileOld extends FragmentBase implements OnItemClickListener
 		//		else
 		new DataTask().execute();
 
-		getActivity().bindService(new Intent(getActivity().getApplicationContext(), MediaScannerService.class), mMediaScannerServiceConnection, Context.BIND_AUTO_CREATE);
+//		getActivity().bindService(new Intent(getActivity().getApplicationContext(), MediaScannerService.class), mMediaScannerServiceConnection, Context.BIND_AUTO_CREATE);
 		return v;
 	}
 
@@ -126,7 +126,7 @@ public class FragmentFileOld extends FragmentBase implements OnItemClickListener
 
 	@Override
 	public void onDestroy() {
-		getActivity().unbindService(mMediaScannerServiceConnection);
+//		getActivity().unbindService(mMediaScannerServiceConnection);
 		super.onDestroy();
 	}
 
@@ -331,7 +331,26 @@ public class FragmentFileOld extends FragmentBase implements OnItemClickListener
 
 		@Override
 		protected List<POMedia> doInBackground(Void... params) {
-			return FileBusiness.getAllSortFiles();
+
+			
+			List<POMedia> result = new ArrayList<POMedia>();
+			File f = new File(FolderUtils.getVideoDir(EntityInfoHolder.getInstance().getDownloadInfoEntity().getMeetingId()));
+			File[] flist = f.listFiles();
+			for(File file : flist ){
+				if(file.isFile() && !file.getAbsolutePath().startsWith(".") && file.canRead() && FileUtils.isVideo(file)){
+					result.add(new POMedia(file));
+//					save(new POMedia(file));
+//						Map<String, Object> map = new HashMap<String, Object>();
+////							map.put("text", texts[i]);
+//						map.put("img", R.drawable.pdf);
+//						map.put("title", file.getName().substring(0,file.getName().length()-4));
+//						map.put("path", file.getAbsolutePath());
+//						list.add(map);
+				}
+				
+			}
+			return result;//FileBusiness.getAllSortFiles();
+//			return FileBusiness.getAllSortFiles();
 		}
 
 		@Override
