@@ -8,7 +8,8 @@
     android:layout_marginRight="0.0dip"
     android:background="@drawable/mediacontroller_bg"
     android:orientation="horizontal" >
-     <ImageButton
+
+    <ImageButton
         android:id="@+id/mediacontroller_play_pause"
         android:layout_width="54.6dip"
         android:layout_height="32dip"
@@ -20,7 +21,7 @@
         android:contentDescription="@string/mediacontroller_play_pause"
         android:gravity="center"
         android:src="@drawable/mediacontroller_pause_button" />
-    
+
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -51,15 +52,20 @@
                 android:layout_alignParentTop="true" />
         </RelativeLayout>
 
-        <SeekBar
-            android:id="@+id/mediacontroller_seekbar"
-            style="@style/MediaController_SeekBar"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:focusable="true"
-            android:max="1000" />
-
+<!--         <SeekBar -->
+<!--             android:id="@+id/mediacontroller_seekbar" -->
+<!--             style="@style/MediaController_SeekBar" -->
+<!--             android:layout_width="fill_parent" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:layout_centerVertical="true" -->
+<!--             android:focusable="true" -->
+<!--             android:max="1000" /> -->
+		<SeekBar
+		         android:id="@+id/mediacontroller_seekbar"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_centerVertical="true"
+		        android:max="1000" />
         <TextView
             android:id="@+id/mediacontroller_file_name"
             style="@style/MediaController_Text"
@@ -69,5 +75,7 @@
             android:ellipsize="marquee"
             android:singleLine="true" />
     </RelativeLayout>
+
+    
 
 </RelativeLayout>

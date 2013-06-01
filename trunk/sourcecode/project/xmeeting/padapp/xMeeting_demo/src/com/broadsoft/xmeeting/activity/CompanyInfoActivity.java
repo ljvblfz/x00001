@@ -16,6 +16,7 @@ import android.widget.Button;
 
 import com.broadsoft.common.BaseActivityGroup;
 import com.broadsoft.common.MulitPointTouchListener;
+import com.broadsoft.xmeeting.DesktopActivity;
 import com.broadsoft.xmeeting.R;
 
 public class CompanyInfoActivity extends TabActivity{
@@ -36,6 +37,13 @@ public class CompanyInfoActivity extends TabActivity{
 		InitTabHost();
 	
 	}
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		DesktopActivity.releaseLoading(hasFocus);
+		// TODO Auto-generated method stub
+		super.onWindowFocusChanged(hasFocus);
+	}
+	
 	
 	private void InitTabHost()
 	{
@@ -48,7 +56,7 @@ public class CompanyInfoActivity extends TabActivity{
         _tabHost.addTab(tabSpec);
         
         
-        tabSpec=iniTabs(CompanyInfoOrg.class,"2","领导风采", 2);
+        tabSpec=iniTabs(CompanyInfoOrg.class,"2","组织架构", 2);
         _tabHost.addTab(tabSpec);
         
         

@@ -6,15 +6,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import android.app.AlertDialog;
-import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -28,7 +25,6 @@ import android.graphics.RectF;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images;
@@ -51,12 +47,9 @@ import android.widget.Toast;
 import com.broadsoft.common.util.FolderUtils;
 import com.broadsoft.xmeeting.R;
 import com.broadsoft.xmeeting.activity.VideosListActivity;
-import com.nmbb.oplayer.business.FileBusiness;
 import com.nmbb.oplayer.database.DbHelper;
 import com.nmbb.oplayer.po.POMedia;
-import com.nmbb.oplayer.service.MediaScannerService;
 import com.nmbb.oplayer.service.MediaScannerService.IMediaScannerObserver;
-import com.nmbb.oplayer.service.MediaScannerService.MediaScannerServiceBinder;
 import com.nmbb.oplayer.ui.base.ArrayAdapter;
 import com.nmbb.oplayer.ui.helper.FileDownloadHelper;
 import com.nmbb.oplayer.util.FileUtils;
@@ -74,22 +67,22 @@ public class FragmentFileOld extends FragmentBase implements OnItemClickListener
 	/** 左下角进度显示 */
 //	private View mProgress;
 
-	private MediaScannerService mMediaScannerService;
-
-	private ServiceConnection mMediaScannerServiceConnection = new ServiceConnection() {
-
-		@Override
-		public void onServiceDisconnected(ComponentName name) {
-			mMediaScannerService = null;
-		}
-
-		@Override
-		public void onServiceConnected(ComponentName name, IBinder service) {
-			mMediaScannerService = ((MediaScannerServiceBinder) service).getService();
-			mMediaScannerService.addObserver(FragmentFileOld.this);
-			//			Toast.makeText(ComponentServiceActivity.this, "Service绑定成功!", Toast.LENGTH_SHORT).show();
-		}
-	};
+//	private MediaScannerService mMediaScannerService;
+//
+//	private ServiceConnection mMediaScannerServiceConnection = new ServiceConnection() {
+//
+//		@Override
+//		public void onServiceDisconnected(ComponentName name) {
+//			mMediaScannerService = null;
+//		}
+//
+//		@Override
+//		public void onServiceConnected(ComponentName name, IBinder service) {
+//			mMediaScannerService = ((MediaScannerServiceBinder) service).getService();
+//			mMediaScannerService.addObserver(FragmentFileOld.this);
+//			//			Toast.makeText(ComponentServiceActivity.this, "Service绑定成功!", Toast.LENGTH_SHORT).show();
+//		}
+//	};
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -126,7 +119,7 @@ public class FragmentFileOld extends FragmentBase implements OnItemClickListener
 //		mLoadingLayout.setVisibility(View.GONE);
 //		mListView.setVisibility(View.VISIBLE);
 
-		getActivity().bindService(new Intent(getActivity().getApplicationContext(), MediaScannerService.class), mMediaScannerServiceConnection, Context.BIND_AUTO_CREATE);
+//		getActivity().bindService(new Intent(getActivity().getApplicationContext(), MediaScannerService.class), mMediaScannerServiceConnection, Context.BIND_AUTO_CREATE);
 		return v;
 	}
 
@@ -137,7 +130,7 @@ public class FragmentFileOld extends FragmentBase implements OnItemClickListener
 
 	@Override
 	public void onDestroy() {
-		getActivity().unbindService(mMediaScannerServiceConnection);
+//		getActivity().unbindService(mMediaScannerServiceConnection);
 		super.onDestroy();
 	}
 
@@ -149,22 +142,22 @@ public class FragmentFileOld extends FragmentBase implements OnItemClickListener
 	@Override
 	public void update(int flag, POMedia media) {
 		//		Logger.i(flag + " " + media.path);
-		switch (flag) {
-		case MediaScannerService.SCAN_STATUS_START:
-
-			break;
-		case MediaScannerService.SCAN_STATUS_END://扫描完成
-//			if (mProgress != null)
-//				mProgress.setVisibility(View.GONE);
-//			new DataTask().execute();
-			break;
-		case MediaScannerService.SCAN_STATUS_RUNNING://扫到一个文件
-			if (mAdapter != null && media != null) {
-				mAdapter.add(media);
-				mAdapter.notifyDataSetChanged();
-			}
-			break;
-		}
+//		switch (flag) {
+//		case MediaScannerService.SCAN_STATUS_START:
+//
+//			break;
+//		case MediaScannerService.SCAN_STATUS_END://扫描完成
+////			if (mProgress != null)
+////				mProgress.setVisibility(View.GONE);
+////			new DataTask().execute();
+//			break;
+//		case MediaScannerService.SCAN_STATUS_RUNNING://扫到一个文件
+//			if (mAdapter != null && media != null) {
+//				mAdapter.add(media);
+//				mAdapter.notifyDataSetChanged();
+//			}
+//			break;
+//		}
 	}
 
 	@Override

@@ -10,12 +10,20 @@ import android.widget.Button;
 
 import com.broadsoft.appsupport.ActivityHolder;
 import com.broadsoft.common.BaseActivity;
+import com.broadsoft.xmeeting.DesktopActivity;
 import com.broadsoft.xmeeting.R;
 import com.broadsoft.xmeeting.R.id;
 import com.broadsoft.xmeeting.R.layout;
 
 public class SysSettingActivity extends Activity {
 
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		DesktopActivity.releaseLoading(hasFocus);
+		// TODO Auto-generated method stub
+		super.onWindowFocusChanged(hasFocus);
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
