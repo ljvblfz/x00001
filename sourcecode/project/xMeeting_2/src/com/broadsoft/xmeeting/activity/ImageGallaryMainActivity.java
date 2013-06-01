@@ -5,61 +5,49 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.broadsoft.appsupport.AsyncBitmapLoader;
-import com.broadsoft.common.MyPullDownLayoutView;
-import com.broadsoft.common.MyPullDownLayoutView.OnPullDownListener;
-import com.broadsoft.xmeeting.DesktopActivity;
-import com.broadsoft.xmeeting.R;
-
-
-
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Bitmap.Config;
 import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.Shader.TileMode;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.view.WindowManager.LayoutParams;
-
+import android.view.ViewParent;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView.ScaleType;
 import android.widget.Toast;
+
+import com.broadsoft.appsupport.AsyncBitmapLoader;
+import com.broadsoft.common.MyPullDownLayoutView;
+import com.broadsoft.common.MyPullDownLayoutView.OnPullDownListener;
+import com.broadsoft.xmeeting.DesktopActivity;
+import com.broadsoft.xmeeting.R;
 
 public class ImageGallaryMainActivity extends Activity implements OnPullDownListener, OnItemClickListener{
 
@@ -104,7 +92,7 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
 	private BroadcastReceiver receiver;
 	private GalleryFlow galleryFlow;
 	
-	private int currentSel = 0;
+	private int currentSelectedPosition = 0;
 	
 	private ImageAdapter adapter;
 	
@@ -178,7 +166,7 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
         	images[8] = R.drawable.demo1;
 
             
-            adapter = new ImageAdapter(act,images);
+            adapter = new ImageAdapter(ImageGallaryMainActivity.this,images);
             adapter.createReflectedImages();
             return null;
         }
@@ -192,16 +180,16 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
 	        galleryFlow.setOnItemClickListener(new OnItemClickListener() {
 	            public void onItemClick(AdapterView<?> parent, View view,
 	                    int position, long id) {
-	            	if (position == currentSel)
+	            	if (position == currentSelectedPosition)
 	            	{
 	            		Intent intent = new Intent();
-	        			intent.setClass(act, ImageGallaryViewFlipperActivity.class);
+	        			intent.setClass(ImageGallaryMainActivity.this, ImageGallaryViewPopupActivity.class);
 	        			
-	        			intent.putExtra("id", images[position] + "");
+	        			intent.putExtra("position", images[position] + "");
 	        			startActivity(intent);// 以传递参数的方式跳转到下一个Activity
+	            	} else{
+	            		currentSelectedPosition = position; 
 	            	}
-	            	else
-	            		currentSel = position;
 	            	//Toast.makeText(getApplicationContext(), String.valueOf(position), Toast.LENGTH_SHORT).show();
 	            }
 	            
@@ -211,7 +199,7 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
 	        galleryFlow.setOnItemSelectedListener(new OnItemSelectedListener() {    // 设置选择事件监听     
 	            @Override
 	            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {     
-	            	currentSel = position;
+	            	currentSelectedPosition = position;
 	            }     
 	              
 	            @Override
@@ -257,16 +245,18 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
 	private List<Map<String, Object>> getDataFromServer() {
     	
     	List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-    	for (int i = 0; i < 10; i++)
-    	{
-    		Map<String, Object> map = new HashMap<String, Object>();
-    		map.put("name", "企业文化图册(" + i + ")" );
-        	list.add(map);
-    	}
+
+		Map<String, Object> map_1 = new HashMap<String, Object>();
+		map_1.put("name", "江苏省电力公司工会文化建设" );
+    	list.add(map_1);
+		Map<String, Object> map_2 = new HashMap<String, Object>();
+		map_2.put("name", "徐州公司荣获徐州市“先进集体”称号" );
+    	list.add(map_2);
         return list;
     }
 	
 	public final class ViewHolder{
+        public String guid;
         public ImageView ivPhoto;
         public TextView tvName;
         public ImageView ivStar;
@@ -312,37 +302,7 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
                  
                 convertView = mInflater.inflate(R.layout.find_poi_list_item, null);
                 
-                holder.tvName = (TextView)convertView.findViewById(R.id.tvName);  
-                /*
-                holder.ivPhoto = (ImageView)convertView.findViewById(R.id.ivPhoto);
-                    
-                holder.ivStar = (ImageView)convertView.findViewById(R.id.ivStar);
-                holder.tvCost = (TextView)convertView.findViewById(R.id.tvCost);
-                holder.tvAbout = (TextView)convertView.findViewById(R.id.tvAbout);
-                */
-                holder.btnPop = (Button) convertView.findViewById(R.id.btnPop);
-                holder.btnPop.setOnClickListener(new View.OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						// TODO Auto-generated method stub
-						/*
-						int p = position;
-						LinearLayout ly = (LinearLayout) mListView.getChildAt(p);
-						LinearLayout l = (LinearLayout) ly.getChildAt(0);
-						Button btn = (Button) l.getChildAt(2);
-						int[] location = new int[2];
-						btn.getLocationInWindow (location);
-						
-						LayoutInflater infl = (LayoutInflater)act.getSystemService(LAYOUT_INFLATER_SERVICE);
-						View ly2 = infl.inflate(R.layout.popbar, null);
-						menuWindow = new PopupWindow(ly2,LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT); //后两个参数是width和height
-						menuWindow.showAtLocation(act.findViewById(R.id.find_poi_list), Gravity.TOP|Gravity.RIGHT, -20, location[1] + 30); //设置layout在PopupWindow中显示的位置
-						menu_display = true;
-						*/
-						
-					}
-				});
+                holder.tvName = (TextView)convertView.findViewById(R.id.tvName);   
                 convertView.setTag(holder);
                  
             }else {
@@ -350,38 +310,30 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
                 holder = (ViewHolder)convertView.getTag();
             }
             
-            /*
-            holder.ivPhoto.setImageBitmap(null);
-            Bitmap bitmap = asyncLoader.loadBitmap(holder.ivPhoto,   
-            		(String) mData.get(position).get("img_url"),  
-                    new ImageCallBack()  
-                    {  
-                        @Override  
-                        public void imageLoad(ImageView imageView, Bitmap bitmap)  
-                        {  
-                            // TODO Auto-generated method stub  
-                            imageView.setImageBitmap(bitmap);  
-                        }  
-                    });  
-              
-            if(bitmap == null)  
-            {  
-            	holder.ivPhoto.setImageResource(R.drawable.umeng_xp_loading);  
-            }  
-            else  
-            {  
-            	holder.ivPhoto.setImageBitmap(bitmap);  
-            }  
+             
+            holder.tvName.setText((String)mData.get(position).get("name")); 
             
             
-            
-
-            
-            holder.ivStar.setImageResource(0);
-            holder.tvCost.setText((String)mData.get(position).get("cost"));
-            holder.tvAbout.setText((String)mData.get(position).get("cate"));
-            */
-            holder.tvName.setText((String)mData.get(position).get("name"));
+            //
+            //点击图片主题
+            convertView.setOnClickListener(new View.OnClickListener() { 
+					@Override
+					public void onClick(View v) { 
+						ViewHolder holder =(ViewHolder)v.getTag();
+//						v.setBackgroundColor(Color.GREEN);
+//						Toast.makeText(getApplicationContext(),holder.tvName.getText(), Toast.LENGTH_SHORT).show();
+						TextView textViewOnComments=(TextView)ImageGallaryMainActivity.this.findViewById(R.id.textViewOnComments);
+						textViewOnComments.setText(holder.tvName.getText());
+//						ViewParent parent=v.get
+//			            int count=parent.getChildCount();
+//			            for(int index=0; index<count;index++){
+//			            	View view=parent.getChildAt(index);
+//			            	view.setBackgroundColor(Color.TRANSPARENT);
+//			            	
+//			            }
+					}
+					
+			});
             return convertView;
         }
          
@@ -473,21 +425,18 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
 	}
 	
 	
-	@Override
-	public boolean dispatchTouchEvent(MotionEvent ev) {
-		View sel = act.getCurrentFocus();
-		View view = galleryFlow.getSelectedView();
-		if (sel == view) {
-			
-			Intent intent = new Intent();
-			intent.setClass(act, CallOutActivity.class);
-			startActivity(intent);// 以传递参数的方式跳转到下一个Activity
-			
-			
-			
-		}
-		return super.dispatchTouchEvent(ev);
-	}
+//	@Override
+//	public boolean dispatchTouchEvent(MotionEvent ev) {
+//		View sel = act.getCurrentFocus();
+//		View view = galleryFlow.getSelectedView();
+//		if (sel == view) {
+//			
+//			Intent intent = new Intent();
+//			intent.setClass(act, CallOutActivity.class);
+//			startActivity(intent);// 以传递参数的方式跳转到下一个Activity 
+//		}
+//		return super.dispatchTouchEvent(ev);
+//	}
 	
 	public class ImageAdapter extends BaseAdapter
 	{
