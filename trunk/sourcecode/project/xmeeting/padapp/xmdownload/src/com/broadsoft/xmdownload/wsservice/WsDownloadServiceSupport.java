@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
+import com.broadsoft.xmcommon.androidconfig.DomAppConfigFactory;
 import com.broadsoft.xmcommon.androiddao.DaoHolder;
 import com.broadsoft.xmcommon.androidwebsocket.WebSocketClient;
 import com.broadsoft.xmdownload.rsservice.RsServiceOnCompanyInfoSupport;
@@ -45,7 +46,7 @@ public class WsDownloadServiceSupport {
 	
 	public void initData(String padId){  
 		this.padId=padId;  
-		String serveripport="172.29.135.151:8080";
+		String serveripport=DomAppConfigFactory.getAppConfig().getServeripport();
 		this.wspath="ws://"+serveripport+"/websocket/ws/download?padId="+padId+"&roleName=DEVICE";
 	}
 	
