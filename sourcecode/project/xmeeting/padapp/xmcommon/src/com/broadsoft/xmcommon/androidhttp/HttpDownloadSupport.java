@@ -101,9 +101,12 @@ public class HttpDownloadSupport {
 		try { 
 			int bytesRead = 0;
 			byte[] data = new byte[1024*10];
+
+			Log.d(TAG, "下载中.");
 			while((bytesRead = input.read(data))!=-1){
 				output.write(data, 0, bytesRead);
 				totalRead += bytesRead;
+				Log.d(TAG, ".");
 			}
 			int totalReadInKB = (int) (totalRead / 1024);
 			Log.d(TAG, "[File("+fileName+") Download] totalReadInKB--->"+totalReadInKB+"  KB");
