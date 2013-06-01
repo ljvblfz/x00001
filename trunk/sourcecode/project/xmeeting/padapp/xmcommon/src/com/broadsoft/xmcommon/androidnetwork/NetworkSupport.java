@@ -17,7 +17,7 @@ public class NetworkSupport {
 	 * @param connMgr
 	 * @return
 	 */
-	public boolean isConnected(ConnectivityManager connMgr) {
+	public static boolean isConnected(ConnectivityManager connMgr) {
 		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 		if (networkInfo != null && networkInfo.isConnected()) {
 			return true;
