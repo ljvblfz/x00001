@@ -48,7 +48,7 @@
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:gravity="center_vertical"
-	            android:text="公司文化照片"
+	            android:text="江苏省电力公司文化展示"
 	            android:textAppearance="?android:attr/textAppearanceLarge"
 	            android:textColor="#000000"
 	            android:textSize="17dp" />
@@ -58,7 +58,8 @@
 	            android:layout_height="wrap_content"
 	            android:layout_gravity="center_vertical"
 	            android:paddingTop="5dp" >
-
+ 
+	            
 				<TextView
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
@@ -112,14 +113,14 @@
 	        </LinearLayout>
 	    </LinearLayout>
 
-	    <Button
-	        android:id="@+id/btnPop"
-	        android:layout_width="20dp"
-	        android:layout_height="20dp"
-	        android:layout_gravity="center_vertical"
-	        android:background="@drawable/add_button"
-	        android:focusable="false"
-	        android:visibility="gone" />
+<!-- 	    <Button -->
+<!-- 	        android:id="@+id/btnPop" -->
+<!-- 	        android:layout_width="20dp" -->
+<!-- 	        android:layout_height="20dp" -->
+<!-- 	        android:layout_gravity="center_vertical" -->
+<!-- 	        android:background="@drawable/add_button" -->
+<!-- 	        android:focusable="false" -->
+<!-- 	        android:visibility="gone" /> -->
 
 	</LinearLayout>
 
