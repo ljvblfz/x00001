@@ -183,11 +183,14 @@ public class DocumentView extends View implements ZoomListener {
                 setLastPosition(ev);
                 break;
             case MotionEvent.ACTION_UP:
-                velocityTracker.computeCurrentVelocity(1000);
-                scroller.fling(getScrollX(), getScrollY(), (int) -velocityTracker.getXVelocity(), (int) -velocityTracker.getYVelocity(), getLeftLimit(), getRightLimit(), getTopLimit(), getBottomLimit());
-                velocityTracker.recycle();
-                velocityTracker = null;
-
+            	try{
+	                velocityTracker.computeCurrentVelocity(1000);
+	                scroller.fling(getScrollX(), getScrollY(), (int) -velocityTracker.getXVelocity(), (int) -velocityTracker.getYVelocity(), getLeftLimit(), getRightLimit(), getTopLimit(), getBottomLimit());
+	                velocityTracker.recycle();
+	                velocityTracker = null;
+            	}catch(Exception ae){
+            		ae.printStackTrace();
+            	}
                 break;
         }
         return true;
