@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -17,10 +18,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.broadsoft.common.BaseActivity;
 import com.broadsoft.common.SlidingMenuView;
 import com.broadsoft.xmeeting.DesktopActivity;
+import com.broadsoft.xmeeting.LoginActivity;
 import com.broadsoft.xmeeting.R;
 import com.broadsoft.xmeeting.htmldata.MeetingGuideHtmlDataSupport;
 
@@ -88,6 +91,7 @@ public class MeetingGuideCatalogActivity extends ActivityGroup {
 	
 	private void initUI()
     {
+		//行程安排
     	lyList.add((LinearLayout) this.findViewById(R.id.ly1));
     	this.findViewById(R.id.ly1).setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -100,6 +104,7 @@ public class MeetingGuideCatalogActivity extends ActivityGroup {
 				refreshMenu(0);
 			}
 		});
+    	//人员名单
     	lyList.add((LinearLayout) this.findViewById(R.id.ly2));
     	this.findViewById(R.id.ly2).setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -112,6 +117,7 @@ public class MeetingGuideCatalogActivity extends ActivityGroup {
 				refreshMenu(1);
 			}
 		});
+    	//车辆安排
     	lyList.add((LinearLayout) this.findViewById(R.id.ly3));
     	this.findViewById(R.id.ly3).setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -123,6 +129,7 @@ public class MeetingGuideCatalogActivity extends ActivityGroup {
 				refreshMenu(2);
 			}
 		});
+    	//天气情况
     	lyList.add((LinearLayout) this.findViewById(R.id.ly4));
     	this.findViewById(R.id.ly4).setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -134,6 +141,7 @@ public class MeetingGuideCatalogActivity extends ActivityGroup {
 				refreshMenu(3);
 			}
 		});
+    	//通讯服务
     	lyList.add((LinearLayout) this.findViewById(R.id.ly5));
     	this.findViewById(R.id.ly5).setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -145,7 +153,25 @@ public class MeetingGuideCatalogActivity extends ActivityGroup {
 				refreshMenu(4);
 			}
 		});
-    }
+    	
+
+    	lyList.add((LinearLayout) this.findViewById(R.id.ly6));
+    	this.findViewById(R.id.ly6).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {  
+//				Toast toast=Toast.makeText(MeetingGuideCatalogActivity.this, "彩信发送成功.",Toast.LENGTH_LONG);
+//				toast.setGravity(Gravity.CENTER, 0, 0);
+//				toast.show();
+				
+
+				Intent i = new Intent(act,MeetingGuideCatalogMmsInfoActivity.class);
+		    	View view = getLocalActivityManager().startActivity(MeetingGuideCatalogMmsInfoActivity.class.getName(), i).getDecorView();
+				tabcontent.removeAllViews();
+				tabcontent.addView(view);
+				refreshMenu(5);
+			}
+		});
+    }//end of initUI
  
    
     

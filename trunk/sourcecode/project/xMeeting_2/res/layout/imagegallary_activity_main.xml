@@ -404,7 +404,7 @@
                                 android:layout_width="896dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0.14"
-                                android:text="企业文化是我司建设的核心"
+                                android:text=""
                                 android:textAppearance="?android:attr/textAppearanceMedium"
                                 android:textColor="#666666" />
                         </LinearLayout>

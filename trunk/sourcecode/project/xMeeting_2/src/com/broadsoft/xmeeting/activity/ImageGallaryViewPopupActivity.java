@@ -28,6 +28,7 @@ import android.widget.ViewFlipper;
 
 import com.broadsoft.common.BaseActivity;
 import com.broadsoft.common.MulitPointTouchListener;
+import com.broadsoft.xmcommon.androidsdcard.SDCardSupport;
 import com.broadsoft.xmeeting.R;
 
 /**
@@ -56,9 +57,18 @@ public class ImageGallaryViewPopupActivity extends Activity {
 //						Toast.LENGTH_SHORT).show();
 //			}
 //		});
-		String position = this.getIntent().getStringExtra("position");
+//		Bitmap bmImage = (Bitmap)getIntent().getParcelableExtra("image");   
+//		Toast.makeText(this,bmImage + "------>bmImage", Toast.LENGTH_LONG).show();
+		String fileName = this.getIntent().getStringExtra("fileName");
+
+    	String extStorageDirectory=SDCardSupport.getSDCardDirectory(); 
+    	
+    	
+    	Bitmap bmImage = BitmapFactory.decodeFile(extStorageDirectory+fileName);  
+    	
+    	
 		ImageView imageView=(ImageView) this.findViewById(R.id.ivLeader);
-		imageView.setImageResource(Integer.parseInt(position));
+		imageView.setImageBitmap(bmImage);
 		imageView.setOnTouchListener(new MulitPointTouchListener());
 	}
 
