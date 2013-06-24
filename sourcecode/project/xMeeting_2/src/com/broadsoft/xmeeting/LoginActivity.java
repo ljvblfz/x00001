@@ -58,7 +58,7 @@ public class LoginActivity extends Activity  {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		Log.d(TAG, "onCreate onCreate");
+		Log.d(TAG, "onCreate begin");
 		super.onCreate(savedInstanceState);
 		
 		if(!Constants.enableAutoBoot){

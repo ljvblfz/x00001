@@ -1,9 +1,15 @@
 package com.broadsoft.xmeeting.adapter;
+ 
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +19,18 @@ import android.widget.TextView;
 
 public class   MemberInfoAdapter extends BaseExpandableListAdapter{
 
+	
+	private String TAG="MemberInfoAdapter";
 	private List<String> group;           //组列表 
 	private List<List<String>> child;     //子列表
 	
 	private int groupSize;
 
 	private Activity parent;
-	public MemberInfoAdapter(Activity parent){
+	private JSONObject jsonData;
+	public MemberInfoAdapter(Activity parent,JSONObject jsonData){
 		this.parent= parent;
+		this.jsonData=jsonData;
 	}
 	
 	
@@ -29,10 +39,27 @@ public class   MemberInfoAdapter extends BaseExpandableListAdapter{
      */
     public void initializeData(){
     	group = new ArrayList<String>();
-    	child = new ArrayList<List<String>>();
+    	child = new ArrayList<List<String>>(); 
+    	addInfo("上海市电力公司领导名单",new String[]{"冯  军         总经理","阮前途       副总经理（正局级）","黄良宝       副总经理","王  路         副总经理 ","范永根       总经理助理","沈兆新       副总工程师","车申刚       办公司主任","史济康       人资部主任","吴英姿       营销部主任","周  简         运维检修部主任","王  伟         调控中心主任","应志玮       交易中心主任","陈红兵       企协分会主任","陈  杰         企协分会副主任","牛  凯         办公室秘书"});
+    	addInfo("江苏省电力公司领导名单",new String[]{"单业才       总经理","胡玉海       党委书记","马苏龙       副总经理","潘震东       副总经理","钱朝阳       副总经理","李  斌         副总经理","黄志高       工会主席","甑玉林       副总工程师","林  敏         副总工程师 ","周建海       总法律顾问","夏  俊         副总会计师兼财务部主任","王之伟       副总工程师","吴  俊         办公室主任","陈  庆         人力资源部主任","顾国栋       营销部主任","白元强       运维检修部主任","高仲华       机关工作部主任","季  强        企协分会主任","黄  强        调控中心副主任","王  旭         发展策划部副主任"});
+    	initializeJsonData();
+    }
+    
+    private void initializeJsonData(){ 
     	
-    	addInfo("上海市电力公司",new String[]{"张三        经理        13912345678","李四        职员        13912345678","王五        职员","王五        职员","王五        职员","王五        职员"});
-    	addInfo("江苏省电力公司",new String[]{"张三        经理        13912345678","李四        经理        13912345678","王五        经理","王五        经理","王五        经理","王五        经理"});
+    	try {
+			JSONArray jsonArray=jsonData.getJSONArray("listOfXmMeetingPersonnelSeatPadIVO"); 
+			for (int i=0;i<jsonArray.length();i++){
+				JSONObject jsonObject=jsonArray.getJSONObject(i); 
+				Log.d(TAG, "[initializeJsonData]jsonObject--->"+jsonObject.toString());
+			}
+			
+		} catch (JSONException e) { 
+			e.printStackTrace();
+			Log.e(TAG, "[initializeJsonData] e--->"+e.toString());
+		}
+    	
+    	
     	
     }
     

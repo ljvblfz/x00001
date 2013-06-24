@@ -78,6 +78,10 @@
             android:label="@string/app_name"
             android:screenOrientation="landscape" />
         <activity
+            android:name="com.broadsoft.xmeeting.activity.MeetingGuideCatalogMmsInfoActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" />
+        <activity
             android:name="com.broadsoft.xmeeting.activity.CallServiceActivity"
             android:label="@string/app_name"
             android:screenOrientation="landscape" />
@@ -107,7 +111,7 @@
             android:label="@string/app_name"
             android:screenOrientation="landscape" />
         <activity
-            android:name="com.broadsoft.xmeeting.activity.ImageGallaryViewFlipperActivity"
+            android:name="com.broadsoft.xmeeting.activity.ImageGallaryViewPopupActivity"
             android:label="@string/app_name"
             android:screenOrientation="landscape"
             android:theme="@style/MyDialogStyleBottom" />
