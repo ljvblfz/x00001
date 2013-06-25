@@ -10,6 +10,10 @@ public class XmMeetingPersonnelSeatPadIVO {
 	/** 人员 */
 	public String xmpiName;
 	public String xmpiGuid; 
+	public String xmpiDeptinfo;
+	public String xmpiTitle;
+	public String xmpiContact;
+	
 	/** 设备资产编号 */
 	public String xmpdCode;
 	public String xmpdDeviceId;
@@ -65,16 +69,34 @@ public class XmMeetingPersonnelSeatPadIVO {
 	public void setXmpdDeviceId(String xmpdDeviceId) {
 		this.xmpdDeviceId = xmpdDeviceId;
 	}
+	public String getXmpiDeptinfo() {
+		return xmpiDeptinfo;
+	}
+	public void setXmpiDeptinfo(String xmpiDeptinfo) {
+		this.xmpiDeptinfo = xmpiDeptinfo;
+	}
+	public String getXmpiTitle() {
+		return xmpiTitle;
+	}
+	public void setXmpiTitle(String xmpiTitle) {
+		this.xmpiTitle = xmpiTitle;
+	}
+	public String getXmpiContact() {
+		return xmpiContact;
+	}
+	public void setXmpiContact(String xmpiContact) {
+		this.xmpiContact = xmpiContact;
+	} 
 	@Override
 	public String toString() {
 		return "XmMeetingPersonnelSeatPadIVO [xmmpspGuid=" + xmmpspGuid
 				+ ", xmmiGuid=" + xmmiGuid + ", xmpiName=" + xmpiName
-				+ ", xmpiGuid=" + xmpiGuid + ", xmpdCode=" + xmpdCode
-				+ ", xmpdDeviceId=" + xmpdDeviceId + ", xmridSeatno="
-				+ xmridSeatno + ", meetingRole=" + meetingRole + "]";
+				+ ", xmpiGuid=" + xmpiGuid + ", xmpiDeptinfo=" + xmpiDeptinfo
+				+ ", xmpiTitle=" + xmpiTitle + ", xmpiContact=" + xmpiContact
+				+ ", xmpdCode=" + xmpdCode + ", xmpdDeviceId=" + xmpdDeviceId
+				+ ", xmridSeatno=" + xmridSeatno + ", meetingRole="
+				+ meetingRole + "]";
 	}
- 
- 
 	
 	
 }
