@@ -34,7 +34,7 @@ var controllerResponseCount = 0;
 function controllerStartWebSocket(memberId, memberDisplayName) {
 	wsController.onmessage = function(evt) {
 		var obj = JSON.parse(evt.data);
-		var content = obj.from + ">>>>" + obj.msgcontent;
+		var content = obj.fromDisplayName + ">>>>" + obj.msgcontent;
 		controllerResponseCount++;
 		findNameWithParentID("chatrecord", "xmWebSocketDemo").append(
 				controllerResponseCount + "***" + content + "<br/>");
