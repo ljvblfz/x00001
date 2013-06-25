@@ -30,5 +30,10 @@ D:\02-FounderResources\Android_Tool\android-sdk\tools
 
 command> mksdcard -l mysdcard 1024M sdcard.img
 
+mksdcard -l mysdcard 1024M sdcard2.img
+
 
 -sdcard D:\02-FounderResources\Android_Tool\android-sdk\tools\sdcard.img
+
+
+-sdcard D:\02-FounderResources\Android_Tool\android-sdk\tools\sdcard2.img
