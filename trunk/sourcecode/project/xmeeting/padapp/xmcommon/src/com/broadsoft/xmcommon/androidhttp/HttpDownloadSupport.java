@@ -103,10 +103,14 @@ public class HttpDownloadSupport {
 			byte[] data = new byte[1024*10];
 
 			Log.d(TAG, "下载中.");
+			int index=0;
 			while((bytesRead = input.read(data))!=-1){
+				index++;
 				output.write(data, 0, bytesRead);
 				totalRead += bytesRead;
-				Log.d(TAG, ".");
+				if(index%1000==0){
+					Log.d(TAG,System.currentTimeMillis()+ "-"+(bytesRead/(1024*1024*1024))+" M");
+				}
 			}
 			int totalReadInKB = (int) (totalRead / 1024);
 			Log.d(TAG, "[File("+fileName+") Download] totalReadInKB--->"+totalReadInKB+"  KB");
