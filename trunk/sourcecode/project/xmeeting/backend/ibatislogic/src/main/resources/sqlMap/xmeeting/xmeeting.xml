@@ -31,8 +31,10 @@
   
 	<select id="findPersonnelSeatPadByMeetingID" parameterClass="java.util.HashMap"  resultClass="com.broadsoft.xmeeting.xmeeting.meeting.vo.XmMeetingPersonnelSeatPadIVO">
 	    <![CDATA[
-			    select  a.XMMPSP_GUID xmmpspGuid, a.xmmi_guid xmmiGuid,b.xmpi_name xmpiName,b.xmpi_guid xmpiGuid,c.xmpd_code xmpdCode,c.xmpd_device_id xmpdDeviceId,d.xmrid_seatno xmridSeatno,e.value_desc  meetingRole
-			    
+			    select  a.XMMPSP_GUID xmmpspGuid, a.xmmi_guid xmmiGuid,b.xmpi_name xmpiName,b.xmpi_guid xmpiGuid,
+						b.XMPI_DEPTINFO xmpiDeptinfo,b.XMPI_TITLE xmpiTitle,b.XMPI_CONTACT xmpiContact ,
+						c.xmpd_code xmpdCode,c.xmpd_device_id xmpdDeviceId,d.xmrid_seatno xmridSeatno,e.value_desc  meetingRole
+									    
 				from XM_MEETING_PERSONNEL_SEAT_PAD a, XM_PERSONNEL_INFO b,XM_PAD_DEVICE c,XM_ROOM_INFO_DETAIL d ,
 				(select value_code,value_desc from sy_code  where type_id in (select type_id from sy_code_type where type_name='3010')) e
 				where 1=1
