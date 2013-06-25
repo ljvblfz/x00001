@@ -1,9 +1,11 @@
 package com.broadsoft.xmdownload;
-
+ 
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
+import com.broadsoft.xmcommon.androidutil.AndroidIdSupport;
 import com.broadsoft.xmdownload.appsupport.AppInitSupport;
 
 
@@ -24,6 +26,13 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main); 
 		AppInitSupport.initApp(this.getApplicationContext(),this.getAssets());
+		//下载状态 
+		TextView textViewDownloadStatus=(TextView)this.findViewById(R.id.textViewDownloadStatus);
+		ViewHolder.getInstance().setTextViewDownloadStatus(textViewDownloadStatus);
+		//设备ID
+		String androidId=AndroidIdSupport.getAndroidID();
+		TextView tvAndroidId=(TextView)this.findViewById(R.id.textViewDeviceId);
+		tvAndroidId.setText(androidId);
 		Log.d(TAG, "onCreate end");
 		
 	}//end of onCreate 

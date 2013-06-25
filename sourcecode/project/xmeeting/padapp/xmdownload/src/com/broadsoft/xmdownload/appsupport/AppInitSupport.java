@@ -43,7 +43,7 @@ public class AppInitSupport {
 			WsDownloadServiceSupport.getInstance().initData(AndroidIdSupport.getAndroidID());
 			try{
 				WsDownloadServiceSupport.getInstance().disconnect();
-				
+				Thread.sleep(1000);
 			}catch(Exception e){
 
 				Log.d(TAG, "[WS]disconnect---exception--"+e.getMessage());

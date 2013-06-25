@@ -13,6 +13,7 @@ import android.util.Log;
 import com.broadsoft.xmcommon.androidconfig.DomAppConfigFactory;
 import com.broadsoft.xmcommon.androiddao.DaoHolder;
 import com.broadsoft.xmcommon.androidwebsocket.WebSocketClient;
+import com.broadsoft.xmdownload.ViewHolder;
 import com.broadsoft.xmdownload.rsservice.RsServiceOnCompanyInfoSupport;
 import com.broadsoft.xmdownload.rsservice.RsServiceOnMeetingInfoSupport;
 import com.broadsoft.xmdownload.rsservice.RsServiceOnPadInfoSupport;
@@ -97,25 +98,33 @@ public class WsDownloadServiceSupport {
 						if("01".equals(msgtype)){//下载会议
 							for(String strTo:toList){
 								if(strTo.equals(padId)){
+//									ViewHolder.getInstance().getTextViewDownloadStatus().setText("会议信息下载中");
 									RsServiceOnMeetingInfoSupport.download(meetingid);
+//									ViewHolder.getInstance().getTextViewDownloadStatus().setText("会议信息下载完成");
 								}
 							}
 						}  else if("02".equals(msgtype)){//激活会议
 							for(String strTo:toList){
 								if(strTo.equals(padId)){
+//									ViewHolder.getInstance().getTextViewDownloadStatus().setText("激活会议中");
 									DaoHolder.getInstance().getDownloadInfoDao().activate(meetingid);
+//									ViewHolder.getInstance().getTextViewDownloadStatus().setText("激活会议完成");
 								}
 							} 
 						} else if("03".equals(msgtype)){//下载设备信息
 							for(String strTo:toList){
 								if(strTo.equals(padId)){ 
+//									ViewHolder.getInstance().getTextViewDownloadStatus().setText("设备信息下载中");
 									RsServiceOnPadInfoSupport.download();
+//									ViewHolder.getInstance().getTextViewDownloadStatus().setText("设备信息下载完成");
 								}
 							} 
 						} else if("04".equals(msgtype)){//下载公司信息
 							for(String strTo:toList){
 								if(strTo.equals(padId)){ 
+//									ViewHolder.getInstance().getTextViewDownloadStatus().setText("公司信息下载中");
 									RsServiceOnCompanyInfoSupport.download();
+//									ViewHolder.getInstance().getTextViewDownloadStatus().setText("公司信息下载完成");
 								}
 							} 
 						}
