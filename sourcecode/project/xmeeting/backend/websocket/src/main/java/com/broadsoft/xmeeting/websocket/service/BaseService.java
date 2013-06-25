@@ -36,12 +36,13 @@ public class BaseService implements IService{
 		String msgtype=context.getString("msgtype");  
 		String msgcontent=context.getString("msgcontent");
 		String from=context.getString("from");
+		String fromDisplayName=context.getString("fromDisplayName");
 		String to=context.getString("to");
 		try { 
 			for (ControllerMessageInbound messageInbound : ControllerMessageInboundHolder.getSocketListByMeetingId(meetingid)) { 
 				//检查消息是否要发给此人
 				if(validateMember(to, messageInbound)){
-					writeResponse(meetingid, msgtype, msgcontent, from, to, messageInbound);
+					writeResponse(meetingid, msgtype, msgcontent, from,fromDisplayName, to, messageInbound);
 				} 
 			}//end of for
 		} catch (IOException e) { 
@@ -95,13 +96,14 @@ public class BaseService implements IService{
 	 * @throws IOException
 	 */
 	protected void writeResponse(String meetingid, String msgtype,
-			String msgcontent, String from, String to,
+			String msgcontent, String from,String fromDisplayName, String to,
 			MessageInbound messageInbound) throws JSONException, IOException {
 		JSONObject responseContent=new JSONObject();
 		responseContent.put("meetingid", meetingid);
 		responseContent.put("msgtype", msgtype);
 		responseContent.put("msgcontent", msgcontent);
 		responseContent.put("from", from);
+		responseContent.put("fromDisplayName", fromDisplayName);
 		responseContent.put("to", to);
 		String resp=responseContent.toString();
 		if(logger.isTraceEnabled()){

@@ -161,6 +161,7 @@ public class DownloadMessageInbound extends MessageInbound {
 	protected void onOpen(WsOutbound outbound) {
 		if(logger.isTraceEnabled()){
 			logger.trace("onOpen--->"); 
+			System.out.println("onOpen--->");
 		}  
 		if(!DownloadMessageInboundHolder.checkIfExist(this)){ 
 			super.onOpen(outbound);
