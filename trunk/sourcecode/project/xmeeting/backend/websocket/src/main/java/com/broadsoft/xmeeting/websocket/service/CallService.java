@@ -24,7 +24,7 @@ public class CallService extends  BaseService{
 		XmMeetingCallDaoImpl xmMeetingCallDao=SpringDaoHolder.getInstance().getXmMeetingCallDao();
 		XmMeetingCall xmMeetingCall=new XmMeetingCall(); 
 		xmMeetingCall.setXmmcallCaller(responseContent.getString("from"));
-		xmMeetingCall.setXmmcallCallerDisplayname(responseContent.getString("from"));
+		xmMeetingCall.setXmmcallCallerDisplayname(responseContent.getString("fromDisplayName"));
 		xmMeetingCall.setXmmcallMessage(responseContent.getString("msgcontent"));
 		xmMeetingCall.setXmmcallTime(new Date());
 		xmMeetingCall.setXmmiGuid(responseContent.getString("meetingid"));
