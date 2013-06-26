@@ -482,7 +482,7 @@
                         android:layout_width="110dp"
                         android:layout_height="110dp"
                         android:scaleType="matrix"
-                        android:src="@drawable/d_setting" />
+                        android:src="@drawable/d_setting"  android:visibility="invisible" />
                     
 	                    <com.broadsoft.common.MyImageView
 	                        android:layout_width="16dp"

@@ -1,14 +1,9 @@
 package com.broadsoft.xmeeting;
+ 
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.ksoap2.serialization.SoapObject;
 
 import android.app.Activity;
@@ -19,7 +14,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.JsonToken;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -31,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.broadsoft.common.MyImageView;
+import com.broadsoft.xmcommon.androidsdcard.SDCardSupport;
 import com.broadsoft.xmeeting.activity.CallOutActivity;
 import com.broadsoft.xmeeting.activity.CompanyInfoActivity;
 import com.broadsoft.xmeeting.activity.DocumentsListActivity;
@@ -38,10 +34,7 @@ import com.broadsoft.xmeeting.activity.ImageGallaryMainActivity;
 import com.broadsoft.xmeeting.activity.MeetingGuideCatalogActivity;
 import com.broadsoft.xmeeting.activity.SysSettingActivity;
 import com.broadsoft.xmeeting.activity.VideosListActivity;
-import com.broadsoft.xmeeting.po.DownloadinfoPO;
 import com.nmbb.oplayer.OPlayerApplication;
-import com.nmbb.oplayer.database.MeetingDbHelper;
-import com.nmbb.oplayer.database.MeetingSQLiteHelperOrm;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
@@ -58,7 +51,8 @@ public class DesktopActivity extends Activity {
 	 * 数据
 	 */
 	private Activity act = this;
-	
+
+	private final static String TAG="DesktopActivity";
 
 	/**
 	 * 天气预报的控件
@@ -74,7 +68,7 @@ public class DesktopActivity extends Activity {
 	private SharedPreferences preference;
 	private SoapObject detail;
 	private ArrayList<String> list;
-	private int falg = 0;
+//	private int falg = 0;
 	
 	/**
 	 * 其他控件
@@ -215,60 +209,68 @@ public class DesktopActivity extends Activity {
 	
 	//执行异步的操作
   	private class StartActivityTask extends AsyncTask<String, Void, String[]> {
-  		  private int flag = 0;
-  		  @Override  
+  		private int flag = 0;
+
+		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-		}  
-  		   
-  		  
-          @Override
-          protected String[] doInBackground(String... params) {
-              // Simulates a background job.
-        	  flag = Integer.parseInt(params[0]);
-        	  try {Thread.sleep(100);
-              } catch (InterruptedException e) 
-              {}
+		}
+
+		@Override
+		protected String[] doInBackground(String... params) {
+			// Simulates a background job.
+			flag = Integer.parseInt(params[0]);
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+			}
 			return null;
-       
-          }
 
-  		@Override
-          protected void onPostExecute(String[] result) {
+		}
 
-            //Call onRefreshComplete when the list has been refreshed.
-  			Intent intent = new Intent();
-  			switch (flag) {
-  			case 1:
-  				intent.setClass(act, CompanyInfoActivity.class);// 指定了跳转前的Activity和跳转后的Activity
-  				break;
-  			case 2:
-  				intent.setClass(act, MeetingGuideCatalogActivity.class);// 指定了跳转前的Activity和跳转后的Activity
-  				break;
-  			case 3:
-  				intent.setClass(act, CallOutActivity.class);// 指定了跳转前的Activity和跳转后的Activity
-  				break;
-  			case 4:
-  				intent.setClass(act, DocumentsListActivity.class);// 指定了跳转前的Activity和跳转后的Activity
-  				break;
-  			case 5:
-  				intent.setClass(act, ImageGallaryMainActivity.class);// 指定了跳转前的Activity和跳转后的Activity
-  				break;
-  			case 6:
-  				intent.setClass(act, VideosListActivity.class);// 指定了跳转前的Activity和跳转后的Activity
-  				break;
-  			case 7:
-  				intent.setClass(act, SysSettingActivity.class);// 指定了跳转前的Activity和跳转后的Activity
-  			}
-  				
-  			startActivity(intent);// 以传递参数的方式跳转到下一个Activity
+		@Override
+		protected void onPostExecute(String[] result) {
+
+			// Call onRefreshComplete when the list has been refreshed.
+			Intent intent = new Intent();
+			switch (flag) {
+			case 1:
+				intent.setClass(act, CompanyInfoActivity.class);// 指定了跳转前的Activity和跳转后的Activity
+				break;
+			case 2:
+				intent.setClass(act, MeetingGuideCatalogActivity.class);// 指定了跳转前的Activity和跳转后的Activity
+				break;
+			case 3:
+				intent.setClass(act, CallOutActivity.class);// 指定了跳转前的Activity和跳转后的Activity
+				break;
+			case 4:
+				intent.setClass(act, DocumentsListActivity.class);// 指定了跳转前的Activity和跳转后的Activity
+				break;
+			case 5:
+				intent.setClass(act, ImageGallaryMainActivity.class);// 指定了跳转前的Activity和跳转后的Activity
+				break;
+			case 6:
+				intent.setClass(act, VideosListActivity.class);// 指定了跳转前的Activity和跳转后的Activity
+				break;
+			case 7:
+				intent.setClass(act, SysSettingActivity.class);// 指定了跳转前的Activity和跳转后的Activity
+			}
+
+			startActivity(intent);// 以传递参数的方式跳转到下一个Activity
 
   		}
           
     }
+  	
+  	
+	private String wheatherDirectory="/upload/xmeeting_wheatherinfo/"; 
+	private String wheatherFileName="wheatherinfo.xml";
+	
 	
 	private void initWeather()
 	{
+		Log.d(TAG, "initWeather begin.");
+		
 		preference = getSharedPreferences("weather", MODE_PRIVATE);
 		city_str = readSharpPreference();
 
@@ -289,8 +291,7 @@ public class DesktopActivity extends Activity {
 		
 		
 		com.broadsoft.common.MyImageView btnReturn = (com.broadsoft.common.MyImageView)this.findViewById(R.id.btnReturn);
-		btnReturn.setOnClickListener(new View.OnClickListener() {
-			
+		btnReturn.setOnClickListener(new View.OnClickListener() { 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -298,55 +299,66 @@ public class DesktopActivity extends Activity {
 			}
 		});
 		
-		String sXml = FileStoreTools.readFileSdcard(Environment.getExternalStorageDirectory().toString() + "/Enforcer/w.xml");
-		if (sXml != null && sXml.equals("") == false)
-		{
-			XStream xstream = new XStream(new DomDriver()); // does not require XPP3 library
-			list = (ArrayList<String>) xstream.fromXML(sXml);
-			initUI(city_str);
+		String weatherFilePath = SDCardSupport.getSDCardDirectory() +wheatherDirectory+ wheatherFileName;
+		String sXml = FileStoreTools.readFileSdcard(weatherFilePath);
+		Log.d(TAG, "weatherFile[" + weatherFilePath + "] content: " + sXml);
+
+		
+		if (sXml != null && sXml.equals("") == false) {
+			if ( sXml.equals("<list/>") == false) {
+				XStream xstream = new XStream(new DomDriver()); // does not require XPP3 library
+				list = (ArrayList<String>) xstream.fromXML(sXml);
+				initUI(city_str); 
+			}
 		}
 
-		new GetDataTask().execute();
+		new GetWheatherDataTask().execute();
+		Log.d(TAG, "initWeather endd.");
 	}
 	
 	//执行异步的操作
-  	private class GetDataTask extends AsyncTask<Void, Void, String[]> {
+	private class GetWheatherDataTask extends AsyncTask<Void, Void, String[]> {
 
-  		  @Override  
-          protected void onPreExecute() {  
-              //第一个执行方法  
-              super.onPreExecute();  
-          }  
-  		  
-  		  
-          @Override
-          protected String[] doInBackground(Void... params) {
-              // Simulates a background job.
-        	 detail = WebServiceUtil.getWeatherByCity(city_str);
-        	 if (detail != null)
-        	 {
-	        	 ArrayList<String> list = new ArrayList<String>();
-	        	 for (int i = 0; i < detail.getPropertyCount()-1; i++)
-	        	 {
-	        		 list.add(detail.getProperty(i).toString());
-	        	 }
-	        	 XStream xStream = new XStream(new DomDriver());
-	        	 String strxml = xStream.toXML(list);
-	        	 String filePath = Environment.getExternalStorageDirectory().toString() + "/Enforcer/";//存放数据的文件夹
-				 FileStoreTools.saveFile(strxml, filePath, "w.xml");
-        	 }
-        	 return null;
-          }
+		@Override
+		protected void onPreExecute() {
+			// 第一个执行方法
+			super.onPreExecute();
+		}
 
-  		@Override
-          protected void onPostExecute(String[] result) {
+		@Override
+		protected String[] doInBackground(Void... params) {
+			// Simulates a background job.
+			detail = WebServiceUtil.getWeatherByCity(city_str);
+			Log.d(TAG, "wheather soap content: " + detail);
+			if (detail != null) {
+				ArrayList<String> list = new ArrayList<String>();
+				for (int i = 0; i < detail.getPropertyCount() - 1; i++) {
+					list.add(detail.getProperty(i).toString());
+				}
+				XStream xStream = new XStream(new DomDriver());
+				String strxml = xStream.toXML(list);
+//				String filePath = Environment.getExternalStorageDirectory()
+//						.toString() + "/Enforcer/";// 存放数据的文件夹
+				
 
-            //Call onRefreshComplete when the list has been refreshed.
-  			refresh(city_str);
-            super.onPostExecute(result);
-          }
-          
-    }
+				String fileDirectory = SDCardSupport.getSDCardDirectory() +wheatherDirectory;
+				
+
+				Log.d(TAG, "weatherFile[" + fileDirectory + "] content: " + strxml);
+				FileStoreTools.saveFile(strxml, fileDirectory, wheatherFileName);
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(String[] result) {
+
+			// Call onRefreshComplete when the list has been refreshed.
+			refresh(city_str);
+			super.onPostExecute(result);
+		}
+
+	}
 
 	class ClickEvent implements View.OnClickListener
 	{
@@ -491,7 +503,7 @@ public class DesktopActivity extends Activity {
 		
 		if (detail == null)
 		{
-			 Toast toast = Toast.makeText(this, "连接服务器失败", Toast.LENGTH_SHORT);
+			 Toast toast = Toast.makeText(this, "连接 天气预报服务器失败.", Toast.LENGTH_SHORT);
 		     toast.show();
 		     return;
 		}
@@ -793,7 +805,7 @@ public class DesktopActivity extends Activity {
 	
 	public String readSharpPreference(){
 		
-		String city = preference.getString("city", "北京");
+		String city = preference.getString("city", "南京");
 		
 		return city;
 		

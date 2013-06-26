@@ -13,6 +13,7 @@ import com.broadsoft.xmcommon.androiddao.EntityInfoHolder;
 import com.broadsoft.xmcommon.androiddao.PadInfoEntity;
 import com.broadsoft.xmcommon.androidsdcard.SDCardSupport;
 import com.broadsoft.xmcommon.androidutil.AndroidIdSupport;
+import com.broadsoft.xmdownload.wsservice.WsControllerServiceSupport; 
 
 public class AppInitSupport {
 	private static final String TAG="AppInitSupport"; 
@@ -25,25 +26,12 @@ public class AppInitSupport {
 		Log.d(TAG, "[Config]AppConfig---->"+appConfig);
 		//初始化设备ID
 		AndroidIdSupport.init(ctx);
-		Log.d(TAG, "[AndroidI]AndroidID---->"+AndroidIdSupport.getAndroidID());
-
-		
-		
+		Log.d(TAG, "[AndroidI]AndroidID---->"+AndroidIdSupport.getAndroidID()); 
 		String sdcardDir = SDCardSupport.getSDCardDirectory();
 		Log.d(TAG, "[SDCard]sdcardDir---->"+sdcardDir);
 		// 初始化数据库		
 		DaoHolder.getInstance().init(ctx); 
-//		//
-//		if("0".equals(appConfig.getServerenable())){ 
-//			//初始化demo数据
-//			String jsonData=AssetManagerSupport.readText(assetManager); 
-//			DemoDataInit.init(jsonData); 
-//			Log.d(TAG, "[Demo]jsonData---->"+jsonData);
-//		} else{ 
-//			// 监听websocket消息
-//			WsServiceSupport.getInstance().initData(AndroidIdSupport.getAndroidID()); 
-//			Log.d(TAG, "[WS]connect---->done.");
-//		}
+//		// 
 		//读取会议信息
 		PadInfoEntity padInfoEntity=DaoHolder.getInstance().getPadInfoDao().uniqueOne();
 		Log.d(TAG, "[Sqlite]PadInfoEntity---->"+padInfoEntity);
@@ -55,7 +43,30 @@ public class AppInitSupport {
 		EntityInfoHolder.getInstance().setCompanyInfoEntity(companyInfoEntity);
 		EntityInfoHolder.getInstance().setPadInfoEntity(padInfoEntity);
 		EntityInfoHolder.getInstance().setDownloadInfoEntity(downloadInfoEntity);
-	}
+
+		//init websocket 
+		if("1".equals(appConfig.getServerenable())){ 
+			Log.d(TAG, "[Websocket]Init begin.");
+			String meetingId=EntityInfoHolder.getInstance().getDownloadInfoEntity().getMeetingId();
+			String memberId=EntityInfoHolder.getInstance().getDownloadInfoEntity().getMemberId();
+			String memberDisplayName=EntityInfoHolder.getInstance().getDownloadInfoEntity().getMemberDisplayName(); 
+			WsControllerServiceSupport.getInstance().initData(meetingId, memberId, memberDisplayName);
+
+			try{
+				WsControllerServiceSupport.getInstance().disconnect(); 
+				Thread.sleep(1000);
+			}catch(Exception e){ 
+				Log.d(TAG, "[Websocket]disconnect---exception--"+e.getMessage());
+			}
+			WsControllerServiceSupport.getInstance().connect(); 
+			Log.d(TAG, "[Websocket]connect---->done.");
+			Log.d(TAG, "[Websocket]Init end.");
+		}//end of if
+	}//end of initApp
+	
+	
+	
+	
 	public static void initDownloadInfoEntity(){ 
 		DownloadInfoEntity downloadInfoEntity=DaoHolder.getInstance().getDownloadInfoDao().findByActivate();
 		EntityInfoHolder.getInstance().setDownloadInfoEntity(downloadInfoEntity);
@@ -88,6 +99,6 @@ public class AppInitSupport {
 	
 
 	public static void destroyApp(Context ctx,AssetManager assetManager) { 
-		
+		WsControllerServiceSupport.getInstance().disconnect();
 	}
 }

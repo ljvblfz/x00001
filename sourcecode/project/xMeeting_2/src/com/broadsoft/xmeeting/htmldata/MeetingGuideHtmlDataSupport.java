@@ -7,19 +7,44 @@ import org.json.JSONObject;
 public class MeetingGuideHtmlDataSupport {
 
 	
-	
-	public static String genSchedule(JSONObject data){
-		
+	/**
+	 * 
+	 * @param data
+	 * @return
+	 */
+	public static String genSchedule(JSONObject data){ 
+		//
 		if(data!=null){ 
+			StringBuilder sbHtml=new StringBuilder();
+			sbHtml.append("<table style='font-size:30px;' width='100%'>"); 
 			try {
 				JSONArray jsonArray=data.getJSONArray("listOfXmMeetingSchedule");
 				for(int i=0;i<jsonArray.length();i++){
 					JSONObject  jsonObject=jsonArray.getJSONObject(i);
-				}
-				
+					String xmmsTitle=jsonObject.getString("xmmsTitle");
+
+					sbHtml.append("<tr>");
+					sbHtml.append("		<td colspn='2' style='color:#FFA500'>"+xmmsTitle+"</td>");  
+					sbHtml.append("</tr>"); 
+					JSONArray jsonArrayDetail=jsonObject.getJSONArray("listOfXmMeetingScheduleDetail");
+					for(int j=0;j<jsonArrayDetail.length();j++){
+						JSONObject  jsonDetail=jsonArrayDetail.getJSONObject(j);
+						String xmmsdTime=jsonDetail.getString("xmmsdTime");
+						String xmmsdTitle=jsonDetail.getString("xmmsdTitle");
+						String xmmsdDescription=jsonDetail.getString("xmmsdDescription");
+						sbHtml.append("<tr>");
+						sbHtml.append("		<td>"+xmmsdTime+"</td><td>"+xmmsdTitle+"</td>");  
+						sbHtml.append("</tr>");  
+						sbHtml.append("<tr>");
+						sbHtml.append("		<td>"+xmmsdDescription+"</td>");  
+						sbHtml.append("</tr>"); 
+					}//end of for j
+				}//end of for i 
 			} catch (JSONException e) { 
 				e.printStackTrace();
-			} 
+			}  
+			sbHtml.append("</table>"); 
+			return sbHtml.toString();
 		}//end of if data!=null
 		
 		StringBuilder sb=new StringBuilder();
@@ -71,11 +96,10 @@ public class MeetingGuideHtmlDataSupport {
 		sb.append("<tr>");
 		sb.append("		<td></td><td>送行人员：单业才  胡玉海  钱朝阳  <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;黄志高  吴  俊   高仲华 季  强</td>");  
 		sb.append("</tr>"); 
-		// 
-		
+		//  
 		sb.append("</table>"); 
 		return sb.toString(); 
-	}
+	}//end of genSchedule
 	
 	 
 
@@ -100,14 +124,14 @@ public class MeetingGuideHtmlDataSupport {
 			return sbHtml.toString();
 			
 		}
-
+		//
 		StringBuilder sb=new StringBuilder();
 		sb.append("<font color='#FFA500'>11月1日（星期四） 南京</font> <br/> <br/> "); 
 		sb.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;晴，最高温度17度，最低温度9度 <br/> <br/> "); 
 		sb.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;东风3-4级别。"); 
 		sb.append(" ");  
 		return sb.toString();
-	}
+	}//end of genWeatherInfo
 	 
 	
 	public static String genBus(JSONObject data){
@@ -174,11 +198,15 @@ public class MeetingGuideHtmlDataSupport {
 		sb.append("		<td>江苏公司：吴  俊  季  强</td>");
 		sb.append("</tr>"); 
 		sb.append("</table>"); 
-		return sb.toString();
-		
-		
-	}
+		return sb.toString(); 
+	}//end of genBus
 	
+	
+	/**
+	 * 
+	 * @param data
+	 * @return
+	 */
 	public static String genContact(JSONObject data){
 		if(null!=data){
 			StringBuilder sbHtml=new StringBuilder();
@@ -207,7 +235,7 @@ public class MeetingGuideHtmlDataSupport {
 		return sb.toString();
 		
 		
-	}
+	}//end of genContact
 	
 	
 }
