@@ -1,9 +1,5 @@
 package com.broadsoft.xmeeting.activity;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,14 +7,11 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ExpandableListView;
 import android.widget.TextView;
 
-import com.broadsoft.common.BaseActivity;
 import com.broadsoft.xmcommon.androiddao.DownloadInfoEntity;
 import com.broadsoft.xmcommon.androiddao.EntityInfoHolder;
 import com.broadsoft.xmeeting.R;
-import com.broadsoft.xmeeting.adapter.MemberInfoAdapter;
 import com.broadsoft.xmeeting.htmldata.MeetingGuideHtmlDataSupport;
 
 public class MeetingGuideCatalogScheduleInfoActivity extends Activity {

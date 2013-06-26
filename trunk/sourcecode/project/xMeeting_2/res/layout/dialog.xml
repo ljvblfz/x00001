@@ -17,7 +17,7 @@
             android:background="@drawable/call_out_back"
             android:gravity="center_horizontal"
             android:orientation="vertical" >
-            
+
             <TableLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" >
@@ -46,11 +46,8 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="#FFFFFF"
                         android:textSize="20sp" />
-
                 </TableRow>
-
-    </TableLayout>
-            
+            </TableLayout>
         </LinearLayout>
     </LinearLayout>
 

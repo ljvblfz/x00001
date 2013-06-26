@@ -40,8 +40,8 @@ public class   MemberInfoAdapter extends BaseExpandableListAdapter{
     public void initializeData(){
     	group = new ArrayList<String>();
     	child = new ArrayList<List<String>>(); 
-    	addInfo("上海市电力公司领导名单",new String[]{"冯  军         总经理","阮前途       副总经理（正局级）","黄良宝       副总经理","王  路         副总经理 ","范永根       总经理助理","沈兆新       副总工程师","车申刚       办公司主任","史济康       人资部主任","吴英姿       营销部主任","周  简         运维检修部主任","王  伟         调控中心主任","应志玮       交易中心主任","陈红兵       企协分会主任","陈  杰         企协分会副主任","牛  凯         办公室秘书"});
-    	addInfo("江苏省电力公司领导名单",new String[]{"单业才       总经理","胡玉海       党委书记","马苏龙       副总经理","潘震东       副总经理","钱朝阳       副总经理","李  斌         副总经理","黄志高       工会主席","甑玉林       副总工程师","林  敏         副总工程师 ","周建海       总法律顾问","夏  俊         副总会计师兼财务部主任","王之伟       副总工程师","吴  俊         办公室主任","陈  庆         人力资源部主任","顾国栋       营销部主任","白元强       运维检修部主任","高仲华       机关工作部主任","季  强        企协分会主任","黄  强        调控中心副主任","王  旭         发展策划部副主任"});
+//    	addInfo("上海市电力公司领导名单",new String[]{"冯  军         总经理","阮前途       副总经理（正局级）","黄良宝       副总经理","王  路         副总经理 ","范永根       总经理助理","沈兆新       副总工程师","车申刚       办公司主任","史济康       人资部主任","吴英姿       营销部主任","周  简         运维检修部主任","王  伟         调控中心主任","应志玮       交易中心主任","陈红兵       企协分会主任","陈  杰         企协分会副主任","牛  凯         办公室秘书"});
+//    	addInfo("江苏省电力公司领导名单",new String[]{"单业才       总经理","胡玉海       党委书记","马苏龙       副总经理","潘震东       副总经理","钱朝阳       副总经理","李  斌         副总经理","黄志高       工会主席","甑玉林       副总工程师","林  敏         副总工程师 ","周建海       总法律顾问","夏  俊         副总会计师兼财务部主任","王之伟       副总工程师","吴  俊         办公室主任","陈  庆         人力资源部主任","顾国栋       营销部主任","白元强       运维检修部主任","高仲华       机关工作部主任","季  强        企协分会主任","黄  强        调控中心副主任","王  旭         发展策划部副主任"});
     	initializeJsonData();
     }
     
@@ -49,10 +49,35 @@ public class   MemberInfoAdapter extends BaseExpandableListAdapter{
     	
     	try {
 			JSONArray jsonArray=jsonData.getJSONArray("listOfXmMeetingPersonnelSeatPadIVO"); 
+//			ArrayList<String> listOfJsonData
+			String xmpiDeptinfo1="";
+			String xmpiDeptinfo2="";
+//			String xmpiDeptinfo3="";
+			
+			List<String> memberList1=new ArrayList<String>();
+			List<String> memberList2=new ArrayList<String>();
+//			List<String> memberList3=new ArrayList<String>();
 			for (int i=0;i<jsonArray.length();i++){
 				JSONObject jsonObject=jsonArray.getJSONObject(i); 
+				String xmpiDeptinfo=jsonObject.getString("xmpiDeptinfo");
+				String xmpiName=jsonObject.getString("xmpiName");
+				String xmpiTitle=jsonObject.getString("xmpiTitle");
+				//
+				if("".equals(xmpiDeptinfo1)){
+					xmpiDeptinfo1=xmpiDeptinfo;
+				}
+				if(xmpiDeptinfo.equals(xmpiDeptinfo1)){
+					memberList1.add(xmpiName+"   "+xmpiTitle);
+				}else if("".equals(xmpiDeptinfo2)){
+					xmpiDeptinfo2=xmpiDeptinfo;
+				}  
+				if(xmpiDeptinfo.equals(xmpiDeptinfo2)){
+					memberList2.add(xmpiName+"   "+xmpiTitle); 
+				}
 				Log.d(TAG, "[initializeJsonData]jsonObject--->"+jsonObject.toString());
-			}
+			} //end of for
+			addInfo2(xmpiDeptinfo1,memberList1);
+			addInfo2(xmpiDeptinfo2,memberList2);
 			
 		} catch (JSONException e) { 
 			e.printStackTrace();
@@ -74,6 +99,20 @@ public class   MemberInfoAdapter extends BaseExpandableListAdapter{
     	for(int i=0;i<c.length;i++){
     		childitem.add(c[i]);
     	}
+    	child.add(childitem);
+    }
+    
+    /**
+     * 模拟给组、子列表添加数据
+     * @param g-group
+     * @param c-child
+     */
+    public void addInfo2(String g,List<String> childitem){
+    	group.add(g);
+//    	List<String> childitem = new ArrayList<String>();
+//    	for(int i=0;i<c.length;i++){
+//    		childitem.add(c[i]);
+//    	}
     	child.add(childitem);
     }
 	
