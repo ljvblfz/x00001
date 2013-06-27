@@ -1,16 +1,13 @@
 package com.broadsoft.xmeeting.activity;
-
-import io.vov.utils.Log;
-
+ 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ExpandableListView;
 
-import com.broadsoft.common.BaseActivity;
 import com.broadsoft.xmcommon.androiddao.DownloadInfoEntity;
 import com.broadsoft.xmcommon.androiddao.EntityInfoHolder;
 import com.broadsoft.xmeeting.R;
@@ -32,6 +29,8 @@ public class MeetingGuideCatalogMemberInfoActivity extends Activity {
         memberInfoAdapter.initializeData();
         mExpandableListView.setAdapter(memberInfoAdapter);
         mExpandableListView.setCacheColorHint(0);  //设置拖动列表的时候防止出现黑色背景 
+//        mExpandableListView.setDivider(null);
+        mExpandableListView.setGroupIndicator(this.getResources().getDrawable(R.drawable.expandlist_group_indicator));
 //        mExpandableListView.expandGroup(0);   
 		 
 	}

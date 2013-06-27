@@ -8,7 +8,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.R.color;
 import android.app.Activity;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -136,7 +138,7 @@ public class   MemberInfoAdapter extends BaseExpandableListAdapter{
 	public View getChildView(int groupPosition, int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent) {
 		String string = child.get(groupPosition).get(childPosition); 
-		return getGenericView(string);
+		return getChildGenericView(string);
 	}
 	
 	//----------------Group----------------//
@@ -160,11 +162,11 @@ public class   MemberInfoAdapter extends BaseExpandableListAdapter{
 	public View getGroupView(int groupPosition, boolean isExpanded,
 			View convertView, ViewGroup parent) {
 		String string = group.get(groupPosition);  
-		return getGenericView(string);
+		return getGroupGenericView(string);
 	}
 
 	//创建组/子视图  
-    public TextView getGenericView(String s) {  
+    public TextView getGroupGenericView(String s) {  
         // Layout parameters for the ExpandableListView  
         AbsListView.LayoutParams lp = new AbsListView.LayoutParams(  
                 ViewGroup.LayoutParams.FILL_PARENT, 40);
@@ -175,11 +177,34 @@ public class   MemberInfoAdapter extends BaseExpandableListAdapter{
         text.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);  
         // Set the text starting position  
         text.setPadding(36, 0, 0, 0);  
+        text.setBackgroundColor(Color.DKGRAY);
+      
           
         text.setText(s);  
         text.setTextSize(30);
         return text;  
     }  
+    
+    
+  //创建组/子视图  
+    public TextView getChildGenericView(String s) {  
+        // Layout parameters for the ExpandableListView  
+        AbsListView.LayoutParams lp = new AbsListView.LayoutParams(  
+                ViewGroup.LayoutParams.FILL_PARENT, 40);
+
+        TextView text = new TextView(parent);  
+        text.setLayoutParams(lp);  
+        // Center the text vertically  
+        text.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);  
+        // Set the text starting position  
+        text.setPadding(36, 0, 0, 0);
+//        text.setBackgroundColor(Color.BLUE);
+          
+        text.setText(s);  
+        text.setTextSize(30);
+        return text;  
+    }  //创建组/子视图  
+     
 	
 	
 	@Override
