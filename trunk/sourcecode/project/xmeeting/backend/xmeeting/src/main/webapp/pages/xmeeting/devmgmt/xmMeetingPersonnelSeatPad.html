@@ -75,8 +75,12 @@
 		var url = navTab._getTabUrl();
 		var xmmiGuid=navTab._getParam("xmmiGuid");
 		var xmriGuid=navTab._getParam("xmriGuid");
+		
 		var xurl="/pages/xmeeting/devmgmt/modify/xmMeetingPersonnelSeatPadModify.html?xmmiGuid="+xmmiGuid+"&xmriGuid="+xmriGuid+"";
 		findClass("add").attr("href",getURL(CPATH.domain_3,xurl));
+		// 
+		var xediturl="/pages/xmeeting/devmgmt/modify/xmMeetingPersonnelSeatPadModify.html?xmmpspGuid={slt_uid}&xmmiGuid="+xmmiGuid+"&xmriGuid="+xmriGuid+"";
+		findClass("edit").attr("href",getURL(CPATH.domain_3,xediturl));
 		//
 		var opts={xmmiGuid:xmmiGuid}; 
 		xmMeetingPersonnelSeatPadSearch(opts);
