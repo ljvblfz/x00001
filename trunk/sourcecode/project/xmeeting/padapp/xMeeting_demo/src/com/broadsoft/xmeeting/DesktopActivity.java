@@ -2,6 +2,8 @@ package com.broadsoft.xmeeting;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.ksoap2.serialization.SoapObject;
 
@@ -10,33 +12,26 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-
-import com.broadsoft.common.BaseActivity;
 import com.broadsoft.common.MyImageView;
 import com.broadsoft.xmeeting.activity.CallOutActivity;
-import com.broadsoft.xmeeting.activity.CallServiceActivity;
 import com.broadsoft.xmeeting.activity.CompanyInfoActivity;
 import com.broadsoft.xmeeting.activity.DocumentsListActivity;
 import com.broadsoft.xmeeting.activity.ImageGallaryMainActivity;
-import com.broadsoft.xmeeting.activity.MeetingGuideActivity;
 import com.broadsoft.xmeeting.activity.MeetingGuideCatalogActivity;
 import com.broadsoft.xmeeting.activity.SysSettingActivity;
 import com.broadsoft.xmeeting.activity.VideosListActivity;
@@ -280,8 +275,9 @@ public class DesktopActivity extends Activity {
 			list = (ArrayList<String>) xstream.fromXML(sXml);
 			initUI(city_str);
 		}
-
+		Log.d("----------------time11-------------------", System.currentTimeMillis()+"");
 		new GetDataTask().execute();
+		Log.d("----------------time12-------------------", System.currentTimeMillis()+"");
 	}
 	
 	//执行异步的操作

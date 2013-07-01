@@ -17,6 +17,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -90,7 +91,8 @@ public class DesktopActivity extends Activity {
 			}
 		}.start();
 		initWeather();
-		
+
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 	}
 	
@@ -312,7 +314,7 @@ public class DesktopActivity extends Activity {
 			}
 		}
 
-		new GetWheatherDataTask().execute();
+//		new GetWheatherDataTask().execute();
 		Log.d(TAG, "initWeather endd.");
 	}
 	
