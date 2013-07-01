@@ -19,8 +19,10 @@ import org.springframework.stereotype.Component;
 import com.founder.sipbus.common.annotation.RestletResource;
 import com.founder.sipbus.common.resource.BaseResource;
 import com.founder.sipbus.common.util.*;
+import com.broadsoft.xmeeting.xmeeting.basic.dao.XmPadDeviceDaoImpl;
 import com.broadsoft.xmeeting.xmeeting.basic.dao.XmRoomInfoDetailDaoImpl;
 import com.broadsoft.xmeeting.xmeeting.basic.po.XmRoomInfoDetail;
+import com.broadsoft.xmeeting.xmeeting.basic.po.XmPadDevice;
 import com.founder.sipbus.syweb.au.base.SyBaseResource;
 
 
@@ -50,6 +52,12 @@ public class XmRoomInfoDetailResource extends SyBaseResource{
 			getResponse().setStatus(Status.CLIENT_ERROR_NOT_FOUND);   
 			return null;
 		}
+		
+		String xmpdGuid=xmRoomInfoDetail.getXmpdGuid();
+		XmPadDevice xmPadDevice=xmPadDeviceDao.findById(xmpdGuid);
+		 
+		xmRoomInfoDetail.setXmpdGuidLabel(xmPadDevice.getXmpdCode());
+		
 		return getJsonGzipRepresentation(JSONSerializer.toJSON(xmRoomInfoDetail,config));
 	}
 	@Delete
@@ -67,5 +75,10 @@ public class XmRoomInfoDetailResource extends SyBaseResource{
 		PMGridCopyUtil.copyGridToDto(b, form.getValuesMap());
 		JSONObject jo = getDefaultEditReturnJson();
 		return getJsonGzipRepresentation(jo);
+	}
+	//========================
+	private XmPadDeviceDaoImpl xmPadDeviceDao; 
+	public void setXmPadDeviceDao(XmPadDeviceDaoImpl xmPadDeviceDao) {
+		this.xmPadDeviceDao = xmPadDeviceDao;
 	}
 }

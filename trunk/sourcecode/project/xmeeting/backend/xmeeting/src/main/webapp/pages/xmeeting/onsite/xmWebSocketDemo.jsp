@@ -15,9 +15,20 @@
 
 <form name="pageForm" method="post" class="required-validate pageForm">
 	<div class="pageFormContent" layoutH="600"> 
-		<p><label>用户ID:</label> <input type="text" name="memberId" class="required"   maxlength="50" value="system"/></p> 
-		<p><label>用户名称:</label> <input type="text" name="memberDisplayName" class="required"  maxlength="50" value="system(服务员)"/></p>
-		<p><label>会议ID:</label> <input type="text" name="meetingId" class="required"   maxlength="50" value="000000000XMMEETINGINFO13041820484043"/></p>
+<!-- 		<p><label>用户ID:</label> <input type="text" name="memberId" class="required"   maxlength="50" value="system"/></p>  -->
+		<p><label>用户名称:</label> 
+			<input type="text" name="memberDisplayName" class="required"  maxlength="50" value=""/> 
+			<input type="hidden" name="memberId"  />
+			<a   href="javascript:showDialog_xmMeetingRealtimeMonitorPersonnelInfo('memberDisplayName','memberId')" class="btnLook">查找带回</a>
+		</p>
+		
+		
+		<p>	
+			<label>会议名称:</label> 
+			<input type="hidden" name="meetingId" />
+			<input type="text" name="meetingName" class="required"   maxlength="50" value=""/>
+			<a   href="javascript:showDialog_xmMeetingBasicInfo('meetingName','meetingId')" class="btnLook">查找带回</a>   
+		</p>
 	</div>
 
 	<div class="formBar">
@@ -83,6 +94,61 @@
 	$(function() {
 	});
 	
+	
+	
+	function showDialog_xmMeetingRealtimeMonitorPersonnelInfo(xlabel,xhidden){  
+		//
+		
+		//
+		var title = "人员选择";
+		var rel = "xmMeetingRealtimeMonitorPersonnelInfo";
+		var options = {}; 
+		options.width = 500;
+		options.height = 400;
+		options.max =false;
+		options.mask = true;
+		options.maxable = false;
+		options.minable = false;
+		options.fresh = true;
+		options.resizable = false;
+		options.drawable = true;
+		options.close = "";
+		options.param = {xlabel:xlabel,xhidden:xhidden};
+		options.zIndex = "1000";
+
+		var url = "/xmeeting/pages/xmeeting/devmgmt/chooser/xmPersonnelInfoChooser.html";
+ 
+		$.pdialog.open(url, rel, title, options);
+		
+	}//end of showDialog_xmMeetingRealtimeMonitorPersonnelInfo
+	
+	
+
+	function showDialog_xmMeetingBasicInfo(xlabel,xhidden){  
+		//
+		
+		//
+		var title = "会议选择";
+		var rel = "xmMeetingBasicInfo";
+		var options = {}; 
+		options.width = 500;
+		options.height = 400;
+		options.max =false;
+		options.mask = true;
+		options.maxable = false;
+		options.minable = false;
+		options.fresh = true;
+		options.resizable = false;
+		options.drawable = true;
+		options.close = "";
+		options.param = {xlabel:xlabel,xhidden:xhidden};
+		options.zIndex = "1000";
+
+		var url = "/xmeeting/pages/xmeeting/onsite/chooser/xmMeetingInfoChooser.html";
+
+		$.pdialog.open(url, rel, title, options);
+		
+	}//end of showDialog_xmMeetingBasicInfo2
 	
 	
 </script>

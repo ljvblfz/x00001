@@ -5,6 +5,8 @@
  
 package com.broadsoft.xmeeting.xmeeting.devmgmt.resource;
 
+import java.util.List;
+
 import net.sf.json.JSON;
 import net.sf.json.JSONSerializer;
 
@@ -17,13 +19,17 @@ import org.restlet.resource.ResourceException;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.broadsoft.xmeeting.xmeeting.basic.dao.XmPadDeviceDaoImpl;
+import com.broadsoft.xmeeting.xmeeting.basic.po.XmPadDevice;
+import com.broadsoft.xmeeting.xmeeting.devmgmt.dao.XmDownloadStatusDaoImpl;
+import com.broadsoft.xmeeting.xmeeting.devmgmt.dao.XmMeetingInfoDaoImpl;
+import com.broadsoft.xmeeting.xmeeting.devmgmt.po.XmDownloadStatus;
+import com.broadsoft.xmeeting.xmeeting.devmgmt.po.XmMeetingInfo;
+import com.broadsoft.xmeeting.xmeeting.devmgmt.vo.XmDownloadStatusSearchVO;
 import com.founder.sipbus.common.annotation.RestletResource;
 import com.founder.sipbus.common.page.PageResponse;
 import com.founder.sipbus.common.util.JsonUtils;
 import com.founder.sipbus.common.util.PMGridCopyUtil;
-import com.broadsoft.xmeeting.xmeeting.devmgmt.dao.XmDownloadStatusDaoImpl;
-import com.broadsoft.xmeeting.xmeeting.devmgmt.po.XmDownloadStatus;
-import com.broadsoft.xmeeting.xmeeting.devmgmt.vo.XmDownloadStatusSearchVO;
 import com.founder.sipbus.syweb.au.base.SyBaseResource;
 
 @Component
@@ -43,7 +49,19 @@ public class XmDownloadStatussResource extends SyBaseResource {
 		form = new Form(entity); 
 		XmDownloadStatusSearchVO sVO=new XmDownloadStatusSearchVO();
 		PMGridCopyUtil.copyGridToDto(sVO,getQueryMap());
-		PageResponse p = xmDownloadStatusDao.findPage(getPageRequest(),fillDetachedCriteria(XmDownloadStatus.class,sVO));
+		PageResponse p = xmDownloadStatusDao.findPage(getPageRequest(),fillDetachedCriteria(XmDownloadStatus.class,sVO)); 
+		
+		List list = p.getList();
+		for (int i = 0; i < list.size(); i++) {
+			XmDownloadStatus xmDownloadStatus = (XmDownloadStatus) list.get(i);
+			String xmpdGuid=xmDownloadStatus.getXmpdGuid(); 
+			String xmmiGuid=xmDownloadStatus.getXmmiGuid();
+			XmPadDevice xmPadDevice=xmPadDeviceDao.findById(xmpdGuid);
+			XmMeetingInfo xmMeetingInfo=xmMeetingInfoDao.findById(xmmiGuid);
+			xmDownloadStatus.setXmmiGuidLabel(xmMeetingInfo.getXmmiName());
+			xmDownloadStatus.setXmpdGuidLabel(xmPadDevice.getXmpdCode());
+		}//end of for 
+		
 		JSON jp = JSONSerializer.toJSON(getPageResponse(p),config);
 		return getJsonGzipRepresentation(JsonUtils.genSuccessReturnJson(jp));   
 	}
@@ -68,5 +86,14 @@ public class XmDownloadStatussResource extends SyBaseResource {
 		PMGridCopyUtil.copyGridToDto(xmDownloadStatus, form.getValuesMap());
 		xmDownloadStatusDao.add(xmDownloadStatus);
 		return getJsonGzipRepresentation(getDefaultAddReturnJson());   
+	}
+	//
+	private XmMeetingInfoDaoImpl xmMeetingInfoDao; 
+	public void setXmMeetingInfoDao(XmMeetingInfoDaoImpl xmMeetingInfoDao) {
+		this.xmMeetingInfoDao = xmMeetingInfoDao;
+	}
+	private XmPadDeviceDaoImpl xmPadDeviceDao; 
+	public void setXmPadDeviceDao(XmPadDeviceDaoImpl xmPadDeviceDao) {
+		this.xmPadDeviceDao = xmPadDeviceDao;
 	}
 }

@@ -5,6 +5,8 @@
  
 package com.broadsoft.xmeeting.xmeeting.basic.resource;
 
+import java.util.List;
+
 import net.sf.json.JSON;
 import net.sf.json.JSONSerializer;
 
@@ -21,9 +23,13 @@ import com.founder.sipbus.common.annotation.RestletResource;
 import com.founder.sipbus.common.page.PageResponse;
 import com.founder.sipbus.common.util.JsonUtils;
 import com.founder.sipbus.common.util.PMGridCopyUtil;
+import com.broadsoft.xmeeting.xmeeting.basic.dao.XmPadDeviceDaoImpl;
 import com.broadsoft.xmeeting.xmeeting.basic.dao.XmRoomInfoDetailDaoImpl;
+import com.broadsoft.xmeeting.xmeeting.basic.po.XmPadDevice;
 import com.broadsoft.xmeeting.xmeeting.basic.po.XmRoomInfoDetail;
 import com.broadsoft.xmeeting.xmeeting.basic.vo.XmRoomInfoDetailSearchVO;
+import com.broadsoft.xmeeting.xmeeting.devmgmt.po.XmDownloadStatus;
+import com.broadsoft.xmeeting.xmeeting.devmgmt.po.XmMeetingInfo;
 import com.founder.sipbus.syweb.au.base.SyBaseResource;
 
 
@@ -45,6 +51,14 @@ public class XmRoomInfoDetailsResource extends SyBaseResource {
 		XmRoomInfoDetailSearchVO sVO=new XmRoomInfoDetailSearchVO();
 		PMGridCopyUtil.copyGridToDto(sVO,getQueryMap());
 		PageResponse p = xmRoomInfoDetailDao.findPage(getPageRequest(),fillDetachedCriteria(XmRoomInfoDetail.class,sVO));
+		
+		List list = p.getList();
+		for (int i = 0; i < list.size(); i++) {
+			XmRoomInfoDetail xmRoomInfoDetail = (XmRoomInfoDetail) list.get(i);  
+			String xmpdGuid=xmRoomInfoDetail.getXmpdGuid();
+			XmPadDevice xmPadDevice=xmPadDeviceDao.findById(xmpdGuid); 
+			xmRoomInfoDetail.setXmpdGuidLabel(xmPadDevice.getXmpdCode());
+		}//end of for
 		JSON jp = JSONSerializer.toJSON(getPageResponse(p),config);
 		return getJsonGzipRepresentation(JsonUtils.genSuccessReturnJson(jp));   
 	}
@@ -69,5 +83,10 @@ public class XmRoomInfoDetailsResource extends SyBaseResource {
 		PMGridCopyUtil.copyGridToDto(xmRoomInfoDetail, form.getValuesMap());
 		xmRoomInfoDetailDao.add(xmRoomInfoDetail);
 		return getJsonGzipRepresentation(getDefaultAddReturnJson());   
+	}
+	//========================
+	private XmPadDeviceDaoImpl xmPadDeviceDao; 
+	public void setXmPadDeviceDao(XmPadDeviceDaoImpl xmPadDeviceDao) {
+		this.xmPadDeviceDao = xmPadDeviceDao;
 	}
 }
