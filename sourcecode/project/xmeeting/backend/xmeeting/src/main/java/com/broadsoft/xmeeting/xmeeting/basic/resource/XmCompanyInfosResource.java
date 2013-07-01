@@ -28,6 +28,7 @@ import org.springframework.stereotype.Component;
 import com.broadsoft.xmeeting.xmeeting.basic.dao.XmCompanyInfoDaoImpl;
 import com.broadsoft.xmeeting.xmeeting.basic.po.XmCompanyInfo;
 import com.broadsoft.xmeeting.xmeeting.basic.vo.XmCompanyInfoSearchVO;
+import com.broadsoft.xmeeting.xmeeting.devmgmt.po.XmMeetingSchedule;
 import com.founder.sipbus.common.annotation.RestletResource;
 import com.founder.sipbus.common.page.PageResponse;
 import com.founder.sipbus.common.util.JsonUtils;
@@ -62,12 +63,14 @@ public class XmCompanyInfosResource extends SingleFileUploadResource {
 		form = new Form(entity); 
 		XmCompanyInfoSearchVO sVO=new XmCompanyInfoSearchVO();
 		PMGridCopyUtil.copyGridToDto(sVO,getQueryMap());
-		PageResponse p = xmCompanyInfoDao.findPage(getPageRequest(),fillDetachedCriteria(XmCompanyInfo.class,sVO));
+		System.out.println("xmmiGuid=============================>"+sVO.getXmmiGuid());
+		PageResponse p = xmCompanyInfoDao.findPage(getPageRequest(),fillDetachedCriteria(XmCompanyInfo.class,sVO)); 
 		List list = p.getList();
 		for (int i = 0; i < list.size(); i++) {
 			XmCompanyInfo xmCompanyInfo = (XmCompanyInfo) list.get(i);
 			xmCompanyInfo.setXmciTypeLabel(syCodeService.getSyCodeName("3001", xmCompanyInfo.getXmciType()));// 从码表读出对应名称 
 			xmCompanyInfo.setXmciStatusLabel(syCodeService.getSyCodeName("3002", xmCompanyInfo.getXmciStatus()));// 从码表读出对应名称 
+			xmCompanyInfo.setIsDisplayLabel(syCodeService.getSyCodeName("3014", xmCompanyInfo.getXmciStatus()));
 		}
 		
 		JSON jp = JSONSerializer.toJSON(getPageResponse(p),config);
