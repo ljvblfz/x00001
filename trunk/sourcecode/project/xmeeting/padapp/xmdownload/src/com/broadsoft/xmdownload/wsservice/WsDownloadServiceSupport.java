@@ -50,11 +50,13 @@ public class WsDownloadServiceSupport {
 		String serveripport=DomAppConfigFactory.getAppConfig().getServeripport();
 		this.wspath="ws://"+serveripport+"/websocket/ws/download?padId="+padId+"&roleName=DEVICE";
 	}
+	 
 	
 	/**
 	 * connect
 	 */
 	public void connect(){
+		
 		List<BasicNameValuePair> extraHeaders = Arrays.asList( new BasicNameValuePair("Cookie", "session=android") );
 		
 		URI uri=URI.create(wspath); 
@@ -123,7 +125,7 @@ public class WsDownloadServiceSupport {
 							for(String strTo:toList){
 								if(strTo.equals(padId)){ 
 //									ViewHolder.getInstance().getTextViewDownloadStatus().setText("公司信息下载中");
-									RsServiceOnCompanyInfoSupport.download();
+//									RsServiceOnCompanyInfoSupport.download();
 //									ViewHolder.getInstance().getTextViewDownloadStatus().setText("公司信息下载完成");
 								}
 							} 
@@ -151,7 +153,7 @@ public class WsDownloadServiceSupport {
 
 		    @Override
 		    public void onError(Exception error) {
-		        Log.e(TAG, "[Listener]onError=========>Error!", error);
+		        Log.e(TAG, "[Listener]onError=========>Error!", error); 
 		    }
 		}, extraHeaders); 
 		client.connect();

@@ -3,6 +3,7 @@ package com.broadsoft.xmdownload;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.broadsoft.xmcommon.androidutil.AndroidIdSupport;
@@ -33,6 +34,9 @@ public class MainActivity extends Activity {
 		String androidId=AndroidIdSupport.getAndroidID();
 		TextView tvAndroidId=(TextView)this.findViewById(R.id.textViewDeviceId);
 		tvAndroidId.setText(androidId);
+		
+		//
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		Log.d(TAG, "onCreate end");
 		
 	}//end of onCreate 

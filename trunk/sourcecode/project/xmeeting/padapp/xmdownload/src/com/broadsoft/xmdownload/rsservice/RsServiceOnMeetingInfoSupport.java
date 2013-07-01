@@ -201,8 +201,18 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 		}//end of if
 	}
 	
+	
+	
 	public void saveFileForDownloadInfo(JSONObject jsonMeetingInfo) throws JSONException{
 		String serveriport=DomAppConfigFactory.getAppConfig().getServeripport();
+		//
+		//公司简介
+		JSONArray listOfXmCompanyInfo=jsonMeetingInfo.getJSONArray("listOfXmCompanyInfo"); 
+		for(int i=0;i<listOfXmCompanyInfo.length();i++){
+			JSONObject docJson=listOfXmCompanyInfo.getJSONObject(i);
+			String docFile=docJson.getString("xmciAttachment");
+			HttpDownloadSupport.downloadFile(serveriport, docFile);
+		} 
 		//会议文稿
 		JSONArray listOfXmMeetingDocument=jsonMeetingInfo.getJSONArray("listOfXmMeetingDocument"); 
 		for(int i=0;i<listOfXmMeetingDocument.length();i++){
