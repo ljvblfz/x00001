@@ -36,8 +36,10 @@ public class XmDownloadStatus extends BaseEntity {
 	private java.lang.String xmdsGuid;
 	/** 会议PID */
 	private java.lang.String xmmiGuid;
+	private java.lang.String xmmiGuidLabel;
 	/** 设备PID */
 	private java.lang.String xmpdGuid; 
+	private java.lang.String xmpdGuidLabel; 
 	/** 公司简介下载 */
 	private java.lang.String xmdsCompany;
 	/** 会议指南(行程安排)下载 */
@@ -252,6 +254,24 @@ public class XmDownloadStatus extends BaseEntity {
 	}
  
 
+
+	@Transient
+	public java.lang.String getXmmiGuidLabel() {
+		return xmmiGuidLabel;
+	}
+
+	public void setXmmiGuidLabel(java.lang.String xmmiGuidLabel) {
+		this.xmmiGuidLabel = xmmiGuidLabel;
+	}
+
+	@Transient
+	public java.lang.String getXmpdGuidLabel() {
+		return xmpdGuidLabel;
+	}
+
+	public void setXmpdGuidLabel(java.lang.String xmpdGuidLabel) {
+		this.xmpdGuidLabel = xmpdGuidLabel;
+	}
 
 	public int compareTo(Object obj) {
 		int compare = -1;

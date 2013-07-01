@@ -4,7 +4,11 @@
  */
  package com.broadsoft.xmeeting.xmeeting.basic.po;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -35,6 +39,8 @@ public class XmRoomInfoDetail extends BaseEntity {
 	private java.lang.String xmridSeatdesc;
 	/** 设备PID */
 	private java.lang.String xmpdGuid; 
+	/** 设备PID */
+	private java.lang.String xmpdGuidLabel; 
 
 	
 
@@ -125,6 +131,14 @@ public class XmRoomInfoDetail extends BaseEntity {
 		this.xmpdGuid = value;
 	}
  
+	@Transient
+	public java.lang.String getXmpdGuidLabel() {
+		return xmpdGuidLabel;
+	}
+
+	public void setXmpdGuidLabel(java.lang.String xmpdGuidLabel) {
+		this.xmpdGuidLabel = xmpdGuidLabel;
+	}
 
 	public int compareTo(Object obj) {
 		int compare = -1;
