@@ -35,12 +35,12 @@ public class AppInitSupport {
 		//读取会议信息
 		PadInfoEntity padInfoEntity=DaoHolder.getInstance().getPadInfoDao().uniqueOne();
 		Log.d(TAG, "[Sqlite]PadInfoEntity---->"+padInfoEntity);
-		CompanyInfoEntity companyInfoEntity=DaoHolder.getInstance().getCompanyInfoDao().uniqueOne();
-		Log.d(TAG, "[Sqlite]CompanyInfoEntity---->"+companyInfoEntity); 
+//		CompanyInfoEntity companyInfoEntity=DaoHolder.getInstance().getCompanyInfoDao().uniqueOne();
+//		Log.d(TAG, "[Sqlite]CompanyInfoEntity---->"+companyInfoEntity); 
 		DownloadInfoEntity downloadInfoEntity=DaoHolder.getInstance().getDownloadInfoDao().findByActivate();
 		Log.d(TAG, "[Sqlite]DownloadInfoEntity---->"+downloadInfoEntity);
 		//
-		EntityInfoHolder.getInstance().setCompanyInfoEntity(companyInfoEntity);
+//		EntityInfoHolder.getInstance().setCompanyInfoEntity(companyInfoEntity);
 		EntityInfoHolder.getInstance().setPadInfoEntity(padInfoEntity);
 		EntityInfoHolder.getInstance().setDownloadInfoEntity(downloadInfoEntity);
 
@@ -54,7 +54,7 @@ public class AppInitSupport {
 
 			try{
 				WsControllerServiceSupport.getInstance().disconnect(); 
-				Thread.sleep(1000);
+				Thread.sleep(10*1000);
 			}catch(Exception e){ 
 				Log.d(TAG, "[Websocket]disconnect---exception--"+e.getMessage());
 			}
@@ -79,19 +79,19 @@ public class AppInitSupport {
 		
 	}
 	
-	public static void initCompanyInfoEntity(){ 
-		CompanyInfoEntity companyInfoEntity=DaoHolder.getInstance().getCompanyInfoDao().uniqueOne();
-		EntityInfoHolder.getInstance().setCompanyInfoEntity(companyInfoEntity);
-		
-	}
+//	public static void initCompanyInfoEntity(){ 
+//		CompanyInfoEntity companyInfoEntity=DaoHolder.getInstance().getCompanyInfoDao().uniqueOne();
+//		EntityInfoHolder.getInstance().setCompanyInfoEntity(companyInfoEntity);
+//		
+//	}
 	
 
 	public static void debugAppData() {
 		//读取会议信息
 		PadInfoEntity padInfoEntity=EntityInfoHolder.getInstance().getPadInfoEntity();
 		Log.d(TAG, "[debugAppData]PadInfoEntity---->"+padInfoEntity);
-		CompanyInfoEntity companyInfoEntity=EntityInfoHolder.getInstance().getCompanyInfoEntity();
-		Log.d(TAG, "[debugAppData]CompanyInfoEntity---->"+companyInfoEntity); 
+//		CompanyInfoEntity companyInfoEntity=EntityInfoHolder.getInstance().getCompanyInfoEntity();
+//		Log.d(TAG, "[debugAppData]CompanyInfoEntity---->"+companyInfoEntity); 
 		DownloadInfoEntity downloadInfoEntity=EntityInfoHolder.getInstance().getDownloadInfoEntity();
 		Log.d(TAG, "[debugAppData]DownloadInfoEntity---->"+downloadInfoEntity);
 	}
