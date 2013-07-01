@@ -41,6 +41,17 @@
     <string name="VideoView_error_button">OK</string>
     <string name="mediacontroller_play_pause">Play/Pause</string>
     
+     <string name="btn_done">OK</string>
+    <string name="btn_reset">Reset</string>
+    
+    <string name="gallery_space_text">Gallery Space [-60, 60]</string>
+    <string name="gallery_space_text_hint">Gallery space value must be in the range [-60, 60].</string>
+    
+    <string name="gallery_max_zoom_text">Gallery Max Zoom [-120, 120]</string>
+    <string name="gallery_max_zoom_text_hint">Gallery max zoom value must be in the range [-120, 120].</string>
+    
+    <string name="gallery_max_rotate_angle_text">Gallery Max Rotation Angle [-60, 60]</string>
+    <string name="gallery_max_rotate_angle_text_hint">Gallery max rotation angle must be in the range [-60, 60].</string>
     
         <string name="hello">Hello World, WeatherWebServiceActivity!</string>
     <string name="title">天气预报</string>
@@ -55,7 +66,7 @@
     <string name="zhiwai">紫外线强度：</string>
     <string name="city_str">城</string>
     <string name="xiaotieshi">今日小贴士今日小贴士今日小贴士今日小贴士今日小贴士</string>
-     <style name="ThemeActivity" mce_bogus="1">
+      <style name="ThemeActivity" mce_bogus="1">
 		<item name="android:windowAnimationStyle">@style/AnimationActivity</item>
 		<item name="android:windowNoTitle">true</item>
 	</style>
