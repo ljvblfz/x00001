@@ -41,6 +41,17 @@
     <string name="VideoView_error_button">OK</string>
     <string name="mediacontroller_play_pause">Play/Pause</string>
     
+     <string name="btn_done">OK</string>
+    <string name="btn_reset">Reset</string>
+    
+    <string name="gallery_space_text">Gallery Space [-60, 60]</string>
+    <string name="gallery_space_text_hint">Gallery space value must be in the range [-60, 60].</string>
+    
+    <string name="gallery_max_zoom_text">Gallery Max Zoom [-120, 120]</string>
+    <string name="gallery_max_zoom_text_hint">Gallery max zoom value must be in the range [-120, 120].</string>
+    
+    <string name="gallery_max_rotate_angle_text">Gallery Max Rotation Angle [-60, 60]</string>
+    <string name="gallery_max_rotate_angle_text_hint">Gallery max rotation angle must be in the range [-60, 60].</string>
     
         <string name="hello">Hello World, WeatherWebServiceActivity!</string>
     <string name="title">天气预报</string>
