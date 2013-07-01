@@ -1,5 +1,6 @@
 package com.broadsoft.xmeeting.activity;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -37,16 +38,31 @@ public class CompanyInfoLeader extends Activity {
 	
 	
 	public String getLeaderFilePath(){
-		String jsonData=EntityInfoHolder.getInstance().getCompanyInfoEntity().getJsonData();
+//		String jsonData=EntityInfoHolder.getInstance().getCompanyInfoEntity().getJsonData();
+		String jsonData=EntityInfoHolder.getInstance().getDownloadInfoEntity().getJsonData();
  
 		String leaderFilePath="";
 		try {
-			JSONObject jsonObject=new JSONObject(jsonData);
-			JSONObject companyInfo=jsonObject.getJSONObject("leaderinfo"); 
-			String compinfo=companyInfo.getString("xmciAttachment");
-			if(null!=compinfo&&!"".equals(compinfo)){
-				leaderFilePath=compinfo;
-			}
+//			JSONObject jsonObject=new JSONObject(jsonData);
+//			JSONObject companyInfo=jsonObject.getJSONObject("leaderinfo"); 
+//			String compinfo=companyInfo.getString("xmciAttachment");
+//			if(null!=compinfo&&!"".equals(compinfo)){
+//				leaderFilePath=compinfo;
+//			}
+			
+			
+			JSONObject downloadJsonObject=new JSONObject(jsonData);
+			JSONObject jsonMeetingInfo=downloadJsonObject.getJSONObject("meetingInfo");
+			JSONArray listOfXmCompanyInfo=jsonMeetingInfo.getJSONArray("listOfXmCompanyInfo");  
+			for(int i=0;i<listOfXmCompanyInfo.length();i++){ 
+				JSONObject companyInfo=listOfXmCompanyInfo.getJSONObject(i);
+				String xmciType=companyInfo.getString("xmciType");
+				if(xmciType.equals("2")){
+					String xmciAttachment=companyInfo.getString("xmciAttachment");
+					leaderFilePath= xmciAttachment;
+					continue;
+				} //end of if on xmciType
+			}//end of for
 		} catch (JSONException e) { 
 			e.printStackTrace();
 		}  

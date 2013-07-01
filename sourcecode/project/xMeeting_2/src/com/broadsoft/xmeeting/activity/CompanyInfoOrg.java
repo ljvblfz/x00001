@@ -1,5 +1,6 @@
 package com.broadsoft.xmeeting.activity;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,24 +40,39 @@ public class CompanyInfoOrg extends Activity {
 	
 	
 	public String getOrgFilePath(){
-		String jsonData=EntityInfoHolder.getInstance().getCompanyInfoEntity().getJsonData();
- 
-		String leaderFilePath="";
-		try {
-			JSONObject jsonObject=new JSONObject(jsonData);
-			JSONObject companyInfo=jsonObject.getJSONObject("orginfo"); 
-			String compinfo=companyInfo.getString("xmciAttachment");
-			if(null!=compinfo&&!"".equals(compinfo)){
-				leaderFilePath=compinfo;
-			}
+//		String jsonData=EntityInfoHolder.getInstance().getCompanyInfoEntity().getJsonData();
+// 
+//		String leaderFilePath="";
+//		try {
+//			JSONObject jsonObject=new JSONObject(jsonData);
+//			JSONObject companyInfo=jsonObject.getJSONObject("orginfo"); 
+//			String compinfo=companyInfo.getString("xmciAttachment");
+//			if(null!=compinfo&&!"".equals(compinfo)){
+//				leaderFilePath=compinfo;
+//			}
+//		} catch (JSONException e) { 
+//			e.printStackTrace();
+//		}  
+		String jsonData=EntityInfoHolder.getInstance().getDownloadInfoEntity().getJsonData();
+		String orgFilePath="";
+		try {  
+			JSONObject downloadJsonObject=new JSONObject(jsonData);
+			JSONObject jsonMeetingInfo=downloadJsonObject.getJSONObject("meetingInfo");
+			JSONArray listOfXmCompanyInfo=jsonMeetingInfo.getJSONArray("listOfXmCompanyInfo");  
+			for(int i=0;i<listOfXmCompanyInfo.length();i++){ 
+				JSONObject companyInfo=listOfXmCompanyInfo.getJSONObject(i);
+				String xmciType=companyInfo.getString("xmciType");
+				if(xmciType.equals("3")){
+					String xmciAttachment=companyInfo.getString("xmciAttachment");
+					orgFilePath= xmciAttachment;
+					continue;
+				} //end of if on xmciType
+			}//end of for
 		} catch (JSONException e) { 
 			e.printStackTrace();
-		}  
-		
-		
-
-		Log.d(TAG, "[getOrgFilePath]filePath "+leaderFilePath);
-		return leaderFilePath;
+		}   
+		Log.d(TAG, "[getOrgFilePath]filePath "+orgFilePath);
+		return orgFilePath;
 	}//end of getLeaderFilePath
 	
 	
