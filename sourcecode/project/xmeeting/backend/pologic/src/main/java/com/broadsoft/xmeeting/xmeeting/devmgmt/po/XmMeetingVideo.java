@@ -23,6 +23,7 @@ public class XmMeetingVideo extends BaseEntity {
 	public static String XMMV_NAME= "xmmiName";
 	public static String XMMV_DESCRIPTION= "xmmiDescription";
 	public static String XMMV_FILE= "xmmiFile"; 
+	public static String XMVI_GUID= "xmviGuid";
 
 	//primary key
 	/** PID */
@@ -35,6 +36,7 @@ public class XmMeetingVideo extends BaseEntity {
 	private java.lang.String xmmvDescription;
 	/** 视频文件 */
 	private java.lang.String xmmvFile; 
+	private java.lang.String xmviGuid; 
 
 	
 
@@ -104,6 +106,16 @@ public class XmMeetingVideo extends BaseEntity {
 		this.xmmvFile = xmmvFile;
 	}
  
+
+	public java.lang.String getXmviGuid() {
+		return xmviGuid;
+	}
+
+	public void setXmviGuid(java.lang.String xmviGuid) {
+		this.xmviGuid = xmviGuid;
+	}
+	
+	
 
 	public int compareTo(Object obj) {
 		int compare = -1;
