@@ -24,4 +24,6 @@ public class XmMeetingScheduleDaoImpl extends DefaultBaseDaoImpl<XmMeetingSchedu
 		return listOfXmMeetingSchedule; 
 	}
 	
+	
+	
 }
