@@ -1,0 +1,123 @@
+<form method="get" name="xmVideoInfoSearchForm" action="/rs/xmVideoInfo" onsubmit="return false;" >
+	<input type="hidden" name="pageNum" value="1" />
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>视频名称：</label>
+					<input type="text" name="xmviName" value=""/>
+				</li> 
+			</ul>
+			<div class="subBar">
+				<ul>						
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="xmVideoInfoSearch({pageNum:1})">查询</button></div></div></li>
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="javascript:findDialogName('xmVideoInfoSearchForm')[0].reset()">清空</button></div></div></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="pageContent">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+<!-- 			<li><a class="add" target="navTab" rel="userNav" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/basic/modify/xmVideoInfoModify.html');" title="新增xmVideoInfo"  ><span>新增</span></a></li> -->
+<!-- 			<li><a class="edit" target="navTab" rel="userNav1" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/basic/modify/xmVideoInfoModify.html?xmviGuid={slt_uid}');" title="修改xmVideoInfo"   multiable="no" warn="请选择一条记录"><span>修改</span></a></li> -->
+<!-- 			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_3,'/rs/xmVideoInfo')"  rel="xmviGuids" callBackMethod="xmVideoInfoSearch"	title="确认删除?"  ><span>删除</span></a></li>  -->
+			
+				<li><a class="edit"  href="javascript:xmVideoInfoBringBack()" title="选择带回"  multiable="no" warn="请选择一条记录"><span>选择带回</span></a></li>
+		</ul>
+	</div>
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr  searchMethod="xmVideoInfoSearch">
+<!-- 			<th width="22"><input type="checkbox" group="xmviGuids" class="checkboxCtrl"></th> -->
+						<th width="60"  orderField="xmviName">视频名称</th>
+						<th width="60"  orderField="xmviDescription">视频描述</th>
+						<th width="60"  orderField="xmviStatus">视频状态</th> 
+						<th width="200" orderField="xmviFile">视频文件</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="xmVideoInfoTrTemplate" target="slt_uid">
+<!-- 				<td name="xmviGuid" type="check"><input name="xmviGuids" value="" type="checkbox"></td> -->
+
+						<td type="radio"><input name="xmviGuids" groups="xmviGuid" value="" type="radio"></td>
+						<td name="xmviName"></td>
+						<td name="xmviDescription"></td>
+						<td name="xmviStatusLabel"></td> 
+						<td name="xmviFile"></td>
+				
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage" onchange="xmVideoInfoSearch({numPerPage:this.value,pageNum:1})">
+				<option value="10">10</option>
+				<option value="40">40</option>
+				<option value="100">100</option>
+				<option value="200">200</option>
+			</select>
+			<span name="xmVideoInfoCountDiv">条，共-条</span>
+		</div>
+		<div name="xmVideoInfoPageBar" class="pagination" searchMethod="xmVideoInfoSearch" targetType="navTab" totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+</div>
+<script type="text/javascript">
+	//定义默认参数
+	var xmVideoInfoArgs={};
+	 //查询方法 
+	$(function(){
+		xmVideoInfoSearch();
+	});
+	 
+	function xmVideoInfoSearch(opt){
+		//序列化表单值，并扩展到xmVideoInfoArgs对象中
+		$.extend(xmVideoInfoArgs,findDialogName('xmVideoInfoSearchForm').serializeJson(),opt?opt:{});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_3,"/rs/xmVideoInfo"),xmVideoInfoArgs,xmVideoInfoList);
+	}
+	
+	//拼装
+	function xmVideoInfoList(data){
+		var sampleRow=findDialogName('xmVideoInfoTrTemplate');
+		pageResponse2Table(sampleRow,data);
+        printPageBarDiv(findDialogName('xmVideoInfoPageBar'),findDialogName('xmVideoInfoCountDiv'),data.jsonData);
+	}
+	
+	
+
+	function xmVideoInfoBringBack(){ 
+		var chooser_xhidden="";
+		var chooser_xlabel="";
+		var chooser_supportval="";
+		var chooser_supportval2="";
+		var param =  $.pdialog.getCurrent().data("param");  
+		if(param && param != ""){
+			param = DWZ.jsonEval(param);  
+			chooser_xhidden=param.xhidden;
+			chooser_xlabel=param.xlabel;
+			chooser_supportval=param.supportval;
+			chooser_supportval2=param.supportval2;
+		}  
+		logger.info("chooser_xhidden------->"+chooser_xhidden);
+		logger.info("chooser_xlabel------->"+chooser_xlabel);
+		logger.info("chooser_supportval------->"+chooser_supportval);
+		logger.info("chooser_supportval2------->"+chooser_supportval2);
+		$('input[name="xmviGuids"]:radio:checked').each(function(){    
+			   $.pdialog.closeCurrent(); 
+			   findName(chooser_xhidden).val($(this).val());  
+			   var labelvalue=$(this).parent().parent().children().parent().parent().find("td:[name=xmviName]").html();
+			   findName(chooser_xlabel).val(labelvalue);  
+			   var supportval=$(this).parent().parent().children().parent().parent().find("td:[name=xmviFile]").html();
+			   findName(chooser_supportval).val(supportval); 
+			   var supportval2=$(this).parent().parent().children().parent().parent().find("td:[name=xmviDescription]").html();
+			   findName(chooser_supportval2).val(supportval2);
+		});    
+	}
+</script>
