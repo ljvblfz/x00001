@@ -23,11 +23,13 @@ public class XmCompanyInfo extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 	public static String XMCI_GUID= "xmciGuid";
+	public static String XMMI_GUID= "xmmiGuid";
 	public static String XMCI_COMPANY_NAME= "xmciCompanyName";
 	public static String XMCI_DESCRIPTION= "xmciDescription";
 	public static String XMCI_ATTACHMENT= "xmciAttachment";
 	public static String XMCI_TYPE= "xmciType";
 	public static String XMCI_STATUS= "xmciStatus"; 
+	public static String IS_DISPLAY= "isDisplay"; 
 
 	//primary key
 	/** PID */
@@ -45,6 +47,10 @@ public class XmCompanyInfo extends BaseEntity {
 	private java.lang.String xmciStatus; 
 
 	private java.lang.String xmciStatusLabel; 
+	// 
+	private java.lang.String xmmiGuid;  
+	private java.lang.String isDisplay;  
+	private java.lang.String isDisplayLabel;  
 
 	
 
@@ -166,6 +172,33 @@ public class XmCompanyInfo extends BaseEntity {
 
 	public void setXmciStatusLabel(java.lang.String xmciStatusLabel) {
 		this.xmciStatusLabel = xmciStatusLabel;
+	}
+
+	public java.lang.String getXmmiGuid() {
+		return xmmiGuid;
+	}
+
+	public void setXmmiGuid(java.lang.String xmmiGuid) {
+		this.xmmiGuid = xmmiGuid;
+	}
+
+ 
+
+	public java.lang.String getIsDisplay() {
+		return isDisplay;
+	}
+
+	public void setIsDisplay(java.lang.String isDisplay) {
+		this.isDisplay = isDisplay;
+	}
+
+	@Transient
+	public java.lang.String getIsDisplayLabel() {
+		return isDisplayLabel;
+	}
+
+	public void setIsDisplayLabel(java.lang.String isDisplayLabel) {
+		this.isDisplayLabel = isDisplayLabel;
 	}
 
 	public int compareTo(Object obj) {

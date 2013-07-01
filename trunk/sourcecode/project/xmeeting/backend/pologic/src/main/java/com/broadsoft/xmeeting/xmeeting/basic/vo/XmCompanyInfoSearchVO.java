@@ -23,6 +23,10 @@ public class XmCompanyInfoSearchVO {
 	public String xmciStatus;
 	
 	
+
+	public String xmmiGuid;
+	
+	
 	
 
 	/**
@@ -108,6 +112,12 @@ public class XmCompanyInfoSearchVO {
 	 */
 	public void setXmciStatus(String xmciStatus) {
 		this.xmciStatus = xmciStatus;
+	}
+	public String getXmmiGuid() {
+		return xmmiGuid;
+	}
+	public void setXmmiGuid(String xmmiGuid) {
+		this.xmmiGuid = xmmiGuid;
 	}
 	
 	 
