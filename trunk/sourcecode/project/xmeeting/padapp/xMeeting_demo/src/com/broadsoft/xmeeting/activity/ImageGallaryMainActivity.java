@@ -12,7 +12,6 @@ import com.broadsoft.xmeeting.DesktopActivity;
 import com.broadsoft.xmeeting.R;
 
 
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
@@ -31,12 +30,14 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Bitmap.Config;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.Shader.TileMode;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
+import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -51,6 +52,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -66,49 +69,129 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
 	private static final int WHAT_DID_LOAD_DATA = 0;
 	private static final int WHAT_DID_REFRESH = 1;
 	private static final int WHAT_DID_MORE = 2;
-	
-	private int grayColor = Color.parseColor("#666666");
-	private int writeColor = Color.parseColor("#ffffff");
-
 	private Activity act = this;
 	private ListView mListView;
-	private Button btnBack;
-	private Button btnScan;
-	private Button btnSearch;
-
-	private MyAdapter mAdapter;
+	private GalleyListAdapter mAdapter;
 	private List<Map<String, Object>> mData;
-
 	private MyPullDownLayoutView mPullDownView;
 	private List<String> mStrings = new ArrayList<String>();
-	private Button btnWorker;
-	private Button btnEnforcer;
-	private Button btnPort;
-	private int status = 1;
-	
-	/////////////
-	private ViewPager mTabPager;	
-	private ImageView mTabImg;// 动画图片
-	private ImageView mTab1,mTab2,mTab3,mTab4;
-	private int zero = 0;// 动画图片偏移量
-	private int currIndex = 0;// 当前页卡编号
-	private int one;//单个水平动画位移
-	private int two;
-	private int three;
-	private LinearLayout mClose;
-    private LinearLayout mCloseBtn;
-    private View layout;	
-	private boolean menu_display = false;
-	private PopupWindow menuWindow;
-	private LayoutInflater inflater;
-	private BroadcastReceiver receiver;
-	private GalleryFlow galleryFlow;
-	
 	private int currentSel = 0;
+	int[] ids =
+        {
+            R.drawable.demo1,
+            R.drawable.demo2,
+            R.drawable.demo3,
+            R.drawable.demo4,
+            R.drawable.demo5,
+            R.drawable.demo1,
+            R.drawable.demo2,
+            R.drawable.demo3,
+            R.drawable.demo4,
+            R.drawable.demo5
+        };
 	
-	private ImageAdapter adapter;
+	GalleryFlow mGallery = null;
+    ArrayList<BitmapDrawable> mBitmaps = new ArrayList<BitmapDrawable>();
+    
+    View.OnClickListener mListener = new View.OnClickListener()
+    {
+        @Override
+        public void onClick(View v)
+        {
+            switch (v.getId())
+            {
+            case R.id.space_confirm_btn:
+                onSpaceBtnClick(v);
+                break;
+                
+            case R.id.max_zoom_confirm_btn:
+                onMaxZoomBtnClick(v);
+                break;
+            case R.id.max_rotate_angle_confirm_btn:
+                onMaxAngleBtnClick(v);
+                break;
+            }
+        }
+    };
+    
+    private void onSpaceBtnClick(View v)
+    {
+        EditText editText = (EditText) findViewById(R.id.space_edittext);
+        String text = editText.getText().toString();
+        
+        try
+        {
+            int spacing = Integer.parseInt(text);
+            if (spacing >= -60 && spacing <= 60)
+            {
+                mGallery.setSpacing(spacing);
+                ((GalleryAdapter)mGallery.getAdapter()).notifyDataSetChanged();
+            }
+            else
+            {
+                Toast.makeText(this,
+                        getResources().getString(R.string.gallery_space_text_hint),
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+    
+    private void onMaxZoomBtnClick(View v)
+    {
+        EditText editText = (EditText) findViewById(R.id.max_zoom_edittext);
+        String text = editText.getText().toString();
+        
+        try
+        {
+            int maxZoom = Integer.parseInt(text);
+            if (maxZoom >= -120 && maxZoom <= 120)
+            {
+                mGallery.setMaxZoom(maxZoom);
+                ((GalleryAdapter)mGallery.getAdapter()).notifyDataSetChanged();
+            }
+            else
+            {
+                Toast.makeText(this,
+                        getResources().getString(R.string.gallery_max_zoom_text_hint),
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+    
+    private void onMaxAngleBtnClick(View v)
+    {
+        EditText editText = (EditText) findViewById(R.id.max_rotate_angle_edittext);
+        String text = editText.getText().toString();
+        
+        try
+        {
+            int maxRotationAngle = Integer.parseInt(text);
+            if (maxRotationAngle >= -60 && maxRotationAngle <= 60)
+            {
+                mGallery.setMaxRotationAngle(maxRotationAngle);
+                ((GalleryAdapter)mGallery.getAdapter()).notifyDataSetChanged();
+            }
+            else
+            {
+                Toast.makeText(this,
+                        getResources().getString(R.string.gallery_max_rotate_angle_text_hint),
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
 	
-
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		DesktopActivity.releaseLoading(hasFocus);
@@ -120,41 +203,44 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.imagegallary_activity_main);        
 
+        InitGalleyList();
+        InitGalley();
+    	InitTopbarAndBack();
+    	
+    	
+    }
+	
+	private void InitGalleyList()
+	{
 		mPullDownView = (MyPullDownLayoutView) findViewById(R.id.pull_down_view);
 		mPullDownView.setOnPullDownListener(this);
 		mListView = mPullDownView.getListView();
 		mListView.setOnItemClickListener(this);
 		mListView.setDivider(this.getResources().getDrawable(R.drawable.comm_select_list_line));
-		mAdapter = new MyAdapter(this);
-        new GetDataTask().execute();
-        
-        //关闭popupwindow用的
-        receiver = new BroadcastReceiver() {
-  			public void onReceive(Context context, Intent intent) {
-  				//Toast.makeText(act, uploadService.getUploadList().size() + "", Toast.LENGTH_LONG).show();
-  				if (menu_display == true)
-  				{
-  					menuWindow.dismiss();
-  					menu_display = false;
-  				}
-  				
-  			}
-  		};
-        
-        
-       new RefreshGa().execute();
-
-    	InitTopbarAndBack();
-    }
+		mAdapter = new GalleyListAdapter(this);
+        new GetGalleyListTask().execute();
+	}
 	
-	 private void InitTopbarAndBack()
+	private void InitGalley()
+	{
+		mGallery = (GalleryFlow) findViewById(R.id.gallery_flow);
+        //mGallery.setBackgroundColor(Color.GRAY);
+        mGallery.setGravity(Gravity.CENTER_VERTICAL);
+        mGallery.setSpacing(-30);
+        findViewById(R.id.space_confirm_btn).setOnClickListener(mListener);
+        findViewById(R.id.max_zoom_confirm_btn).setOnClickListener(mListener);
+        findViewById(R.id.max_rotate_angle_confirm_btn).setOnClickListener(mListener);
+        
+		new RefreshGa().execute();
+		
+	}
+	
+	private void InitTopbarAndBack()
 	{
 		( (Button) this.findViewById(R.id.btnBack) ).setOnClickListener(new View.OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
 				finish();
-				//overridePendingTransition(R.anim.zoom_enter,android.R.anim.fade_out);
 			}
 		});
 	}
@@ -162,78 +248,74 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
 	//执行异步的操作
 	private class RefreshGa extends AsyncTask<Void, Void, String[]> {
 
-		Integer[] images;
+		
         @Override
         protected String[] doInBackground(Void... params) {
             // Simulates a background job.
-        	images = new Integer[9];
-        	images[0] = R.drawable.wel; 
-        	images[1] = R.drawable.demo2;
-        	images[2] = R.drawable.demo3;
-        	images[3] = R.drawable.demo4;
-        	images[4] = R.drawable.demo1;
-        	images[5] = R.drawable.demo2;
-        	images[6] = R.drawable.demo3;
-        	images[7] = R.drawable.demo4;
-        	images[8] = R.drawable.demo1;
-
-            
-            adapter = new ImageAdapter(act,images);
-            adapter.createReflectedImages();
+        	generateBitmaps();
             return null;
         }
 
 		@Override
         protected void onPostExecute(String[] result) {
-
-			galleryFlow = (GalleryFlow) findViewById(R.id.gallery_flow);
-	        galleryFlow.setAdapter(adapter);
-	        
-	        galleryFlow.setOnItemClickListener(new OnItemClickListener() {
+			
+            super.onPostExecute(result);
+            mGallery.setAdapter(new GalleryAdapter());
+            mGallery.setOnItemClickListener(new OnItemClickListener() {
 	            public void onItemClick(AdapterView<?> parent, View view,
 	                    int position, long id) {
-	            	if (position == currentSel)
-	            	{
-	            		Intent intent = new Intent();
-	        			intent.setClass(act, ImageGallaryViewFlipperActivity.class);
-	        			
-	        			intent.putExtra("id", images[position] + "");
-	        			startActivity(intent);// 以传递参数的方式跳转到下一个Activity
-	            	}
-	            	else
-	            		currentSel = position;
-	            	//Toast.makeText(getApplicationContext(), String.valueOf(position), Toast.LENGTH_SHORT).show();
+            		Intent intent = new Intent();
+        			intent.setClass(act, ImageGallaryViewFlipperActivity.class);
+        			
+        			intent.putExtra("id", ids[position] + "");
+        			startActivity(intent);// 以传递参数的方式跳转到下一个Activity
 	            }
 	            
 	        });
-	        galleryFlow.setCallbackDuringFling(false);
-	        
-	        galleryFlow.setOnItemSelectedListener(new OnItemSelectedListener() {    // 设置选择事件监听     
-	            @Override
-	            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {     
-	            	currentSel = position;
-	            }     
-	              
-	            @Override
-	            public void onNothingSelected(AdapterView<?> parent) {     
-	            }     
-	        });     
-	                
-
-			
-            super.onPostExecute(result);
+            mGallery.setCallbackDuringFling(false);
+	        mGallery.setSelection(4);
         }
 
     }
 	
+	private void generateBitmaps()
+    {
+        
+        
+        for (int id : ids)
+        {
+            Bitmap bitmap = createReflectedBitmapById(id);
+            if (null != bitmap)
+            {
+                BitmapDrawable drawable = new BitmapDrawable(bitmap);
+                drawable.setAntiAlias(true);
+                mBitmaps.add(drawable);
+            }
+        }
+    }
+    
+    private Bitmap createReflectedBitmapById(int resId)
+    {
+        Drawable drawable = getResources().getDrawable(resId);
+        if (drawable instanceof BitmapDrawable)
+        {
+            Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
+            Bitmap reflectedBitmap = com.broadsoft.common.util.BitmapUtil.createReflectedBitmap(bitmap);
+            
+            return reflectedBitmap;
+        }
+        
+        return null;
+    }
+	
 	
     //执行异步的操作
-	private class GetDataTask extends AsyncTask<Void, Void, String[]> {
+	private class GetGalleyListTask extends AsyncTask<Void, Void, String[]> {
 
         @Override
         protected String[] doInBackground(Void... params) {
             // Simulates a background job.
-        	mData = getDataFromServer();
+        	mData = getGalleyList();
             return null;
         }
 
@@ -254,7 +336,7 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
 
     }
 	
-	private List<Map<String, Object>> getDataFromServer() {
+	private List<Map<String, Object>> getGalleyList() {
     	
     	List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
     	for (int i = 0; i < 10; i++)
@@ -277,13 +359,13 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
     }
      
      
-    public class MyAdapter extends BaseAdapter{
+    public class GalleyListAdapter extends BaseAdapter{
  
         private LayoutInflater mInflater;
         private AsyncBitmapLoader asyncLoader = null;  
         
          
-        public MyAdapter(Context context){
+        public GalleyListAdapter(Context context){
             this.mInflater = LayoutInflater.from(context);
             this.asyncLoader = new AsyncBitmapLoader();  
         }
@@ -372,11 +454,6 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
             {  
             	holder.ivPhoto.setImageBitmap(bitmap);  
             }  
-            
-            
-            
-
-            
             holder.ivStar.setImageResource(0);
             holder.tvCost.setText((String)mData.get(position).get("cost"));
             holder.tvAbout.setText((String)mData.get(position).get("cate"));
@@ -461,9 +538,7 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
 					break;
 				}
 			}
-			
 		}
-		
 	};
 
 	@Override
@@ -472,133 +547,67 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
 
 	}
 	
-	
-	@Override
-	public boolean dispatchTouchEvent(MotionEvent ev) {
-		View sel = act.getCurrentFocus();
-		View view = galleryFlow.getSelectedView();
-		if (sel == view) {
-			
-			Intent intent = new Intent();
-			intent.setClass(act, CallOutActivity.class);
-			startActivity(intent);// 以传递参数的方式跳转到下一个Activity
-			
-			
-			
-		}
-		return super.dispatchTouchEvent(ev);
-	}
-	
-	public class ImageAdapter extends BaseAdapter
-	{
+	    
+	private class GalleryAdapter extends BaseAdapter
+    {
+        @Override
+        public int getCount()
+        {
+            return mBitmaps.size();
+        }
 
-	     int mGalleryItemBackground;
-	     private Context    mContext;
-	     private Integer[]  mImageIds;
-	     private ImageView[] mImages;
+        @Override
+        public Object getItem(int position)
+        {
+            return null;
+        }
 
-	     public ImageAdapter(Context c, Integer[] ImageIds) 
-	     {
-	         mContext  = c;
-	         mImageIds = ImageIds;
-	         mImages   = new ImageView[mImageIds.length];
-	     }
+        @Override
+        public long getItemId(int position)
+        {
+            return 0;
+        }
 
-	     public boolean createReflectedImages() 
-	     {
-	         final int reflectionGap = 4;
-	         int index = 0;
-
-	         for (int imageId : mImageIds)
-	         {
-	             Bitmap originalImage = BitmapFactory.decodeResource(mContext.getResources(), imageId);
-	             int width  = originalImage.getWidth();
-	             int height = originalImage.getHeight();
-
-	             Matrix matrix = new Matrix();
-	             matrix.preScale(1, -1);
-
-	             Bitmap reflectionImage = Bitmap.createBitmap(originalImage, 0, height / 3, width, height / 3, matrix, false);
-
-	             Bitmap bitmapWithReflection = Bitmap.createBitmap(width, (height + height / 3), Config.ARGB_8888);
-
-	             Canvas canvas = new Canvas(bitmapWithReflection);
-
-	             canvas.drawBitmap(originalImage, 0, 0, null);
-
-	             Paint deafaultPaint = new Paint();
-	             canvas.drawRect(0, height, width, height + reflectionGap, deafaultPaint);
-
-	             canvas.drawBitmap(reflectionImage, 0, height + reflectionGap, null);
-
-	             Paint paint = new Paint();
-	             LinearGradient shader = new LinearGradient(0, originalImage.getHeight(), 0, bitmapWithReflection.getHeight()
-	                                                        + reflectionGap, 0x70ffffff, 0x00ffffff, TileMode.CLAMP);
-
-	             paint.setShader(shader);
-
-	             paint.setXfermode(new PorterDuffXfermode(Mode.DST_IN));
-
-	             canvas.drawRect(0, height, width, bitmapWithReflection.getHeight() + reflectionGap, paint);
-
-	             final ImageView imageView = new ImageView(mContext);
-	             imageView.setImageBitmap(bitmapWithReflection);
-	             imageView.setLayoutParams(new GalleryFlow.LayoutParams(250, 340));
-	             imageView.setScaleType(ScaleType.FIT_XY);
-	             mImages[index++] = imageView;
-	             
-	             
-	             /*
-	             imageView.setOnClickListener(new View.OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						if (imageView == galleryFlow.getSelectedView())
-						{
-							// TODO Auto-generated method stub
-							Intent intent = new Intent();
-							intent.setClass(act, CallOutActivity.class);
-							startActivity(intent);// 以传递参数的方式跳转到下一个Activity
-						}
-					}
-				});
-				*/
-	         }
-	         return true;
-	     }
-
-	     private Resources getResources() 
-	     {
-	         // TODO Auto-generated method stub
-	         return null;
-	     }
-
-	     public int getCount() 
-	     {
-	         return mImageIds.length;
-	     }
-
-	     public Object getItem(int position)
-	     {
-	         return position;
-	     }
-
-	     public long getItemId(int position)
-	     {
-	         return position;
-	     }
-
-	     public View getView(int position, View convertView, ViewGroup parent)
-	     {
-	         return mImages[position];
-	     }
-
-	     public float getScale(boolean focused, int offset) 
-	     {
-	         return Math.max(0, 1.0f / (float) Math.pow(2, Math.abs(offset)));
-	     }
-	}
-
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent)
+        {
+            if (null == convertView)
+            {
+                convertView = new MyImageView(act);
+                convertView.setLayoutParams(new Gallery.LayoutParams(500, 500));
+            }
+            
+            ImageView imageView = (ImageView)convertView;
+            imageView.setImageDrawable(mBitmaps.get(position));
+            imageView.setScaleType(ScaleType.CENTER_INSIDE);
+            //imageView.setBackgroundColor(Color.BLACK);
+            
+            return imageView;
+        }
+    }
+    
+    private class MyImageView extends ImageView
+    {
+        public MyImageView(Context context)
+        {
+            this(context, null);
+        }
+        
+        public MyImageView(Context context, AttributeSet attrs)
+        {
+            super(context, attrs, 0);
+        }
+        
+        public MyImageView(Context context, AttributeSet attrs, int defStyle)
+        {
+            super(context, attrs, defStyle);
+        }
+        
+        protected void onDraw(Canvas canvas)
+        {
+            super.onDraw(canvas);
+        }
+    }
 	
 	
 }
