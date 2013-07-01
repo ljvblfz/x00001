@@ -38,6 +38,7 @@
 						<th width="60" orderField="xmridSeatno">座位编号</th>
 						<th width="60" orderField="xmridSeatdesc">座位描述</th>
 						<th width="60" orderField="xmpdGuid">设备PID</th> 
+						<th width="60" >设备资产编号</th> 
 			</tr>
 		</thead>
 		<tbody>
@@ -48,6 +49,7 @@
 						<td name="xmridSeatno"></td>
 						<td name="xmridSeatdesc"></td>
 						<td name="xmpdGuid"></td> 
+						<td name="xmpdGuidLabel"></td> 
 				
 			</tr>
 		</tbody>
@@ -104,11 +106,17 @@
 	function xmRoomSeatBringBack(){ 
 		var chooser_xhidden="";
 		var chooser_xlabel="";
+		var chooser_devicePid="";
+		var chooser_deviceCode="";
 		var param =  $.pdialog.getCurrent().data("param");  
 		if(param && param != ""){
 			param = DWZ.jsonEval(param);  
 			chooser_xhidden=param.xhidden;
 			chooser_xlabel=param.xlabel;
+			chooser_devicePid=param.devicePid;
+			chooser_deviceCode=param.deviceCode;
+			logger.info("chooser_devicePid=====>"+chooser_devicePid);
+			logger.info("chooser_deviceCode=====>"+chooser_deviceCode);
 		}  
 		$('input[name="xmridGuids"]:radio:checked').each(function(){    
 // 			   alert($(this).val()); 
@@ -116,6 +124,11 @@
 			   findName(chooser_xhidden).val($(this).val());  
 			   var labelvalue=$(this).parent().parent().children().parent().parent().find("td:[name=xmridSeatno]").html();
 			   findName(chooser_xlabel).val(labelvalue);
+			   // 
+			   var devicePid=$(this).parent().parent().children().parent().parent().find("td:[name=xmpdGuid]").html();
+			   findName(chooser_devicePid).val(devicePid); 
+			   var deviceCode=$(this).parent().parent().children().parent().parent().find("td:[name=xmpdGuidLabel]").html();
+			   findName(chooser_deviceCode).val(deviceCode);
 		});    
 	}
 </script>
