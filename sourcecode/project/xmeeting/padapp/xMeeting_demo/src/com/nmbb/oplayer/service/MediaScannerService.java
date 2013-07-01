@@ -121,7 +121,7 @@ public class MediaScannerService extends Service implements Runnable {
 	/** 扫描 */
 	private void scan() {
 		//开始扫描
-		notifyObservers(SCAN_STATUS_START, null);
+//		notifyObservers(SCAN_STATUS_START, null);
 
 		while (mScanMap.keySet().size() > 0) {
 
@@ -229,7 +229,7 @@ public class MediaScannerService extends Service implements Runnable {
 			mDbHelper.create(media);
 
 			//扫描到一个
-			notifyObservers(SCAN_STATUS_RUNNING, media);
+//			notifyObservers(SCAN_STATUS_RUNNING, media);
 		}
 	}
 
