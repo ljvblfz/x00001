@@ -21,10 +21,9 @@
             
             <ImageView
                 android:id="@+id/ivLeader"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/a"
-                android:scaleType="matrix"
+                android:layout_width="800dp"
+                android:layout_height="600dp"
+                android:scaleType="fitCenter"
                 android:src="@drawable/demo1" />
 
         </LinearLayout>
