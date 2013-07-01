@@ -7,7 +7,6 @@ package com.broadsoft.xmeeting.xmeeting.open.resource;
 
 import java.util.List;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.restlet.representation.Representation;
@@ -16,6 +15,8 @@ import org.restlet.resource.ResourceException;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.broadsoft.xmeeting.xmeeting.basic.dao.XmCompanyInfoDaoImpl;
+import com.broadsoft.xmeeting.xmeeting.basic.po.XmCompanyInfo;
 import com.broadsoft.xmeeting.xmeeting.devmgmt.dao.XmMeetingBusDaoImpl;
 import com.broadsoft.xmeeting.xmeeting.devmgmt.dao.XmMeetingContactDaoImpl;
 import com.broadsoft.xmeeting.xmeeting.devmgmt.dao.XmMeetingDocumentDaoImpl;
@@ -72,6 +73,9 @@ public class XmMeetingInfoDownloadResource extends SyBaseResource{
 		XmMeetingInfo xmMeetingInfo=xmMeetingInfoDao.findById(xmmiGuid); 
 		xmMeetingInfoDao.evict(xmMeetingInfo); 
 		allInfo.put("xmMeetingInfo", xmMeetingInfo);
+		//公司简介
+		List<XmCompanyInfo>  listOfXmCompanyInfo=xmCompanyInfoDao.findByXmmiGuid(xmmiGuid);
+		allInfo.put("listOfXmCompanyInfo", listOfXmCompanyInfo);
 		//会议日程
 		List<XmMeetingSchedule> listOfXmMeetingSchedule=xmMeetingScheduleDao.findByXmmiGuid(xmmiGuid);
 		for(XmMeetingSchedule xmMeetingSchedule:listOfXmMeetingSchedule){
@@ -129,7 +133,13 @@ public class XmMeetingInfoDownloadResource extends SyBaseResource{
 	public void setXmMeetingInfoDao(XmMeetingInfoDaoImpl xmMeetingInfoDao) {
 		this.xmMeetingInfoDao = xmMeetingInfoDao;
 	}
- 
+	//
+	private XmCompanyInfoDaoImpl  xmCompanyInfoDao; 
+	public void setXmCompanyInfoDao(XmCompanyInfoDaoImpl xmCompanyInfoDao) {
+		this.xmCompanyInfoDao = xmCompanyInfoDao;
+	}
+
+
 	//会议日程
 	private XmMeetingScheduleDaoImpl xmMeetingScheduleDao;
 	
