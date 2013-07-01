@@ -7,7 +7,7 @@ public class EntityInfoHolder {
 	private static final String TAG = "EntityInfoHolder";
 	
 	
-	private CompanyInfoEntity companyInfoEntity;
+//	private CompanyInfoEntity companyInfoEntity;
 	private DownloadInfoEntity downloadInfoEntity;
 	private PadInfoEntity padInfoEntity;
 	private String xmpdGuid;
@@ -36,14 +36,14 @@ public class EntityInfoHolder {
 	}
 
 	//
-
-	public CompanyInfoEntity getCompanyInfoEntity() {
-		return companyInfoEntity;
-	}
-
-	public void setCompanyInfoEntity(CompanyInfoEntity companyInfoEntity) {
-		this.companyInfoEntity = companyInfoEntity;
-	}
+//
+//	public CompanyInfoEntity getCompanyInfoEntity() {
+//		return companyInfoEntity;
+//	}
+//
+//	public void setCompanyInfoEntity(CompanyInfoEntity companyInfoEntity) {
+//		this.companyInfoEntity = companyInfoEntity;
+//	}
 
 	public DownloadInfoEntity getDownloadInfoEntity() {
 		return downloadInfoEntity;

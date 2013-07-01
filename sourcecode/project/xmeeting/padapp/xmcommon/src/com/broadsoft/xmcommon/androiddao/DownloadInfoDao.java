@@ -193,6 +193,7 @@ public class DownloadInfoDao extends DownloadInfoConstant implements
 	
 	 
 	public boolean activate(String meetingId) {
+		Log.d(TAG, "[activate]meetingId--->"+meetingId);
 		SQLiteDatabase db = sqliteOpenHelperSupport.getWritableDatabase(); 
 		db.beginTransaction();  
 		db.execSQL("UPDATE "+TABLE_DOWNLOADINFO+" SET "+this.COLUMN_STATUS+" = '0' "); 
@@ -210,8 +211,7 @@ public class DownloadInfoDao extends DownloadInfoConstant implements
 		Cursor cursor = db.query(TABLE_DOWNLOADINFO, COLUMNS, COLUMN_STATUS
 				+ "=?", new String[] { "1"}, null, null,
 				null, null);
-		boolean flag=cursor.moveToFirst();
-		Log.d(TAG, "[findByMeetingId]flag--->"+flag);
+		boolean flag=cursor.moveToFirst(); 
 		if (cursor != null&&flag) { 
 			DownloadInfoEntity entity = new DownloadInfoEntity();
 			entity.setGuid(cursor.getString(0));
