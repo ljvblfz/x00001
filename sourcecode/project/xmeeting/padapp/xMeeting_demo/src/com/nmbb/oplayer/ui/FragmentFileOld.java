@@ -339,18 +339,20 @@ public class FragmentFileOld extends FragmentBase implements OnItemClickListener
 			List<POMedia> result = new ArrayList<POMedia>();
 			File f = new File(FolderUtils.getVideoDir(FolderUtils.demoMeetingId));
 			File[] flist = f.listFiles();
-			for(File file : flist ){
-				if(file.isFile() && !file.getAbsolutePath().startsWith(".") && file.canRead() && FileUtils.isVideo(file)){
-					result.add(new POMedia(file));
-//					save(new POMedia(file));
-//						Map<String, Object> map = new HashMap<String, Object>();
-////							map.put("text", texts[i]);
-//						map.put("img", R.drawable.pdf);
-//						map.put("title", file.getName().substring(0,file.getName().length()-4));
-//						map.put("path", file.getAbsolutePath());
-//						list.add(map);
+			if(null!= flist){
+				for(File file : flist ){
+					if(file.isFile() && !file.getAbsolutePath().startsWith(".") && file.canRead() && FileUtils.isVideo(file)){
+						result.add(new POMedia(file));
+	//					save(new POMedia(file));
+	//						Map<String, Object> map = new HashMap<String, Object>();
+	////							map.put("text", texts[i]);
+	//						map.put("img", R.drawable.pdf);
+	//						map.put("title", file.getName().substring(0,file.getName().length()-4));
+	//						map.put("path", file.getAbsolutePath());
+	//						list.add(map);
+					}
+					
 				}
-				
 			}
 			return result;//FileBusiness.getAllSortFiles();
 		}
