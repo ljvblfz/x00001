@@ -109,7 +109,7 @@ public class HttpDownloadSupport {
 				output.write(data, 0, bytesRead);
 				totalRead += bytesRead;
 				if(index%1000==0){
-					Log.d(TAG,System.currentTimeMillis()+ "-"+(bytesRead/(1024*1024*1024))+" M");
+					Log.d(TAG,System.currentTimeMillis()+ "-"+(bytesRead/(1024*1024))+" M");
 				}
 			}
 			int totalReadInKB = (int) (totalRead / 1024);
