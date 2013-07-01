@@ -13,7 +13,7 @@ function realtime_monitor(){
 function realtime_cancel(){
 	
 }
-function showDialog_xmMeetingPersonnelInfo2(xlabel,xhidden){  
+function showDialog_xmMeetingBasicInfo2(xlabel,xhidden){  
 	//
 	
 	//
@@ -37,13 +37,13 @@ function showDialog_xmMeetingPersonnelInfo2(xlabel,xhidden){
 
 	$.pdialog.open(url, rel, title, options);
 	
-}//end of showDialog_xmMeetingPersonnelInfo2
+}//end of showDialog_xmMeetingBasicInfo2
 </script>
 
 
 <h2 class="contentTitle">
 	  会议名称:     <input type="text" name="xmmiGuidLabel" readonlye="true" class="required"  /> <input type="hidden" name="xmmiGuid"  />
-				<a   href="javascript:showDialog_xmMeetingPersonnelInfo2('xmmiGuidLabel','xmmiGuid')" class="btnLook">查找带回</a>    
+				<a   href="javascript:showDialog_xmMeetingBasicInfo2('xmmiGuidLabel','xmmiGuid')" class="btnLook">查找带回</a>    
 				<input type="button" name="monitor" 		onclick="realtime_monitor()" value="监控"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				<input type="button" name="cancelmonitor" 	onclick="realtime_cancel()" value="取消"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	 <label style="color:red">已经监控/取消监控</label>

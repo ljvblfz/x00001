@@ -22,28 +22,26 @@
 
 	<div class="panelBar">
 		<ul class="toolBar">
-			<li><a class="add" target="navTab" rel="userNav" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/basic/modify/xmRoomInfoDetailModify.html');" title="新增xmRoomInfoDetail"  ><span>新增</span></a></li>
-			<li><a class="edit" target="navTab" rel="userNav1" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/basic/modify/xmRoomInfoDetailModify.html?xmridGuid={slt_uid}');" title="修改xmRoomInfoDetail"   multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
+			<li><a class="add" target="navTab" rel="userNav30" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/basic/modify/xmRoomInfoDetailModify.html');" title="新增xmRoomInfoDetail"  ><span>新增</span></a></li>
+			<li><a class="edit" target="navTab" rel="userNav31" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/basic/modify/xmRoomInfoDetailModify.html?xmridGuid={slt_uid}');" title="修改xmRoomInfoDetail"   multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
 			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_3,'/rs/xmRoomInfoDetail')"  rel="xmridGuids"  callBackMethod="xmRoomInfoDetailSearch"	title="确认删除?"  "><span>删除</span></a></li> 
 		</ul>
 	</div>
 	
 	<table class="table" layoutH="138" width="100%">
 		<thead>
-			<tr  searchMethod="xmRoomInfoDetailSearch"><th width="22"><input type="checkbox" group="xmridGuids" class="checkboxCtrl"></th>
-<!-- 						<th width="60" orderField="xmriGuid">会议室PID</th> -->
+			<tr  searchMethod="xmRoomInfoDetailSearch"><th width="22"><input type="checkbox" group="xmridGuids" class="checkboxCtrl"></th> 
 						<th width="60" orderField="xmridSeatno">座位编号</th>
 						<th width="60" orderField="xmridSeatdesc">座位描述</th>
-						<th width="60" orderField="xmpdGuid">设备PID</th> 
+						<th width="60" orderField="xmpdGuidLabel">设备PID</th> 
 			</tr>
 		</thead>
 		<tbody>
 			<tr name="xmRoomInfoDetailTrTemplate" target="slt_uid">
-				<td name="xmridGuid" type="check"><input name="xmridGuids" value="" type="checkbox"></td>
-<!-- 						<td name="xmriGuid"></td> -->
+				<td name="xmridGuid" type="check"><input name="xmridGuids" value="" type="checkbox"></td> 
 						<td name="xmridSeatno"></td>
 						<td name="xmridSeatdesc"></td>
-						<td name="xmpdGuid"></td> 
+						<td name="xmpdGuidLabel"></td> 
 				
 			</tr>
 		</tbody>
