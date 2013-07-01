@@ -113,18 +113,19 @@ public class DocumentsListActivity extends BaseBrowserActivity {
 		File[] flist = f.listFiles();
 
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-		for(File file : flist ){
-			if(file.isFile() && file.getName().toLowerCase().endsWith(".pdf")){
-				Map<String, Object> map = new HashMap<String, Object>();
-//				map.put("text", texts[i]);
-				map.put("img", R.drawable.pdf);
-				map.put("title", file.getName().substring(0,file.getName().length()-4));
-				map.put("path", file.getAbsolutePath());
-				list.add(map);
+		if(null!= flist){
+			for(File file : flist ){
+				if(file.isFile() && file.getName().toLowerCase().endsWith(".pdf")){
+					Map<String, Object> map = new HashMap<String, Object>();
+	//				map.put("text", texts[i]);
+					map.put("img", R.drawable.pdf);
+					map.put("title", file.getName().substring(0,file.getName().length()-4));
+					map.put("path", file.getAbsolutePath());
+					list.add(map);
+				}
+				
 			}
-			
 		}
-		
 
 //		for (int i = 0; i < titles.length; i++) {
 //			Map<String, Object> map = new HashMap<String, Object>();
