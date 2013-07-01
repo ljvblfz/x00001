@@ -43,9 +43,9 @@ public class AppInitSupport {
 			WsDownloadServiceSupport.getInstance().initData(AndroidIdSupport.getAndroidID());
 			try{
 				WsDownloadServiceSupport.getInstance().disconnect();
-				Thread.sleep(1000);
-			}catch(Exception e){
-
+				Log.d(TAG, "[WS]wait 10s");
+				Thread.sleep(10*1000);
+			}catch(Exception e){ 
 				Log.d(TAG, "[WS]disconnect---exception--"+e.getMessage());
 			}
 			WsDownloadServiceSupport.getInstance().connect(); 
@@ -54,12 +54,12 @@ public class AppInitSupport {
 		//读取会议信息
 		PadInfoEntity padInfoEntity=DaoHolder.getInstance().getPadInfoDao().uniqueOne();
 		Log.d(TAG, "[Sqlite]PadInfoEntity---->"+padInfoEntity);
-		CompanyInfoEntity companyInfoEntity=DaoHolder.getInstance().getCompanyInfoDao().uniqueOne();
-		Log.d(TAG, "[Sqlite]CompanyInfoEntity---->"+companyInfoEntity); 
+//		CompanyInfoEntity companyInfoEntity=DaoHolder.getInstance().getCompanyInfoDao().uniqueOne();
+//		Log.d(TAG, "[Sqlite]CompanyInfoEntity---->"+companyInfoEntity); 
 		DownloadInfoEntity downloadInfoEntity=DaoHolder.getInstance().getDownloadInfoDao().findByActivate();
 		Log.d(TAG, "[Sqlite]DownloadInfoEntity---->"+downloadInfoEntity);
 		//
-		EntityInfoHolder.getInstance().setCompanyInfoEntity(companyInfoEntity);
+//		EntityInfoHolder.getInstance().setCompanyInfoEntity(companyInfoEntity);
 		EntityInfoHolder.getInstance().setPadInfoEntity(padInfoEntity);
 		EntityInfoHolder.getInstance().setDownloadInfoEntity(downloadInfoEntity);
 	}
