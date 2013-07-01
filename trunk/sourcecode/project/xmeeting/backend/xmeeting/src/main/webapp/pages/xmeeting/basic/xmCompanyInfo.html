@@ -1,29 +1,29 @@
-<form method="get" name="xmCompanyInfoSearchForm" action="/rs/xmCompanyInfo" onsubmit="return false;" >
-	<input type="hidden" name="pageNum" value="1" />
-	<div class="pageHeader">
-		<div class="searchBar">
-			<ul class="searchContent">
-				<li>
-					<label>公司名称：</label>
-					<input type="text" name="xmciGuid" value=""/>
-				</li> 
-			</ul>
-			<div class="subBar">
-				<ul>						
-					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="xmCompanyInfoSearch({pageNum:1})">查询</button></div></div></li>
-				<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="javascript:findName('xmCompanyInfoSearchForm')[0].reset()">清空</button></div></div></li>
-					</ul>
-			</div>
-		</div>
-	</div>
-</form>
+<!-- <form method="get" name="xmCompanyInfoSearchForm" action="/rs/xmCompanyInfo" onsubmit="return false;" > -->
+<!-- 	<input type="hidden" name="pageNum" value="1" /> -->
+<!-- 	<div class="pageHeader"> -->
+<!-- 		<div class="searchBar"> -->
+<!-- 			<ul class="searchContent"> -->
+<!-- 				<li> -->
+<!-- 					<label>公司名称：</label> -->
+<!-- 					<input type="text" name="xmciGuid" value=""/> -->
+<!-- 				</li>  -->
+<!-- 			</ul> -->
+<!-- 			<div class="subBar"> -->
+<!-- 				<ul>						 -->
+<!-- 					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="xmCompanyInfoSearch({pageNum:1})">查询</button></div></div></li> -->
+<!-- 				<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="javascript:findName('xmCompanyInfoSearchForm')[0].reset()">清空</button></div></div></li> -->
+<!-- 					</ul> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
+<!-- </form> -->
 
 <div class="pageContent">
 
 	<div class="panelBar">
 		<ul class="toolBar">
-			<li><a class="add" target="navTab" rel="userNav" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/basic/modify/xmCompanyInfoModify.html');" title="新增xmCompanyInfo"  ><span>新增</span></a></li>
-			<li><a class="edit" target="navTab" rel="userNav1" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/basic/modify/xmCompanyInfoModify.html?xmciGuid={slt_uid}');" title="修改xmCompanyInfo"   multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
+			<li><a class="add" target="navTab" rel="userNav" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/basic/modify/xmCompanyInfoModify.html');" title="新增"  ><span>新增</span></a></li>
+			<li><a class="edit" target="navTab" rel="userNav1" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/basic/modify/xmCompanyInfoModify.html?xmciGuid={slt_uid}');" title="修改"   multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
 			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_3,'/rs/xmCompanyInfo')"  rel="xmciGuids" callBackMethod="xmCompanyInfoSearch"	title="确认删除?"  ><span>删除</span></a></li> 
 		</ul>
 	</div>
@@ -32,8 +32,9 @@
 		<thead>
 			<tr  searchMethod="xmCompanyInfoSearch"><th width="22"><input type="checkbox" group="xmciGuids" class="checkboxCtrl"></th>
 						<th width="60" orderField="xmciCompanyName">公司名称</th>
-						<th width="60" orderField="xmciTypeLabel">介绍类型</th>
+						<th width="60" orderField="xmciType">介绍类型</th>
 						<th width="60" orderField="xmciStatus">介绍状态</th> 
+						<th width="60" orderField="isDisplay">是否展示</th> 
 			</tr>
 		</thead>
 		<tbody>
@@ -42,6 +43,7 @@
 						<td name="xmciCompanyName"></td>
 						<td name="xmciTypeLabel"></td>
 						<td name="xmciStatusLabel"></td> 
+						<td name="isDisplayLabel"></td> 
 				
 			</tr>
 		</tbody>
@@ -63,9 +65,18 @@
 </div>
 <script type="text/javascript">
 	//定义默认参数
-	var xmCompanyInfoArgs={};
-	 //查询方法
-    xmCompanyInfoSearch();
+	var xmCompanyInfoArgs={}; 
+	 //查询方法 
+    $(function(){  
+		var xmmiGuid=navTab._getParam("xmmiGuid");
+		var xurl="/pages/xmeeting/basic/modify/xmCompanyInfoModify.html?xmmiGuid="+xmmiGuid+"";
+		findClass("add").attr("href",getURL(CPATH.domain_3,xurl));
+		var opts={xmmiGuid:xmmiGuid}; 
+		logger.info("xmmiGuid------>"+xmmiGuid);
+	    xmCompanyInfoSearch(opts);
+	}); 
+	 
+	 
 	function xmCompanyInfoSearch(opt){
 		//序列化表单值，并扩展到xmCompanyInfoArgs对象中
 		$.extend(xmCompanyInfoArgs,findName('xmCompanyInfoSearchForm').serializeJson(),opt?opt:{});

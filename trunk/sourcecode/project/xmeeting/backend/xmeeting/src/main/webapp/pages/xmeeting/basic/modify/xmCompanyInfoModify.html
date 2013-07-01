@@ -2,6 +2,7 @@
 <!-- onsubmit="return validateCallback(this, navTabAjaxDone);" onsubmit="return iframeCallback(this,fillErrorTable);" enctype="multipart/form-data" -->
 <form name="pageForm" method="post"  class="required-validate pageForm"  onsubmit="return validateCallback(this, navTabAjaxDone);">
 		<input type="hidden" name="xmciGuid" id="xmciGuid"/>
+		<input type="hidden" name="xmmiGuid" id="xmmiGuid"/>
 		<input type="hidden" name="navTabId" value="xmCompanyInfo" />
 		<input type="hidden" name="callbackType" value="closeCurrent" />
 		<input type="hidden" name="callBackMethod" value="xmCompanyInfoSearch" />
@@ -24,7 +25,12 @@
 					</select>
 			</p> 
 			
-			<p></p>
+			<p>
+				<label>是否显示</label> 
+					<select class="required combox" name="isDisplay" valueCode="valueCode" codeType="3014" valueDesc="valueDesc" >
+						<option value="" selected>请选择</option>
+					</select>
+			</p>
 			
  
 			
@@ -79,6 +85,8 @@
 		var $form = findName("pageForm");
 		var url = navTab._getTabUrl();
 		var xmciGuid=navTab._getParam("xmciGuid")
+		var xmmiGuid=navTab._getParam("xmmiGuid");
+		findName('xmmiGuid').val(xmmiGuid);
 		if(xmciGuid){
 			findName('showTitle').html('修改公司介绍');
 			findName("xmciStatus").addClass("sync");
