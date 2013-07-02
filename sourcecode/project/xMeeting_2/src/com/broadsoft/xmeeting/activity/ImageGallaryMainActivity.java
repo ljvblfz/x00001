@@ -18,7 +18,6 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -58,25 +57,25 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
 	private static final int WHAT_DID_REFRESH = 1;
 	private static final int WHAT_DID_MORE = 2;
 	
-	private int grayColor = Color.parseColor("#666666");
-	private int writeColor = Color.parseColor("#ffffff");
 
 	private ListView mListView;
 	private ItemListAdapter mItemListAdapter;
 	private List<Map<String, Object>> mServerData;
-	
-	private Activity act = this;
-	private Button btnBack;
-	private Button btnScan;
-	private Button btnSearch;
-
-
 	private MyPullDownLayoutView mPullDownView;
 	private List<String> mStrings = new ArrayList<String>();
-	private Button btnWorker;
-	private Button btnEnforcer;
-	private Button btnPort;
-	private int status = 1;
+	
+//	private Activity act = this;
+//	private Button btnBack;
+//	private Button btnScan;
+//	private Button btnSearch;
+//	private int grayColor = Color.parseColor("#666666");
+//	private int writeColor = Color.parseColor("#ffffff");
+//
+//
+//	private Button btnWorker;
+//	private Button btnEnforcer;
+//	private Button btnPort;
+//	private int status = 1;
 	
 	/////////////
 //	private ViewPager mTabPager;	
@@ -378,7 +377,8 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
                  
                 holder=new ViewHolder(); 
                  
-                convertView = mInflater.inflate(R.layout.find_poi_list_item, null);
+//                convertView = mInflater.inflate(R.layout.find_poi_list_item, null);
+                convertView = mInflater.inflate(R.layout.imagegallary_list_item, null);
                 
                 holder.tvName = (TextView)convertView.findViewById(R.id.tvName);  
                 holder.tvDescription = (TextView)convertView.findViewById(R.id.tvDescription); 

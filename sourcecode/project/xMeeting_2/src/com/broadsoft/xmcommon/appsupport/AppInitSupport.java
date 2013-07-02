@@ -6,14 +6,13 @@ import android.util.Log;
 
 import com.broadsoft.xmcommon.androidconfig.AppConfig;
 import com.broadsoft.xmcommon.androidconfig.DomAppConfigFactory;
-import com.broadsoft.xmcommon.androiddao.CompanyInfoEntity;
 import com.broadsoft.xmcommon.androiddao.DaoHolder;
 import com.broadsoft.xmcommon.androiddao.DownloadInfoEntity;
 import com.broadsoft.xmcommon.androiddao.EntityInfoHolder;
 import com.broadsoft.xmcommon.androiddao.PadInfoEntity;
 import com.broadsoft.xmcommon.androidsdcard.SDCardSupport;
 import com.broadsoft.xmcommon.androidutil.AndroidIdSupport;
-import com.broadsoft.xmdownload.wsservice.WsControllerServiceSupport; 
+import com.broadsoft.xmdownload.wsservice.WsControllerServiceSupport;
 
 public class AppInitSupport {
 	private static final String TAG="AppInitSupport"; 
@@ -53,10 +52,16 @@ public class AppInitSupport {
 			WsControllerServiceSupport.getInstance().initData(meetingId, memberId, memberDisplayName);
 
 			try{
-				WsControllerServiceSupport.getInstance().disconnect(); 
-				Thread.sleep(10*1000);
+				WsControllerServiceSupport.getInstance().disconnect();  
 			}catch(Exception e){ 
 				Log.d(TAG, "[Websocket]disconnect---exception--"+e.getMessage());
+			}
+			
+			try{ 
+				Log.d(TAG, "[WS]wait 10s"); 
+				Thread.sleep(10*1000);
+			}catch(Exception e){ 
+				Log.d(TAG, "[Websocket]sleep---exception--"+e.getMessage());
 			}
 			WsControllerServiceSupport.getInstance().connect(); 
 			Log.d(TAG, "[Websocket]connect---->done.");

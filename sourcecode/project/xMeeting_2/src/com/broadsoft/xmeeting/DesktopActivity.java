@@ -314,7 +314,7 @@ public class DesktopActivity extends Activity {
 			}
 		}
 
-//		new GetWheatherDataTask().execute();
+		new GetWheatherDataTask().execute();
 		Log.d(TAG, "initWeather endd.");
 	}
 	
