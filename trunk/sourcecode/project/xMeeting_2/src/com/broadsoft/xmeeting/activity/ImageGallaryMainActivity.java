@@ -5,37 +5,49 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
+import android.graphics.LinearGradient;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Shader.TileMode;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.broadsoft.appsupport.AsyncBitmapLoader;
 import com.broadsoft.common.MyPullDownLayoutView;
 import com.broadsoft.common.MyPullDownLayoutView.OnPullDownListener;
+import com.broadsoft.xmcommon.androiddao.DownloadInfoEntity;
+import com.broadsoft.xmcommon.androiddao.EntityInfoHolder;
+import com.broadsoft.xmcommon.androidsdcard.SDCardSupport;
 import com.broadsoft.xmeeting.DesktopActivity;
 import com.broadsoft.xmeeting.R;
 
@@ -44,129 +56,29 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
 	private static final int WHAT_DID_LOAD_DATA = 0;
 	private static final int WHAT_DID_REFRESH = 1;
 	private static final int WHAT_DID_MORE = 2;
-	private Activity act = this;
+	
+
 	private ListView mListView;
-	private GalleyListAdapter mAdapter;
-	private List<Map<String, Object>> mData;
+	private ItemListAdapter mItemListAdapter;
+	private List<Map<String, Object>> mServerData;
 	private MyPullDownLayoutView mPullDownView;
 	private List<String> mStrings = new ArrayList<String>();
-	private int currentSel = 0;
-	int[] ids =
-        {
-            R.drawable.demo1,
-            R.drawable.demo2,
-            R.drawable.demo3,
-            R.drawable.demo4,
-            R.drawable.demo5,
-            R.drawable.demo1,
-            R.drawable.demo2,
-            R.drawable.demo3,
-            R.drawable.demo4,
-            R.drawable.demo5
-        };
 	
-	GalleryFlow mGallery = null;
-    ArrayList<BitmapDrawable> mBitmaps = new ArrayList<BitmapDrawable>();
-    
-    View.OnClickListener mListener = new View.OnClickListener()
-    {
-        @Override
-        public void onClick(View v)
-        {
-            switch (v.getId())
-            {
-            case R.id.space_confirm_btn:
-                onSpaceBtnClick(v);
-                break;
-                
-            case R.id.max_zoom_confirm_btn:
-                onMaxZoomBtnClick(v);
-                break;
-            case R.id.max_rotate_angle_confirm_btn:
-                onMaxAngleBtnClick(v);
-                break;
-            }
-        }
-    };
-    
-    private void onSpaceBtnClick(View v)
-    {
-        EditText editText = (EditText) findViewById(R.id.space_edittext);
-        String text = editText.getText().toString();
-        
-        try
-        {
-            int spacing = Integer.parseInt(text);
-            if (spacing >= -60 && spacing <= 60)
-            {
-                mGallery.setSpacing(spacing);
-                ((GalleryAdapter)mGallery.getAdapter()).notifyDataSetChanged();
-            }
-            else
-            {
-                Toast.makeText(this,
-                        getResources().getString(R.string.gallery_space_text_hint),
-                        Toast.LENGTH_SHORT).show();
-            }
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-    
-    private void onMaxZoomBtnClick(View v)
-    {
-        EditText editText = (EditText) findViewById(R.id.max_zoom_edittext);
-        String text = editText.getText().toString();
-        
-        try
-        {
-            int maxZoom = Integer.parseInt(text);
-            if (maxZoom >= -120 && maxZoom <= 120)
-            {
-                mGallery.setMaxZoom(maxZoom);
-                ((GalleryAdapter)mGallery.getAdapter()).notifyDataSetChanged();
-            }
-            else
-            {
-                Toast.makeText(this,
-                        getResources().getString(R.string.gallery_max_zoom_text_hint),
-                        Toast.LENGTH_SHORT).show();
-            }
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-    
-    private void onMaxAngleBtnClick(View v)
-    {
-        EditText editText = (EditText) findViewById(R.id.max_rotate_angle_edittext);
-        String text = editText.getText().toString();
-        
-        try
-        {
-            int maxRotationAngle = Integer.parseInt(text);
-            if (maxRotationAngle >= -60 && maxRotationAngle <= 60)
-            {
-                mGallery.setMaxRotationAngle(maxRotationAngle);
-                ((GalleryAdapter)mGallery.getAdapter()).notifyDataSetChanged();
-            }
-            else
-            {
-                Toast.makeText(this,
-                        getResources().getString(R.string.gallery_max_rotate_angle_text_hint),
-                        Toast.LENGTH_SHORT).show();
-            }
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
+ 
+	private BroadcastReceiver receiver;
 	
+	
+	private boolean menu_display = false;
+	private PopupWindow menuWindow;
+	
+	
+	private GalleryFlow galleryFlow;
+	
+	private int currentSelectedPosition = 0;
+	
+	private ImageAdapter imageAdapter;
+	
+
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		DesktopActivity.releaseLoading(hasFocus);
@@ -178,119 +90,116 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.imagegallary_activity_main);        
 
-        InitGalleyList();
-        InitGalley();
-    	InitTopbarAndBack();
-    	
-    	
-    }
-	
-	private void InitGalleyList()
-	{
 		mPullDownView = (MyPullDownLayoutView) findViewById(R.id.pull_down_view);
 		mPullDownView.setOnPullDownListener(this);
 		mListView = mPullDownView.getListView();
 		mListView.setOnItemClickListener(this);
 		mListView.setDivider(this.getResources().getDrawable(R.drawable.comm_select_list_line));
-		mAdapter = new GalleyListAdapter(this);
-        new GetGalleyListTask().execute();
-	}
-	
-	private void InitGalley()
-	{
-		mGallery = (GalleryFlow) findViewById(R.id.gallery_flow);
-        //mGallery.setBackgroundColor(Color.GRAY);
-        mGallery.setGravity(Gravity.CENTER_VERTICAL);
-        mGallery.setSpacing(-30);
-        findViewById(R.id.space_confirm_btn).setOnClickListener(mListener);
-        findViewById(R.id.max_zoom_confirm_btn).setOnClickListener(mListener);
-        findViewById(R.id.max_rotate_angle_confirm_btn).setOnClickListener(mListener);
+		mItemListAdapter = new ItemListAdapter(this);
+        new GetDataTask().execute();
         
-		new RefreshGa().execute();
-		
-	}
+        //关闭popupwindow用的 
+        receiver = new BroadcastReceiver() {
+  			public void onReceive(Context context, Intent intent) { 
+  				if (menu_display == true){
+  					menuWindow.dismiss();
+  					menu_display = false;
+  				} 
+  			}//end of onReceive
+  		};
+        
+        
+//       new RefreshImageTask().execute();
+
+       InitTopbarAndBack();
+    }
 	
-	private void InitTopbarAndBack()
-	{
+	private void InitTopbarAndBack() {
 		( (Button) this.findViewById(R.id.btnBack) ).setOnClickListener(new View.OnClickListener() {
+			
 			@Override
 			public void onClick(View v) {
-				finish();
+				finish(); 
 			}
 		});
 	}
 
 	//执行异步的操作
-	private class RefreshGa extends AsyncTask<Void, Void, String[]> {
+	private class RefreshImageTask extends AsyncTask<String, Void, String[]> {
 
-		
+//		Bitmap[] images;
         @Override
-        protected String[] doInBackground(Void... params) {
-            // Simulates a background job.
-        	generateBitmaps();
+        protected String[] doInBackground(String... params) {  
+        	String position=params[0]; 
+        	String extStorageDirectory=SDCardSupport.getSDCardDirectory(); 
+        	JSONArray jsonArrayDetail=(JSONArray)mServerData.get(Integer.parseInt(position)).get("jsonArrayDetail");
+        	BitmapWrapper[] bitmapWrappers=new BitmapWrapper[jsonArrayDetail.length()];
+			for(int j=0;j<jsonArrayDetail.length();j++){
+				JSONObject jsonDetail;
+				try {
+					jsonDetail = jsonArrayDetail.getJSONObject(j);
+					String fileName=jsonDetail.getString("xmmpicImageFile");
+					String fileDesc=jsonDetail.getString("xmmpicImageDesc"); 
+					Bitmap bitmap = BitmapFactory.decodeFile(extStorageDirectory+fileName);  
+					BitmapWrapper bitmapWrapper=new BitmapWrapper();
+					bitmapWrapper.setFileName(fileName);
+					bitmapWrapper.setBitmap(bitmap);
+					bitmapWrappers[j]=bitmapWrapper;
+				} catch (JSONException e) { 
+					e.printStackTrace();
+				}
+			}//end of for j
+            
+            imageAdapter = new ImageAdapter(ImageGallaryMainActivity.this,bitmapWrappers);
+            imageAdapter.createReflectedImages();
             return null;
-        }
+        }//end of doInBackground
 
 		@Override
         protected void onPostExecute(String[] result) {
-			
-            super.onPostExecute(result);
-            mGallery.setAdapter(new GalleryAdapter());
-            mGallery.setOnItemClickListener(new OnItemClickListener() {
-	            public void onItemClick(AdapterView<?> parent, View view,
-	                    int position, long id) {
-            		Intent intent = new Intent();
-        			intent.setClass(act, ImageGallaryViewFlipperActivity.class);
-        			
-        			intent.putExtra("id", ids[position] + "");
-        			startActivity(intent);// 以传递参数的方式跳转到下一个Activity
-	            }
-	            
-	        });
-            mGallery.setCallbackDuringFling(false);
-	        mGallery.setSelection(4);
-        }
 
-    }
-	
-	private void generateBitmaps()
-    {
-        
-        
-        for (int id : ids)
-        {
-            Bitmap bitmap = createReflectedBitmapById(id);
-            if (null != bitmap)
-            {
-                BitmapDrawable drawable = new BitmapDrawable(bitmap);
-                drawable.setAntiAlias(true);
-                mBitmaps.add(drawable);
-            }
-        }
-    }
-    
-    private Bitmap createReflectedBitmapById(int resId)
-    {
-        Drawable drawable = getResources().getDrawable(resId);
-        if (drawable instanceof BitmapDrawable)
-        {
-            Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
-            Bitmap reflectedBitmap = com.broadsoft.common.util.BitmapUtil.createReflectedBitmap(bitmap);
-            
-            return reflectedBitmap;
-        }
-        
-        return null;
-    }
+			galleryFlow = (GalleryFlow) findViewById(R.id.gallery_flow);
+	        galleryFlow.setAdapter(imageAdapter);
+	        
+	        galleryFlow.setOnItemClickListener(new OnItemClickListener() {
+	            public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+	            	if (position == currentSelectedPosition) {
+	            		Intent intent = new Intent();
+	        			intent.setClass(ImageGallaryMainActivity.this, ImageGallaryViewPopupActivity.class);  
+	        			BitmapWrapper bitmapWrapper=(BitmapWrapper)imageAdapter.getItem(position); 
+	        			intent.putExtra("fileName", bitmapWrapper.getFileName());
+	        			startActivity(intent);//  
+	            	} else{
+	            		currentSelectedPosition = position; 
+	            	} 
+	            }//end of onItemClick 
+	        });
+	        galleryFlow.setCallbackDuringFling(false);
+	        
+	        galleryFlow.setOnItemSelectedListener(new OnItemSelectedListener() {    // 设置选择事件监听     
+	            @Override
+	            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {     
+	            	currentSelectedPosition = position;
+	            }     
+	              
+	            @Override
+	            public void onNothingSelected(AdapterView<?> parent) {     
+	            }     
+	        });     
+	                 
+            super.onPostExecute(result);
+        }//end of onPostExecute
+
+    }//end of RefreshImageTask
 	
 	
     //执行异步的操作
-	private class GetGalleyListTask extends AsyncTask<Void, Void, String[]> {
+	private class GetDataTask extends AsyncTask<Void, Void, String[]> {
 
         @Override
         protected String[] doInBackground(Void... params) {
             // Simulates a background job.
-        	mData = getGalleyList();
+        	mServerData = getDataFromServer();
             return null;
         }
 
@@ -298,9 +207,9 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
         protected void onPostExecute(String[] result) {
 
             // Call onRefreshComplete when the list has been refreshed.
-			mListView.setAdapter(mAdapter);
+			mListView.setAdapter(mItemListAdapter);
 	        mPullDownView.enableAutoFetchMore(true, 1);
-	        mAdapter.notifyDataSetChanged();
+	        mItemListAdapter.notifyDataSetChanged();
 	        
 	        
 			Message msg = mUIHandler.obtainMessage(WHAT_DID_LOAD_DATA);
@@ -309,44 +218,76 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
             super.onPostExecute(result);
         }
 
-    }
+    }//end of GetDataTask
 	
-	private List<Map<String, Object>> getGalleyList() {
-    	
+	private static JSONObject createJSONObject(String strJson) {
+		JSONObject jObj = null;
+		try {
+			jObj = new JSONObject(strJson);
+		} catch (JSONException e) {
+//			Log.e(TAG, "[createJSONObject]Error parsing data " + e.toString());
+		}
+		return jObj;
+	}
+
+	
+	private List<Map<String, Object>> getDataFromServer() {
+
     	List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-    	for (int i = 0; i < 10; i++)
-    	{
-    		Map<String, Object> map = new HashMap<String, Object>();
-    		map.put("name", "企业文化图册(" + i + ")" );
-        	list.add(map);
-    	}
+    	//
+		DownloadInfoEntity downloadInfoEntity=EntityInfoHolder.getInstance().getDownloadInfoEntity();
+		String jsonData=downloadInfoEntity.getJsonData();
+		JSONObject jsonObject=createJSONObject(jsonData);
+		try {
+			JSONObject jsonMeetingInfo=jsonObject.getJSONObject("meetingInfo");
+			JSONArray jsonArray=jsonMeetingInfo.getJSONArray("listOfXmMeetingPicture");
+			for(int i=0;i<jsonArray.length();i++){
+				JSONObject json=jsonArray.getJSONObject(i);
+				String title=json.getString("xmmpicImageTitle");
+				String desc=json.getString("xmmpicImageDescription");
+				JSONArray jsonArrayDetail=json.getJSONArray("listOfXmMeetingPictureDetail"); 
+				
+				String previewPicFilePath="";
+				if(null!=jsonArrayDetail&&jsonArrayDetail.length()>0){
+					previewPicFilePath=jsonArrayDetail.getJSONObject(0).getString("xmmpicImageFile");
+				}
+				// 
+				Map<String, Object> map_1 = new HashMap<String, Object>();
+				map_1.put("name", title );
+				map_1.put("description", desc);
+				map_1.put("previewPicFilePath", previewPicFilePath);
+				map_1.put("jsonArrayDetail", jsonArrayDetail);
+		    	list.add(map_1);
+			} //end of for
+		} catch (JSONException e) { 
+			e.printStackTrace();
+		}
+		// 
         return list;
-    }
+    }//end of getDataFromServer
 	
 	public final class ViewHolder{
-        public ImageView ivPhoto;
+        public int position;
         public TextView tvName;
-        public ImageView ivStar;
-        public TextView tvCost;
-        public TextView tvAbout;
-        
-        public Button btnPop;
+        public TextView tvDescription;
+        public ImageView ivPhoto;
+         
     }
      
      
-    public class GalleyListAdapter extends BaseAdapter{
+    public class ItemListAdapter extends BaseAdapter{
  
         private LayoutInflater mInflater;
-        private AsyncBitmapLoader asyncLoader = null;  
+//        private AsyncBitmapLoader asyncLoader = null;  
         
          
-        public GalleyListAdapter(Context context){
+        public ItemListAdapter(Context context){
             this.mInflater = LayoutInflater.from(context);
-            this.asyncLoader = new AsyncBitmapLoader();  
+//            this.asyncLoader = new AsyncBitmapLoader();  
         }
         @Override
         public int getCount() {
-            return mData.size();
+            return mServerData.size();
         }
  
         @Override
@@ -367,39 +308,13 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
                  
                 holder=new ViewHolder(); 
                  
-                convertView = mInflater.inflate(R.layout.find_poi_list_item, null);
+//                convertView = mInflater.inflate(R.layout.find_poi_list_item, null);
+                convertView = mInflater.inflate(R.layout.imagegallary_list_item, null);
                 
-                holder.tvName = (TextView)convertView.findViewById(R.id.tvName);  
-                /*
-                holder.ivPhoto = (ImageView)convertView.findViewById(R.id.ivPhoto);
-                    
-                holder.ivStar = (ImageView)convertView.findViewById(R.id.ivStar);
-                holder.tvCost = (TextView)convertView.findViewById(R.id.tvCost);
-                holder.tvAbout = (TextView)convertView.findViewById(R.id.tvAbout);
-                */
-                holder.btnPop = (Button) convertView.findViewById(R.id.btnPop);
-                holder.btnPop.setOnClickListener(new View.OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						// TODO Auto-generated method stub
-						/*
-						int p = position;
-						LinearLayout ly = (LinearLayout) mListView.getChildAt(p);
-						LinearLayout l = (LinearLayout) ly.getChildAt(0);
-						Button btn = (Button) l.getChildAt(2);
-						int[] location = new int[2];
-						btn.getLocationInWindow (location);
-						
-						LayoutInflater infl = (LayoutInflater)act.getSystemService(LAYOUT_INFLATER_SERVICE);
-						View ly2 = infl.inflate(R.layout.popbar, null);
-						menuWindow = new PopupWindow(ly2,LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT); //后两个参数是width和height
-						menuWindow.showAtLocation(act.findViewById(R.id.find_poi_list), Gravity.TOP|Gravity.RIGHT, -20, location[1] + 30); //设置layout在PopupWindow中显示的位置
-						menu_display = true;
-						*/
-						
-					}
-				});
+                holder.tvName = (TextView)convertView.findViewById(R.id.tvName); 
+                holder.ivPhoto=(ImageView)convertView.findViewById(R.id.ivPhoto); 
+                
+//                holder.tvDescription = (TextView)convertView.findViewById(R.id.tvDescription); 
                 convertView.setTag(holder);
                  
             }else {
@@ -407,33 +322,30 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
                 holder = (ViewHolder)convertView.getTag();
             }
             
-            /*
-            holder.ivPhoto.setImageBitmap(null);
-            Bitmap bitmap = asyncLoader.loadBitmap(holder.ivPhoto,   
-            		(String) mData.get(position).get("img_url"),  
-                    new ImageCallBack()  
-                    {  
-                        @Override  
-                        public void imageLoad(ImageView imageView, Bitmap bitmap)  
-                        {  
-                            // TODO Auto-generated method stub  
-                            imageView.setImageBitmap(bitmap);  
-                        }  
-                    });  
-              
-            if(bitmap == null)  
-            {  
-            	holder.ivPhoto.setImageResource(R.drawable.umeng_xp_loading);  
-            }  
-            else  
-            {  
-            	holder.ivPhoto.setImageBitmap(bitmap);  
-            }  
-            holder.ivStar.setImageResource(0);
-            holder.tvCost.setText((String)mData.get(position).get("cost"));
-            holder.tvAbout.setText((String)mData.get(position).get("cate"));
-            */
-            holder.tvName.setText((String)mData.get(position).get("name"));
+             
+            holder.tvName.setText((String)mServerData.get(position).get("name")); 
+            String previewPicFilePath=(String)mServerData.get(position).get("previewPicFilePath");
+            if(null!=previewPicFilePath&&!"".equals(previewPicFilePath)){
+	            String sdBaseDir=SDCardSupport.getSDCardDirectory();
+	            Uri imgUri=Uri.parse("file://"+sdBaseDir+previewPicFilePath);
+	            holder.ivPhoto.setImageURI(imgUri);
+            }
+//          holder.tvDescription.setText((String)mServerData.get(position).get("description")); 
+            holder.position=position;
+            
+            
+            //
+            //点击图片主题
+            convertView.setOnClickListener(new View.OnClickListener() { 
+				@Override
+				public void onClick(View v) { 
+					ViewHolder holder =(ViewHolder)v.getTag(); 
+					TextView textViewOnComments=(TextView)ImageGallaryMainActivity.this.findViewById(R.id.textViewOnComments);
+					textViewOnComments.setText(holder.tvName.getText()); 
+					String[] params={String.valueOf(holder.position)};
+					new RefreshImageTask().execute(params);
+				} //end of onClick
+			});
             return convertView;
         }
          
@@ -488,7 +400,7 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
 						List<String> strings = (List<String>) msg.obj;
 						if(!strings.isEmpty()){
 							mStrings.addAll(strings);
-							mAdapter.notifyDataSetChanged();
+							mItemListAdapter.notifyDataSetChanged();
 						}
 					}
 					// 诉它数据加载完毕;
@@ -498,22 +410,23 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
 				case WHAT_DID_REFRESH :{
 					String body = (String) msg.obj;
 					mStrings.add(0, body);
-					mAdapter.notifyDataSetChanged();
+					mItemListAdapter.notifyDataSetChanged();
 					// 告诉它更新完毕
 					mPullDownView.notifyDidRefresh();
 					break;
-				}
-				
+				} 
 				case WHAT_DID_MORE:{
 					String body = (String) msg.obj;
 					mStrings.add(body);
-					mAdapter.notifyDataSetChanged();
+					mItemListAdapter.notifyDataSetChanged();
 					// 告诉它获取更多完毕
 					mPullDownView.notifyDidMore();
 					break;
 				}
 			}
+			
 		}
+		
 	};
 
 	@Override
@@ -522,67 +435,121 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
 
 	}
 	
-	    
-	private class GalleryAdapter extends BaseAdapter
-    {
-        @Override
-        public int getCount()
-        {
-            return mBitmaps.size();
-        }
+	
+ 
+	
+	public class BitmapWrapper {
+		private String  fileName;
+		private Bitmap  bitmap;
+		public String getFileName() {
+			return fileName;
+		}
+		public void setFileName(String fileName) {
+			this.fileName = fileName;
+		}
+		public Bitmap getBitmap() {
+			return bitmap;
+		}
+		public void setBitmap(Bitmap bitmap) {
+			this.bitmap = bitmap;
+		}
+		
+		
+	}
+	
+	public class ImageAdapter extends BaseAdapter
+	{
 
-        @Override
-        public Object getItem(int position)
-        {
-            return null;
-        }
+	     int mGalleryItemBackground;
+	     private Context    mContext;
+	     private BitmapWrapper[]  mBitmapWrappers;
+	     private ImageView[] mImageViews;
 
-        @Override
-        public long getItemId(int position)
-        {
-            return 0;
-        }
+	     public ImageAdapter(Context ctx, BitmapWrapper[]  bitmapWrappers) 
+	     {
+	         mContext  = ctx;
+	         mImageViews   = new ImageView[bitmapWrappers.length]; 
+	         mBitmapWrappers = bitmapWrappers;
+	     }
 
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent)
-        {
-            if (null == convertView)
-            {
-                convertView = new MyImageView(act);
-                convertView.setLayoutParams(new Gallery.LayoutParams(500, 500));
-            }
-            
-            ImageView imageView = (ImageView)convertView;
-            imageView.setImageDrawable(mBitmaps.get(position));
-            imageView.setScaleType(ScaleType.CENTER_INSIDE);
-            //imageView.setBackgroundColor(Color.BLACK);
-            
-            return imageView;
-        }
-    }
-    
-    private class MyImageView extends ImageView
-    {
-        public MyImageView(Context context)
-        {
-            this(context, null);
-        }
-        
-        public MyImageView(Context context, AttributeSet attrs)
-        {
-            super(context, attrs, 0);
-        }
-        
-        public MyImageView(Context context, AttributeSet attrs, int defStyle)
-        {
-            super(context, attrs, defStyle);
-        }
-        
-        protected void onDraw(Canvas canvas)
-        {
-            super.onDraw(canvas);
-        }
-    }
+	     public void createReflectedImages() 
+	     {
+	         final int reflectionGap = 4;
+	         int index = 0;
+
+	         for (BitmapWrapper bitmapWrapper : mBitmapWrappers)
+	         {
+	        	 
+	        	 Bitmap bitmap=bitmapWrapper.getBitmap(); 
+	             Bitmap originalImage = bitmap; 
+	             int width  = originalImage.getWidth();
+	             int height = originalImage.getHeight();
+
+	             Matrix matrix = new Matrix();
+	             matrix.preScale(1, -1);
+
+	             Bitmap reflectionImage = Bitmap.createBitmap(originalImage, 0, height / 3, width, height / 3, matrix, false);
+
+	             Bitmap bitmapWithReflection = Bitmap.createBitmap(width, (height + height / 3), Config.ARGB_8888);
+
+	             Canvas canvas = new Canvas(bitmapWithReflection);
+
+	             canvas.drawBitmap(originalImage, 0, 0, null);
+
+	             Paint deafaultPaint = new Paint();
+	             canvas.drawRect(0, height, width, height + reflectionGap, deafaultPaint);
+
+	             canvas.drawBitmap(reflectionImage, 0, height + reflectionGap, null);
+
+	             Paint paint = new Paint();
+	             LinearGradient shader = new LinearGradient(0, originalImage.getHeight(), 0, bitmapWithReflection.getHeight()
+	                                                        + reflectionGap, 0x70ffffff, 0x00ffffff, TileMode.CLAMP);
+
+	             paint.setShader(shader);
+
+	             paint.setXfermode(new PorterDuffXfermode(Mode.DST_IN));
+
+	             canvas.drawRect(0, height, width, bitmapWithReflection.getHeight() + reflectionGap, paint);
+
+	             final ImageView imageView = new ImageView(mContext);
+	             imageView.setImageBitmap(bitmapWithReflection);
+	             imageView.setLayoutParams(new GalleryFlow.LayoutParams(250, 340));
+	             imageView.setScaleType(ScaleType.FIT_XY);
+	             mImageViews[index++] = imageView; 
+	         }  
+	     }//end of createReflectedImages
+
+	     private Resources getResources() 
+	     { 
+	         return null;
+	     }
+
+	     public int getCount() 
+	     {
+	         return mBitmapWrappers.length;
+	     }
+
+	     public Object getItem(int position)
+	     { 
+	         return mBitmapWrappers[position];
+	     }
+
+	     public long getItemId(int position)
+	     {
+	         return position;
+	     }
+
+	     public View getView(int position, View convertView, ViewGroup parent)
+	     {
+	         return mImageViews[position];
+	     }
+
+	     public float getScale(boolean focused, int offset) 
+	     {
+	         return Math.max(0, 1.0f / (float) Math.pow(2, Math.abs(offset)));
+	     }
+	}
+
 	
 	
 }
