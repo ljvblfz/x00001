@@ -20,26 +20,13 @@ import com.broadsoft.xmeeting.R;
  * 
  */
 public class ImageGallaryViewPopupActivity extends Activity {
-
-	// private MyDialog dialog;
-	private LinearLayout layout;
+ 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.imagegallary_picview);
-		//
-//		layout = (LinearLayout) findViewById(R.id.exit_layout2);
-//		layout.setOnClickListener(new OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) { 
-//				Toast.makeText(getApplicationContext(), "提示：点击窗口外部关闭窗口！",
-//						Toast.LENGTH_SHORT).show();
-//			}
-//		});
-//		Bitmap bmImage = (Bitmap)getIntent().getParcelableExtra("image");   
-//		Toast.makeText(this,bmImage + "------>bmImage", Toast.LENGTH_LONG).show();
+		// 
 		String fileName = this.getIntent().getStringExtra("fileName");
 
     	String extStorageDirectory=SDCardSupport.getSDCardDirectory(); 
@@ -58,13 +45,5 @@ public class ImageGallaryViewPopupActivity extends Activity {
 		finish();
 		return true;
 	}
-
-//	public void exitbutton1(View v) {
-//		this.finish();
-//	}
-//
-//	public void exitbutton0(View v) {
-//		this.finish();
-//	}
-
+ 
 }
