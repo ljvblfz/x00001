@@ -61,6 +61,7 @@ public class WebSocketClient {
     }
 
     public void connect() {
+        Log.d(TAG, "connect processing");
         if (mThread != null && mThread.isAlive()) {
             return;
         }
@@ -141,12 +142,14 @@ public class WebSocketClient {
     }
 
     public void disconnect() {
+        Log.d(TAG, "disconnect processing");
         if (mSocket != null) {
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     try {
                         mSocket.close();
+                        Log.d(TAG, "mSocket closed.");
                         mSocket = null;
                     } catch (IOException ex) {
                         Log.d(TAG, "Error while disconnecting", ex);
