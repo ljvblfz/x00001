@@ -15,15 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.LinearGradient;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.PorterDuff.Mode;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Shader.TileMode;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -45,6 +37,7 @@ import android.widget.TextView;
 
 import com.broadsoft.common.MyPullDownLayoutView;
 import com.broadsoft.common.MyPullDownLayoutView.OnPullDownListener;
+import com.broadsoft.common.util.BitmapSupport;
 import com.broadsoft.xmcommon.androiddao.DownloadInfoEntity;
 import com.broadsoft.xmcommon.androiddao.EntityInfoHolder;
 import com.broadsoft.xmcommon.androidsdcard.SDCardSupport;
@@ -151,7 +144,7 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
 			}//end of for j
             
             imageAdapter = new ImageAdapter(ImageGallaryMainActivity.this,bitmapWrappers);
-            imageAdapter.createReflectedImages();
+            imageAdapter.createImageGallery();
             return null;
         }//end of doInBackground
 
@@ -472,45 +465,14 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
 	         mBitmapWrappers = bitmapWrappers;
 	     }
 
-	     public void createReflectedImages() 
+	     public void createImageGallery() 
 	     {
-	         final int reflectionGap = 4;
 	         int index = 0;
 
 	         for (BitmapWrapper bitmapWrapper : mBitmapWrappers)
-	         {
-	        	 
-	        	 Bitmap bitmap=bitmapWrapper.getBitmap(); 
-	             Bitmap originalImage = bitmap; 
-	             int width  = originalImage.getWidth();
-	             int height = originalImage.getHeight();
-
-	             Matrix matrix = new Matrix();
-	             matrix.preScale(1, -1);
-
-	             Bitmap reflectionImage = Bitmap.createBitmap(originalImage, 0, height / 3, width, height / 3, matrix, false);
-
-	             Bitmap bitmapWithReflection = Bitmap.createBitmap(width, (height + height / 3), Config.ARGB_8888);
-
-	             Canvas canvas = new Canvas(bitmapWithReflection);
-
-	             canvas.drawBitmap(originalImage, 0, 0, null);
-
-	             Paint deafaultPaint = new Paint();
-	             canvas.drawRect(0, height, width, height + reflectionGap, deafaultPaint);
-
-	             canvas.drawBitmap(reflectionImage, 0, height + reflectionGap, null);
-
-	             Paint paint = new Paint();
-	             LinearGradient shader = new LinearGradient(0, originalImage.getHeight(), 0, bitmapWithReflection.getHeight()
-	                                                        + reflectionGap, 0x70ffffff, 0x00ffffff, TileMode.CLAMP);
-
-	             paint.setShader(shader);
-
-	             paint.setXfermode(new PorterDuffXfermode(Mode.DST_IN));
-
-	             canvas.drawRect(0, height, width, bitmapWithReflection.getHeight() + reflectionGap, paint);
-
+	         { 
+	        	 Bitmap bitmap=bitmapWrapper.getBitmap();  
+		         Bitmap bitmapWithReflection = BitmapSupport.drawBitmap(bitmap); 
 	             final ImageView imageView = new ImageView(mContext);
 	             imageView.setImageBitmap(bitmapWithReflection);
 	             imageView.setLayoutParams(new GalleryFlow.LayoutParams(250, 340));
@@ -518,6 +480,8 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
 	             mImageViews[index++] = imageView; 
 	         }  
 	     }//end of createReflectedImages
+
+		
 
 	     private Resources getResources() 
 	     { 
