@@ -63,10 +63,11 @@ public class DownloadMessageInbound extends MessageInbound {
 			jsonObject=new JSONObject(strMsg);
 			String msgType=jsonObject.getString("msgtype");  
 			//心跳
-			if("10".equals(msgType)){ 
-//				logger.trace("onTextMessage--->心跳信息."); 
-//				getWsOutbound().writeTextMessage(msg); 
-	
+			if("10".equals(msgType)){  
+				if(logger.isTraceEnabled()){
+					logger.trace("onTextMessage--->心跳消息"); 
+				} 
+				getWsOutbound().writeTextMessage(msg);  
 				return;
 			}//end of if
 			//
