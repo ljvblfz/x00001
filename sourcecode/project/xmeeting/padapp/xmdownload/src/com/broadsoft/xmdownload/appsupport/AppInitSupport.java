@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.broadsoft.xmcommon.androidconfig.AppConfig;
 import com.broadsoft.xmcommon.androidconfig.DomAppConfigFactory;
-import com.broadsoft.xmcommon.androiddao.CompanyInfoEntity;
 import com.broadsoft.xmcommon.androiddao.DaoHolder;
 import com.broadsoft.xmcommon.androiddao.DownloadInfoEntity;
 import com.broadsoft.xmcommon.androiddao.EntityInfoHolder;
@@ -41,14 +40,18 @@ public class AppInitSupport {
 		}else{ 
 			// 监听websocket消息
 			WsDownloadServiceSupport.getInstance().initData(AndroidIdSupport.getAndroidID());
-			try{
-				WsDownloadServiceSupport.getInstance().disconnect();
-				Log.d(TAG, "[WS]wait 10s");
-				Thread.sleep(10*1000);
-			}catch(Exception e){ 
-				Log.d(TAG, "[WS]disconnect---exception--"+e.getMessage());
-			}
-			WsDownloadServiceSupport.getInstance().connect(); 
+//			try{
+//				WsDownloadServiceSupport.getInstance().disconnect();
+//			}catch(Exception e){ 
+//				Log.d(TAG, "[WS]disconnect---exception--"+e.getMessage());
+//			}
+//			try{ 
+//				Log.d(TAG, "[WS]wait 10s"); 
+//				Thread.sleep(10*1000);
+//			}catch(Exception e){ 
+//				Log.d(TAG, "[WS]sleep---exception--"+e.getMessage());
+//			}
+//			WsDownloadServiceSupport.getInstance().connect(); 
 			Log.d(TAG, "[WS]connect---->done.");
 		}
 		//读取会议信息
