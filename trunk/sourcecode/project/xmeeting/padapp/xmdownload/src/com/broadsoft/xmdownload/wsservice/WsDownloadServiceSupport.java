@@ -50,19 +50,19 @@ public class WsDownloadServiceSupport {
 	WebSocketHandler handler=new WebSocketHandler() { 
 		@Override
 		public void onOpen() {
-			Log.d(TAG, "Status: Connected to " + wspath);
+			Log.d(TAG, "[onOpen]Status: Connected to " + wspath);
 			new Thread(heartRunnable).start();
 		}
 
 		@Override
 		public void onTextMessage(String payload) {
-			Log.d(TAG, "Got echo: " + payload);
+			Log.d(TAG, "[onTextMessage]Got echo: " + payload);
 			processMessage(payload);
 		}
 
 		@Override
 		public void onClose(int code, String reason) {
-			Log.d(TAG, "Connection lost.");
+			Log.d(TAG, "[onClose]Connection lost.");
 		}
 	};
 	
@@ -91,7 +91,10 @@ public class WsDownloadServiceSupport {
 	}//end of connect
 	
 	public boolean isConnected(){
-		return client.isConnected();
+		if(client!=null){
+			return client.isConnected(); 
+		}
+		return false;
 	}
 	
 	
@@ -114,7 +117,7 @@ public class WsDownloadServiceSupport {
 				return;
 			}
 		}
-	}
+	}//end of sendHearbeat
 	
 	
 	
