@@ -51,6 +51,7 @@ public class WsDownloadServiceSupport {
 		@Override
 		public void onOpen() {
 			Log.d(TAG, "Status: Connected to " + wspath);
+			new Thread(heartRunnable).start();
 		}
 
 		@Override
@@ -65,9 +66,14 @@ public class WsDownloadServiceSupport {
 		}
 	};
 	
-	public boolean isConnected(){
-		return client.isConnected();
-	}
+	Runnable heartRunnable = new Runnable() {
+
+		@Override
+		public void run() { 
+			sendHearbeat();
+		}
+
+	};
 	
 	/**
 	 * connect
@@ -84,6 +90,33 @@ public class WsDownloadServiceSupport {
  
 	}//end of connect
 	
+	public boolean isConnected(){
+		return client.isConnected();
+	}
+	
+	
+	public void sendHearbeat(){
+		while(true){
+			if(client.isConnected()){
+				JSONObject jsonObject=new JSONObject();
+				try {
+					jsonObject.put("msgtype", "10");
+				} catch (JSONException e) { 
+					e.printStackTrace();
+				}
+				sendMessage(jsonObject.toString()); 
+				try {
+					Thread.sleep(10*1000);
+				} catch (InterruptedException e) { 
+					e.printStackTrace();
+				}
+			}else{
+				return;
+			}
+		}
+	}
+	
+	
 	
 	
 	private void processMessage(String message) {
@@ -91,6 +124,9 @@ public class WsDownloadServiceSupport {
 			
 			JSONObject jsonObject=new JSONObject(message);
 			String msgtype=jsonObject.getString("msgtype");
+			if("10".equals(msgtype)){ 
+				 Log.d(TAG, "收到心跳");
+			}
 			String meetingid="";
 			if(jsonObject.has("meetingid")){
 				meetingid=jsonObject.getString("meetingid");
@@ -137,9 +173,7 @@ public class WsDownloadServiceSupport {
 //							ViewHolder.getInstance().getTextViewDownloadStatus().setText("公司信息下载完成");
 						}
 					} 
-				}else if("10".equals(msgtype)){//心跳信息
-					 
-				}
+				} 
 				
 			}//end of if
 			
