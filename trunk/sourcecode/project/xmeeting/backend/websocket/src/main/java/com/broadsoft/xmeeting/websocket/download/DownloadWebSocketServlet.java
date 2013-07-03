@@ -1,37 +1,91 @@
 package com.broadsoft.xmeeting.websocket.download;
 
+import java.io.IOException;
+import java.nio.CharBuffer;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
+import net.sf.json.JSONObject;
+
 import org.apache.catalina.websocket.StreamInbound;
 import org.apache.catalina.websocket.WebSocketServlet;
+import org.apache.catalina.websocket.WsOutbound;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DownloadWebSocketServlet extends WebSocketServlet { 
-	
-	
+public class DownloadWebSocketServlet extends WebSocketServlet {
+
 	private static final long serialVersionUID = 1L;
-	private Logger logger = LoggerFactory.getLogger(DownloadWebSocketServlet.class); 
+	private Logger logger = LoggerFactory
+			.getLogger(DownloadWebSocketServlet.class);
 
 	@Override
-	public void init(ServletConfig config) throws ServletException{
-		 super.init(config); 
-	 }
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
+
+		new Thread(heartRunnable).start();
+		 
+
+	}
+	
+	
+	private boolean stop=false;
+	public void destroy(){
+		stop=true;
+	}
 
 	/**
-	 *   /websocket/ws/download?padId=xxxx&roleName=device
+	 * /websocket/ws/download?padId=xxxx&roleName=device
 	 */
 	@Override
-	protected StreamInbound createWebSocketInbound(String subProtocol, HttpServletRequest request) {
-		if(logger.isTraceEnabled()){
-			logger.trace("createWebSocketInbound--->{}.",subProtocol);
-			System.out.println("-------->createWebSocketInbound---->"+subProtocol);
+	protected StreamInbound createWebSocketInbound(String subProtocol,
+			HttpServletRequest request) {
+		if (logger.isTraceEnabled()) {
+			logger.trace("createWebSocketInbound--->{}.", subProtocol);
+			System.out.println("-------->createWebSocketInbound---->"
+					+ subProtocol);
 		}
-		String padId=request.getParameter("padId"); 
-		String roleName=request.getParameter("roleName"); 
-		return new DownloadMessageInbound(padId,roleName);
-	} 
+		String padId = request.getParameter("padId");
+		String roleName = request.getParameter("roleName");
+		return new DownloadMessageInbound(padId, roleName);
+	}
 
+	public void dispatchHeartMessage() {
+		logger.trace("dispatchHeartMessage--->心跳信息."); 
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("msgtype", "10");
+		String msg = jsonObject.toString();
+		for (DownloadMessageInbound messageInbound : DownloadMessageInboundHolder
+				.getSocketList()) {
+			CharBuffer buffer = CharBuffer.wrap(msg);
+			WsOutbound outbound = messageInbound.getWsOutbound();
+			try {
+				outbound.writeTextMessage(buffer);
+				outbound.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}// end of for
+	}
+
+	Runnable heartRunnable = new Runnable() { 
+		@Override
+		public void run() {
+			while (true) {
+				dispatchHeartMessage();
+				try {
+					Thread.sleep(10 * 1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				if(stop){
+					return;
+				}
+			}//end of while
+		}
+
+	};
 }
