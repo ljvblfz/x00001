@@ -13,8 +13,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -27,7 +28,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.broadsoft.common.MyImageView;
+import com.broadsoft.xmcommon.androiddao.EntityInfoHolder;
 import com.broadsoft.xmcommon.androidsdcard.SDCardSupport;
+import com.broadsoft.xmdownload.wsservice.WsControllerServiceSupport;
 import com.broadsoft.xmeeting.activity.CallOutActivity;
 import com.broadsoft.xmeeting.activity.CompanyInfoActivity;
 import com.broadsoft.xmeeting.activity.DocumentsListActivity;
@@ -75,26 +78,62 @@ public class DesktopActivity extends Activity {
 	 * 其他控件
 	 */
 	
-	
+	public Handler notifyUIHandler;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.desktop_activity_main);
-		
-		initGridButton();
-
-		new Thread() {
-			@Override
-			public void run() {
-//				initMeetingData();
-			}
-		}.start();
-		initWeather();
-
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
+		//桌面按钮
+		initGridButton();  
+		//天气预报
+		initWeather();   
+		notifyUIHandler=new NotifyUIHandler(this);
+		//init websocket  
+		initWebsocket(); 
+		 
 	}
+	
+	
+	@Override
+	protected void onDestroy() {
+		try{
+			WsControllerServiceSupport.getInstance().disconnect();  
+		}catch(Exception e){ 
+			Log.d(TAG, "[Websocket]disconnect---exception--"+e.getMessage());
+		}
+	}
+
+	private void initWebsocket() {
+		Log.d(TAG, "[Websocket]Init begin.");
+		String meetingId=EntityInfoHolder.getInstance().getDownloadInfoEntity().getMeetingId();
+		String memberId=EntityInfoHolder.getInstance().getDownloadInfoEntity().getMemberId();
+		String memberDisplayName=EntityInfoHolder.getInstance().getDownloadInfoEntity().getMemberDisplayName(); 
+		WsControllerServiceSupport.getInstance().initData(meetingId, memberId, memberDisplayName); 
+		WsControllerServiceSupport.getInstance().connect(notifyUIHandler);
+		Log.d(TAG, "[Websocket]Init end.");
+	}
+ 
+//	
+//	Runnable notifyRunnable=new Runnable(){ 
+//		@Override
+//		public void run() { 
+//			while(true){
+//				if(CallServiceHolder.getInstance().isUpdated()){
+//					CallServiceHolder.getInstance().setUpdated(false);
+//					Toast toast=Toast.makeText(DesktopActivity.this, "你有新的消息.",Toast.LENGTH_LONG);
+//					toast.setGravity(Gravity.CENTER, 0, 0);
+//					toast.show();
+//				}//end of if
+//				try {
+//					Thread.sleep(10*1000);
+//				} catch (InterruptedException e) {
+//					e.printStackTrace();
+//				} 
+//			}//end of while 
+//		}//end of run 
+//	};//end of notifyRunnable
 	
 	
 	public OPlayerApplication getOPA(){

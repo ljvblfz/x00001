@@ -43,31 +43,26 @@ public class AppInitSupport {
 		EntityInfoHolder.getInstance().setPadInfoEntity(padInfoEntity);
 		EntityInfoHolder.getInstance().setDownloadInfoEntity(downloadInfoEntity);
 
-		//init websocket 
-		if("1".equals(appConfig.getServerenable())){ 
-			Log.d(TAG, "[Websocket]Init begin.");
-			String meetingId=EntityInfoHolder.getInstance().getDownloadInfoEntity().getMeetingId();
-			String memberId=EntityInfoHolder.getInstance().getDownloadInfoEntity().getMemberId();
-			String memberDisplayName=EntityInfoHolder.getInstance().getDownloadInfoEntity().getMemberDisplayName(); 
-			WsControllerServiceSupport.getInstance().initData(meetingId, memberId, memberDisplayName);
-
-			try{
-				WsControllerServiceSupport.getInstance().disconnect();  
-			}catch(Exception e){ 
-				Log.d(TAG, "[Websocket]disconnect---exception--"+e.getMessage());
-			}
-			
-			try{ 
-				Log.d(TAG, "[WS]wait 10s"); 
-				Thread.sleep(10*1000);
-			}catch(Exception e){ 
-				Log.d(TAG, "[Websocket]sleep---exception--"+e.getMessage());
-			}
-			WsControllerServiceSupport.getInstance().connect(); 
-			Log.d(TAG, "[Websocket]connect---->done.");
-			Log.d(TAG, "[Websocket]Init end.");
-		}//end of if
 	}//end of initApp
+
+
+
+
+//	private static void connectWS() {
+//		try{
+//			WsControllerServiceSupport.getInstance().disconnect();  
+//		}catch(Exception e){ 
+//			Log.d(TAG, "[Websocket]disconnect---exception--"+e.getMessage());
+//		}
+//		
+//		try{ 
+//			Log.d(TAG, "[WS]wait 10s"); 
+//			Thread.sleep(10*1000);
+//		}catch(Exception e){ 
+//			Log.d(TAG, "[Websocket]sleep---exception--"+e.getMessage());
+//		}
+//		WsControllerServiceSupport.getInstance().connect();
+//	}
 	
 	
 	

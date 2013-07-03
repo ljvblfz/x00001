@@ -3,6 +3,9 @@ package com.broadsoft.xmdownload.wsservice;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 import com.broadsoft.xmcommon.androidconfig.DomAppConfigFactory;
@@ -86,12 +89,13 @@ public class WsControllerServiceSupport {
 				JSONObject jsonObject=new JSONObject();
 				try {
 					jsonObject.put("msgtype", "10");
+					jsonObject.put("test", "from android");
 				} catch (JSONException e) { 
 					e.printStackTrace();
 				}
 				sendMessage(jsonObject.toString()); 
 				try {
-					Thread.sleep(10*1000);
+					Thread.sleep(100*1000);
 				} catch (InterruptedException e) { 
 					e.printStackTrace();
 				}
@@ -123,7 +127,7 @@ public class WsControllerServiceSupport {
 	
 	
 	
-	WebSocketHandler handler=new WebSocketHandler() { 
+	WebSocketHandler wsHandler=new WebSocketHandler() { 
 		@Override
 		public void onOpen() {
 			Log.d(TAG, "[onOpen]Status: Connected to " + wspath); 
@@ -132,7 +136,15 @@ public class WsControllerServiceSupport {
 
 		@Override
 		public void onTextMessage(String payload) {
-			Log.d(TAG, "[onTextMessage]Got echo: " + payload); 
+			Log.d(TAG, "[onTextMessage]Got echo: " + payload);  
+//			CallServiceHolder.getInstance().setUpdated(true);
+//			CallServiceHolder.getInstance().setMessage(payload);
+			
+			Message msg = new Message();  
+            Bundle bundle = new Bundle();  
+            bundle.putString("payload", payload);  
+            msg.setData(bundle);   
+			uiHandler.sendMessage(msg);
 		}
 
 		@Override
@@ -140,15 +152,19 @@ public class WsControllerServiceSupport {
 			Log.d(TAG, "[onClose]Connection lost.");
 		}
 	};
+	
+	
+	private Handler uiHandler;
 	/**
 	 * connect
 	 */
-	public void connect(){
+	public void connect(Handler uiHandler){
+		this.uiHandler=uiHandler;
 		try {
 			WebSocketOptions   options  =new WebSocketOptions  (); 
 			options.setSocketConnectTimeout(1000*1000);//ms
 			options.setSocketReceiveTimeout(1000*1000);//ms
-			client.connect(wspath,handler,options );
+			client.connect(wspath,wsHandler,options );
 		} catch (WebSocketException e) { 
 			Log.d(TAG, e.toString());
 		}   
