@@ -6,19 +6,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.broadsoft.common.DialogActivity;
 import com.broadsoft.xmcommon.androiddao.DownloadInfoEntity;
 import com.broadsoft.xmcommon.androiddao.EntityInfoHolder;
 import com.broadsoft.xmdownload.wsservice.WsControllerServiceSupport;
@@ -48,6 +46,8 @@ public class CallOutActivity extends Activity {
 			}
 		});
 		initButton();
+		
+//		new Thread(notifyRunnable).start();
 	}
 
 	@Override
@@ -56,6 +56,8 @@ public class CallOutActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onWindowFocusChanged(hasFocus);
 	}
+	
+	
 	
 	private void initButton()
 	{
