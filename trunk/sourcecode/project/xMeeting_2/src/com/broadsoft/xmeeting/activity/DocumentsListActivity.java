@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.vudroid.pdfdroid.PdfViewerActivity;
@@ -27,6 +28,7 @@ import android.widget.SimpleAdapter;
 
 import com.broadsoft.common.util.FolderUtils;
 import com.broadsoft.xmcommon.androiddao.EntityInfoHolder;
+import com.broadsoft.xmcommon.androidsdcard.SDCardSupport;
 import com.broadsoft.xmeeting.DesktopActivity;
 import com.broadsoft.xmeeting.R;
 import com.nmbb.oplayer.OPlayerApplication;
@@ -109,24 +111,49 @@ public class DocumentsListActivity extends BaseBrowserActivity {
 	}
 	
 	private List<Map<String, Object>> getData(String meetingId) {
-		File f = new File(FolderUtils.getDocumentDir(meetingId));
-		File[] flist = f.listFiles();
-
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-		if(null!= flist){
-			for(File file : flist ){
-				if(file.isFile() && file.getName().toLowerCase().endsWith(".pdf")){
+		String jsonData  = EntityInfoHolder.getInstance().getDownloadInfoEntity().getJsonData();
+		JSONObject jo = null;
+		try {
+			jo = new JSONObject(jsonData).getJSONObject("meetingInfo");
+			JSONArray ja = jo.getJSONArray("listOfXmMeetingDocument");
+			JSONObject docFileJO ; 
+			File docFile ;
+			for(int i=0;i<ja.length();i++){
+				docFileJO = ja.getJSONObject(i);
+				docFile = new File(SDCardSupport.getSDCardDirectory()+(String)docFileJO.get("xmmdFile"));
+				if(docFile.exists() && docFile.canRead() && docFile.isFile()){
 					Map<String, Object> map = new HashMap<String, Object>();
-	//				map.put("text", texts[i]);
+					//				map.put("text", texts[i]);
 					map.put("img", R.drawable.pdf);
-					map.put("title", file.getName().substring(0,file.getName().length()-4));
-					map.put("path", file.getAbsolutePath());
+					map.put("title", (String)docFileJO.get("xmmdName"));
+					map.put("path", SDCardSupport.getSDCardDirectory()+(String)docFileJO.get("xmmdFile"));
+					map.put("text", (String)docFileJO.get("xmmdDescription"));
 					list.add(map);
 				}
-				
 			}
+			
+		} catch (JSONException e) {
+			e.printStackTrace();
 		}
-
+		
+		
+//		File f = new File(FolderUtils.getDocumentDir(meetingId));
+//		File[] flist = f.listFiles();
+//
+//		if(null!= flist){
+//			for(File file : flist ){
+//				if(file.isFile() && file.getName().toLowerCase().endsWith(".pdf")){
+//					Map<String, Object> map = new HashMap<String, Object>();
+//	//				map.put("text", texts[i]);
+//					map.put("img", R.drawable.pdf);
+//					map.put("title", file.getName().substring(0,file.getName().length()-4));
+//					map.put("path", file.getAbsolutePath());
+//					list.add(map);
+//				}
+//				
+//			}
+//		}
 //		for (int i = 0; i < titles.length; i++) {
 //			Map<String, Object> map = new HashMap<String, Object>();
 ////			map.put("text", texts[i]);
