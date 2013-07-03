@@ -34,7 +34,6 @@ import android.util.Log;
  */
 public class HttpRestSupport { 
 	private final static String TAG="HttpRestSupport"; 
-
 	/**
 	 * 
 	 * JSONObject param = new JSONObject(); 
@@ -112,6 +111,8 @@ public class HttpRestSupport {
 		return jsonObject;
 	}
 
+	private static final int REQUEST_TIMEOUT = 10*1000;//设置请求超时10秒钟  
+	private static final int SO_TIMEOUT = 10*1000;  //设置等待数据超时时间10秒钟  
 	
 	/**
 	 * 
@@ -119,8 +120,8 @@ public class HttpRestSupport {
 	 */
 	private static HttpClient creteHttpClient() {
 		HttpParams httpParameters = new BasicHttpParams(); 
-		HttpConnectionParams.setConnectionTimeout(httpParameters, 3000); 
-		HttpConnectionParams.setSoTimeout(httpParameters, 5000); 
+		HttpConnectionParams.setConnectionTimeout(httpParameters, REQUEST_TIMEOUT); 
+		HttpConnectionParams.setSoTimeout(httpParameters, SO_TIMEOUT); 
 		HttpClient httpclient = new DefaultHttpClient(httpParameters);
 		return httpclient;
 	}
