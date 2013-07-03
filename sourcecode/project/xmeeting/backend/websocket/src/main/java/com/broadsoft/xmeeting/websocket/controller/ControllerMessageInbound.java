@@ -62,6 +62,13 @@ public class ControllerMessageInbound extends MessageInbound {
 		try {
 			jsonObject=new JSONObject(strMsg);
 			String msgType=jsonObject.getString("msgtype");  
+			if("10".equals(msgType)){//心跳消息
+				if(logger.isTraceEnabled()){
+					logger.trace("onTextMessage--->心跳消息"); 
+				} 
+				getWsOutbound().writeTextMessage(msg); 
+				return;
+			} //end of if
 			IService service=ServiceFactory.createService(msgType);
 			//发送消息
 			service.execute(jsonObject);  

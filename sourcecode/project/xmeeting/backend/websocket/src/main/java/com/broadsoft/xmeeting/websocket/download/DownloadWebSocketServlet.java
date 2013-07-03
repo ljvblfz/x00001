@@ -32,6 +32,7 @@ public class DownloadWebSocketServlet extends WebSocketServlet {
 	
 	
 	private boolean stop=false;
+	@Override
 	public void destroy(){
 		stop=true;
 	}
@@ -43,17 +44,21 @@ public class DownloadWebSocketServlet extends WebSocketServlet {
 	protected StreamInbound createWebSocketInbound(String subProtocol,
 			HttpServletRequest request) {
 		if (logger.isTraceEnabled()) {
-			logger.trace("createWebSocketInbound--->{}.", subProtocol);
-			System.out.println("-------->createWebSocketInbound---->"
-					+ subProtocol);
+			logger.trace("createWebSocketInbound begin--->{}.", subProtocol); 
 		}
 		String padId = request.getParameter("padId");
 		String roleName = request.getParameter("roleName");
-		return new DownloadMessageInbound(padId, roleName);
+		DownloadMessageInbound downloadMessageInbound=new DownloadMessageInbound(padId, roleName);
+		if (logger.isTraceEnabled()) {
+			logger.trace("createWebSocketInbound end."); 
+		}
+		return downloadMessageInbound;
 	}
 
 	public void dispatchHeartMessage() {
-		logger.trace("dispatchHeartMessage--->心跳信息."); 
+		if (logger.isTraceEnabled()) {
+			logger.trace("dispatchHeartMessage--->心跳信息."); 
+		}
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("msgtype", "10");
 		String msg = jsonObject.toString();
