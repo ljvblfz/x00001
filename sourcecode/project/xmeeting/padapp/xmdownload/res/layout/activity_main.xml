@@ -42,6 +42,24 @@
         android:layout_marginBottom="153dp"
         android:text="未设置" />
 
+    <Button
+        android:id="@+id/buttonExit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textView1"
+        android:layout_alignRight="@+id/textView1"
+        android:layout_marginBottom="150dp"
+        android:layout_marginRight="27dp"
+        android:text="Exit" />
 
+    <Button
+        android:id="@+id/buttonEntry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/buttonExit"
+        android:layout_alignBottom="@+id/buttonExit"
+        android:layout_marginRight="57dp"
+        android:layout_toLeftOf="@+id/buttonExit"
+        android:text="Entry" />
 
 </RelativeLayout>
