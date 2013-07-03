@@ -60,7 +60,13 @@
 				<option value="04">控制服务</option>
 			</select>
 		</p> 
-		<p><label>接收者:</label> <input type="text" name="to" class="required" size="50" maxlength="50" /></p>
+		<p><label>接收者:</label> 
+		
+			<input type="text" name="toDisplay" class="required" size="50" maxlength="50" />
+			<input type="hidden" name="to" class="required"   />
+			<a   href="javascript:showDialog_xmMeetingRealtimeMonitorPersonnelInfo('toDisplay','to')" class="btnLook">查找带回</a>
+		
+		</p>
 	 
 		<p>
 			<label>内容:</label> <input type="text" name="msgcontent"
@@ -72,7 +78,7 @@
 		<ul>
 			<li><div class="buttonActive">
 					<div class="buttonContent">
-						<button type="button" onclick="sendMsg()">发送</button>
+						<button type="button" onclick="controllerSendMsg()">发送</button>
 					</div>
 				</div></li>
 			<li><div class="button">

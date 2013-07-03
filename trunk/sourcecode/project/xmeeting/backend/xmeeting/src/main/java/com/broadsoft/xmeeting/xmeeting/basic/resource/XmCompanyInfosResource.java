@@ -62,15 +62,14 @@ public class XmCompanyInfosResource extends SingleFileUploadResource {
 	public Representation get(Representation entity) throws Exception {
 		form = new Form(entity); 
 		XmCompanyInfoSearchVO sVO=new XmCompanyInfoSearchVO();
-		PMGridCopyUtil.copyGridToDto(sVO,getQueryMap());
-		System.out.println("xmmiGuid=============================>"+sVO.getXmmiGuid());
+		PMGridCopyUtil.copyGridToDto(sVO,getQueryMap()); 
 		PageResponse p = xmCompanyInfoDao.findPage(getPageRequest(),fillDetachedCriteria(XmCompanyInfo.class,sVO)); 
 		List list = p.getList();
 		for (int i = 0; i < list.size(); i++) {
 			XmCompanyInfo xmCompanyInfo = (XmCompanyInfo) list.get(i);
 			xmCompanyInfo.setXmciTypeLabel(syCodeService.getSyCodeName("3001", xmCompanyInfo.getXmciType()));// 从码表读出对应名称 
 			xmCompanyInfo.setXmciStatusLabel(syCodeService.getSyCodeName("3002", xmCompanyInfo.getXmciStatus()));// 从码表读出对应名称 
-			xmCompanyInfo.setIsDisplayLabel(syCodeService.getSyCodeName("3014", xmCompanyInfo.getXmciStatus()));
+			xmCompanyInfo.setIsDisplayLabel(syCodeService.getSyCodeName("3014", xmCompanyInfo.getIsDisplay()));
 		}
 		
 		JSON jp = JSONSerializer.toJSON(getPageResponse(p),config);
