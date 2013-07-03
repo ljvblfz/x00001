@@ -3,11 +3,14 @@ package com.broadsoft.xmdownload;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.broadsoft.xmcommon.androidutil.AndroidIdSupport;
 import com.broadsoft.xmdownload.appsupport.AppInitSupport;
+import com.broadsoft.xmdownload.wsservice.WsDownloadServiceSupport;
 
 
 /**
@@ -37,6 +40,27 @@ public class MainActivity extends Activity {
 		
 		//
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		
+		
+		
+
+		Button buttonExit = (Button) findViewById(R.id.buttonExit);
+		buttonExit.setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				WsDownloadServiceSupport.getInstance().disconnect();
+			}
+		});
+
+		Button buttonEntry = (Button) findViewById(R.id.buttonEntry);
+		
+		buttonEntry.setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				WsDownloadServiceSupport.getInstance().connect(); 
+			}
+		});
+		
 		Log.d(TAG, "onCreate end");
 		
 	}//end of onCreate 
@@ -52,6 +76,11 @@ public class MainActivity extends Activity {
 		Log.d(TAG, "onDestroy begin");
 		super.onDestroy();
 		AppInitSupport.destroyApp(this.getApplicationContext(),this.getAssets());
+		try {
+			Thread.sleep(10*1000);
+		} catch (InterruptedException e) { 
+			e.printStackTrace();
+		}
 		Log.d(TAG, "onDestroy end");
 	}
 }//end of MainActivity
