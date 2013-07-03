@@ -1,18 +1,16 @@
 package com.broadsoft.xmdownload.wsservice;
 
-import java.net.URI;
-import java.util.Arrays;
-import java.util.List;
-
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
 
 import com.broadsoft.xmcommon.androidconfig.DomAppConfigFactory;
-import com.broadsoft.xmcommon.androidwebsocket.WebSocketClient;
-import com.hp.hpl.sparta.xpath.ThisNodeTest;
+
+import de.tavendo.autobahn.WebSocketConnection;
+import de.tavendo.autobahn.WebSocketException;
+import de.tavendo.autobahn.WebSocketHandler;
+import de.tavendo.autobahn.WebSocketOptions;
 
 
 /**
@@ -23,12 +21,9 @@ import com.hp.hpl.sparta.xpath.ThisNodeTest;
 public class WsControllerServiceSupport {
 	private final String TAG="WsControllerServiceSupport";
 
-//	private String wspath="ws://172.29.135.151:8080/websocket/ws/download?padId=android&roleName=DEVICE";
-	private String wspath;
-	protected WebSocketClient client;
+	private String wspath; 
 	
 	
-//	private String padId; //android id
 	
 	private static WsControllerServiceSupport wsServiceSupport=new WsControllerServiceSupport();
 	
@@ -51,20 +46,18 @@ public class WsControllerServiceSupport {
 		this.meetingId=meetingId;
 		this.memberId=memberId;
 		this.memberDisplayName=memberDisplayName;
-//		String serveripport="172.29.135.151:8080";
 		String serveripport=DomAppConfigFactory.getAppConfig().getServeripport();
-//		this.wspath="ws://"+serveripport+"/websocket/ws/controller?padId="+padId+"&roleName=DEVICE"; 
 		this.wspath="ws://"+serveripport+"/websocket/ws/controller?meetingId=" + meetingId + "&memberId=" + memberId + "&memberDisplayName=" + memberDisplayName;
 	}
-	
-
-	/**
-	 * 
-	 * @param jsonMessage
-	 */
-	public void sendMessage(JSONObject jsonMessage){ 
-		client.send(jsonMessage.toString());
-	}//end of sendMessage
+ 
+//
+//	/**
+//	 * 
+//	 * @param jsonMessage
+//	 */
+//	public void sendMessage(JSONObject jsonMessage){ 
+//		client.sendTextMessage(jsonMessage.toString());
+//	}//end of sendMessage
 	
 
 	/**
@@ -84,55 +77,81 @@ public class WsControllerServiceSupport {
 		} catch (JSONException e) { 
 			e.printStackTrace();
 		}
-		sendMessage(jsonMessage);
+		sendMessage(jsonMessage.toString());
 	}//end of sendCallServiceMessage
 	
+	public void sendHearbeat(){
+		while(true){
+			if(client.isConnected()){
+				JSONObject jsonObject=new JSONObject();
+				try {
+					jsonObject.put("msgtype", "10");
+				} catch (JSONException e) { 
+					e.printStackTrace();
+				}
+				sendMessage(jsonObject.toString()); 
+				try {
+					Thread.sleep(10*1000);
+				} catch (InterruptedException e) { 
+					e.printStackTrace();
+				}
+			}else{
+				return;
+			}
+		}
+	}//end of sendHearbeat
+	
+
+	/**
+	 * 
+	 * @param msg
+	 */
+	private void sendMessage(String msg){  
+		client.sendTextMessage(msg);
+	}
+	
+	private final WebSocketConnection client = new WebSocketConnection();
+
+	Runnable heartRunnable = new Runnable() {
+
+		@Override
+		public void run() { 
+			sendHearbeat();
+		}
+
+	};
+	
+	
+	
+	WebSocketHandler handler=new WebSocketHandler() { 
+		@Override
+		public void onOpen() {
+			Log.d(TAG, "[onOpen]Status: Connected to " + wspath); 
+			new Thread(heartRunnable).start();
+		}
+
+		@Override
+		public void onTextMessage(String payload) {
+			Log.d(TAG, "[onTextMessage]Got echo: " + payload); 
+		}
+
+		@Override
+		public void onClose(int code, String reason) {
+			Log.d(TAG, "[onClose]Connection lost.");
+		}
+	};
 	/**
 	 * connect
 	 */
 	public void connect(){
-		List<BasicNameValuePair> extraHeaders = Arrays.asList( new BasicNameValuePair("Cookie", "session=android") );
-		
-		URI uri=URI.create(wspath); 
-		client = new WebSocketClient(uri, new WebSocketClient.Listener() {
-			
-			
-		    @Override
-		    public void onConnect() {
-		        Log.d(TAG, "[Listener]onConnect=========>Connected!");
-		    }
-
-		    
-		    /**
-		     * message.msgtype
-		     * message.meetingid
-		     * message.to
-		     */
-		    @Override
-		    public void onMessage(String message) {
-		        Log.d(TAG, String.format("[Listener]onMessage=========>Got string message! %s", message)); 
-		        //convert to JSONOjbect 
-		    }
-
-		    @Override
-		    public void onMessage(byte[] data) { 
-		        Log.d(TAG, String.format("[Listener]onMessage=========>Got binary message! %s", data.toString()));
-		        
-		        
-		    }
-
-		    @Override
-		    public void onDisconnect(int code, String reason) {
-		        Log.d(TAG, String.format("[Listener]onDisconnect=========>Disconnected! Code: %d Reason: %s", code, reason));
-		    }
-
-		    @Override
-		    public void onError(Exception error) {
-		        Log.e(TAG, "[Listener]onError=========>Error!", error);
-		    }
-		}, extraHeaders); 
-		client.connect();
- 
+		try {
+			WebSocketOptions   options  =new WebSocketOptions  (); 
+			options.setSocketConnectTimeout(1000*1000);//ms
+			options.setSocketReceiveTimeout(1000*1000);//ms
+			client.connect(wspath,handler,options );
+		} catch (WebSocketException e) { 
+			Log.d(TAG, e.toString());
+		}   
 	}//end of connect
 
 
@@ -141,9 +160,10 @@ public class WsControllerServiceSupport {
 	 */
 	public void disconnect(){
 		if(null!=client){ 
-			client.disconnect();
-			client=null;
-		}
+			if(client.isConnected()){
+				client.disconnect(); 
+			}
+		}//end of if
 		
 	} //end of disconnect
 
