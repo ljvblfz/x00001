@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.MotionEvent;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.broadsoft.common.MulitPointTouchListener;
@@ -36,6 +37,7 @@ public class ImageGallaryViewPopupActivity extends Activity {
 		ImageView imageView=(ImageView) this.findViewById(R.id.ivLeader);
 		imageView.setImageBitmap(bmImage);
 		imageView.setOnTouchListener(new MulitPointTouchListener());
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 	}
 
 	@Override

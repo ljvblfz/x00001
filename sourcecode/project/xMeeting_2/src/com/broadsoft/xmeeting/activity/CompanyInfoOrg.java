@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.broadsoft.common.MulitPointTouchListener;
@@ -33,6 +34,7 @@ public class CompanyInfoOrg extends Activity {
     	ivOrg.setImageBitmap(bmImage);
 		
 		ivOrg.setOnTouchListener(new MulitPointTouchListener ());
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 		 
 	}

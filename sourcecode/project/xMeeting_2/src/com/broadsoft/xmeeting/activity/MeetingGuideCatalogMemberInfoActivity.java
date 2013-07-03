@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.ExpandableListView;
 
 import com.broadsoft.xmcommon.androiddao.DownloadInfoEntity;
@@ -32,6 +33,7 @@ public class MeetingGuideCatalogMemberInfoActivity extends Activity {
 //        mExpandableListView.setDivider(null);
         mExpandableListView.setGroupIndicator(this.getResources().getDrawable(R.drawable.expandlist_group_indicator));
 //        mExpandableListView.expandGroup(0);   
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		 
 	}
 	

@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -37,6 +38,7 @@ public class CallOutActivity extends Activity {
 		setContentView(R.layout.call_out);
 		//dialog=new MyDialog(this);
 		layout=(LinearLayout)findViewById(R.id.exit_layout2);
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		layout.setOnClickListener(new OnClickListener() {
 			
 			@Override

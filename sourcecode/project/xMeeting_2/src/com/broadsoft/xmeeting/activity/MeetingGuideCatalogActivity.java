@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -55,6 +56,7 @@ public class MeetingGuideCatalogActivity extends ActivityGroup {
 		InitTopbarAndBack();
 		
 
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         
         slidingMenuView = (LinearLayout ) findViewById(R.id.sliding_menu_view);
         
