@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ public class MeetingGuideCatalogMmsInfoActivity extends Activity {
 		
 		Button btnSendMms = (Button) findViewById(R.id.btnSendMms);
 		final EditText editTextPhone=(EditText)findViewById(R.id.editTextPhone);
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		btnSendMms.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) { 
 				String phoneNumber=editTextPhone.getText().toString();

@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,6 +32,7 @@ public class ImageGallaryViewFlipperActivity extends Activity   {
 			setContentView(R.layout.imagegallary_picview);
 			//dialog=new MyDialog(this);
 			layout=(LinearLayout)findViewById(R.id.exit_layout2);
+			getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 			layout.setOnClickListener(new OnClickListener() {
 				
 				@Override

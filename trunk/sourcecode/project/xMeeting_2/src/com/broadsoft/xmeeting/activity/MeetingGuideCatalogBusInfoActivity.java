@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.WindowManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
@@ -33,7 +34,8 @@ public class MeetingGuideCatalogBusInfoActivity extends Activity {
 		String htmlBasicInfo = getHtml(); 
 		webView.loadDataWithBaseURL(null, htmlBasicInfo, "text/html", "utf-8", null);
 		
-		 
+
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 	}
 
 	private String getHtml() {

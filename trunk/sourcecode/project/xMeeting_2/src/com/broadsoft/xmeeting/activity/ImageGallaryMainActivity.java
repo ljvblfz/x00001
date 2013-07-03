@@ -24,6 +24,7 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -104,6 +105,7 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
         
 //       new RefreshImageTask().execute();
 
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
        InitTopbarAndBack();
     }
 	
@@ -133,7 +135,12 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
 					jsonDetail = jsonArrayDetail.getJSONObject(j);
 					String fileName=jsonDetail.getString("xmmpicImageFile");
 					String fileDesc=jsonDetail.getString("xmmpicImageDesc"); 
-					Bitmap bitmap = BitmapFactory.decodeFile(extStorageDirectory+fileName);  
+					Bitmap bitmap =null;
+					try{ 
+						bitmap = BitmapFactory.decodeFile(extStorageDirectory+fileName);  
+					}catch (OutOfMemoryError e){
+			            e.printStackTrace();
+			        }
 					BitmapWrapper bitmapWrapper=new BitmapWrapper();
 					bitmapWrapper.setFileName(fileName);
 					bitmapWrapper.setBitmap(bitmap);

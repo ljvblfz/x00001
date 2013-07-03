@@ -86,7 +86,9 @@ public class BitmapSupport {
 					bitmapWithReflection.getHeight() + REFLECTION_GAP, paint);
 
 			return bitmapWithReflection;
-		} catch (Exception e) {
+		} catch (OutOfMemoryError e) {
+			e.printStackTrace();
+		}catch (Exception e) {
 			e.printStackTrace();
 		}
 

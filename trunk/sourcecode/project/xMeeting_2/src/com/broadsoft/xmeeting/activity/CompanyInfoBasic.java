@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.WindowManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -26,6 +27,7 @@ public class CompanyInfoBasic extends Activity {
 		String htmlBasicInfo = getHtmlData2();
 //		webView.loadData(htmlBasicInfo, "text/html", "gbk");//中文乱码
 		webView.loadDataWithBaseURL(null, htmlBasicInfo, "text/html", "utf-8", null);
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
  
 		 
 	}

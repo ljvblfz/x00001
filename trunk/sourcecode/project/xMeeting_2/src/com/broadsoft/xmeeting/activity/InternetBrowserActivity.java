@@ -3,6 +3,7 @@ package com.broadsoft.xmeeting.activity;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -43,5 +44,6 @@ public class InternetBrowserActivity extends BaseActivity {
 			}
 		});
 		webView.loadUrl("http://www.sohu.com");
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 	}
 }
