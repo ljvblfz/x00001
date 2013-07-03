@@ -109,7 +109,7 @@ public class WsDownloadServiceSupport {
 				}
 				sendMessage(jsonObject.toString()); 
 				try {
-					Thread.sleep(10*1000);
+					Thread.sleep(100*1000);
 				} catch (InterruptedException e) { 
 					e.printStackTrace();
 				}
