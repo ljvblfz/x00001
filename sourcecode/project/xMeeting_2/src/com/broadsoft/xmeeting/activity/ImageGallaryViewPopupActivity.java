@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.broadsoft.common.MulitPointTouchListener;
 import com.broadsoft.xmcommon.androidsdcard.SDCardSupport;
@@ -20,7 +19,8 @@ import com.broadsoft.xmeeting.R;
  * 
  */
 public class ImageGallaryViewPopupActivity extends Activity {
- 
+	
+	private Bitmap bmImage=null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +29,10 @@ public class ImageGallaryViewPopupActivity extends Activity {
 		// 
 		String fileName = this.getIntent().getStringExtra("fileName");
 
-    	String extStorageDirectory=SDCardSupport.getSDCardDirectory(); 
+    	String extStorageDirectory=SDCardSupport.getSDCardDirectory();  
+    	bmImage = BitmapFactory.decodeFile(extStorageDirectory+fileName);  
     	
-    	
-    	Bitmap bmImage = BitmapFactory.decodeFile(extStorageDirectory+fileName);  
-    	
-    	
+    	//create imageview
 		ImageView imageView=(ImageView) this.findViewById(R.id.ivLeader);
 		imageView.setImageBitmap(bmImage);
 		imageView.setOnTouchListener(new MulitPointTouchListener());
@@ -44,6 +42,13 @@ public class ImageGallaryViewPopupActivity extends Activity {
 	public boolean onTouchEvent(MotionEvent event) {
 		finish();
 		return true;
+	} 
+
+	@Override
+	protected void onDestroy(){ 
+		super.onDestroy();  
+		bmImage.recycle();
+		bmImage=null;
 	}
  
 }

@@ -472,7 +472,9 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
 	         for (BitmapWrapper bitmapWrapper : mBitmapWrappers)
 	         { 
 	        	 Bitmap bitmap=bitmapWrapper.getBitmap();  
-		         Bitmap bitmapWithReflection = BitmapSupport.drawBitmap(bitmap); 
+//		         Bitmap bitmapWithReflection = BitmapSupport.drawBitmap(bitmap); 
+		         Bitmap bitmapWithReflection = BitmapSupport.createBitmap(bitmap); 
+		         //create imageview
 	             final ImageView imageView = new ImageView(mContext);
 	             imageView.setImageBitmap(bitmapWithReflection);
 	             imageView.setLayoutParams(new GalleryFlow.LayoutParams(250, 340));
@@ -481,7 +483,10 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
 	         }  
 	     }//end of createReflectedImages
 
-		
+
+	     public void releaseImageGallery() {
+	    	 
+	     }
 
 	     private Resources getResources() 
 	     { 
