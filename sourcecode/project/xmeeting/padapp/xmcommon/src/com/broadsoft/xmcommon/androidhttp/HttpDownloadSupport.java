@@ -55,6 +55,10 @@ public class HttpDownloadSupport {
 		try {
 			URL url = new URL(urlStr);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();  
+
+			conn.setConnectTimeout(30000);//ms
+			conn.setReadTimeout(30000);//ms
+			//
 			String localDir = sdcardDir + docPathFile;// 文件存储路径 
 			File file = new File(localDir);
 			InputStream input = conn.getInputStream();
