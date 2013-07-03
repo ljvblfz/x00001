@@ -34,6 +34,7 @@ var controllerResponseCount = 0;
 function controllerStartWebSocket(memberId, memberDisplayName) {
 	wsController.onmessage = function(evt) {
 		var obj = JSON.parse(evt.data);
+		//alert(evt.data);
 		var msgtype=obj.msgtype;
 		if("10"==msgtype){
 			return;
@@ -65,6 +66,7 @@ function controllerSendMsg() {
 	var message = new Object(); 
 	var meetingId = findName("meetingId").val();
 	var memberId = findName("memberId").val();
+	var memberDisplayName = findName("memberDisplayName").val();
 	var msgtype = findName("msgtype").val();
 	logger.info("sendMsg msgtype--1-->" + msgtype);
 	if (msgtype.length == 0) {
@@ -84,6 +86,7 @@ function controllerSendMsg() {
 	message.msgtype = msgtype;
 	message.msgcontent = msgcontent;
 	message.from = memberId;
+	message.fromDisplayName = memberDisplayName;
 	message.to = to;
 	logger.info("sendMsg content---->" + JSON.stringify(message));
 	wsController.send(JSON.stringify(message));
