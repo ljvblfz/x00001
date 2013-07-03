@@ -6,6 +6,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.content.ComponentName;
@@ -49,6 +54,7 @@ import android.widget.Toast;
 
 import com.broadsoft.common.util.FolderUtils;
 import com.broadsoft.xmcommon.androiddao.EntityInfoHolder;
+import com.broadsoft.xmcommon.androidsdcard.SDCardSupport;
 import com.broadsoft.xmeeting.R;
 import com.broadsoft.xmeeting.activity.VideosListActivity;
 import com.nmbb.oplayer.database.DbHelper;
@@ -334,12 +340,20 @@ public class FragmentFileOld extends FragmentBase implements OnItemClickListener
 
 			
 			List<POMedia> result = new ArrayList<POMedia>();
-			File f = new File(FolderUtils.getVideoDir(EntityInfoHolder.getInstance().getDownloadInfoEntity().getMeetingId()));
-			File[] flist = f.listFiles();
-			if(null!= flist){
-				for(File file : flist ){
-					if(file.isFile() && !file.getAbsolutePath().startsWith(".") && file.canRead() && FileUtils.isVideo(file)){
-						result.add(new POMedia(file));
+			
+			String jsonData  = EntityInfoHolder.getInstance().getDownloadInfoEntity().getJsonData();
+			JSONObject jo = null;
+			try {
+				jo = new JSONObject(jsonData).getJSONObject("meetingInfo");
+				JSONArray ja = jo.getJSONArray("listOfXmMeetingVideo");
+				JSONObject videoFileJO ; 
+				File videoFile ;
+				for(int i=0;i<ja.length();i++){
+					videoFileJO = ja.getJSONObject(i);
+					videoFile = new File(SDCardSupport.getSDCardDirectory()+(String)videoFileJO.get("xmmvFile"));
+
+					if(videoFile.isFile() && !videoFile.getAbsolutePath().startsWith(".") && videoFile.canRead() && FileUtils.isVideo(videoFile)){
+						result.add(new POMedia(videoFile,(String)videoFileJO.get("xmmvName")));
 	//					save(new POMedia(file));
 	//						Map<String, Object> map = new HashMap<String, Object>();
 	////							map.put("text", texts[i]);
@@ -348,9 +362,29 @@ public class FragmentFileOld extends FragmentBase implements OnItemClickListener
 	//						map.put("path", file.getAbsolutePath());
 	//						list.add(map);
 					}
+				}
 				
+			} catch (JSONException e) {
+				e.printStackTrace();
 			}
-			}
+			
+//			File f = new File(FolderUtils.getVideoDir(EntityInfoHolder.getInstance().getDownloadInfoEntity().getMeetingId()));
+//			File[] flist = f.listFiles();
+//			if(null!= flist){
+//				for(File file : flist ){
+//					if(file.isFile() && !file.getAbsolutePath().startsWith(".") && file.canRead() && FileUtils.isVideo(file)){
+//						result.add(new POMedia(file));
+//	//					save(new POMedia(file));
+//	//						Map<String, Object> map = new HashMap<String, Object>();
+//	////							map.put("text", texts[i]);
+//	//						map.put("img", R.drawable.pdf);
+//	//						map.put("title", file.getName().substring(0,file.getName().length()-4));
+//	//						map.put("path", file.getAbsolutePath());
+//	//						list.add(map);
+//					}
+//				
+//				}
+//			}
 			return result;//FileBusiness.getAllSortFiles();
 //			return FileBusiness.getAllSortFiles();
 		}

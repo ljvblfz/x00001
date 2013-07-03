@@ -79,6 +79,20 @@ public class POMedia {
 		last_access_time = System.currentTimeMillis();
 	}
 
+	public POMedia(File f,String titleSet) {
+		this.title = titleSet;
+		path = f.getAbsolutePath();
+		last_modify_time = f.lastModified();
+		file_size = f.length();
+		try {
+			if (title != null && title.length() > 0)
+				title_key = PinyinUtils.chineneToSpell(title.charAt(0) + "");
+		} catch (Exception ex) {
+			Logger.e(ex);
+		}
+		last_access_time = System.currentTimeMillis();
+	}
+
 	public POMedia(String path, String mimeType) {
 		this(new File(path));
 		this.mime_type = mimeType;
