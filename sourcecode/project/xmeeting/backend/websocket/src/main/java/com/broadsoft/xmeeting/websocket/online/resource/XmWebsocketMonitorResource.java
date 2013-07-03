@@ -5,6 +5,7 @@
 
 package com.broadsoft.xmeeting.websocket.online.resource;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -44,7 +45,7 @@ public class XmWebsocketMonitorResource extends SyBaseResource {
 		
 		//下载信息
 		JSONArray downloadArray=new JSONArray();
-		List<DownloadMessageInbound> downloadSocketList=DownloadMessageInboundHolder.getSocketList();
+		Collection<DownloadMessageInbound> downloadSocketList=DownloadMessageInboundHolder.getSocketList();
 		for(DownloadMessageInbound downloadMessageInbound:downloadSocketList){
 			String padId=downloadMessageInbound.getPadId();
 			String roleName=downloadMessageInbound.getRoleName();

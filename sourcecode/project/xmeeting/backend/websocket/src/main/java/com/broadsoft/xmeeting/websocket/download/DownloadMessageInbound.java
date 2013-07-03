@@ -62,6 +62,14 @@ public class DownloadMessageInbound extends MessageInbound {
 		try {
 			jsonObject=new JSONObject(strMsg);
 			String msgType=jsonObject.getString("msgtype");  
+			//心跳
+			if("10".equals(msgType)){ 
+//				logger.trace("onTextMessage--->心跳信息."); 
+//				getWsOutbound().writeTextMessage(msg); 
+	
+				return;
+			}//end of if
+			//
 			String meetingId="";
 			if(jsonObject.has("meetingid")){
 				meetingId=jsonObject.getString("meetingid");
@@ -92,6 +100,8 @@ public class DownloadMessageInbound extends MessageInbound {
 		} 
 	}//end of onTextMessage
 
+	
+	
 	
 	
 	/**
@@ -143,10 +153,12 @@ public class DownloadMessageInbound extends MessageInbound {
 	protected void onClose(int status) {
 		if(logger.isTraceEnabled()){
 			logger.trace("onClose--->{}.",status);
-			System.out.println("onClose--->"+status);
+			System.out.println("["+Thread.currentThread().getId()+"]onClose--->"+this.getPadId());
 		} 
 		if(DownloadMessageInboundHolder.checkIfExist(this)){
-			DownloadMessageInboundHolder.getSocketList().remove(this);
+//			DownloadMessageInboundHolder.getSocketList().remove(this); 
+			DownloadMessageInboundHolder.removeByPadId(padId);
+			System.out.println("["+Thread.currentThread().getId()+"]onClose--->remove the pad: "+this.getPadId());
 			super.onClose(status);
 		}
 	}
@@ -161,17 +173,21 @@ public class DownloadMessageInbound extends MessageInbound {
 	protected void onOpen(WsOutbound outbound) {
 		if(logger.isTraceEnabled()){
 			logger.trace("onOpen--->"); 
-			System.out.println("onOpen--->");
+			System.out.println("["+Thread.currentThread().getId()+"]onOpen--->"+this.getPadId());
 		}  
 		if(!DownloadMessageInboundHolder.checkIfExist(this)){ 
 			super.onOpen(outbound);
-			DownloadMessageInboundHolder.getSocketList().add(this); 
+			DownloadMessageInboundHolder.add(this); 
+			System.out.println("["+Thread.currentThread().getId()+"]onOpen--->add the pad: "+this.getPadId());
 		}else{ 
 			if(logger.isTraceEnabled()){
-				logger.trace("PadID[{}]已经存在.",padId); 
+				logger.trace("PadID[{}]已经存在.",padId);  
+				System.out.println("["+Thread.currentThread().getId()+"]onOpen--->pad已经存在: "+this.getPadId());
+				DownloadMessageInboundHolder.removeByPadId(padId);
+				DownloadMessageInboundHolder.add(this); 
 			} 
 		}
-	}
+	}//end of onOpen
 
 	public String getPadId() {
 		return padId;
@@ -179,14 +195,6 @@ public class DownloadMessageInbound extends MessageInbound {
 
 	public String getRoleName() {
 		return roleName;
-	}
-
- 
- 
-	
-	//
-	
-	
-	
+	} 
 
 }
