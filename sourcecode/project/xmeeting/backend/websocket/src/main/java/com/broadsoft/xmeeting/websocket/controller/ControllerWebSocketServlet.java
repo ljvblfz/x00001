@@ -86,7 +86,7 @@ public class ControllerWebSocketServlet extends WebSocketServlet {
 			while (true) {
 				dispatchHeartMessage();
 				try {
-					Thread.sleep(10 * 1000);
+					Thread.sleep(100 * 1000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
