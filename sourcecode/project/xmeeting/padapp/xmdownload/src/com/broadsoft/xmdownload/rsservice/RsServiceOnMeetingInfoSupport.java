@@ -7,6 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.os.Bundle;
+import android.os.Message;
 import android.util.Log;
 
 import com.broadsoft.xmcommon.androidconfig.DomAppConfigFactory;
@@ -17,6 +19,7 @@ import com.broadsoft.xmcommon.androidhttp.HttpDownloadSupport;
 import com.broadsoft.xmcommon.androidhttp.HttpRestSupport;
 import com.broadsoft.xmcommon.androidsdcard.SDCardSupport;
 import com.broadsoft.xmcommon.androidutil.AndroidIdSupport;
+import com.broadsoft.xmdownload.DownloadUIHandler;
 
 public class RsServiceOnMeetingInfoSupport {
 	private static final String TAG="RsServiceOnMeetingInfoSupport";  
@@ -78,6 +81,11 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 	
 	@Override
 	public void run() {  
+		Log.d(TAG, "[run]begin.");
+ 
+		DownloadUIHandler.getInstance().sendDownloadMeetingMessageOnBegin();
+		
+		
 		try {
 			JSONObject jsonMeetingInfo=HttpRestSupport.getByHttpClientWithGzip(rspathMeetingInfoResult); 
 			JSONObject jsonMeetingPersonnel=HttpRestSupport.getByHttpClientWithGzip(rspathMeetingPersonnelResult); 
@@ -104,8 +112,13 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 			
 			
 		}
+		DownloadUIHandler.getInstance().sendDownloadMeetingMessageOnEnd();
+		Log.d(TAG, "[run]end.");
 	}
-	
+
+
+
+ 
 	
 	
 	
