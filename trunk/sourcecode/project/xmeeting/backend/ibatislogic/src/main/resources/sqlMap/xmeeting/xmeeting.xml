@@ -8,7 +8,11 @@
     
     <select id="searchMeetingInfoByName" parameterClass="java.util.HashMap"  resultClass="com.broadsoft.xmeeting.xmeeting.meeting.vo.XmMeetingInfoIVO">
 	    <![CDATA[
-			        select a.xmmi_name xmmiName,a.xmmi_guid xmmiGuid,a.xmmi_description xmmiDescription ,b.xmri_name xmriName,b.xmri_guid xmriGuid,c.value_desc status
+			        select a.xmmi_name xmmiName,a.xmmi_guid xmmiGuid,a.xmmi_description xmmiDescription ,b.xmri_name xmriName,b.xmri_guid xmriGuid,c.value_desc status,
+					
+					
+					to_char(a.XMMI_BEGIN_DATE ,'yyyy-mm-dd')  xmmiBeginDate, to_char(a.XMMI_END_DATE ,'yyyy-mm-dd') xmmiEndDate
+					
 					from XM_MEETING_INFO a,XM_ROOM_INFO b ,
 									(select value_code,value_desc from sy_code  where type_id in (select type_id from sy_code_type where type_name='3006')) c
 					where 		1=1 

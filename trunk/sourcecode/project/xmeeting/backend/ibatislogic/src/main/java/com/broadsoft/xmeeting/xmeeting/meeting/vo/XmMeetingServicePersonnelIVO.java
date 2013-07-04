@@ -8,6 +8,8 @@ public class XmMeetingServicePersonnelIVO {
 	/** 人员 */
 	public String xmpiName;
 	public String xmpiGuid;
+	public String xmpdGuid;
+	
 	/** 人员会议角色 */
 	public String serviceRole;
 
