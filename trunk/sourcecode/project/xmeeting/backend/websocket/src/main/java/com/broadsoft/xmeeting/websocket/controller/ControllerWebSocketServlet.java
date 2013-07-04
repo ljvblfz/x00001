@@ -27,7 +27,7 @@ public class ControllerWebSocketServlet extends WebSocketServlet {
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config); 
-		new Thread(heartRunnable).start();
+//		new Thread(heartRunnable).start();
 
 	}
 
