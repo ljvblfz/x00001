@@ -13,6 +13,11 @@ public class XmMeetingInfoIVO {
 	public String xmriGuid; 
 	public String xmriName; 
 	public String status;
+	
+
+	public String xmmiBeginDate;
+	public String xmmiEndDate;
+	
 	public String getXmmiGuid() {
 		return xmmiGuid;
 	}
@@ -49,12 +54,28 @@ public class XmMeetingInfoIVO {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	
+	
+	
+	public String getXmmiBeginDate() {
+		return xmmiBeginDate;
+	}
+	public void setXmmiBeginDate(String xmmiBeginDate) {
+		this.xmmiBeginDate = xmmiBeginDate;
+	}
+	public String getXmmiEndDate() {
+		return xmmiEndDate;
+	}
+	public void setXmmiEndDate(String xmmiEndDate) {
+		this.xmmiEndDate = xmmiEndDate;
+	}
 	@Override
 	public String toString() {
 		return "XmMeetingInfoIVO [xmmiGuid=" + xmmiGuid + ", xmmiName="
 				+ xmmiName + ", xmmiDescription=" + xmmiDescription
 				+ ", xmriGuid=" + xmriGuid + ", xmriName=" + xmriName
-				+ ", status=" + status + "]";
+				+ ", status=" + status + ", xmmiBeginDate=" + xmmiBeginDate
+				+ ", xmmiEndDate=" + xmmiEndDate + "]";
 	} 
 	
 	
