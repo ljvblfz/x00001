@@ -17,6 +17,13 @@
 				<a   href="javascript:showDialog_xmMeetingPersonnelInfo('xmpiGuidLabel','xmpiGuid')" class="btnLook">查找带回</a>
 			</p>
 			<p>
+				<label>pad设备</label>
+				<input type="text" name="xmpdGuidLabel" readonlye="true" class="required"  />
+				<input type="hidden" name="xmpdGuid"  /> 
+				<a   href="javascript:showDialog_xmPadDeviceInfo3('xmpdGuidLabel','xmpdGuid')" class="btnLook">查找带回</a>
+				 
+			</p>
+			<p>
 				<label>服务角色</label>
 <!-- 				<input type="text" name="xmmspServiceRole" class="required" size="30" maxlength="20"/> -->
 
@@ -76,5 +83,32 @@
 		$.pdialog.open(url, rel, title, options);
 		
 	}//end of showDialog_xmMeetingPersonnelInfo
+	
+	
+	
+
+	function showDialog_xmPadDeviceInfo3(xlabel,xhidden){  
+		//
+		var title = "设备选择";
+		var rel = "xmPadDeviceInfo2";
+		var options = {}; 
+		options.width = 500;
+		options.height = 400;
+		options.max =false;
+		options.mask = true;
+		options.maxable = false;
+		options.minable = false;
+		options.fresh = true;
+		options.resizable = false;
+		options.drawable = true;
+		options.close = "";
+		options.param = {xlabel:xlabel,xhidden:xhidden};
+		options.zIndex = "1000";
+
+		var url = "/xmeeting/pages/xmeeting/devmgmt/chooser/xmPadDeviceChooser.html";
+ 
+		$.pdialog.open(url, rel, title, options);
+		
+	}//end of showDialog_xmPadDeviceInfo2
 
 </script>
