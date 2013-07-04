@@ -21,7 +21,10 @@ public class XmMeetingServicePersonnel extends BaseEntity {
 	public static String XMMSP_GUID= "xmmspGuid";
 	public static String XMMI_GUID= "xmmiGuid";
 	public static String XMPI_GUID= "xmpiGuid";
+	public static String XMPD_GUID= "xmpdGuid";
 	public static String XMMSP_SERVICE_ROLE= "xmmspServiceRole"; 
+	
+	
 
 	//primary key
 	/** PID */
@@ -33,6 +36,9 @@ public class XmMeetingServicePersonnel extends BaseEntity {
 	private java.lang.String xmpiGuidLabel;
 	/** 人员服务角色 */
 	private java.lang.String xmmspServiceRole; 
+	/** 设备ID*/
+	private java.lang.String xmpdGuid;
+	private java.lang.String xmpdGuidLabel;
 
 	
 
@@ -115,6 +121,23 @@ public class XmMeetingServicePersonnel extends BaseEntity {
 
 	public void setXmpiGuidLabel(java.lang.String xmpiGuidLabel) {
 		this.xmpiGuidLabel = xmpiGuidLabel;
+	}
+
+	public java.lang.String getXmpdGuid() {
+		return xmpdGuid;
+	}
+
+	public void setXmpdGuid(java.lang.String xmpdGuid) {
+		this.xmpdGuid = xmpdGuid;
+	}
+
+	@Transient
+	public java.lang.String getXmpdGuidLabel() {
+		return xmpdGuidLabel;
+	}
+
+	public void setXmpdGuidLabel(java.lang.String xmpdGuidLabel) {
+		this.xmpdGuidLabel = xmpdGuidLabel;
 	}
 
 	public int compareTo(Object obj) {

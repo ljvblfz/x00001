@@ -27,7 +27,9 @@ public class XmMeetingInfo extends BaseEntity {
 	public static String XMMI_NAME= "xmmiName";
 	public static String XMMI_DESCRIPTION= "xmmiDescription";
 	public static String XMMI_STATUS= "xmmiStatus"; 
-
+	public static String XMMI_BEGIN_DATE= "xmmiBeginDate"; 
+	public static String XMMI_END_DATE= "xmmiEndDate"; 
+	
 	//primary key
 	/** PID */
 	private java.lang.String xmmiGuid;
@@ -41,6 +43,10 @@ public class XmMeetingInfo extends BaseEntity {
 	/** 会议状态 */
 	private java.lang.String xmmiStatus; 
 	private java.lang.String xmmiStatusLabel; 
+	
+	
+	private java.util.Date  xmmiBeginDate;
+	private java.util.Date  xmmiEndDate;
 
 	
 
@@ -145,6 +151,22 @@ public class XmMeetingInfo extends BaseEntity {
 
 	public void setXmriGuidLabel(java.lang.String xmriGuidLabel) {
 		this.xmriGuidLabel = xmriGuidLabel;
+	}
+
+	public java.util.Date getXmmiBeginDate() {
+		return xmmiBeginDate;
+	}
+
+	public void setXmmiBeginDate(java.util.Date xmmiBeginDate) {
+		this.xmmiBeginDate = xmmiBeginDate;
+	}
+
+	public java.util.Date getXmmiEndDate() {
+		return xmmiEndDate;
+	}
+
+	public void setXmmiEndDate(java.util.Date xmmiEndDate) {
+		this.xmmiEndDate = xmmiEndDate;
 	}
 
 	public int compareTo(Object obj) {
