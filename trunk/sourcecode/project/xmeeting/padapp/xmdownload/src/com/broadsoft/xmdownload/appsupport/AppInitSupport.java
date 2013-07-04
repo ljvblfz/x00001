@@ -69,8 +69,7 @@ public class AppInitSupport {
 	
 	
 
-	public static void destroyApp(Context ctx,AssetManager assetManager) {
-		WsDownloadServiceSupport.getInstance().disconnect(); 
+	public static void destroyApp(Context ctx,AssetManager assetManager) { 
 		
 	}
 }
