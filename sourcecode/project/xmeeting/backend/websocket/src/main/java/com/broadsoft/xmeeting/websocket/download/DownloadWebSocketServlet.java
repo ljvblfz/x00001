@@ -25,7 +25,7 @@ public class DownloadWebSocketServlet extends WebSocketServlet {
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 
-		new Thread(heartRunnable).start();
+//		new Thread(heartRunnable).start();
 		 
 
 	}
