@@ -19,7 +19,9 @@ import org.springframework.stereotype.Component;
 import com.founder.sipbus.common.annotation.RestletResource;
 import com.founder.sipbus.common.resource.BaseResource;
 import com.founder.sipbus.common.util.*;
+import com.broadsoft.xmeeting.xmeeting.basic.dao.XmPadDeviceDaoImpl;
 import com.broadsoft.xmeeting.xmeeting.basic.dao.XmPersonnelInfoDaoImpl;
+import com.broadsoft.xmeeting.xmeeting.basic.po.XmPadDevice;
 import com.broadsoft.xmeeting.xmeeting.basic.po.XmPersonnelInfo;
 import com.broadsoft.xmeeting.xmeeting.devmgmt.dao.XmMeetingServicePersonnelDaoImpl;
 import com.broadsoft.xmeeting.xmeeting.devmgmt.po.XmMeetingServicePersonnel;
@@ -37,6 +39,11 @@ public class XmMeetingServicePersonnelResource extends SyBaseResource{
 	
 	public void setXmMeetingServicePersonnelDao(XmMeetingServicePersonnelDaoImpl xmMeetingServicePersonnelDao) {
 		this.xmMeetingServicePersonnelDao = xmMeetingServicePersonnelDao;
+	}
+	
+	private XmPadDeviceDaoImpl xmPadDeviceDao; 
+	public void setXmPadDeviceDao(XmPadDeviceDaoImpl xmPadDeviceDao) {
+		this.xmPadDeviceDao = xmPadDeviceDao;
 	}
 	
 
@@ -58,8 +65,12 @@ public class XmMeetingServicePersonnelResource extends SyBaseResource{
 
 		String xmpiGuid=xmMeetingServicePersonnel.getXmpiGuid();
 		XmPersonnelInfo xmPersonnelInfo=xmPersonnelInfoDao.findById(xmpiGuid); 
+ 
+		String xmpdGuid=xmMeetingServicePersonnel.getXmpdGuid();
+		XmPadDevice xmPadDevice=xmPadDeviceDao.findById(xmpdGuid);
 		
 		xmMeetingServicePersonnel.setXmpiGuidLabel(xmPersonnelInfo.getXmpiName());
+		xmMeetingServicePersonnel.setXmpdGuidLabel(xmPadDevice.getXmpdCode());
 		if(null==xmMeetingServicePersonnel){
 			getResponse().setStatus(Status.CLIENT_ERROR_NOT_FOUND);   
 			return null;

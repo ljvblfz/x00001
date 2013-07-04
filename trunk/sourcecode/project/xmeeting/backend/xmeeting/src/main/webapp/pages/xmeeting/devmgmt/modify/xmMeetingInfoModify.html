@@ -20,12 +20,21 @@
 				<input type="text" name="xmmiDescription" class="required" size="30" maxlength="20"/>
 			</p>
 			<p>
-				<label>会议状态</label>
-<!-- 				<input type="text" name="xmmiStatus" class="required" size="30" maxlength="20"/> -->
+				<label>会议状态</label> 
 
 					<select class="required combox" name="xmmiStatus" valueCode="valueCode" codeType="3006" valueDesc="valueDesc" >
 						<option value="" selected>请选择</option>
 					</select>
+			</p> 
+			<p>
+				<label>开始日期</label> 
+				<input type="text" name="xmmiBeginDate" class="required date" readonly="true" />
+ 
+			</p> 
+			<p>
+				<label>结束日期</label> 
+				<input type="text" name="xmmiEndDate" class="required date" readonly="true" />
+ 
 			</p> 
 	</div>
 			
