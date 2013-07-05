@@ -1,0 +1,19 @@
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center" >
+
+        <ImageView
+            android:id="@+id/ivImage"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:src="@drawable/trans"
+            android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/progressBar1"
+            android:layout_width="32dp"
+            android:layout_height="32dp" />
+
+    </LinearLayout>

@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:weightSum="1" >
+
+	<LinearLayout android:layout_width="fill_parent"
+		android:id="@+id/content_today_layout" android:layout_height="wrap_content"
+		android:orientation="vertical" android:background="@drawable/content_bg"
+		android:layout_margin="10dip" android:layout_weight="0.09">
+		<LinearLayout android:layout_width="fill_parent"
+			android:id="@+id/linearLayout1" android:layout_height="wrap_content">
+			<TextView android:layout_width="wrap_content"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:id="@+id/textView1" android:layout_height="wrap_content"
+				android:text="@string/today_wea" android:paddingLeft="10dip"
+				android:paddingTop="10dip" android:paddingRight="10dip"></TextView>
+			<TextView android:text="" android:layout_width="wrap_content"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_height="wrap_content" android:id="@+id/today"></TextView>
+		</LinearLayout>
+		<TextView android:text="@string/xiaotieshi"
+			android:focusable="true" android:clickable="true"
+			android:layout_height="wrap_content" android:gravity="right"
+			android:marqueeRepeatLimit="marquee_forever" android:ellipsize="marquee"
+			android:focusableInTouchMode="true" android:layout_width="fill_parent"
+			android:singleLine="true" android:textAppearance="?android:attr/textAppearanceSmall"
+			android:layout_marginRight="10dip" android:layout_marginLeft="10dip"
+			android:id="@+id/xiaotieshi"></TextView>
+		<LinearLayout android:layout_width="fill_parent"
+			android:id="@+id/linearLayout2" android:layout_height="fill_parent"
+			android:weightSum="1">
+			<LinearLayout android:layout_width="wrap_content"
+				android:id="@+id/linearLayout3" android:layout_height="fill_parent"
+				android:orientation="vertical" android:layout_weight="0.5">
+				<TextView android:text="" android:textAppearance="?android:attr/textAppearanceLarge"
+					android:layout_height="wrap_content" android:layout_width="fill_parent"
+					android:gravity="center" android:layout_marginBottom="10dip"
+					android:id="@+id/city_text" android:layout_marginTop="2dip"></TextView>
+
+				<ImageView
+				    android:id="@+id/imageView1"
+				    android:layout_width="70dp"
+				    android:layout_height="70dp"
+				    android:layout_gravity="center"
+				    android:src="@drawable/na" >
+
+</ImageView>
+				<TextView android:text="" android:textAppearance="?android:attr/textAppearanceLarge"
+					android:layout_height="wrap_content" android:layout_width="fill_parent"
+					android:gravity="center" android:layout_marginTop="10dip"
+					android:id="@+id/today_weather" android:layout_marginBottom="10dip"></TextView>
+			</LinearLayout>
+			<LinearLayout android:layout_width="wrap_content"
+				android:id="@+id/linearLayout4" android:layout_height="fill_parent"
+				android:orientation="vertical" android:layout_weight="0.5">
+				<TextView android:textAppearance="?android:attr/textAppearanceMedium"
+					android:layout_height="wrap_content" android:text="@string/jinri"
+					android:layout_width="fill_parent" android:gravity="center"
+					android:layout_marginTop="5dip"></TextView>
+				<LinearLayout android:layout_width="fill_parent"
+					android:id="@+id/linearLayout5" android:layout_height="wrap_content">
+					<TextView android:layout_width="wrap_content" android:id="@+id/textView5"
+						android:layout_height="wrap_content" android:text="@string/qiweng"
+						android:layout_marginLeft="20dip" android:paddingTop="5dip"></TextView>
+					<TextView android:text="-" android:layout_width="wrap_content"
+						android:layout_height="wrap_content" android:id="@+id/qiweng"></TextView>
+				</LinearLayout>
+
+				<LinearLayout android:layout_width="fill_parent"
+					android:id="@+id/linearLayout7" android:layout_height="wrap_content">
+					<TextView android:text="@string/shidu"
+						android:layout_width="wrap_content" android:id="@+id/textView10"
+						android:layout_height="wrap_content" android:layout_marginLeft="20dip"
+						android:paddingTop="5dip"></TextView>
+					<TextView android:text="-" android:layout_width="wrap_content"
+						android:layout_height="wrap_content" android:id="@+id/shidu"></TextView>
+				</LinearLayout>
+				<LinearLayout android:layout_width="fill_parent"
+					android:id="@+id/linearLayout6" android:layout_height="wrap_content">
+					<TextView android:layout_width="wrap_content" android:id="@+id/textView7"
+						android:layout_height="wrap_content" android:text="@string/fengli"
+						android:layout_marginLeft="20dip" android:paddingTop="5dip"></TextView>
+					<TextView android:text="-" android:layout_width="wrap_content"
+						android:layout_height="wrap_content" android:id="@+id/fengli"
+						android:singleLine="true"></TextView>
+				</LinearLayout>
+				<LinearLayout android:layout_width="fill_parent"
+					android:id="@+id/linearLayout7" android:layout_height="wrap_content">
+					<TextView android:layout_width="wrap_content" android:id="@+id/textView10"
+						android:layout_height="wrap_content" android:text="@string/kongqi"
+						android:layout_marginLeft="20dip" android:paddingTop="5dip"></TextView>
+					<TextView android:text="-" android:layout_width="wrap_content"
+						android:layout_height="wrap_content" android:id="@+id/kongqi"></TextView>
+				</LinearLayout>
+				<LinearLayout android:layout_width="fill_parent"
+					android:id="@+id/linearLayout7" android:layout_height="wrap_content">
+					<TextView android:layout_width="wrap_content" android:id="@+id/textView10"
+						android:layout_height="wrap_content" android:text="@string/zhiwai"
+						android:layout_marginLeft="20dip" android:paddingTop="5dip"></TextView>
+					<TextView android:text="-" android:layout_width="wrap_content"
+						android:layout_height="wrap_content" android:id="@+id/zhiwai"></TextView>
+				</LinearLayout>
+			</LinearLayout>
+		</LinearLayout>
+	</LinearLayout>
+
+	<LinearLayout
+	    android:id="@+id/linearLayout8"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginBottom="10dip"
+	    android:layout_marginLeft="10dip"
+	    android:layout_marginRight="10dip"
+	    android:weightSum="1" >
+
+		<LinearLayout
+		    android:id="@+id/content_small_bg1"
+		    android:layout_width="wrap_content"
+		    android:layout_height="200dp"
+		    android:layout_weight="0.33"
+		    android:background="@drawable/content_small_bg"
+		    android:orientation="vertical" >
+
+			<TextView android:text="" android:layout_height="wrap_content"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:id="@+id/tomorrow_date" android:layout_gravity="center_horizontal"
+				android:layout_width="fill_parent" android:gravity="center"></TextView>
+
+			<ImageView
+			    android:id="@+id/tomorrow_image"
+			    android:layout_width="70dp"
+			    android:layout_height="70dp"
+			    android:layout_gravity="center"
+			    android:src="@drawable/na" >
+
+</ImageView>
+			<TextView android:text="" android:layout_height="wrap_content"
+				android:textColor="@color/white"
+				android:id="@+id/tomorrow_tianqi" android:layout_width="fill_parent"
+				android:gravity="center"></TextView>
+			<TextView android:text="" android:layout_height="wrap_content"
+				android:id="@+id/tomorrow_qiweng" android:layout_width="fill_parent"
+				android:gravity="center" android:textColor="@color/white"></TextView>
+		</LinearLayout>
+
+		<LinearLayout
+		    android:id="@+id/content_small_bg2"
+		    android:layout_width="wrap_content"
+		    android:layout_height="200dp"
+		    android:layout_marginLeft="10dip"
+		    android:layout_marginRight="10dip"
+		    android:layout_weight="0.33"
+		    android:background="@drawable/content_small_bg"
+		    android:orientation="vertical" >
+
+			<TextView android:text="" android:layout_height="wrap_content"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_width="fill_parent" android:gravity="center"
+				android:id="@+id/afterday_date"></TextView>
+
+			<ImageView
+			    android:id="@+id/afterday_image"
+			    android:layout_width="70dp"
+			    android:layout_height="70dp"
+			    android:layout_gravity="center"
+			    android:src="@drawable/na" >
+
+</ImageView>
+			<TextView android:text="" android:layout_height="wrap_content"
+				android:textColor="@color/white"
+				android:layout_width="fill_parent" android:gravity="center"
+				android:id="@+id/afterday_tianqi"></TextView>
+			<TextView android:text="" android:layout_height="wrap_content"
+				android:textColor="@color/white"
+				android:layout_width="fill_parent" android:gravity="center"
+				android:id="@+id/afterday_qiweng"></TextView>
+		</LinearLayout>
+
+		<LinearLayout
+		    android:id="@+id/content_small_bg3"
+		    android:layout_width="wrap_content"
+		    android:layout_height="200dp"
+		    android:layout_gravity="center"
+		    android:layout_weight="0.28"
+		    android:background="@drawable/content_small_bg"
+		    android:orientation="vertical" >
+
+			<TextView android:text="" android:layout_height="wrap_content"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_width="fill_parent" android:gravity="center"
+				android:id="@+id/nextday_date"></TextView>
+
+			<ImageView
+			    android:id="@+id/nextday_image"
+			    android:layout_width="70dp"
+			    android:layout_height="70dp"
+			    android:layout_gravity="center"
+			    android:src="@drawable/na" >
+</ImageView>
+			<TextView android:text="" android:layout_height="wrap_content"
+				android:textColor="@color/white"
+				android:layout_width="fill_parent" android:gravity="center"
+				android:id="@+id/nextday_tianqi"></TextView>
+			<TextView android:text="" android:layout_height="wrap_content"
+				android:textColor="@color/white"
+				android:layout_width="fill_parent" android:gravity="center"
+				android:id="@+id/nextday_qiweng"></TextView>
+		</LinearLayout>
+	</LinearLayout>
+
+
+
+</LinearLayout>

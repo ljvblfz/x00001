@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+  
+    <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/v5_0_1_topbar"
+            android:paddingRight="10dp" >
+
+            
+
+
+            <Button
+                android:id="@+id/btnFun"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/v5_0_1_flipper_head_menu" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/lyBack"
+                android:background="@drawable/v5_0_1_flipper_head_separator" />
+
+            <ImageView
+                android:id="@+id/iV"
+                android:layout_width="5dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/btnFun" />
+            
+            
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="10dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/btnBack" />
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/imageView3"
+                android:paddingLeft="10dp"
+                android:text="实时航道"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/white" />
+
+            <RelativeLayout
+                android:id="@+id/lyBack"
+                android:layout_width="47dp"
+                android:layout_height="47dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/btnBack"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/btn_back" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone" >
+            
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		    android:orientation="horizontal"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content">
+			<EditText
+				android:id="@+id/city"
+			    android:layout_width="wrap_content" 
+			    android:layout_height="wrap_content" 
+			    android:text="北京" />
+			<Button android:id="@+id/search"
+		    	android:text="搜索"
+		    	android:layout_width="wrap_content"
+		    	android:layout_height="wrap_content"  />
+			<EditText
+				android:id="@+id/cityid"
+			    android:layout_width="wrap_content" 
+			    android:layout_height="wrap_content" 
+			    android:text="131" />
+			<Button android:id="@+id/scan"
+		    	android:text="扫描离线包"
+		    	android:layout_width="wrap_content"
+		    	android:layout_height="wrap_content"  />
+		</LinearLayout> 
+		  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		    android:orientation="horizontal"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content">
+		    <Button android:id="@+id/start"
+		    	android:text="开始"
+		    	android:layout_width="wrap_content"
+		    	android:layout_height="wrap_content"  />
+			<Button android:text="停止" 
+				android:id="@+id/stop" 
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"  />
+			<Button android:text="删除" 
+				android:id="@+id/del" 
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"  />
+			<Button android:text="查看" 
+				android:id="@+id/get" 
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"  />
+		</LinearLayout>
+		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		    android:orientation="horizontal"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content">
+			<TextView 
+				android:id="@+id/text" 
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"  />
+		</LinearLayout>
+    </LinearLayout>
+    
+ <com.baidu.mapapi.map.MapView android:id="@+id/bmapView"
+	android:layout_width="fill_parent" android:layout_height="fill_parent" 
+	android:clickable="true"     
+/>
+
+</LinearLayout>

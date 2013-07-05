@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="DefaultLocale">
+        <ignore path="src/com/founder/common/control/GetSDTreeActivity.java" />
+    </issue>
+    <issue id="HandlerLeak">
+        <ignore path="src/com/founder/common/control/MyPullDownLayoutView.java" />
+        <ignore path="src/com/founder/enforcer/POIListActivity.java" />
+    </issue>
+    <issue id="NewApi" severity="ignore">
+        <ignore path="src/com/founder/enforcer/POIActivity.java" />
+        <ignore path="src/com/founder/enforcer/ShipInfoActivity.java" />
+        <ignore path="src/com/founder/enforcer/ShipInfoActivity.java" />
+        <ignore path="src/com/founder/enforcer/ShipInfoActivity.java" />
+        <ignore path="src/com/founder/enforcer/ShipInfoActivity.java" />
+    </issue>
+    <issue id="SdCardPath">
+        <ignore path="src/com/founder/common/control/GetSDTreeActivity.java" />
+    </issue>
+    <issue id="ShowToast">
+        <ignore path="src/com/founder/common/module/WeatherActivity.java" />
+    </issue>
+    <issue id="SimpleDateFormat">
+        <ignore path="src/com/founder/common/control/MyPullDownLayoutView.java" />
+        <ignore path="src/com/founder/common/control/TakeVedioActivity.java" />
+        <ignore path="src/com/founder/common/data/FileStoreTools.java" />
+        <ignore path="src/com/founder/enforcer/AccidentInActivity.java" />
+        <ignore path="src/com/founder/enforcer/GetProfActivity.java" />
+    </issue>
+</lint>

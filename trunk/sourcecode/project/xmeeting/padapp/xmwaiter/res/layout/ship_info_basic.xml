@@ -1,0 +1,797 @@
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@android:color/background_light"
+        android:orientation="vertical" >
+
+        
+
+        <ScrollView
+            android:id="@+id/scrollView1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+             >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp" >
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+					
+                     <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="船舶分类："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="中国 "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					 <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="MMSI："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/sNo"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="CDV3432434"
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					 <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="是否注销："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="否 "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					 <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="船舶登记号："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="VFA1232143 "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					 <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="中文船名："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="沪救交1  "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					 <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="英文船名："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="HU JIU JIAO 1 "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					 <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="初次登记号："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="EWR324525 "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					 <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="IMO编号："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="MID1433124 "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					 <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="船舶呼号："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="GH134312 "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					 <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="船检登记号："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="GGT432543254"
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					 <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+					
+						<TextView
+						    android:layout_width="wrap_content"
+						    android:layout_height="wrap_content"
+						    android:paddingBottom="10dp"
+						    android:text="牌簿号："
+						    android:textAppearance="?android:attr/textAppearanceSmall"
+						    android:textColor="@android:color/black" />
+					
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="RSW32434321 "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					 <TableRow
+					      android:layout_width="wrap_content"
+					      android:layout_height="wrap_content"
+					      android:background="@drawable/comm_hachures"
+					      android:padding="0dp"
+					      android:paddingBottom="5dp"
+					      android:paddingTop="5dp" >
+					                                    
+					</TableRow>
+					
+					 <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+					
+						<TextView
+						    android:layout_width="wrap_content"
+						    android:layout_height="wrap_content"
+						    android:paddingTop="10dp"
+						    android:text="海船内河船标志："
+						    android:textAppearance="?android:attr/textAppearanceSmall"
+						    android:textColor="@android:color/black" />
+					
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="内河船 "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					 <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="国籍："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="中国 "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					 <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="航线："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="国内  "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					 <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="航区："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="内河A    "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					 <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="检验机构："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="北京市地方海事局   "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					 <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="船籍港："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="上海  "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					 <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="所属省级海事机构："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="上海  "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					 <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="船舶种类："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="0501_工作船   "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					 <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="建成日期："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="1979-12-01 "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					 <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="总吨："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="123 "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					 <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="净吨："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="22 "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					 <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="总载重吨："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="213"
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					 <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="船舶所有人："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="交通部上海打捞局  "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					 <TableRow
+					     android:layout_width="wrap_content"
+					     android:layout_height="wrap_content"
+					     android:padding="5dp" >
+					
+						<TextView
+						    android:layout_width="wrap_content"
+						    android:layout_height="wrap_content"
+						    android:paddingBottom="10dp"
+						    android:text="船舶经营人："
+						    android:textAppearance="?android:attr/textAppearanceSmall"
+						    android:textColor="@android:color/black" />
+					
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="交通部上海打捞局 "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					  <TableRow
+					      android:layout_width="wrap_content"
+					      android:layout_height="wrap_content"
+					      android:background="@drawable/comm_hachures"
+					      android:padding="0dp"
+					      android:paddingBottom="5dp"
+					      android:paddingTop="5dp" >
+					                                    
+					</TableRow>
+					
+					 <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+					
+						<TextView
+						    android:layout_width="wrap_content"
+						    android:layout_height="wrap_content"
+						    android:paddingTop="10dp"
+						    android:text="主机功率："
+						    android:textAppearance="?android:attr/textAppearanceSmall"
+						    android:textColor="@android:color/black" />
+					
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="345.00千瓦  "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					 <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="主机数量："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="3 "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					 <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="主机种类："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="柴油机 "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					 <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="船舶长度："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="23.54米 "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					 <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="船舶型宽："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="21米 "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					 <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="船舶型深："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="5米 "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					 <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="船体材料："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="钢制 "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					 <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="推进器种类："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="涡轮 "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					 <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="推进器数量："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="20 "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					 <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="箱位："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="TEU "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					 <TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="车位："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="0 "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					<TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="客位："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="5 "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					<TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="夏季满载吃水："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="5米"
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					<TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="最小干舷："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="0米 "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					<TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="定抗风等级："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="8级 "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					<TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="航速："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="60节 "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					<TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="最低安全配员人数："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="5 "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+					
+					<TableRow                 
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="5dp" >
+						<TextView android:textColor="@android:color/black"		
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="救生设备最大人数："
+							android:textAppearance="?android:attr/textAppearanceSmall" />
+						<TextView android:textColor="@android:color/black"
+							android:id="@+id/textView3"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="5 "
+							android:textAppearance="?android:attr/textAppearanceSmall" />                                       
+					</TableRow>
+	                    
+                </TableLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>

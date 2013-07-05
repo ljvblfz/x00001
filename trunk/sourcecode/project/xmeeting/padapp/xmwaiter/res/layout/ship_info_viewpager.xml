@@ -1,0 +1,277 @@
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@android:color/background_light"
+        android:orientation="vertical" >
+        
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/v5_0_1_topbar"
+            android:paddingRight="10dp" >
+
+            
+
+
+            <Button
+                android:id="@+id/btnFun"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/v5_0_1_flipper_head_menu" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/lyBack"
+                android:background="@drawable/v5_0_1_flipper_head_separator" />
+
+            <ImageView
+                android:id="@+id/iV"
+                android:layout_width="5dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/btnFun" />
+            
+            
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="10dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/btnBack" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/imageView3"
+                android:paddingLeft="10dp"
+                android:text="船舶信息"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/white" />
+
+            <RelativeLayout
+                android:id="@+id/lyBack"
+                android:layout_width="47dp"
+                android:layout_height="47dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/btnBack"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/btn_back_arr" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+        
+        <LinearLayout
+	            android:layout_width="match_parent"
+	            android:layout_height="40dp"
+	            android:layout_gravity="center" >
+
+	            <RelativeLayout
+	                android:id="@+id/rl1"
+	                android:layout_width="wrap_content"
+	                android:layout_height="match_parent"
+	                android:layout_gravity="center"
+	                android:layout_weight="1"
+	                android:background="@drawable/secondary_bar_bg" >
+	                
+	                <ImageView
+	                    android:id="@+id/imageView3"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_alignParentRight="true"
+	                    android:layout_centerVertical="true"
+	                    android:src="@drawable/secondary_bar_separator" />
+
+	                <LinearLayout
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_centerHorizontal="true"
+	                    android:layout_centerVertical="true" >
+
+	                    <ImageView
+	                        android:id="@+id/imageView1"
+	                        android:layout_width="12dp"
+	                        android:layout_height="20dp"
+	                        android:src="@drawable/secondary_bar_voice_unselected" />
+	                    
+	                    <TextView
+	                        android:id="@+id/textView2"
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:layout_gravity="center"
+	                        android:paddingLeft="5dp"
+	                        android:text="事故取证"
+	                        android:textAppearance="?android:attr/textAppearanceSmall"
+	                        android:textColor="#415473"
+	                        android:textSize="12sp" />
+	                    
+	                </LinearLayout>
+
+	            </RelativeLayout>
+	            
+	            <RelativeLayout
+	                android:id="@+id/rl2"
+	                android:layout_width="wrap_content"
+	                android:layout_height="match_parent"
+	                android:layout_gravity="center"
+	                android:layout_weight="1"
+	                android:background="@drawable/secondary_bar_bg" >
+	                
+	                <ImageView
+	                    android:id="@+id/imageView3"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_alignParentRight="true"
+	                    android:layout_centerVertical="true"
+	                    android:src="@drawable/secondary_bar_separator" />
+
+	                <LinearLayout
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_centerHorizontal="true"
+	                    android:layout_centerVertical="true" >
+
+	                    <ImageView
+	                        android:id="@+id/imageView1"
+	                        android:layout_width="12dp"
+	                        android:layout_height="20dp"
+	                        android:src="@drawable/secondary_bar_status_unselected" />
+	                    
+	                    <TextView
+	                        android:id="@+id/textView2"
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:layout_gravity="center"
+	                        android:paddingLeft="5dp"
+	                        android:text="船舶安检"
+	                        android:textAppearance="?android:attr/textAppearanceSmall"
+	                        android:textColor="#415473"
+	                        android:textSize="12sp" />
+	                    
+	                </LinearLayout>
+
+	            </RelativeLayout>
+	            
+	            <RelativeLayout
+	                android:id="@+id/rl3"
+	                android:layout_width="wrap_content"
+	                android:layout_height="match_parent"
+	                android:layout_gravity="center"
+	                android:layout_weight="1"
+	                android:background="@drawable/secondary_bar_bg" >
+	                
+	                <ImageView
+	                    android:id="@+id/imageView3"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_alignParentRight="true"
+	                    android:layout_centerVertical="true"
+	                    android:src="@drawable/secondary_bar_separator" />
+
+	                <LinearLayout
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_centerHorizontal="true"
+	                    android:layout_centerVertical="true" >
+
+	                    <ImageView
+	                        android:id="@+id/imageView1"
+	                        android:layout_width="12dp"
+	                        android:layout_height="20dp"
+	                        android:src="@drawable/secondary_bar_photo_unselected" />
+	                    
+	                    <TextView
+	                        android:id="@+id/textView2"
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:layout_gravity="center"
+	                        android:paddingLeft="5dp"
+	                        android:text="行政处罚"
+	                        android:textAppearance="?android:attr/textAppearanceSmall"
+	                        android:textColor="#415473"
+	                        android:textSize="12sp" />
+	                    
+	                </LinearLayout>
+
+	            </RelativeLayout>
+	            
+	            <RelativeLayout
+	                android:id="@+id/rl4"
+	                android:layout_width="wrap_content"
+	                android:layout_height="match_parent"
+	                android:layout_gravity="center"
+	                android:layout_weight="1"
+	                android:background="@drawable/secondary_bar_bg" >
+	                
+	                <ImageView
+	                    android:id="@+id/imageView3"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_alignParentRight="true"
+	                    android:layout_centerVertical="true"
+	                    android:src="@drawable/secondary_bar_separator" />
+
+	                <LinearLayout
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_centerHorizontal="true"
+	                    android:layout_centerVertical="true" >
+	                    <ImageView
+		                    android:id="@+id/imageView1"
+		                    android:layout_width="12dp"
+		                    android:layout_height="18dp"
+		                    android:src="@drawable/secondary_bar_checkin_unselected" />
+	                    
+	                    <TextView
+	                        android:id="@+id/textView2"
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:layout_gravity="center"
+	                        android:paddingLeft="5dp"
+	                        android:text="综合检查"
+	                        android:textAppearance="?android:attr/textAppearanceSmall"
+	                        android:textColor="#415473"
+	                        android:textSize="12sp" />
+	                    
+	                </LinearLayout>
+
+	            </RelativeLayout>
+	            
+            </LinearLayout>
+
+		<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <com.viewpagerindicator.TabPageIndicator
+        android:id="@+id/indicator"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+
+</LinearLayout>
+
+    </LinearLayout>
