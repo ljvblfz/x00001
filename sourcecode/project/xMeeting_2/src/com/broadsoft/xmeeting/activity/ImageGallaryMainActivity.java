@@ -487,6 +487,7 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
 	             imageView.setLayoutParams(new GalleryFlow.LayoutParams(250, 340));
 	             imageView.setScaleType(ScaleType.FIT_XY);
 	             mImageViews[index++] = imageView; 
+//	             bitmapWithReflection.recycle();
 	         }  
 	     }//end of createReflectedImages
 

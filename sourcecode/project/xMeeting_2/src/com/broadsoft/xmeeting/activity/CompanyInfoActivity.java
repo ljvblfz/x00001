@@ -42,10 +42,10 @@ public class CompanyInfoActivity extends TabActivity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.company_activity_main);
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		
 		initTopbarAndBack();
 		initTabHost();
-		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 	
 	}
 	
@@ -164,8 +164,7 @@ public class CompanyInfoActivity extends TabActivity{
 			
 			@Override
 			public void onClick(View v) {
-				finish();
-				//overridePendingTransition(R.anim.zoom_enter,android.R.anim.fade_out);
+				finish(); 
 			}
 		});
 	}

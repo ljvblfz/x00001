@@ -66,7 +66,7 @@
     <string name="zhiwai">紫外线强度：</string>
     <string name="city_str">城</string>
     <string name="xiaotieshi">今日小贴士今日小贴士今日小贴士今日小贴士今日小贴士</string>
-      <style name="ThemeActivity" mce_bogus="1">
+    <style name="ThemeActivity" mce_bogus="1">
 		<item name="android:windowAnimationStyle">@style/AnimationActivity</item>
 		<item name="android:windowNoTitle">true</item>
 	</style>

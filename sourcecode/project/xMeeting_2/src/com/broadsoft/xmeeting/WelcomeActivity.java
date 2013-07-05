@@ -1,21 +1,11 @@
 package com.broadsoft.xmeeting;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
-
-import com.broadsoft.common.BaseActivity;
-
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
 
 /**
  * http://blog.csdn.net/Class_Raito/article/details/3390737

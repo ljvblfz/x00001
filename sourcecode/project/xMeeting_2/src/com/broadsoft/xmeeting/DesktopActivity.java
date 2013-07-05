@@ -15,7 +15,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -36,6 +35,7 @@ import com.broadsoft.xmeeting.activity.CompanyInfoActivity;
 import com.broadsoft.xmeeting.activity.DocumentsListActivity;
 import com.broadsoft.xmeeting.activity.ImageGallaryMainActivity;
 import com.broadsoft.xmeeting.activity.MeetingGuideCatalogActivity;
+import com.broadsoft.xmeeting.activity.NotificationListActivity;
 import com.broadsoft.xmeeting.activity.SysSettingActivity;
 import com.broadsoft.xmeeting.activity.VideosListActivity;
 import com.nmbb.oplayer.OPlayerApplication;
@@ -224,6 +224,15 @@ public class DesktopActivity extends Activity {
 				startActivity("7");
 			}
 		});
+		//8
+		( (com.broadsoft.common.MyImageView) this.findViewById(R.id.btnMessage) ).setOnClickListener(new MyImageView.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				startActivity("8");
+			}
+		});
 		
 	}
 
@@ -295,6 +304,8 @@ public class DesktopActivity extends Activity {
 				break;
 			case 7:
 				intent.setClass(act, SysSettingActivity.class);// 指定了跳转前的Activity和跳转后的Activity
+			case 8:
+				intent.setClass(act, NotificationListActivity.class);// 指定了跳转前的Activity和跳转后的Activity
 			}
 
 			startActivity(intent);// 以传递参数的方式跳转到下一个Activity

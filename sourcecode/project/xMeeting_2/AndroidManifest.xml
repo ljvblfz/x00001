@@ -140,6 +140,7 @@
             android:name="com.broadsoft.xmeeting.activity.MessageServiceChatActivity"
             android:label="@string/app_name"
             android:screenOrientation="landscape" />
+        <activity android:name="com.broadsoft.xmeeting.activity.NotificationListActivity" android:label="@string/app_name" android:screenOrientation="landscape" />
         <activity
             android:name="com.broadsoft.common.DialogActivity"
             android:label="@string/app_name"
