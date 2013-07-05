@@ -1,10 +1,10 @@
-package com.xmeeting;
-
-import com.founder.enforcer.R;
+package com.broadsoft.xmeeting.xmwaiter;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.WindowManager;
+
+import com.broadsoft.waiter.R;
 
 public class ChatListActivity extends Activity{
 	

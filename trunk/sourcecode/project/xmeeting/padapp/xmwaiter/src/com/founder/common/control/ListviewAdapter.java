@@ -2,14 +2,14 @@ package com.founder.common.control;
 
 import java.util.ArrayList;
 
-import com.founder.enforcer.R;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.broadsoft.waiter.R;
 
 public class ListviewAdapter extends BaseAdapter {
 	private Context context;

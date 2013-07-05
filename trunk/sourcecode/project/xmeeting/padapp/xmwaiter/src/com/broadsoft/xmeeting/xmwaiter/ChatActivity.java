@@ -1,10 +1,8 @@
-package com.xmeeting;
+package com.broadsoft.xmeeting.xmwaiter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
-import com.founder.enforcer.R;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -14,6 +12,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+
+import com.broadsoft.waiter.R;
 
 
 public class ChatActivity extends Activity implements OnClickListener{

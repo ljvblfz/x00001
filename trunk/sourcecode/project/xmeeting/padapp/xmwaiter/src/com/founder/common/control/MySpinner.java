@@ -2,16 +2,16 @@ package com.founder.common.control;
 
 import java.util.ArrayList;
 
-import com.founder.enforcer.R;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.AdapterView.OnItemClickListener;
+
+import com.broadsoft.waiter.R;
 
 public class MySpinner extends Spinner implements OnItemClickListener {
 

@@ -7,11 +7,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.founder.enforcer.R;
-
 import android.app.Activity;
 import android.content.Intent;
-
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
@@ -34,6 +31,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.broadsoft.waiter.R;
 
 
 public class TakeVedioActivity extends Activity {

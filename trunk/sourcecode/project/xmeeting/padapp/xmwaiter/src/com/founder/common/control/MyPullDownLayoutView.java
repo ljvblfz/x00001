@@ -5,8 +5,6 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.founder.enforcer.R;
-
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -20,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.broadsoft.waiter.R;
 
 /**
  * 下拉刷新控件</br>

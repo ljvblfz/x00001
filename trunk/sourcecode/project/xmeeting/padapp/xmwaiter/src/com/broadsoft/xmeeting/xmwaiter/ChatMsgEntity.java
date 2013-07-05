@@ -1,5 +1,5 @@
 
-package com.xmeeting;
+package com.broadsoft.xmeeting.xmwaiter;
 
 public class ChatMsgEntity {
     @SuppressWarnings("unused")

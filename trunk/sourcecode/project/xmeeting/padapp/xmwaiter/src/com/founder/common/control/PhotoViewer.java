@@ -1,9 +1,6 @@
 package com.founder.common.control;
 
 
-import com.founder.common.data.BitmapLoader;
-import com.founder.enforcer.R;
-
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -11,6 +8,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+
+import com.broadsoft.waiter.R;
+import com.founder.common.data.BitmapLoader;
 
 
 public class PhotoViewer extends Activity{
