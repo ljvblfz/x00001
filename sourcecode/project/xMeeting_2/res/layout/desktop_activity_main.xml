@@ -477,39 +477,38 @@
 	                        android:layout_height="110dp"
 	                        android:src="@drawable/a" />
                         
-                    <com.broadsoft.common.MyImageView
-                        android:id="@+id/btnSetting"
-                        android:layout_width="110dp"
-                        android:layout_height="110dp"
-                        android:scaleType="matrix" 
-                        android:visibility="invisible" 
-                        android:src="@drawable/d_setting" />
+	                    <com.broadsoft.common.MyImageView
+	                        android:id="@+id/btnMessage"
+	                        android:layout_width="110dp"
+	                        android:layout_height="110dp"
+	                        android:scaleType="matrix"
+	                        android:src="@drawable/s_message" />
                     
 	                    <com.broadsoft.common.MyImageView
 	                        android:layout_width="16dp"
 	                        android:layout_height="110dp"
 	                        android:src="@drawable/a" />
 
-                    <com.broadsoft.common.MyImageView
-                        android:id="@+id/desktop_btnnavcallservice"
-                        android:layout_width="110dp"
-                        android:layout_height="110dp"
-                        android:scaleType="matrix"
-                        android:src="@drawable/d_message"
-                        android:visibility="invisible" />
+                    	<com.broadsoft.common.MyImageView
+	                        android:id="@+id/btnSetting"
+	                        android:layout_width="110dp"
+	                        android:layout_height="110dp"
+	                        android:scaleType="matrix" 
+	                        android:visibility="invisible" 
+	                        android:src="@drawable/d_setting" />
                     	
 	                    <com.broadsoft.common.MyImageView
 	                        android:layout_width="16dp"
 	                        android:layout_height="110dp"
 	                        android:src="@drawable/a" />
 
-                    <com.broadsoft.common.MyImageView
-                        android:id="@+id/desktop_btnnavdocument"
-                        android:layout_width="110dp"
-                        android:layout_height="110dp"
-                        android:scaleType="matrix"
-                        android:src="@drawable/d_vedio"
-                        android:visibility="invisible" />
+	                    <com.broadsoft.common.MyImageView
+	                        android:id="@+id/desktop_btnnavdocument"
+	                        android:layout_width="110dp"
+	                        android:layout_height="110dp"
+	                        android:scaleType="matrix"
+	                        android:src="@drawable/d_vedio"
+	                        android:visibility="invisible" />
                     
 	                    <com.broadsoft.common.MyImageView
 		                        android:layout_width="16dp"
