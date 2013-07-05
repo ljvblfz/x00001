@@ -1,12 +1,15 @@
 package com.broadsoft.xmdownload;
  
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -25,7 +28,8 @@ import com.broadsoft.xmdownload.wsservice.WsDownloadServiceSupport;
 public class DownloadActivity extends Activity {
 	private static final String TAG="MainActivity"; 
 
-	
+
+	private static int REQUEST_CODE = 2; 
 	 
 	private ToggleButton  toggleBtnDownload ;
 	
@@ -62,26 +66,23 @@ public class DownloadActivity extends Activity {
             }  //end of onClick
         });     
 		
+		Button btnEntryActivateMeeting =(Button)findViewById(R.id.btnEntryActivateMeeting);
+		btnEntryActivateMeeting.setOnClickListener(new OnClickListener() {      
+            public void onClick(View v) {       
+            	//TODO:fixme
+        		Intent intent = new Intent();
+//        		intent.setClass(DownloadActivity.this, LoginActivity.class); 
+        		intent.setData(Uri.parse("one")); 
+        		startActivityForResult(intent, REQUEST_CODE);// 以传递参数的方式跳转到下一个Activity 
+            }   
+        });    
 		Log.d(TAG, "onCreate end");
 		
-	}//end of onCreate 
-
-
-
-	
-	
+	}//end of onCreate  
 	
 
 	@Override
-	protected void onDestroy(){
-		Log.d(TAG, "onDestroy begin");
-		super.onDestroy();
-//		AppInitSupport.destroyApp(this.getApplicationContext(),this.getAssets());
-//		try {
-//			Thread.sleep(10*1000);
-//		} catch (InterruptedException e) { 
-//			e.printStackTrace();
-//		}
-		Log.d(TAG, "onDestroy end");
+	protected void onDestroy(){ 
+		super.onDestroy();  
 	}
 }//end of MainActivity

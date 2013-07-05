@@ -50,7 +50,25 @@ public class RsServiceOnMeetingInfoSupport {
 	}//end of download
 	
 	
- 
+	public static void downloadWithoutFile(String meetingId){
+		Log.d(TAG, String.format("download begin, meetingId:  %s", meetingId));
+		// 
+		String serveriport=DomAppConfigFactory.getAppConfig().getServeripport();
+		String[] arguments={serveriport,meetingId};
+		String[] arguments2={serveriport};
+		
+		String rspathMeetingInfoResult = MessageFormat.format(rspathMeetingInfo,arguments);
+		String rspathMeetingPersonnelResult = MessageFormat.format(rspathMeetingPersonnel,arguments);
+		String rspathDownloadStatusSaveResult = MessageFormat.format(rspathDownloadStatusSave,arguments2);
+		Log.d(TAG, "rspathMeetingInfoResult is : "+rspathMeetingInfoResult);
+		Log.d(TAG, "rspathMeetingPersonnelResult  is : "+rspathMeetingPersonnelResult);
+		Log.d(TAG, "rspathMeetingPersonnelResult  is : "+rspathDownloadStatusSaveResult);
+		
+		Thread thread=new Thread(new DownloadMeetingInfoRunnable(false,meetingId,rspathMeetingInfoResult,rspathMeetingPersonnelResult,rspathDownloadStatusSaveResult));
+		thread.start();
+		
+		Log.d(TAG, "download end"); 
+	}//end of download
 	
 	
 
@@ -67,6 +85,7 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 	private String rspathMeetingPersonnelResult;
 	private String rspathDownloadStatusSaveResult;
 	private String meetingId;
+	private boolean isFileRequired=false;
 	
 	private JSONObject jsonDownloadStatus;
 	public DownloadMeetingInfoRunnable(String meetingId,String rspathMeetingInfoResult,String rspathMeetingPersonnelResult,String rspathDownloadStatusSaveResult){
@@ -74,6 +93,16 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 		this.rspathMeetingInfoResult=rspathMeetingInfoResult;
 		this.rspathMeetingPersonnelResult=rspathMeetingPersonnelResult; 
 		this.rspathDownloadStatusSaveResult=rspathDownloadStatusSaveResult;
+		this.isFileRequired=true;//下载带文件
+		jsonDownloadStatus=new JSONObject(); 
+	}
+	
+	public DownloadMeetingInfoRunnable(boolean isFileRequired,String meetingId,String rspathMeetingInfoResult,String rspathMeetingPersonnelResult,String rspathDownloadStatusSaveResult){
+		this.meetingId=meetingId;
+		this.rspathMeetingInfoResult=rspathMeetingInfoResult;
+		this.rspathMeetingPersonnelResult=rspathMeetingPersonnelResult; 
+		this.rspathDownloadStatusSaveResult=rspathDownloadStatusSaveResult;
+		this.isFileRequired=isFileRequired;
 		jsonDownloadStatus=new JSONObject(); 
 	}
 
@@ -82,37 +111,40 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 	@Override
 	public void run() {  
 		Log.d(TAG, "[run]begin.");
- 
-		DownloadUIHandler.getInstance().sendDownloadMeetingMessageOnBegin();
+
+		if(isFileRequired){
+			DownloadUIHandler.getInstance().sendDownloadMeetingMessageOnBegin();
+		}
 		
 		
 		try {
 			JSONObject jsonMeetingInfo=HttpRestSupport.getByHttpClientWithGzip(rspathMeetingInfoResult); 
 			JSONObject jsonMeetingPersonnel=HttpRestSupport.getByHttpClientWithGzip(rspathMeetingPersonnelResult); 
-			//更新数据库
-			
+			//更新数据库  
 			JSONObject jsonDataMeetingInfo=jsonMeetingInfo.getJSONObject("jsonData");
 			JSONObject jsonDataPersonnelInfo=jsonMeetingPersonnel.getJSONObject("jsonData");
 			Log.d(TAG, "[run]jsonDataMeetingInfo--->"+jsonDataMeetingInfo);
 			Log.d(TAG, "[run]jsonDataPersonnelInfo--->"+jsonDataPersonnelInfo);
 			DownloadInfoEntity downloadInfoEntityParam=this.createDownloadInfoEntity(jsonDataMeetingInfo,jsonDataPersonnelInfo );
-			downloadInfoEntityParam.setStatus("0");
+//			downloadInfoEntityParam.setStatus("0");
 			this.saveDBForDownloadInfo(downloadInfoEntityParam); 
 			//下载文件
-			long begintime=System.currentTimeMillis();
-			cleanFileForDownloadInfo(jsonDataMeetingInfo);
-			saveFileForDownloadInfo(jsonDataMeetingInfo); 
-			long endtime=System.currentTimeMillis();
-			Log.d(TAG, "[run]download elapsed time is : "+(endtime-begintime)/1000  +" s");
+			if(isFileRequired){
+				long begintime=System.currentTimeMillis();
+				cleanFileForDownloadInfo(jsonDataMeetingInfo);
+				saveFileForDownloadInfo(jsonDataMeetingInfo); 
+				long endtime=System.currentTimeMillis();
+				Log.d(TAG, "[run]download elapsed time is : "+(endtime-begintime)/1000  +" s");
+			}//end of if
 			//更新下载状态
 			postMeetingInfoDownloadStatus();
 		} catch (Exception e) { 
 			e.printStackTrace();
-			Log.d(TAG, "[run]Raise the error is : "+e.getMessage());
-			
-			
+			Log.d(TAG, "[run]Raise the error is : "+e.getMessage()); 
+		} 
+		if(isFileRequired){
+			DownloadUIHandler.getInstance().sendDownloadMeetingMessageOnEnd();
 		}
-		DownloadUIHandler.getInstance().sendDownloadMeetingMessageOnEnd();
 		Log.d(TAG, "[run]end.");
 	}
 
@@ -174,9 +206,11 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 	public void saveDBForDownloadInfo(DownloadInfoEntity downloadInfoEntityParam){
 		DownloadInfoEntity downloadInfoEntity=DaoHolder.getInstance().getDownloadInfoDao().findByMeetingId(meetingId);
 		if(null==downloadInfoEntity){//insert
+			downloadInfoEntityParam.setStatus("0");
 			DaoHolder.getInstance().getDownloadInfoDao().add(downloadInfoEntityParam);
 		}else{//update
 			downloadInfoEntityParam.setGuid(downloadInfoEntity.getGuid());
+			downloadInfoEntityParam.setStatus(downloadInfoEntity.getStatus());
 			DaoHolder.getInstance().getDownloadInfoDao().update(downloadInfoEntityParam);
 		}
 	}

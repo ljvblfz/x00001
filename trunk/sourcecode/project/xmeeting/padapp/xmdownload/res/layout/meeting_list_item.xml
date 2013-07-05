@@ -65,12 +65,12 @@
         android:text="" 
         android:visibility="invisible" />
 
-    <Button
-        android:id="@+id/btnEntry"
-        android:layout_width="100dip"
-        android:layout_height="50dip"
-        android:gravity="center"
-        android:text="进入"
-        android:textSize="20dip" />
+<!--     <Button -->
+<!--         android:id="@+id/btnEntry" -->
+<!--         android:layout_width="100dip" -->
+<!--         android:layout_height="50dip" -->
+<!--         android:gravity="center" -->
+<!--         android:text="进入" -->
+<!--         android:textSize="20dip" /> -->
 
 </LinearLayout>
