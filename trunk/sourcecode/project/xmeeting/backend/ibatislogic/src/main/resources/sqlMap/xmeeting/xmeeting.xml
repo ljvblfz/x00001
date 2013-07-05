@@ -110,8 +110,33 @@
 	</select>
 	
 	
-	
-	
+		<select id="findServicePersonnelByDeviceId" parameterClass="java.util.HashMap"  resultClass="com.broadsoft.xmeeting.xmeeting.meeting.vo.ServicePersonnelPadIVO">
+	    <![CDATA[
+			    
+					select 	a.xmmi_guid xmmiGuid,xmmi_name  xmmiName ,d.xmpd_guid  xmpdGuid,d.XMPD_DEVICE_ID  xmpdDeviceId,b.xmpi_name  xmpiName
+
+					from 	xm_meeting_info a ,XM_PERSONNEL_INFO b,XM_MEETING_SERVICE_PERSONNEL c,xm_pad_device d
+					
+					where  
+							    1=1
+							and a.xmmi_guid=c.xmmi_guid
+							and c.xmpi_guid=b.xmpi_guid
+							and c.xmpd_guid=d.xmpd_guid
+							and
+							  (     to_char(a.XMMI_BEGIN_DATE ,'yyyy-mm-dd')  =to_char(sysdate ,'yyyy-mm-dd')
+							    or  to_char(a.XMMI_END_DATE ,'yyyy-mm-dd') =to_char(sysdate ,'yyyy-mm-dd') 
+							    or  sysdate between a.XMMI_BEGIN_DATE and a.XMMI_END_DATE    
+							  )
+							and a.del_flag=0
+				
+		]]> 	
+		<isNotEmpty prepend="and" property="xmpdDeviceId"> 
+		     		 <![CDATA[d.XMPD_DEVICE_ID= #xmpdDeviceId# ]]>
+		</isNotEmpty>	 
+		
+<!-- 	and d.XMPD_DEVICE_ID='ca874f60be4a72a8' -->
+ 
+	</select> 
 
 </sqlMap>
 
