@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/bg0_fine_day"
+    android:gravity="top|center_horizontal"
+    android:orientation="vertical" >
+    
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/v5_0_1_topbar"
+        android:paddingRight="10dp" >
+
+        <Button
+            android:id="@+id/btnFun"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/v5_0_1_flipper_head_menu" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/lyBack"
+            android:background="@drawable/v5_0_1_flipper_head_separator" />
+
+        <ImageView
+            android:id="@+id/iV"
+            android:layout_width="5dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/btnFun" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="10dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/btnBack" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/imageView3"
+            android:paddingLeft="10dp"
+            android:text="天气预报"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/white" />
+
+        <RelativeLayout
+            android:id="@+id/lyBack"
+            android:layout_width="47dp"
+            android:layout_height="47dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btnBack"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/btn_back_arr" />
+        </RelativeLayout>
+    </RelativeLayout>
+    
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/comm_bg_title"
+            android:gravity="center" 
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" >
+
+
+                <Button
+                    android:id="@+id/btnReturn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/comm_btn_back_s"
+                    android:paddingRight="30dp" />
+
+
+				
+				<Button
+				    android:layout_width="23dp"
+				    android:layout_height="wrap_content"
+				    android:layout_gravity="center"
+				    android:background="@drawable/comm_btn_back_s"
+				    android:paddingRight="30dp" 
+				    android:visibility="invisible" />
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="苏州天气预报"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#ffffff"
+                    android:textSize="20dp" />
+
+				<Button
+				    android:layout_width="24dp"
+				    android:layout_height="wrap_content"
+				    android:layout_gravity="center"
+				    android:background="@drawable/comm_btn_back_s"
+				    android:paddingRight="30dp"
+				    android:visibility="invisible" />
+
+                <Button
+                    android:id="@+id/city_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/btn_map_press_bg" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+	<RelativeLayout
+	    android:id="@+id/linearLayout1"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:background="@drawable/comm_bg_title"
+	    android:visibility="gone" >
+
+		<TextView android:textAppearance="?android:attr/textAppearanceMedium"
+			android:id="@+id/textView1" android:layout_height="wrap_content"
+			android:layout_width="wrap_content" android:layout_gravity="center_vertical"
+			android:text="@string/title" android:layout_marginLeft="10dip"
+			android:layout_centerVertical="true"></TextView>
+		<Button  android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:textSize="18px"
+			android:text="@string/city_str" android:textColor="@color/white"
+			android:background="@drawable/menu_top_bt"
+			android:layout_alignParentTop="true" android:layout_alignParentRight="true"
+			android:layout_centerVertical="true" android:layout_marginRight="10dip"></Button>
+		<TextView android:text="TextView" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:id="@+id/city"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:layout_alignParentTop="true" android:layout_toLeftOf="@+id/city_button"
+			android:layout_centerVertical="true" android:layout_marginRight="10dip"></TextView>
+	</RelativeLayout>
+	
+	<LinearLayout android:layout_width="fill_parent"
+		android:id="@+id/linearLayout2" android:orientation="vertical"
+		android:layout_height="fill_parent">
+
+		<include
+		    android:id="@+id/content"
+		    android:layout_height="fill_parent"
+		    layout="@layout/weather_content_layout" />
+
+	</LinearLayout>
+</LinearLayout>

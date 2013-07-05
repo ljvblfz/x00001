@@ -1,0 +1,631 @@
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@android:color/background_light"
+        android:orientation="vertical" >
+        
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/v5_0_1_topbar"
+            android:paddingRight="10dp" >
+
+            
+
+
+            <Button
+                android:id="@+id/btnFun"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/v5_0_1_flipper_head_menu" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/lyBack"
+                android:background="@drawable/v5_0_1_flipper_head_separator" />
+
+            <ImageView
+                android:id="@+id/iV"
+                android:layout_width="5dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/btnFun" />
+            
+            
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="10dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/btnBack" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/imageView3"
+                android:paddingLeft="10dp"
+                android:text="新建事故取证"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/white" />
+
+            <RelativeLayout
+                android:id="@+id/lyBack"
+                android:layout_width="47dp"
+                android:layout_height="47dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/btnBack"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/btn_back" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/lyUploading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingRight="20dp" >
+
+                    <TextView
+                        android:id="@+id/tvTaskCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_below="@+id/textView3"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="11dp"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="40dp"
+                        android:paddingTop="10dp"
+                        android:text="队列中有 0 项任务正在上传..."
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#000000" />
+                    
+                    <Button
+                        android:id="@+id/button3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="13dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/comm_arrow_nor"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:visibility="visible" />
+
+                </RelativeLayout>
+                
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/announcement_line" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/LySDCardMiss"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" 
+            android:visibility="gone">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingRight="20dp" >
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_below="@+id/textView3"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="11dp"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="40dp"
+                        android:paddingTop="10dp"
+                        android:text="找不到SD卡 无法存储和上传照片和视频"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#000000" />
+                    
+
+                    <Button
+                        android:id="@+id/button3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/weibosdk_icon_delwords"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:visibility="invisible" />
+
+                </RelativeLayout>
+                
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/announcement_line" />
+
+        </LinearLayout>
+        
+        <ScrollView
+            android:id="@+id/scrollView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/weibosdk_image_background"
+                    android:orientation="vertical"
+                    android:padding="10dp" >
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="5dp"
+                        android:text="船舶基本信息"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@android:color/black" />
+
+                    <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp" >
+
+                <EditText
+                    android:id="@+id/etNo"
+                    android:layout_width="204dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.74"
+                    android:background="@drawable/weibosdk_image_background"
+                    android:ems="10"
+                    android:hint="中文船名"
+                    android:paddingLeft="10dp"
+                    android:textAppearance="?android:attr/textAppearanceSmall" >
+
+                    <requestFocus />
+                </EditText>
+
+                <Button
+                    android:id="@+id/button3"
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/titlebar_right_button"
+                    android:text="选择"
+                    android:visibility="invisible" />
+
+                <Button
+                    android:id="@+id/btnRead"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:text="读卡"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+            </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" >
+                </LinearLayout>
+
+                <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/weibosdk_image_background"
+                android:orientation="vertical"
+                android:padding="10dp" >
+                
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="5dp"
+                    android:text="事故照片"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@android:color/black" />
+            
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp" >
+
+                    <EditText
+                        android:id="@+id/editText1"
+                        android:layout_width="204dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.74"
+                        android:background="@drawable/weibosdk_image_background"
+                        android:ems="10"
+                        android:hint="发布单位"
+                        android:paddingLeft="10dp"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <Button
+                    android:id="@+id/button3"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:text="选择"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+                
+                <EditText
+                    android:id="@+id/etTime"
+                    android:layout_width="204dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.74"
+                    android:background="@drawable/weibosdk_image_background"
+                    android:ems="10"
+                    android:hint="检查日期"
+                    android:paddingLeft="10dp"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <Button
+                    android:id="@+id/btnTime"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:text="选择"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+            </LinearLayout>
+            
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="3"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:paddingTop="5dp" >
+                
+                    <com.founder.common.control.MySpinner
+                        android:id="@+id/spType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2.56" />
+                    
+                    <Button
+                    android:id="@+id/button3"
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/titlebar_right_button"
+                    android:text="选择"
+                    android:visibility="invisible" />
+
+                    <EditText
+                        android:id="@+id/editText1"
+                        android:layout_width="204dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.74"
+                        android:background="@drawable/weibosdk_image_background"
+                        android:ems="10"
+                        android:hint="联系电话"
+                        android:paddingLeft="10dp"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                        
+                    
+
+                    
+
+                </LinearLayout>
+                
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp" >
+
+                    <EditText
+                        android:id="@+id/etDes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/weibosdk_image_background"
+                        android:ems="10"
+                        android:hint="事故概况"
+                        android:paddingLeft="10dp"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+           
+            </LinearLayout>
+            
+                 <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp" >
+
+                    <EditText
+                        android:id="@+id/editText1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/weibosdk_image_background"
+                        android:ems="10"
+                        android:hint="事故自责任认定情况"
+                        android:paddingLeft="10dp"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+           
+            </LinearLayout>
+            
+                  <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp" >
+
+                    <EditText
+                        android:id="@+id/editText1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/weibosdk_image_background"
+                        android:ems="10"
+                        android:hint="当事人处理情况"
+                        android:paddingLeft="10dp"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+           
+            </LinearLayout>
+                
+                
+            </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" >
+                </LinearLayout>
+
+                <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/weibosdk_image_background"
+                android:orientation="vertical"
+                android:padding="5dp" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="10dp"
+                        android:text="已添加照片 "
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/tvPhotoCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="10dp"
+                        android:text="0"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="10dp"
+                        android:text=" 张"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#000000" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:padding="5dp" >
+
+                    <Button
+                        android:id="@+id/btnTakePhoto"
+                        android:layout_width="60dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:text="拍照"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                    <Button
+                        android:id="@+id/btnGetPhoto"
+                        android:layout_width="60dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:text="选择"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                </LinearLayout>
+
+                
+
+                <ListView
+                    android:id="@+id/lvPhoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" 
+                    android:divider="@drawable/comm_select_list_line">
+                </ListView>
+
+            </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" >
+                </LinearLayout>
+                
+                <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/weibosdk_image_background"
+                android:orientation="vertical"
+                android:padding="5dp" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="10dp"
+                        android:text="已添加视频 "
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/tvVedioCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="10dp"
+                        android:text="0"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="10dp"
+                        android:text=" 段"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#000000" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:padding="5dp" >
+
+                    <Button
+                        android:id="@+id/btnTakeVedio"
+                        android:layout_width="60dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:text="拍摄"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                    <Button
+                        android:id="@+id/btnGetVedio"
+                        android:layout_width="60dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:text="选择"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                </LinearLayout>
+
+                <ListView
+                    android:id="@+id/lvVedio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" 
+                    android:divider="@drawable/comm_select_list_line">
+                </ListView>
+                
+               
+            </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" >
+                </LinearLayout>
+
+                <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="20dp" >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <Button
+                        android:id="@+id/btnUpLoad"
+                        android:layout_width="101dp"
+                        android:layout_height="wrap_content"
+                        android:text="提交" />
+                    
+                    <Button
+                        android:id="@+id/btnSave"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="保存" />
+
+                    <Button
+                        android:id="@+id/btnCrash"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="丢弃" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
