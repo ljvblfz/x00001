@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import com.founder.enforcer.R;
-
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -30,6 +27,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.broadsoft.waiter.R;
 
 public class GetSDTreeActivity extends Activity {
 	//¸ùÄ¿Â¼

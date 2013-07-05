@@ -1,13 +1,9 @@
-package com.xmeeting;
+package com.broadsoft.xmeeting.xmwaiter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.founder.common.data.AsyncBitmapLoader;
-import com.founder.enforcer.R;
-
 
 import android.app.Activity;
 import android.content.Context;
@@ -24,15 +20,15 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.broadsoft.waiter.R;
+import com.founder.common.data.AsyncBitmapLoader;
 public class WaiterMainActivity extends Activity {
     /** Called when the activity is first created. */
 	private ViewPager viewPager;//Ò³¿¨ÄÚÈÝ   

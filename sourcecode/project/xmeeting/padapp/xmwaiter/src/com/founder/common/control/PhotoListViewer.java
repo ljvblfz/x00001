@@ -2,9 +2,6 @@ package com.founder.common.control;
 
 import java.util.ArrayList;
 
-import com.founder.common.data.BitmapLoader;
-import com.founder.enforcer.R;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -16,6 +13,9 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
+
+import com.broadsoft.waiter.R;
+import com.founder.common.data.BitmapLoader;
 
 
 public class PhotoListViewer extends Activity{

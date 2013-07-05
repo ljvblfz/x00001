@@ -1,12 +1,12 @@
 package com.founder.common.control;
 
-import com.founder.enforcer.R;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TabHost;
+
+import com.broadsoft.waiter.R;
 
 
 /** 继承 TabHost 组件，带有切入切出的滑动动画效果。 */

@@ -1,14 +1,14 @@
 package com.founder.common.control;
 
-import com.founder.enforcer.R;
+import android.app.Activity;
+import android.net.Uri;
+import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.MediaController;
+import android.widget.VideoView;
 
-import android.app.Activity; 
-import android.net.Uri; 
-import android.os.Bundle; 
-import android.view.Window; 
-import android.view.WindowManager; 
-import android.widget.MediaController; 
-import android.widget.VideoView; 
+import com.broadsoft.waiter.R;
 
 public class VedioViewer extends Activity { 
 

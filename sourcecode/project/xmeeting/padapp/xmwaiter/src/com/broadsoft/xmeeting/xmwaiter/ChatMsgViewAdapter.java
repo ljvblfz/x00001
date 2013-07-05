@@ -1,18 +1,16 @@
 
-package com.xmeeting;
-
-import android.content.Context;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import android.widget.BaseAdapter;
-import android.widget.TextView;
+package com.broadsoft.xmeeting.xmwaiter;
 
 import java.util.List;
 
-import com.founder.enforcer.R;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.TextView;
+
+import com.broadsoft.waiter.R;
 
 public class ChatMsgViewAdapter extends BaseAdapter {
 	
