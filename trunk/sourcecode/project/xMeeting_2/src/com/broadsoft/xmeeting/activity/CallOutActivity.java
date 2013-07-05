@@ -28,23 +28,23 @@ public class CallOutActivity extends Activity {
 	private final static String TAG="CallOutActivity";
 	
 	//private MyDialog dialog;
-	private LinearLayout layout;
-	private Activity act = this;
+//	private LinearLayout layout;
+//	private Activity act = this;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.call_out);
-		//dialog=new MyDialog(this);
-		layout=(LinearLayout)findViewById(R.id.exit_layout2);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-		layout.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+		//dialog=new MyDialog(this);
+//		layout=(LinearLayout)findViewById(R.id.exit_layout2);
+//		layout.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//		});
 		initButton();
 		
 //		new Thread(notifyRunnable).start();
@@ -157,11 +157,11 @@ public class CallOutActivity extends Activity {
 		return true;
 	}
 	
-	public void exitbutton1(View v) {  
-    	this.finish();    	
-      }  
-	public void exitbutton0(View v) {  
-    	this.finish();
-      }  
+//	public void exitbutton1(View v) {  
+//    	this.finish();    	
+//      }  
+//	public void exitbutton0(View v) {  
+//    	this.finish();
+//      }  
 	
 }

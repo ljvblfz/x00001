@@ -34,8 +34,8 @@ public class NotifyUIHandler extends Handler {
 		try {
 			JSONObject jo = new JSONObject(payload);
 			String msgtype = jo.getString("msgtype");
-			String msgcontent = jo.getString("msgcontent");
 			if ("01".equals(msgtype)) {
+				String msgcontent = jo.getString("msgcontent");
 				messageList.add(msgcontent);
 				showDialog(msgcontent);
 //				showDialog2(msgcontent);
