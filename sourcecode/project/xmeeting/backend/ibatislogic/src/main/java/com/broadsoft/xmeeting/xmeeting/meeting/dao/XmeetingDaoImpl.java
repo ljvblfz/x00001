@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import com.broadsoft.xmeeting.xmeeting.meeting.vo.ServicePersonnelPadIVO;
 import com.broadsoft.xmeeting.xmeeting.meeting.vo.XmMeetingInfoIVO;
 import com.broadsoft.xmeeting.xmeeting.meeting.vo.XmMeetingPadIVO;
 import com.broadsoft.xmeeting.xmeeting.meeting.vo.XmMeetingPersonnelSeatPadIVO;
@@ -85,5 +86,22 @@ public class XmeetingDaoImpl extends BaseIDao {
 		
 		return this.queryPageAuto(pageRequest, map,"xmeeting.xmeeting.findPadInfoByMeetingID");
 	}
+	
+	
+	/**
+	 * 
+	 * @param pageRequest
+	 * @param map
+	 * @return
+	 */
+	public PageResponse<ServicePersonnelPadIVO> findServicePersonnelByDeviceId(PageRequest pageRequest, Map<String, String> map) { 
+		
+		if(logger.isTraceEnabled()){ 
+			logger.trace("The value of[xmpdDeviceId] is  {}.",map.get("xmpdDeviceId"));
+		}
+		
+		return this.queryPageAuto(pageRequest, map,"xmeeting.xmeeting.findServicePersonnelByDeviceId");
+	}
+
 
 }//end of XmeetingDaoImpl
