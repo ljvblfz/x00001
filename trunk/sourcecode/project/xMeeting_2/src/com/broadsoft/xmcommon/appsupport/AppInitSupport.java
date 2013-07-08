@@ -13,6 +13,7 @@ import com.broadsoft.xmcommon.androiddao.PadInfoEntity;
 import com.broadsoft.xmcommon.androidsdcard.SDCardSupport;
 import com.broadsoft.xmcommon.androidutil.AndroidIdSupport;
 import com.broadsoft.xmdownload.wsservice.WsControllerServiceSupport;
+import com.broadsoft.xmdownload.wsservice.WsDownloadServiceSupport;
 
 public class AppInitSupport {
 	private static final String TAG="AppInitSupport"; 
@@ -30,7 +31,8 @@ public class AppInitSupport {
 		Log.d(TAG, "[SDCard]sdcardDir---->"+sdcardDir);
 		// 初始化数据库		
 		DaoHolder.getInstance().init(ctx); 
-//		// 
+ 		// 
+		WsDownloadServiceSupport.getInstance().initData(AndroidIdSupport.getAndroidID());
 		//读取会议信息
 		PadInfoEntity padInfoEntity=DaoHolder.getInstance().getPadInfoDao().uniqueOne();
 		Log.d(TAG, "[Sqlite]PadInfoEntity---->"+padInfoEntity);

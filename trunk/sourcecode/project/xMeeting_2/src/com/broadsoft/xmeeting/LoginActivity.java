@@ -39,20 +39,20 @@ public class LoginActivity extends Activity  {
 	private String TAG="LoginActivity";
 	private static int REQUEST_CODE = 2; 
 	
-	
-	protected Context getFriendContext(){
-		Context friendContext=null;
-		String packageName="com.broadsoft.xmdownload";
-		try {
-			friendContext = this.createPackageContext(packageName,Context.CONTEXT_IGNORE_SECURITY);
-		} catch (NameNotFoundException e) { 
-			e.printStackTrace();
-			Log.e(TAG, "getFriendContext raise the exception:  "+e.getMessage());
-		}
-		Log.d(TAG, "friendContext is:  "+friendContext);
-		return friendContext;
-	}//end of getFriendContext
-	
+//	
+//	protected Context getFriendContext(){
+//		Context friendContext=null;
+//		String packageName="com.broadsoft.xmdownload";
+//		try {
+//			friendContext = this.createPackageContext(packageName,Context.CONTEXT_IGNORE_SECURITY);
+//		} catch (NameNotFoundException e) { 
+//			e.printStackTrace();
+//			Log.e(TAG, "getFriendContext raise the exception:  "+e.getMessage());
+//		}
+//		Log.d(TAG, "friendContext is:  "+friendContext);
+//		return friendContext;
+//	}//end of getFriendContext
+//	
 	
 	
 	
@@ -61,11 +61,11 @@ public class LoginActivity extends Activity  {
 		Log.d(TAG, "onCreate begin");
 		super.onCreate(savedInstanceState);
 		
-		if(!Constants.enableAutoBoot){
-			AppInitSupport.initApp(this.getFriendContext(), this.getAssets()); 
-		}else{ 
-			AppInitSupport.debugAppData();
-		}
+//		if(!Constants.enableAutoBoot){
+//			AppInitSupport.initApp(this.getFriendContext(), this.getAssets()); 
+//		}else{ 
+//			AppInitSupport.debugAppData();
+//		}
 		
 		// 应用程序开机不锁屏
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD,

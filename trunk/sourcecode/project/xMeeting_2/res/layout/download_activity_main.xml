@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/wel2"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="100dip"
+        android:layout_marginTop="100dip"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/tvSpace0"
+            android:layout_width="300dip"
+            android:layout_height="fill_parent"
+            android:text=""
+            android:textSize="40dip" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="系统管理"
+            android:textSize="40dip" />
+
+        <TextView
+            android:id="@+id/tvSpace"
+            android:layout_width="30dip"
+            android:layout_height="fill_parent"
+            android:text=""
+            android:textSize="40dip" />
+
+        <TextView
+            android:id="@+id/tvLabelDeviceId"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="设备ID"
+            android:textSize="30dip" />
+
+        <TextView
+            android:id="@+id/tvSpace3"
+            android:layout_width="50dip"
+            android:layout_height="fill_parent"
+            android:text=""
+            android:textSize="40dip"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/textViewDeviceId"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text=""
+            android:textSize="30dip" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="100dip"
+        android:orientation="horizontal" >
+
+        <!-- <Button -->
+        <!-- android:id="@+id/buttonEntry" -->
+        <!-- android:layout_width="wrap_content" -->
+        <!-- android:layout_height="wrap_content" -->
+        <!-- android:layout_marginTop="50dip" -->
+        <!-- android:text="进入下载" -->
+        <!-- android:textSize="30dip" /> -->
+
+
+        <!-- <TextView -->
+        <!-- android:id="@+id/tvSpace2" -->
+        <!-- android:layout_width="50dip" -->
+        <!-- android:layout_height="fill_parent" -->
+        <!-- android:text="" -->
+        <!-- android:textSize="40dip" /> -->
+
+
+        <!-- <Button -->
+        <!-- android:id="@+id/buttonExit" -->
+        <!-- android:layout_width="wrap_content" -->
+        <!-- android:layout_height="wrap_content" -->
+        <!-- android:layout_marginTop="50dip" -->
+        <!-- android:text="退出下载" -->
+        <!-- android:textSize="30dip" /> -->
+
+        <ToggleButton
+            android:id="@+id/toggleBtnDownload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dip"
+            android:textOff="进入下载"
+            android:textOn="退出下载" >
+        </ToggleButton>
+
+        <TextView
+            android:id="@+id/tvSpace2"
+            android:layout_width="50dip"
+            android:layout_height="fill_parent"
+            android:text=""
+            android:textSize="40dip"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/tvLabelDownloadStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dip"
+            android:text="下载状态:"
+            android:textSize="30dip" />
+
+        <TextView
+            android:id="@+id/tvSpace4"
+            android:layout_width="50dip"
+            android:layout_height="fill_parent"
+            android:text=""
+            android:textSize="40dip"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/textViewDownloadStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dip"
+            android:text=""
+            android:textSize="30dip" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="400dip"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="100dip"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/tvMeetingTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="50dip"
+                android:text="会议列表"
+                android:textSize="30dip" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="300dip"
+            android:orientation="horizontal" >
+
+            <ListView
+                android:id="@+id/lvMeetingList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btnEntryActivateMeeting"
+            android:layout_width="300dip"
+            android:layout_height="50dip"
+            android:gravity="center"
+            android:text="进入激活会议"
+            android:textSize="20dip" />
+    </LinearLayout>
+
+</LinearLayout>
