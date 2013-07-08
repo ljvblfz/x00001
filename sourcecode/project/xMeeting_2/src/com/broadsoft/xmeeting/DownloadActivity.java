@@ -59,7 +59,8 @@ public class DownloadActivity extends Activity {
 		setContentView(R.layout.download_activity_main); 
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		//
-		AppInitSupport.initApp(this.getFriendContext(),this.getAssets()); 
+//		AppInitSupport.initApp(this.getFriendContext(),this.getAssets()); 
+		AppInitSupport.initApp(this.getApplicationContext(),this.getAssets()); 
 		//设备ID
 		String androidId=AndroidIdSupport.getAndroidID();
 		TextView tvAndroidId=(TextView)this.findViewById(R.id.textViewDeviceId);
