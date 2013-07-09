@@ -2,6 +2,7 @@ package com.broadsoft.xmdownload.rsservice;
 
 import java.io.File;
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,7 +18,8 @@ import com.broadsoft.xmcommon.androidhttp.HttpDownloadSupport;
 import com.broadsoft.xmcommon.androidhttp.HttpRestSupport;
 import com.broadsoft.xmcommon.androidsdcard.SDCardSupport;
 import com.broadsoft.xmcommon.androidutil.AndroidIdSupport;
-import com.broadsoft.xmeeting.DownloadUIHandler;
+import com.broadsoft.xmeeting.uihandler.DownloadByHandUIHandler;
+import com.broadsoft.xmeeting.uihandler.DownloadByWsUIHandler;
 
 public class RsServiceOnMeetingInfoSupport {
 	private static final String TAG="RsServiceOnMeetingInfoSupport";  
@@ -25,6 +27,10 @@ public class RsServiceOnMeetingInfoSupport {
 	private final static String rspathMeetingInfo="http://{0}/xmeeting/rs/open/meetingallinfo/download/xmmiGuid/{1}";
 	private final static String rspathDownloadStatusSave="http://{0}/xmeeting/rs/open/downloadstatus/save";
 	
+
+	public final static int TYPE_DEFAULT=0;
+	public final static int TYPE_DOWNLOAD_WITHOUT_FILE=1;
+	public final static int TYPE_DOWNLOAD_WITH_FILE=2;
 	
 	
 	public static void download(String meetingId){
@@ -48,7 +54,7 @@ public class RsServiceOnMeetingInfoSupport {
 	}//end of download
 	
 	
-	public static void downloadWithoutFile(String meetingId){
+	public static void downloadByType(int type,String meetingId){
 		Log.d(TAG, String.format("download begin, meetingId:  %s", meetingId));
 		// 
 		String serveriport=DomAppConfigFactory.getAppConfig().getServeripport();
@@ -62,7 +68,7 @@ public class RsServiceOnMeetingInfoSupport {
 		Log.d(TAG, "rspathMeetingPersonnelResult  is : "+rspathMeetingPersonnelResult);
 		Log.d(TAG, "rspathMeetingPersonnelResult  is : "+rspathDownloadStatusSaveResult);
 		
-		Thread thread=new Thread(new DownloadMeetingInfoRunnable(false,meetingId,rspathMeetingInfoResult,rspathMeetingPersonnelResult,rspathDownloadStatusSaveResult));
+		Thread thread=new Thread(new DownloadMeetingInfoRunnable(type,meetingId,rspathMeetingInfoResult,rspathMeetingPersonnelResult,rspathDownloadStatusSaveResult));
 		thread.start();
 		
 		Log.d(TAG, "download end"); 
@@ -83,7 +89,8 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 	private String rspathMeetingPersonnelResult;
 	private String rspathDownloadStatusSaveResult;
 	private String meetingId;
-	private boolean isFileRequired=false;
+//	private boolean isFileRequired=false;
+	private int type=0;
 	
 	private JSONObject jsonDownloadStatus;
 	public DownloadMeetingInfoRunnable(String meetingId,String rspathMeetingInfoResult,String rspathMeetingPersonnelResult,String rspathDownloadStatusSaveResult){
@@ -91,16 +98,26 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 		this.rspathMeetingInfoResult=rspathMeetingInfoResult;
 		this.rspathMeetingPersonnelResult=rspathMeetingPersonnelResult; 
 		this.rspathDownloadStatusSaveResult=rspathDownloadStatusSaveResult;
-		this.isFileRequired=true;//下载带文件
+//		this.isFileRequired=true;//下载带文件
+		this.type=0;
 		jsonDownloadStatus=new JSONObject(); 
 	}
 	
-	public DownloadMeetingInfoRunnable(boolean isFileRequired,String meetingId,String rspathMeetingInfoResult,String rspathMeetingPersonnelResult,String rspathDownloadStatusSaveResult){
+	/**
+	 * 
+	 * @param type  ===>1--download without file,2--download all info
+	 * @param meetingId 
+	 * @param rspathMeetingInfoResult
+	 * @param rspathMeetingPersonnelResult
+	 * @param rspathDownloadStatusSaveResult
+	 */
+	public DownloadMeetingInfoRunnable(int type,String meetingId,String rspathMeetingInfoResult,String rspathMeetingPersonnelResult,String rspathDownloadStatusSaveResult){
 		this.meetingId=meetingId;
 		this.rspathMeetingInfoResult=rspathMeetingInfoResult;
 		this.rspathMeetingPersonnelResult=rspathMeetingPersonnelResult; 
 		this.rspathDownloadStatusSaveResult=rspathDownloadStatusSaveResult;
-		this.isFileRequired=isFileRequired;
+//		this.isFileRequired=isFileRequired;
+		this.type=type;
 		jsonDownloadStatus=new JSONObject(); 
 	}
 
@@ -110,8 +127,8 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 	public void run() {  
 		Log.d(TAG, "[run]begin.");
 
-		if(isFileRequired){
-			DownloadUIHandler.getInstance().sendDownloadMeetingMessageOnBegin();
+		if(type==RsServiceOnMeetingInfoSupport.TYPE_DEFAULT){
+			DownloadByWsUIHandler.getInstance().sendDownloadMeetingMessageOnBegin();
 		}
 		
 		
@@ -127,7 +144,7 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 //			downloadInfoEntityParam.setStatus("0");
 			this.saveDBForDownloadInfo(downloadInfoEntityParam); 
 			//下载文件
-			if(isFileRequired){
+			if(type==RsServiceOnMeetingInfoSupport.TYPE_DOWNLOAD_WITH_FILE){
 				long begintime=System.currentTimeMillis();
 				cleanFileForDownloadInfo(jsonDataMeetingInfo);
 				saveFileForDownloadInfo(jsonDataMeetingInfo); 
@@ -140,8 +157,10 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 			e.printStackTrace();
 			Log.d(TAG, "[run]Raise the error is : "+e.getMessage()); 
 		} 
-		if(isFileRequired){
-			DownloadUIHandler.getInstance().sendDownloadMeetingMessageOnEnd();
+		if(type==RsServiceOnMeetingInfoSupport.TYPE_DEFAULT){
+			DownloadByWsUIHandler.getInstance().sendDownloadMeetingMessageOnEnd();
+		}else{
+			DownloadByHandUIHandler.getInstance().sendEmptyMessage(1);
 		}
 		Log.d(TAG, "[run]end.");
 	}
@@ -198,17 +217,28 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 		return downloadInfoEntityParam;
 	}
 	
-	
+	public static String getCurrentTime() {
+		String parrten="yyyy-MM-dd hh:mm";
+		String timestr; 
+		java.util.Date cday = new java.util.Date();
+
+		SimpleDateFormat sdf = new SimpleDateFormat(parrten);
+		timestr = sdf.format(cday);
+		return timestr;
+	}
 	
 	
 	public void saveDBForDownloadInfo(DownloadInfoEntity downloadInfoEntityParam){
 		DownloadInfoEntity downloadInfoEntity=DaoHolder.getInstance().getDownloadInfoDao().findByMeetingId(meetingId);
+		//下载时间
+		String currentTime=getCurrentTime();
+		downloadInfoEntityParam.setDownloadTime(currentTime);
 		if(null==downloadInfoEntity){//insert
-			downloadInfoEntityParam.setStatus("0");
+			downloadInfoEntityParam.setStatus("0"); 
 			DaoHolder.getInstance().getDownloadInfoDao().add(downloadInfoEntityParam);
 		}else{//update
 			downloadInfoEntityParam.setGuid(downloadInfoEntity.getGuid());
-			downloadInfoEntityParam.setStatus(downloadInfoEntity.getStatus());
+			downloadInfoEntityParam.setStatus(downloadInfoEntity.getStatus()); 
 			DaoHolder.getInstance().getDownloadInfoDao().update(downloadInfoEntityParam);
 		}
 	}

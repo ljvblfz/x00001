@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/tvMeetingId"
-        android:layout_width="300dip"
+        android:layout_width="100dip"
         android:layout_height="fill_parent"
         android:gravity="center_vertical"
         android:text="ID"
@@ -20,6 +20,15 @@
         android:text="会议名称"
         android:textSize="20dip" />
 
+    
+
+    <TextView
+        android:id="@+id/tvDownloadTime"
+        android:layout_width="200dip"
+        android:layout_height="fill_parent"
+        android:gravity="center_vertical"
+        android:text="2013-08-09 12:30"
+        android:textSize="20dip" />
     <TextView
         android:id="@+id/tvMeetingStatus"
         android:layout_width="50dip"
@@ -27,13 +36,14 @@
         android:gravity="center_vertical"
         android:text="状态"
         android:textSize="20dip" />
-
+    
     <TextView
         android:id="@+id/tvSpace1"
         android:layout_width="20dip"
         android:layout_height="fill_parent"
         android:text="" 
         android:visibility="invisible" />
+ 
 
     <Button
         android:id="@+id/btnDownloadJsonInfo"

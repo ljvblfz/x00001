@@ -9,7 +9,7 @@ import com.broadsoft.xmcommon.androidconfig.DomAppConfigFactory;
 import com.broadsoft.xmcommon.androiddao.DaoHolder;
 import com.broadsoft.xmdownload.rsservice.RsServiceOnMeetingInfoSupport;
 import com.broadsoft.xmdownload.rsservice.RsServiceOnPadInfoSupport;
-import com.broadsoft.xmeeting.DownloadUIHandler;
+import com.broadsoft.xmeeting.uihandler.DownloadByWsUIHandler;
 
 import de.tavendo.autobahn.WebSocketConnection;
 import de.tavendo.autobahn.WebSocketException;
@@ -53,7 +53,7 @@ public class WsDownloadServiceSupport {
 		@Override
 		public void onOpen() {
 			Log.d(TAG, "[onOpen]Status: Connected to " + wspath);
-			DownloadUIHandler.getInstance().sendEntryDownloadStatus();
+			DownloadByWsUIHandler.getInstance().sendEntryDownloadStatus();
 			new Thread(heartRunnable).start();
 		}
 
@@ -66,7 +66,7 @@ public class WsDownloadServiceSupport {
 		@Override
 		public void onClose(int code, String reason) {
 			Log.d(TAG, "[onClose]Connection lost.");
-			DownloadUIHandler.getInstance().sendExitDownloadStatus();
+			DownloadByWsUIHandler.getInstance().sendExitDownloadStatus();
 		}
 	};
 	
@@ -160,7 +160,7 @@ public class WsDownloadServiceSupport {
 					for(String strTo:toList){
 						if(strTo.equals(padId)){
 							DaoHolder.getInstance().getDownloadInfoDao().activate(meetingid);
-							DownloadUIHandler.getInstance().sendActivateMeetingInfoOnPad();
+							DownloadByWsUIHandler.getInstance().sendActivateMeetingInfoOnPad();
 						}
 					} 
 				} else if("03".equals(msgtype)){//下载设备信息

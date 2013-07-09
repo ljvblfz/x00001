@@ -1,4 +1,4 @@
-package com.broadsoft.xmeeting;
+package com.broadsoft.xmeeting.uihandler;
 
 import java.util.ArrayList;
 
