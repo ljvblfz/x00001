@@ -21,6 +21,7 @@ import com.broadsoft.xmeeting.R;
 import com.broadsoft.xmeeting.uihandler.DownloadByHandUIHandler;
 
 public class MeetingInfoLVButtonAdapter extends BaseAdapter {
+	private String TAG="MeetingInfoLVButtonAdapter";
 
 	private ListViewButtonViewHolder holder;
 	//
@@ -45,6 +46,7 @@ public class MeetingInfoLVButtonAdapter extends BaseAdapter {
 			map.put("meetingId", downloadInfoEntity.getMeetingId());
 			map.put("meetingTitle", downloadInfoEntity.getMeetingName());
 			map.put("downloadTime", downloadInfoEntity.getDownloadTime());
+			Log.d(TAG, "downloadTime is: "+downloadInfoEntity.getDownloadTime());
 			if("1".equals(status)){
 				map.put("meetingStatus", "激活"); 
 			}else{
@@ -112,7 +114,7 @@ public class MeetingInfoLVButtonAdapter extends BaseAdapter {
 			String strMeetingTitle = (String) meetingItemInfo.get("meetingTitle");
 			String strMeetingStatus = (String) meetingItemInfo.get("meetingStatus");
 			String downloadTime = (String) meetingItemInfo.get("downloadTime");
-			holder.tvMeetingId.setText(strMeetingId.substring(10));
+			holder.tvMeetingId.setText(strMeetingId.substring(28));
 			holder.tvMeetingTitle.setText(strMeetingTitle);
 			holder.tvMeetingStatus.setText(strMeetingStatus);
 			holder.tvDownloadTime.setText(downloadTime);
@@ -163,8 +165,9 @@ public class MeetingInfoLVButtonAdapter extends BaseAdapter {
 				RsServiceOnMeetingInfoSupport.downloadByType(RsServiceOnMeetingInfoSupport.TYPE_DOWNLOAD_WITH_FILE,strMeetingId); 
 			} else if ("3".equals(strType)) { 
 				//activate  
+//				DownloadByHandUIHandler.getInstance().sendDownloadMessageOnBegin();
 				DaoHolder.getInstance().getDownloadInfoDao().activate(strMeetingId); 
-				DownloadByHandUIHandler.getInstance().sendEmptyMessage(2);
+//				DownloadByHandUIHandler.getInstance().sendDownloadMessageOnEnd();
 			}
 		}
 	}// end of LVBtnCommonListener 

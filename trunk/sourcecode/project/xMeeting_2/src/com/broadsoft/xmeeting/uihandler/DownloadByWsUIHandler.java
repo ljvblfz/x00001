@@ -22,7 +22,7 @@ import android.widget.Toast;
  *
  */
 public class DownloadByWsUIHandler extends Handler {
-	private final String TAG = "DownloadStatusUIHandler";
+	private final String TAG = "DownloadByWsUIHandler";
 	private static DownloadByWsUIHandler downloadUIHandler;
 	private Activity act;
 
