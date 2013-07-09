@@ -20,6 +20,8 @@ import com.broadsoft.xmcommon.androidutil.AndroidIdSupport;
 import com.broadsoft.xmcommon.appsupport.AppInitSupport;
 import com.broadsoft.xmdownload.adapter.MeetingInfoLVButtonAdapter;
 import com.broadsoft.xmdownload.wsservice.WsDownloadServiceSupport;
+import com.broadsoft.xmeeting.uihandler.DownloadByHandUIHandler;
+import com.broadsoft.xmeeting.uihandler.DownloadByWsUIHandler;
 
 
 /**
@@ -28,7 +30,7 @@ import com.broadsoft.xmdownload.wsservice.WsDownloadServiceSupport;
  *
  */
 public class DownloadActivity extends Activity {
-	private static final String TAG="MainActivity"; 
+	private static final String TAG="DownloadActivity"; 
 
 
 	private static int REQUEST_CODE = 2; 
@@ -37,18 +39,18 @@ public class DownloadActivity extends Activity {
 	
 	
 	
-	protected Context getFriendContext(){
-		Context friendContext=null;
-		String packageName="com.broadsoft.xmdownload";
-		try {
-			friendContext = this.createPackageContext(packageName,Context.CONTEXT_IGNORE_SECURITY);
-		} catch (NameNotFoundException e) { 
-			e.printStackTrace();
-			Log.e(TAG, "getFriendContext raise the exception:  "+e.getMessage());
-		}
-		Log.d(TAG, "friendContext is:  "+friendContext);
-		return friendContext;
-	}//end of getFriendContext
+//	protected Context getFriendContext(){
+//		Context friendContext=null;
+//		String packageName="com.broadsoft.xmdownload";
+//		try {
+//			friendContext = this.createPackageContext(packageName,Context.CONTEXT_IGNORE_SECURITY);
+//		} catch (NameNotFoundException e) { 
+//			e.printStackTrace();
+//			Log.e(TAG, "getFriendContext raise the exception:  "+e.getMessage());
+//		}
+//		Log.d(TAG, "friendContext is:  "+friendContext);
+//		return friendContext;
+//	}//end of getFriendContext
 	
 	
 	
@@ -64,24 +66,22 @@ public class DownloadActivity extends Activity {
 		//设备ID
 		String androidId=AndroidIdSupport.getAndroidID();
 		TextView tvAndroidId=(TextView)this.findViewById(R.id.textViewDeviceId);
-		tvAndroidId.setText(androidId);  
-		//UI handler
-		DownloadUIHandler.init(this);
-		
+		tvAndroidId.setText(androidId);   
 		//会议列表
 		ListView lvMeetingInfo=(ListView)this.findViewById(R.id.lvMeetingList);   
-        BaseAdapter meetingListItemAdapter = new MeetingInfoLVButtonAdapter(this);   
-        lvMeetingInfo.setAdapter(meetingListItemAdapter);  
+		MeetingInfoLVButtonAdapter meetingListItemAdapter = new MeetingInfoLVButtonAdapter(this);   
+        lvMeetingInfo.setAdapter(meetingListItemAdapter);   
+		//UI handler
+		DownloadByWsUIHandler.init(this);
+        DownloadByHandUIHandler.init(this, meetingListItemAdapter);
         //
 		toggleBtnDownload = (ToggleButton ) findViewById(R.id.toggleBtnDownload);
 		toggleBtnDownload.setOnClickListener(new OnClickListener() {      
             public void onClick(View v) {      
                 if (toggleBtnDownload.isChecked()) {              
                 	WsDownloadServiceSupport.getInstance().connect(); 
-//                    Toast.makeText(DownloadActivity.this, "进入", Toast.LENGTH_LONG).show();         
                 }else {          
                     WsDownloadServiceSupport.getInstance().disconnect();    
-//                    Toast.makeText(DownloadActivity.this, "退出", Toast.LENGTH_LONG).show();  
                 }      
             }  //end of onClick
         });     

@@ -12,7 +12,7 @@ import com.broadsoft.xmcommon.androiddao.DaoHolder;
 import com.broadsoft.xmcommon.androiddao.PadInfoEntity;
 import com.broadsoft.xmcommon.androidhttp.HttpRestSupport;
 import com.broadsoft.xmcommon.androidutil.AndroidIdSupport;
-import com.broadsoft.xmeeting.DownloadUIHandler;
+import com.broadsoft.xmeeting.uihandler.DownloadByWsUIHandler;
 
 
 /**
@@ -61,7 +61,7 @@ class  DownloadPadInfoRunnable implements Runnable{
 	@Override
 	public void run() { 
 		Log.d(TAG, "[run]begin.");
-		DownloadUIHandler.getInstance().sendDownloadPadInfoOnBegin();
+		DownloadByWsUIHandler.getInstance().sendDownloadPadInfoOnBegin();
 		try {
 			JSONObject jsonPadInfo=HttpRestSupport.getByHttpClientWithGzip(rspathPadInfoResult);
 			PadInfoEntity padInfoEntity=createPadInfoEntity(jsonPadInfo);
@@ -70,7 +70,7 @@ class  DownloadPadInfoRunnable implements Runnable{
 		} catch (Exception e) { 
 			e.printStackTrace();
 		} 
-		DownloadUIHandler.getInstance().sendDownloadPadInfoOnEnd();
+		DownloadByWsUIHandler.getInstance().sendDownloadPadInfoOnEnd();
 		Log.d(TAG, "[run]end.");
 	 
 	}

@@ -18,6 +18,7 @@ import com.broadsoft.xmcommon.androiddao.DaoHolder;
 import com.broadsoft.xmcommon.androiddao.DownloadInfoEntity;
 import com.broadsoft.xmdownload.rsservice.RsServiceOnMeetingInfoSupport;
 import com.broadsoft.xmeeting.R;
+import com.broadsoft.xmeeting.uihandler.DownloadByHandUIHandler;
 
 public class MeetingInfoLVButtonAdapter extends BaseAdapter {
 
@@ -43,6 +44,7 @@ public class MeetingInfoLVButtonAdapter extends BaseAdapter {
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("meetingId", downloadInfoEntity.getMeetingId());
 			map.put("meetingTitle", downloadInfoEntity.getMeetingName());
+			map.put("downloadTime", downloadInfoEntity.getDownloadTime());
 			if("1".equals(status)){
 				map.put("meetingStatus", "激活"); 
 			}else{
@@ -50,6 +52,12 @@ public class MeetingInfoLVButtonAdapter extends BaseAdapter {
 			}
 			mAppList.add(map);
 		}//end of for 
+	}
+	
+	
+	public void reload(){
+		init();
+		notifyDataSetChanged();
 	}
 
 	@Override
@@ -85,6 +93,9 @@ public class MeetingInfoLVButtonAdapter extends BaseAdapter {
 					.findViewById(R.id.tvMeetingTitle);
 			holder.tvMeetingStatus = (TextView) convertView
 					.findViewById(R.id.tvMeetingStatus);
+			holder.tvDownloadTime = (TextView) convertView
+					.findViewById(R.id.tvDownloadTime);
+
 			//
 			holder.btnActivate = (Button) convertView
 					.findViewById(R.id.btnActivate);
@@ -100,9 +111,11 @@ public class MeetingInfoLVButtonAdapter extends BaseAdapter {
 			String strMeetingId = (String) meetingItemInfo.get("meetingId");
 			String strMeetingTitle = (String) meetingItemInfo.get("meetingTitle");
 			String strMeetingStatus = (String) meetingItemInfo.get("meetingStatus");
-			holder.tvMeetingId.setText(strMeetingId.substring(20));
+			String downloadTime = (String) meetingItemInfo.get("downloadTime");
+			holder.tvMeetingId.setText(strMeetingId.substring(10));
 			holder.tvMeetingTitle.setText(strMeetingTitle);
 			holder.tvMeetingStatus.setText(strMeetingStatus);
+			holder.tvDownloadTime.setText(downloadTime);
 			//
 			holder.btnDownloadJsonInfo.setOnClickListener(new LVBtnCommonListener("1",
 					strMeetingId));
@@ -119,6 +132,7 @@ public class MeetingInfoLVButtonAdapter extends BaseAdapter {
 		TextView tvMeetingId;
 		TextView tvMeetingTitle;
 		TextView tvMeetingStatus;
+		TextView tvDownloadTime;
 		//
 		Button btnDownloadJsonInfo;
 		Button btnDownloadAllInfo;
@@ -143,13 +157,14 @@ public class MeetingInfoLVButtonAdapter extends BaseAdapter {
 					+ strMeetingId);
 			if ("1".equals(strType)) {
 				//download json info
-				RsServiceOnMeetingInfoSupport.downloadWithoutFile(strMeetingId);
+				RsServiceOnMeetingInfoSupport.downloadByType(RsServiceOnMeetingInfoSupport.TYPE_DOWNLOAD_WITHOUT_FILE,strMeetingId); 
 			} else if ("2".equals(strType)) {
 				//download all info
-				RsServiceOnMeetingInfoSupport.download(strMeetingId);
+				RsServiceOnMeetingInfoSupport.downloadByType(RsServiceOnMeetingInfoSupport.TYPE_DOWNLOAD_WITH_FILE,strMeetingId); 
 			} else if ("3".equals(strType)) { 
 				//activate  
-				DaoHolder.getInstance().getDownloadInfoDao().activate(strMeetingId);
+				DaoHolder.getInstance().getDownloadInfoDao().activate(strMeetingId); 
+				DownloadByHandUIHandler.getInstance().sendEmptyMessage(2);
 			}
 		}
 	}// end of LVBtnCommonListener 

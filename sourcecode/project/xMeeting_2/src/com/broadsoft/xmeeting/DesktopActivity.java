@@ -38,6 +38,7 @@ import com.broadsoft.xmeeting.activity.MeetingGuideCatalogActivity;
 import com.broadsoft.xmeeting.activity.NotificationListActivity;
 import com.broadsoft.xmeeting.activity.SysSettingActivity;
 import com.broadsoft.xmeeting.activity.VideosListActivity;
+import com.broadsoft.xmeeting.uihandler.NotifyUIHandler;
 import com.nmbb.oplayer.OPlayerApplication;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;

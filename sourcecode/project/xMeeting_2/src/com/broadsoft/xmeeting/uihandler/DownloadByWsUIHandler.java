@@ -1,7 +1,10 @@
-package com.broadsoft.xmeeting;
+package com.broadsoft.xmeeting.uihandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.broadsoft.xmeeting.R;
+import com.broadsoft.xmeeting.R.id;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -18,23 +21,23 @@ import android.widget.Toast;
  * @author lu.zhen
  *
  */
-public class DownloadUIHandler extends Handler {
-	private final String TAG = "DownloadUIHandler";
-	private static DownloadUIHandler downloadUIHandler;
+public class DownloadByWsUIHandler extends Handler {
+	private final String TAG = "DownloadStatusUIHandler";
+	private static DownloadByWsUIHandler downloadUIHandler;
 	private Activity act;
 
-	private DownloadUIHandler(Activity act) {
+	private DownloadByWsUIHandler(Activity act) {
 		this.act = act;
 	}
 	
 	
 	public static void init(Activity act){
 		if(null==downloadUIHandler){
-			downloadUIHandler=new DownloadUIHandler(act);
+			downloadUIHandler=new DownloadByWsUIHandler(act);
 		} 
 	}//end of init 
 	
-	public static DownloadUIHandler getInstance(){
+	public static DownloadByWsUIHandler getInstance(){
 		return downloadUIHandler;
 	}
 
