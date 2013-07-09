@@ -28,6 +28,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.broadsoft.common.MyImageView;
+import com.broadsoft.common.util.FileStoreTools;
+import com.broadsoft.common.util.WeatherWebServiceUtil;
 import com.broadsoft.xmcommon.androiddao.EntityInfoHolder;
 import com.broadsoft.xmcommon.androidsdcard.SDCardSupport;
 import com.broadsoft.xmdownload.wsservice.WsControllerServiceSupport;
@@ -40,7 +42,6 @@ import com.broadsoft.xmeeting.activity.NotificationListActivity;
 import com.broadsoft.xmeeting.activity.SysSettingActivity;
 import com.broadsoft.xmeeting.activity.VideosListActivity;
 import com.broadsoft.xmeeting.uihandler.NotifyUIHandler;
-import com.nmbb.oplayer.OPlayerApplication;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
@@ -80,7 +81,7 @@ public class DesktopActivity extends Activity {
 	 * 其他控件
 	 */
 	
-	public Handler notifyUIHandler;
+//	public Handler notifyUIHandler;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +92,8 @@ public class DesktopActivity extends Activity {
 		initGridButton();  
 		//天气预报
 		initWeather();   
-		notifyUIHandler=new NotifyUIHandler(this);
+//		notifyUIHandler=new NotifyUIHandler(this);
+		NotifyUIHandler.init(this);
 		//init websocket  
 		initWebsocket(); 
 		 
@@ -127,7 +129,7 @@ public class DesktopActivity extends Activity {
 		String memberId=EntityInfoHolder.getInstance().getDownloadInfoEntity().getMemberId();
 		String memberDisplayName=EntityInfoHolder.getInstance().getDownloadInfoEntity().getMemberDisplayName(); 
 		WsControllerServiceSupport.getInstance().initData(meetingId, memberId, memberDisplayName); 
-		WsControllerServiceSupport.getInstance().connect(notifyUIHandler);
+		WsControllerServiceSupport.getInstance().connect();
 		Log.d(TAG, "[Websocket]Init end.");
 	}
  
@@ -396,7 +398,7 @@ public class DesktopActivity extends Activity {
 		@Override
 		protected String[] doInBackground(Void... params) {
 			// Simulates a background job.
-			detail = WebServiceUtil.getWeatherByCity(city_str);
+			detail = WeatherWebServiceUtil.getWeatherByCity(city_str);
 			Log.d(TAG, "wheather soap content: " + detail);
 			if (detail != null) {
 				ArrayList<String> list = new ArrayList<String>();
@@ -474,7 +476,7 @@ public class DesktopActivity extends Activity {
 			city_spinner = (Spinner) view.findViewById(R.id.city_spinner);
 
 			// 省份列表
-			provinces = WebServiceUtil.getProvinceList();
+			provinces = WeatherWebServiceUtil.getProvinceList();
 
 			ArrayAdapter adapter = new ArrayAdapter(this,
 					android.R.layout.simple_spinner_item, provinces);
@@ -491,7 +493,7 @@ public class DesktopActivity extends Activity {
 								View arg1, int position, long arg3)
 						{
 
-							citys = WebServiceUtil
+							citys = WeatherWebServiceUtil
 									.getCityListByProvince(provinces
 											.get(position));
 							ArrayAdapter adapter1 = new ArrayAdapter(

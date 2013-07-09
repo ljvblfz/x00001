@@ -1,4 +1,4 @@
-package com.broadsoft.xmeeting;
+package com.broadsoft.common.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
-public class WebServiceUtil
+public class WeatherWebServiceUtil
 {
 	// 定义Web Service的命名空间
 	static final String SERVICE_NS = "http://WebXml.com.cn/";

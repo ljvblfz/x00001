@@ -6,9 +6,6 @@ import android.content.Intent;
 import android.view.Gravity;
 import android.widget.Toast;
 
-import com.broadsoft.xmdownload.service.DownloadService;
-import com.broadsoft.xmeeting.LoginActivity;
-
 public class AutoBootSupport extends BroadcastReceiver {
 
 	@Override
@@ -18,13 +15,13 @@ public class AutoBootSupport extends BroadcastReceiver {
 				Toast toast=Toast.makeText(context, "自动启动会议系统!",Toast.LENGTH_LONG);
 				toast.setGravity(Gravity.CENTER, 0, 0);
 				toast.show();
-				Intent mBootIntent = new Intent(context, DownloadService.class);
-				context.startService(mBootIntent);
-
-				Intent loginActivityIntent = new Intent(context,
-						LoginActivity.class);
-				loginActivityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				context.startActivity(loginActivityIntent);
+//				Intent mBootIntent = new Intent(context, DownloadService.class);
+//				context.startService(mBootIntent);
+//
+//				Intent loginActivityIntent = new Intent(context,
+//						LoginActivity.class);
+//				loginActivityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//				context.startActivity(loginActivityIntent);
 
 			}//end of if
 		}// end of if

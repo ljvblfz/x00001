@@ -9,6 +9,7 @@ import android.os.Message;
 import android.util.Log;
 
 import com.broadsoft.xmcommon.androidconfig.DomAppConfigFactory;
+import com.broadsoft.xmeeting.uihandler.NotifyUIHandler;
 
 import de.tavendo.autobahn.WebSocketConnection;
 import de.tavendo.autobahn.WebSocketException;
@@ -136,15 +137,14 @@ public class WsControllerServiceSupport {
 
 		@Override
 		public void onTextMessage(String payload) {
-			Log.d(TAG, "[onTextMessage]Got echo: " + payload);  
-//			CallServiceHolder.getInstance().setUpdated(true);
-//			CallServiceHolder.getInstance().setMessage(payload);
+			Log.d(TAG, "[onTextMessage]Got echo: " + payload);   
 			
-			Message msg = new Message();  
-            Bundle bundle = new Bundle();  
-            bundle.putString("payload", payload);  
-            msg.setData(bundle);   
-			uiHandler.sendMessage(msg);
+//			Message msg = new Message();  
+//            Bundle bundle = new Bundle();  
+//            bundle.putString("payload", payload);  
+//            msg.setData(bundle);   
+//            NotifyUIHandler.getInstance().sendMessage(msg);
+			NotifyUIHandler.getInstance().sendControllerMessage(payload);
 		}
 
 		@Override
@@ -153,13 +153,11 @@ public class WsControllerServiceSupport {
 		}
 	};
 	
-	
-	private Handler uiHandler;
+	 
 	/**
 	 * connect
 	 */
-	public void connect(Handler uiHandler){
-		this.uiHandler=uiHandler;
+	public void connect(){ 
 		try {
 			WebSocketOptions   options  =new WebSocketOptions  (); 
 			options.setSocketConnectTimeout(1000*1000);//ms

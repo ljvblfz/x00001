@@ -20,6 +20,7 @@ import android.widget.SimpleAdapter;
 
 import com.broadsoft.xmeeting.DesktopActivity;
 import com.broadsoft.xmeeting.R;
+import com.broadsoft.xmeeting.uihandler.NotifyUIHandler;
 
 public class NotificationListActivity extends Activity {
 	
@@ -31,6 +32,12 @@ public class NotificationListActivity extends Activity {
 		super.onWindowFocusChanged(hasFocus);
 	} 
 	
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -38,7 +45,48 @@ public class NotificationListActivity extends Activity {
 		ListView lvNotificationList=(ListView)this.findViewById(R.id.lvNotificationList);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON); 
 		 //生成动态数组，加入数据  
-        ArrayList<HashMap<String, Object>> notificationListItem = new ArrayList<HashMap<String, Object>>();  
+//        ArrayList<HashMap<String, Object>> notificationListItem = getNotificationItemList();  
+        final ArrayList<HashMap<String, Object>> notificationListItem = NotifyUIHandler.getInstance().getNotificationListItem();  
+        //生成适配器的Item和动态数组对应的元素  
+        SimpleAdapter listItemAdapter = createListAdapter(notificationListItem);  
+        lvNotificationList.setAdapter(listItemAdapter);
+        
+        
+//        //添加点击  
+//        lvNotificationList.setOnItemClickListener(new OnItemClickListener() {   
+//            @Override  
+//            public void onItemClick(AdapterView<?> arg0, View view, int position,   long id) {   
+//            	Log.d(TAG, "onItemClick"); 
+//            	
+//            }  
+//        });  
+//          
+//        //添加长按点击  
+//        lvNotificationList.setOnCreateContextMenuListener(new OnCreateContextMenuListener() {  
+//              
+//            @Override  
+//            public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo) {   
+//            	Log.d(TAG, "onCreateContextMenu");    
+//            }  
+//        });    
+        initTopbarAndBack();
+	}//end of onCreate
+
+
+	private SimpleAdapter createListAdapter(
+			ArrayList<HashMap<String, Object>> notificationListItem) {
+			SimpleAdapter listItemAdapter = new SimpleAdapter(this,notificationListItem, 
+            R.layout.notification_list_item,
+            new String[] {"notificationSeq","notificationContent","notificationTime"},   
+            //ImageItem的XML文件里面的一个ImageView,两个TextView ID  
+            new int[] { R.id.tvNotificationSeq,R.id.tvNotificationContent,R.id.tvNotificationTime}  
+        );
+		return listItemAdapter;
+	}
+
+
+	private ArrayList<HashMap<String, Object>> getNotificationItemList() {
+		ArrayList<HashMap<String, Object>> notificationListItem = new ArrayList<HashMap<String, Object>>();  
         for(int i=0;i<20;i++)  
         {  
             HashMap<String, Object> map = new HashMap<String, Object>();     
@@ -46,36 +94,9 @@ public class NotificationListActivity extends Activity {
             map.put("notificationContent", "冯总,请出来一下,王总找你.");  
             map.put("notificationStatus", "未读");  
             notificationListItem.add(map);  
-        }  
-        //生成适配器的Item和动态数组对应的元素  
-        SimpleAdapter listItemAdapter = new SimpleAdapter(this,notificationListItem, 
-            R.layout.notification_list_item,//ListItem的XML实现  
-            //动态数组与ImageItem对应的子项          
-            new String[] {"notificationSeq","notificationContent","notificationStatus"},   
-            //ImageItem的XML文件里面的一个ImageView,两个TextView ID  
-            new int[] { R.id.tvNotificationSeq,R.id.tvNotificationContent,R.id.tvNotificationStatus}  
-        );  
-        lvNotificationList.setAdapter(listItemAdapter);
-        
-        
-        //添加点击  
-        lvNotificationList.setOnItemClickListener(new OnItemClickListener() {   
-            @Override  
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,   long arg3) {   
-            	Log.d(TAG, "onItemClick");
-            }  
-        });  
-          
-        //添加长按点击  
-        lvNotificationList.setOnCreateContextMenuListener(new OnCreateContextMenuListener() {  
-              
-            @Override  
-            public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo) {   
-            	Log.d(TAG, "onCreateContextMenu");    
-            }  
-        });    
-        initTopbarAndBack();
-	}//end of onCreate
+        }
+		return notificationListItem;
+	}
 
 	 
 	
