@@ -3,19 +3,21 @@ package com.broadsoft.xmeeting;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager.NameNotFoundException;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.broadsoft.xmcommon.androidnetwork.NetworkSupport;
 import com.broadsoft.xmcommon.androidutil.AndroidIdSupport;
 import com.broadsoft.xmcommon.appsupport.AppInitSupport;
 import com.broadsoft.xmdownload.adapter.MeetingInfoLVButtonAdapter;
@@ -51,7 +53,11 @@ public class DownloadActivity extends Activity {
 //		Log.d(TAG, "friendContext is:  "+friendContext);
 //		return friendContext;
 //	}//end of getFriendContext
-	
+
+	protected boolean isConnected(){
+		ConnectivityManager connMgr = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+		return NetworkSupport.isConnected(connMgr);
+	}
 	
 	
 	@Override
@@ -67,6 +73,13 @@ public class DownloadActivity extends Activity {
 		String androidId=AndroidIdSupport.getAndroidID();
 		TextView tvAndroidId=(TextView)this.findViewById(R.id.textViewDeviceId);
 		tvAndroidId.setText(androidId);   
+		//Wifi连接状态 
+		TextView tvValueWifiStatus=(TextView)this.findViewById(R.id.tvValueWifiStatus);
+    	if(isConnected()){ 
+    		tvValueWifiStatus.setText("Wifi连接成功!");
+    	}else{
+    		tvValueWifiStatus.setText("Wifi连接失败!");
+		}
 		//会议列表
 		ListView lvMeetingInfo=(ListView)this.findViewById(R.id.lvMeetingList);   
 		MeetingInfoLVButtonAdapter meetingListItemAdapter = new MeetingInfoLVButtonAdapter(this);   
@@ -77,12 +90,18 @@ public class DownloadActivity extends Activity {
         //
 		toggleBtnDownload = (ToggleButton ) findViewById(R.id.toggleBtnDownload);
 		toggleBtnDownload.setOnClickListener(new OnClickListener() {      
-            public void onClick(View v) {      
-                if (toggleBtnDownload.isChecked()) {              
-                	WsDownloadServiceSupport.getInstance().connect(); 
-                }else {          
-                    WsDownloadServiceSupport.getInstance().disconnect();    
-                }      
+            public void onClick(View v) {    
+            	if(isConnected()){
+                    if (toggleBtnDownload.isChecked()) {              
+                    	WsDownloadServiceSupport.getInstance().connect(); 
+                    }else {          
+                        WsDownloadServiceSupport.getInstance().disconnect();    
+                    }     
+            	}else{
+					Toast toast=Toast.makeText(DownloadActivity.this, "网络不通,请检查wifi设置!",Toast.LENGTH_LONG);
+					toast.setGravity(Gravity.CENTER, 0, 0);
+					toast.show();
+				} //end of if else
             }  //end of onClick
         });     
 		

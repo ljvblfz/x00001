@@ -15,6 +15,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -97,6 +98,20 @@ public class DesktopActivity extends Activity {
 	}
 	
 	
+	/**
+	 * Disable back key
+	 */
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) { 
+		if (keyCode == KeyEvent.KEYCODE_BACK) { 
+			return false;
+		} else if (keyCode == KeyEvent.KEYCODE_HOME) { 
+			return false;
+		} 
+		return super.onKeyDown(keyCode, event);  
+	}
+	
+	
 	@Override
 	protected void onDestroy() {
 		try{
@@ -137,21 +152,21 @@ public class DesktopActivity extends Activity {
 //	};//end of notifyRunnable
 	
 	
-	public OPlayerApplication getOPA(){
-		return ((OPlayerApplication)getApplicationContext());
-	}
+//	public OPlayerApplication getOPA(){
+//		return ((OPlayerApplication)getApplicationContext());
+//	}
+//	
+//	private void initMeetingData() {
+////		DownloadMeetingUtil.downloadMeetingInfo(getOPA());
+//	}
 	
-	private void initMeetingData() {
-//		DownloadMeetingUtil.downloadMeetingInfo(getOPA());
-	}
-	
-	
-	public static void main(String[] args) {
-		DesktopActivity s =new DesktopActivity();
-		s.initMeetingData();
-		
-		
-	}
+//	
+//	public static void main(String[] args) {
+//		DesktopActivity s =new DesktopActivity();
+//		s.initMeetingData();
+//		
+//		
+//	}
 
 	private void initGridButton()
 	{
@@ -249,9 +264,9 @@ public class DesktopActivity extends Activity {
 	 * @param hasFocus
 	 */
 	public static void releaseLoading(boolean hasFocus){
-		System.out.println("================================hasFocus =========="+hasFocus);
+//		System.out.println("================================hasFocus =========="+hasFocus);
 		if(hasFocus){
-			System.out.println("================================upload isloading =========="+DesktopActivity.isloading);
+//			System.out.println("================================upload isloading =========="+DesktopActivity.isloading);
 			DesktopActivity.isloading=false;
 		}
 	}

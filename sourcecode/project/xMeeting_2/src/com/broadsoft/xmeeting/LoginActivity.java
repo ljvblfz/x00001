@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,11 +18,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.broadsoft.common.Constants;
 import com.broadsoft.xmcommon.androiddao.DownloadInfoEntity;
 import com.broadsoft.xmcommon.androiddao.EntityInfoHolder;
 import com.broadsoft.xmcommon.androidnetwork.NetworkSupport;
-import com.broadsoft.xmcommon.appsupport.AppInitSupport;
 import com.broadsoft.xmdownload.rsservice.RsServiceOnSignInSupport;
 
 /**
@@ -34,26 +31,12 @@ import com.broadsoft.xmdownload.rsservice.RsServiceOnSignInSupport;
  */
 public class LoginActivity extends Activity  {
 	
-	private final static boolean flag=true;
+//	private final static boolean flag=true;
 	
 	private String TAG="LoginActivity";
 	private static int REQUEST_CODE = 2; 
 	
-//	
-//	protected Context getFriendContext(){
-//		Context friendContext=null;
-//		String packageName="com.broadsoft.xmdownload";
-//		try {
-//			friendContext = this.createPackageContext(packageName,Context.CONTEXT_IGNORE_SECURITY);
-//		} catch (NameNotFoundException e) { 
-//			e.printStackTrace();
-//			Log.e(TAG, "getFriendContext raise the exception:  "+e.getMessage());
-//		}
-//		Log.d(TAG, "friendContext is:  "+friendContext);
-//		return friendContext;
-//	}//end of getFriendContext
-//	
-	
+ 
 	
 	
 	@Override
@@ -61,20 +44,13 @@ public class LoginActivity extends Activity  {
 		Log.d(TAG, "onCreate begin");
 		super.onCreate(savedInstanceState);
 		
-//		if(!Constants.enableAutoBoot){
-//			AppInitSupport.initApp(this.getFriendContext(), this.getAssets()); 
-//		}else{ 
-//			AppInitSupport.debugAppData();
-//		}
-		
 		// 应用程序开机不锁屏
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD,
-				WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
-				WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+//		getWindow().setFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD,
+//				WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+//		getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
+//				WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
-//		getActionBar().hide();
+ 
 		//
 		setContentView(R.layout.login_activity_main);
 
@@ -83,12 +59,7 @@ public class LoginActivity extends Activity  {
 		String memberName=EntityInfoHolder.getInstance().getDownloadInfoEntity().getMemberDisplayName();
 		loginname.setText(memberName);
 		registerNavButtonForLogin();
-
-//		contentView = findViewById(R.id.login_fullscreen);
-//		mSystemUiHider = SystemUiHider.getInstance(this, contentView,
-//				HIDER_FLAGS);
-//		mSystemUiHider.setup();
-//		contentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION); 
+ 
 		Log.d(TAG, "onCreate end");
  
 	}//end of onCreate
@@ -111,29 +82,15 @@ public class LoginActivity extends Activity  {
 	/**
 	 * Disable back key
 	 */
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-//		Log.d("BaseActivity--->onKeyDown", "onKeyDown  keyCode----->" + keyCode);
-//		Log.d("BaseActivity--->onKeyDown", "onKeyDown  KEYCODE_BACK----->" +  KeyEvent.KEYCODE_BACK);
-//		Log.d("BaseActivity--->onKeyDown", "onKeyDown  KEYCODE_HOME----->" +  KeyEvent.KEYCODE_HOME);
-//		if (keyCode == KeyEvent.KEYCODE_BACK) {
-//			// do something
-//			return false;
-//		} else if (keyCode == KeyEvent.KEYCODE_HOME) {
-//			// do something
-//			return false;
-//		} 
-		return super.onKeyDown(keyCode, event);   
-		
+	@Override 
+	public boolean onKeyDown(int keyCode, KeyEvent event) { 
+		if (keyCode == KeyEvent.KEYCODE_BACK) { 
+			return false;
+		} else if (keyCode == KeyEvent.KEYCODE_HOME) { 
+			return false;
+		} 
+		return super.onKeyDown(keyCode, event);  
 	}
-	
-	
- 
-	
-	//
-
-
-	
 	
 	/**
 	 * toast  demo: http://www.cnblogs.com/salam/archive/2010/11/10/1873654.html

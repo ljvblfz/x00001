@@ -45,7 +45,7 @@ public class RsServiceOnMeetingInfoSupport {
 		String rspathDownloadStatusSaveResult = MessageFormat.format(rspathDownloadStatusSave,arguments2);
 		Log.d(TAG, "rspathMeetingInfoResult is : "+rspathMeetingInfoResult);
 		Log.d(TAG, "rspathMeetingPersonnelResult  is : "+rspathMeetingPersonnelResult);
-		Log.d(TAG, "rspathMeetingPersonnelResult  is : "+rspathDownloadStatusSaveResult);
+		Log.d(TAG, "rspathDownloadStatusSaveResult  is : "+rspathDownloadStatusSaveResult);
 		
 		Thread thread=new Thread(new DownloadMeetingInfoRunnable(meetingId,rspathMeetingInfoResult,rspathMeetingPersonnelResult,rspathDownloadStatusSaveResult));
 		thread.start();
@@ -129,8 +129,9 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 
 		if(type==RsServiceOnMeetingInfoSupport.TYPE_DEFAULT){
 			DownloadByWsUIHandler.getInstance().sendDownloadMeetingMessageOnBegin();
-		}
-		
+		}else{
+			DownloadByHandUIHandler.getInstance().sendDownloadMessageOnBegin();
+		} 
 		
 		try {
 			JSONObject jsonMeetingInfo=HttpRestSupport.getByHttpClientWithGzip(rspathMeetingInfoResult); 
@@ -141,7 +142,6 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 			Log.d(TAG, "[run]jsonDataMeetingInfo--->"+jsonDataMeetingInfo);
 			Log.d(TAG, "[run]jsonDataPersonnelInfo--->"+jsonDataPersonnelInfo);
 			DownloadInfoEntity downloadInfoEntityParam=this.createDownloadInfoEntity(jsonDataMeetingInfo,jsonDataPersonnelInfo );
-//			downloadInfoEntityParam.setStatus("0");
 			this.saveDBForDownloadInfo(downloadInfoEntityParam); 
 			//下载文件
 			if(type==RsServiceOnMeetingInfoSupport.TYPE_DOWNLOAD_WITH_FILE){
@@ -156,11 +156,12 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 		} catch (Exception e) { 
 			e.printStackTrace();
 			Log.d(TAG, "[run]Raise the error is : "+e.getMessage()); 
+			DownloadByHandUIHandler.getInstance().sendDownloadMessageOnError();
 		} 
 		if(type==RsServiceOnMeetingInfoSupport.TYPE_DEFAULT){
 			DownloadByWsUIHandler.getInstance().sendDownloadMeetingMessageOnEnd();
 		}else{
-			DownloadByHandUIHandler.getInstance().sendEmptyMessage(1);
+			DownloadByHandUIHandler.getInstance().sendDownloadMessageOnEnd();
 		}
 		Log.d(TAG, "[run]end.");
 	}
@@ -218,7 +219,7 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 	}
 	
 	public static String getCurrentTime() {
-		String parrten="yyyy-MM-dd hh:mm";
+		String parrten="yyyy-MM-dd HH:mm";
 		String timestr; 
 		java.util.Date cday = new java.util.Date();
 

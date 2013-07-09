@@ -18,12 +18,12 @@
             android:text=""
             android:textSize="40dip" />
 
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:text="系统管理"
-            android:textSize="40dip" />
+<!--         <TextView -->
+<!--             android:id="@+id/tvTitle" -->
+<!--             android:layout_width="wrap_content" -->
+<!--             android:layout_height="fill_parent" -->
+<!--             android:text="系统管理" -->
+<!--             android:textSize="40dip" /> -->
 
         <TextView
             android:id="@+id/tvSpace"
@@ -52,6 +52,32 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:text=""
+            android:textSize="30dip" />
+        <TextView
+            android:id="@+id/tvSpace31"
+            android:layout_width="50dip"
+            android:layout_height="fill_parent"
+            android:text=""
+            android:textSize="40dip"
+            android:visibility="invisible" />
+        <TextView
+            android:id="@+id/tvLabelWifiStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="网络状态"
+            android:textSize="30dip" />
+        <TextView
+            android:id="@+id/tvSpace32"
+            android:layout_width="50dip"
+            android:layout_height="fill_parent"
+            android:text=""
+            android:textSize="40dip"
+            android:visibility="invisible" />
+        <TextView
+            android:id="@+id/tvValueWifiStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="WIFI设置状态"
             android:textSize="30dip" />
     </LinearLayout>
 
