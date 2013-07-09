@@ -1,4 +1,4 @@
-package com.broadsoft.xmeeting;
+package com.broadsoft.common.util;
 
 import java.io.BufferedOutputStream;
 import java.io.File;

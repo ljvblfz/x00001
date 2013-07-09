@@ -8,7 +8,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.R.color;
 import android.app.Activity;
 import android.graphics.Color;
 import android.util.Log;
@@ -19,10 +18,10 @@ import android.widget.AbsListView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
-public class   MemberInfoAdapter extends BaseExpandableListAdapter{
+public class   ExpandableLVMemberInfoAdapter extends BaseExpandableListAdapter{
 
 	
-	private String TAG="MemberInfoAdapter";
+	private String TAG="ExpandableLVMemberInfoAdapter";
 	private List<String> group;           //组列表 
 	private List<List<String>> child;     //子列表
 	
@@ -30,7 +29,7 @@ public class   MemberInfoAdapter extends BaseExpandableListAdapter{
 
 	private Activity parent;
 	private JSONObject jsonData;
-	public MemberInfoAdapter(Activity parent,JSONObject jsonData){
+	public ExpandableLVMemberInfoAdapter(Activity parent,JSONObject jsonData){
 		this.parent= parent;
 		this.jsonData=jsonData;
 	}

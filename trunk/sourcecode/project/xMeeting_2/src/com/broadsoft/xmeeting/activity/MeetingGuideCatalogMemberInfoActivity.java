@@ -12,7 +12,7 @@ import android.widget.ExpandableListView;
 import com.broadsoft.xmcommon.androiddao.DownloadInfoEntity;
 import com.broadsoft.xmcommon.androiddao.EntityInfoHolder;
 import com.broadsoft.xmeeting.R;
-import com.broadsoft.xmeeting.adapter.MemberInfoAdapter;
+import com.broadsoft.xmeeting.adapter.ExpandableLVMemberInfoAdapter;
 
 public class MeetingGuideCatalogMemberInfoActivity extends Activity {
 
@@ -26,7 +26,7 @@ public class MeetingGuideCatalogMemberInfoActivity extends Activity {
 		
 		
 		JSONObject jsonInfo=getJSONInfo();
-        MemberInfoAdapter memberInfoAdapter=new MemberInfoAdapter(this,jsonInfo);
+        ExpandableLVMemberInfoAdapter memberInfoAdapter=new ExpandableLVMemberInfoAdapter(this,jsonInfo);
         memberInfoAdapter.initializeData();
         mExpandableListView.setAdapter(memberInfoAdapter);
         mExpandableListView.setCacheColorHint(0);  //设置拖动列表的时候防止出现黑色背景 
