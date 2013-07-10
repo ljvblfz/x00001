@@ -1,0 +1,99 @@
+<form method="get" name="xmMeetingEmailHistoryLogSearchForm" action="/rs/xmMeetingEmailHistoryLog" onsubmit="return false;" >
+	<input type="hidden" name="pageNum" value="1" />
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>会议名称：</label>
+					<input type="text" name="xmmiGuid" value=""/>
+				</li>
+<!--				<li>-->
+<!--					<label>条件2：</label>-->
+<!--					<select class="combox" name="xmmehlGuid" codeType="1111" defaultSelectTitle="-请选择-"  defaultSelectValue="" >-->
+<!--					currentVal="2"-->
+<!--					</select>-->
+<!--				</li>-->
+			</ul>
+			<div class="subBar">
+				<ul>						
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="xmMeetingEmailHistoryLogSearch({pageNum:1})">查询</button></div></div></li>
+<!-- 					<li><a class="button" href="/management/user!advancedSearch.do?userType=TRAINING" target="dialog" title="Advanced Search"><span>高级查询</span></a></li> -->
+					
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="javascript:findName('xmMeetingEmailHistoryLogSearchForm')[0].reset()">清空</button></div></div></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="pageContent">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+<!-- 			<li><a class="add" target="navTab" rel="userNav" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/modify/xmMeetingEmailHistoryLogModify.html');" title="新增xmMeetingEmailHistoryLog"  ><span>新增</span></a></li> -->
+			<li><a class="edit" target="navTab" rel="userNav1" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/modify/xmMeetingEmailHistoryLogModify.html?xmmehlGuid={slt_uid}');" title="修改xmMeetingEmailHistoryLog"   multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
+			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_3,'/rs/xmMeetingEmailHistoryLog')"  rel="xmmehlGuids" 
+			callBackMethod="xmMeetingEmailHistoryLogSearch"	title="确认删除?" authId="testAuth000003"><span>删除</span></a></li>
+<!--			<li class="line">line</li>-->
+<!--			<li><a class="icon" href="/management/user!export.do" target="dwzExport" targetType="navTab" title="确认导出?"><span>导出</span></a></li>-->
+		</ul>
+	</div>
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr  searchMethod="xmMeetingEmailHistoryLogSearch"><th width="22"><input type="checkbox" group="xmmehlGuids" class="checkboxCtrl"></th>
+						<th width="60" orderField="xmmiGuid">会议名称</th>
+						<th width="60" orderField="xmmehlFrom">发件人</th>
+						<th width="60" orderField="xmmehlTo">收件人</th>
+						<th width="60" orderField="xmmehlCc">抄送人</th>
+						<th width="60" orderField="xmmehlBcc">Bcc</th>
+						<th width="60" orderField="xmmehlStatu">状态</th> 
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="xmMeetingEmailHistoryLogTrTemplate" target="slt_uid">
+				<td name="xmmehlGuid" type="check"><input name="xmmehlGuids" value="" type="checkbox"></td>
+						<td name="xmmiGuid"></td>
+						<td name="xmmehlFrom"></td>
+						<td name="xmmehlTo"></td>
+						<td name="xmmehlCc"></td>
+						<td name="xmmehlBcc"></td>
+						<td name="xmmehlStatu"></td> 
+				
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage" onchange="xmMeetingEmailHistoryLogSearch({numPerPage:this.value,pageNum:1})">
+				<option value="10">10</option>
+				<option value="40">40</option>
+				<option value="100">100</option>
+				<option value="200">200</option>
+			</select>
+			<span name="xmMeetingEmailHistoryLogCountDiv">条，共-条</span>
+		</div>
+		<div name="xmMeetingEmailHistoryLogPageBar" class="pagination" searchMethod="xmMeetingEmailHistoryLogSearch" targetType="navTab" totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+</div>
+<script type="text/javascript">
+	//定义默认参数
+	var xmMeetingEmailHistoryLogArgs={};
+	 //查询方法
+    xmMeetingEmailHistoryLogSearch();
+	function xmMeetingEmailHistoryLogSearch(opt){
+		//序列化表单值，并扩展到xmMeetingEmailHistoryLogArgs对象中
+		$.extend(xmMeetingEmailHistoryLogArgs,findName('xmMeetingEmailHistoryLogSearchForm').serializeJson(),opt?opt:{});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_3,"/rs/xmMeetingEmailHistoryLog"),xmMeetingEmailHistoryLogArgs,xmMeetingEmailHistoryLogList);
+	}
+	
+	//拼装
+	function xmMeetingEmailHistoryLogList(data){
+		var sampleRow=findName('xmMeetingEmailHistoryLogTrTemplate');
+		pageResponse2Table(sampleRow,data);
+        printPageBarDiv(findName('xmMeetingEmailHistoryLogPageBar'),findName('xmMeetingEmailHistoryLogCountDiv'),data.jsonData);
+	}
+</script>

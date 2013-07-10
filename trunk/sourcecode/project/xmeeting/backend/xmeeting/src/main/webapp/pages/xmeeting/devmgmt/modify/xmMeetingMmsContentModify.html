@@ -1,0 +1,77 @@
+<h2 class="contentTitle" name="showTitle">Edit Type</h2>
+<form name="pageForm" method="post" class="required-validate pageForm" onsubmit="return validateCallback(this, navTabAjaxDone);">
+		<input type="hidden" name="xmmcGuid" id="xmmcGuid"/>
+		<input type="hidden" name="xmmiGuid" id="xmmiGuid"/>
+		<input type="hidden" name="navTabId" value="xmMeetingMmsContent" />
+		<input type="hidden" name="callbackType" value="closeCurrent" />
+		<input type="hidden" name="callBackMethod" value="xmMeetingMmsContentSearch" />
+	<div class="pageFormContent" layoutH="97"> 
+			<p>
+				<label>彩信描述</label> 
+			</p>
+
+			<div class="unit">
+				   <textarea name="xmmcDescription1"   rows="20" cols="100" ></textarea>
+			</div>
+
+			<p>
+				<label>图片文件</label>
+				<input type="hidden" name="xmmcImage" class="required"  />
+			</p>
+			
+			<p></p>
+			<p></p>
+			<p></p>
+			 
+			<div id="xmmcFileFileQueue" class="fileQueue"></div>  
+			<input  type="file"  id="xmmcFileFile" name="xmmcFileFile"  
+				uploader="/fwkweb/styles/uploadify/scripts/uploadify.swf"
+				cancelImg="/fwkweb/styles/uploadify/cancel.png" 
+				script="xmeeting_mmsimage.uploadify"  
+				fileQueue="xmmcFileFileQueue"  
+				onComplete="xmMeetingMms_uploadifyAllComplete"  
+				fileExt="*.jpg;"
+				fileDesc="*.jpg;"/>
+		 
+	</div>
+			
+	<div class="formBar">
+		<ul>
+			<li><div class="buttonActive"><div class="buttonContent"><button type="button" onClick="javascript:xmMeetingMms_genContent();" >生成彩信内容</button></div></div></li>
+			<li><div class="buttonActive"><div class="buttonContent"><button type="submit" >保存</button></div></div></li>
+			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
+		</ul>
+	</div>
+</form>
+<script type="text/javascript">
+	//通过tab url得到行主键，获取信息，自动填充form表单
+	$(function(){
+		var $form = findName("pageForm");
+		var url = navTab._getTabUrl();
+		var xmmcGuid=navTab._getParam("xmmcGuid");
+		var xmmiGuid=navTab._getParam("xmmiGuid"); 
+		$("#xmmcFileFile").attr("script","xmeeting_mmsimage.uploadify?meetingId="+xmmiGuid);
+		if(xmmcGuid){
+			findName('showTitle').html('修改彩信内容');
+			doGetAjax(CPATH.domain_3 + "/rs/xmMeetingMmsContent/" +xmmcGuid ,null,function(data){$form.find("[name]").populate(data);});
+			$form.attr('action',CPATH.domain_3 + '/rs/xmMeetingMmsContent/'+xmmcGuid+'?method=put');
+		}else{
+			findName('xmmiGuid').val(xmmiGuid);
+			findName('showTitle').html('新增彩信内容');
+			$form.attr('action',CPATH.domain_3 + '/rs/xmMeetingMmsContent');
+		}
+	});
+	
+	function xmMeetingMms_uploadifyAllComplete(event, queueID, fileObj, reposnse, data){   
+		var jsonResponse=DWZ.jsonEval(reposnse); 
+		findName('xmmcImage').val(jsonResponse.fileUrlPath );   
+	}
+	
+
+	function xmMeetingMms_genContent(){    
+		logger.info("xmMeetingMms_genContent---begin--->"); 
+		var xmmiGuid=navTab._getParam("xmmiGuid"); 
+		logger.info("xmMeetingMms_genContent---end--->"); 
+	}
+
+</script>
