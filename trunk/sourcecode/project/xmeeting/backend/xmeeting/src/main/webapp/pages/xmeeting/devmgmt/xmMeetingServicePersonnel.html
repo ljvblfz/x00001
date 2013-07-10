@@ -69,8 +69,17 @@
     $(function(){
 		var url = navTab._getTabUrl();
 		var xmmiGuid=navTab._getParam("xmmiGuid");
-		var xurl="/pages/xmeeting/devmgmt/modify/xmMeetingServicePersonnelModify.html?xmmiGuid="+xmmiGuid+"";
+		var xmriGuid=navTab._getParam("xmriGuid");
+		
+// 		var xurl="/pages/xmeeting/devmgmt/modify/xmMeetingServicePersonnelModify.html?xmmiGuid="+xmmiGuid+"";
+// 		findClass("add").attr("href",getURL(CPATH.domain_3,xurl));
+
+
+		var xurl="/pages/xmeeting/devmgmt/modify/xmMeetingServicePersonnelModify.html?xmmiGuid="+xmmiGuid+"&xmriGuid="+xmriGuid+"";
 		findClass("add").attr("href",getURL(CPATH.domain_3,xurl));
+		// 
+		var xediturl="/pages/xmeeting/devmgmt/modify/xmMeetingServicePersonnelModify.html?xmmspGuid={slt_uid}&xmmiGuid="+xmmiGuid+"&xmriGuid="+xmriGuid+"";
+		findClass("edit").attr("href",getURL(CPATH.domain_3,xediturl));
 		//
 		var opts={xmmiGuid:xmmiGuid}; 
 		xmMeetingServicePersonnelSearch(opts);

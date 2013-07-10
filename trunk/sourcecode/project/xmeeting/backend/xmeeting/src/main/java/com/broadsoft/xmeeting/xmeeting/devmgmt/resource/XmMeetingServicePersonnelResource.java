@@ -5,26 +5,30 @@
  
 package com.broadsoft.xmeeting.xmeeting.devmgmt.resource;
 
-import java.util.Date;
+import net.sf.json.JSONObject;
+import net.sf.json.JSONSerializer;
 
-import net.sf.json.*;
-
-import org.restlet.data.*;
-import org.restlet.engine.application.EncodeRepresentation;
-import org.restlet.representation.*;
-import org.restlet.resource.*;
+import org.restlet.data.Form;
+import org.restlet.data.Status;
+import org.restlet.representation.Representation;
+import org.restlet.representation.StringRepresentation;
+import org.restlet.resource.Delete;
+import org.restlet.resource.Get;
+import org.restlet.resource.Put;
+import org.restlet.resource.ResourceException;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.founder.sipbus.common.annotation.RestletResource;
-import com.founder.sipbus.common.resource.BaseResource;
-import com.founder.sipbus.common.util.*;
 import com.broadsoft.xmeeting.xmeeting.basic.dao.XmPadDeviceDaoImpl;
 import com.broadsoft.xmeeting.xmeeting.basic.dao.XmPersonnelInfoDaoImpl;
+import com.broadsoft.xmeeting.xmeeting.basic.dao.XmRoomInfoDetailDaoImpl;
 import com.broadsoft.xmeeting.xmeeting.basic.po.XmPadDevice;
 import com.broadsoft.xmeeting.xmeeting.basic.po.XmPersonnelInfo;
+import com.broadsoft.xmeeting.xmeeting.basic.po.XmRoomInfoDetail;
 import com.broadsoft.xmeeting.xmeeting.devmgmt.dao.XmMeetingServicePersonnelDaoImpl;
 import com.broadsoft.xmeeting.xmeeting.devmgmt.po.XmMeetingServicePersonnel;
+import com.founder.sipbus.common.annotation.RestletResource;
+import com.founder.sipbus.common.util.PMGridCopyUtil;
 import com.founder.sipbus.syweb.au.base.SyBaseResource;
 
 
@@ -50,6 +54,10 @@ public class XmMeetingServicePersonnelResource extends SyBaseResource{
 	private XmPersonnelInfoDaoImpl xmPersonnelInfoDao; 
 	public void setXmPersonnelInfoDao(XmPersonnelInfoDaoImpl xmPersonnelInfoDao) {
 		this.xmPersonnelInfoDao = xmPersonnelInfoDao;
+	}	
+	private XmRoomInfoDetailDaoImpl xmRoomInfoDetailDao; 
+	public void setXmRoomInfoDetailDao(XmRoomInfoDetailDaoImpl xmRoomInfoDetailDao) {
+		this.xmRoomInfoDetailDao = xmRoomInfoDetailDao;
 	}
 	
 	//==============================
@@ -68,8 +76,12 @@ public class XmMeetingServicePersonnelResource extends SyBaseResource{
  
 		String xmpdGuid=xmMeetingServicePersonnel.getXmpdGuid();
 		XmPadDevice xmPadDevice=xmPadDeviceDao.findById(xmpdGuid);
+
+		String xmridGuid=xmMeetingServicePersonnel.getXmridGuid();
+		XmRoomInfoDetail xmRoomInfoDetail=xmRoomInfoDetailDao.findById(xmridGuid);
 		
 		xmMeetingServicePersonnel.setXmpiGuidLabel(xmPersonnelInfo.getXmpiName());
+		xmMeetingServicePersonnel.setXmridGuidLabel(xmRoomInfoDetail.getXmridSeatno());
 		xmMeetingServicePersonnel.setXmpdGuidLabel(xmPadDevice.getXmpdCode());
 		if(null==xmMeetingServicePersonnel){
 			getResponse().setStatus(Status.CLIENT_ERROR_NOT_FOUND);   
