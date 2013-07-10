@@ -1,0 +1,103 @@
+<#assign className = table.className>   
+<#assign classNameLower = className?uncap_first> 
+<#assign signlePrmaryKey = table.signlePrmaryKey>   
+<#assign signlePrmaryKeyLower = signlePrmaryKey?uncap_first>   
+<form method="get" name="${classNameLower}SearchForm" action="/rs/${classNameLower}" onsubmit="return false;" >
+	<input type="hidden" name="pageNum" value="1" />
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>类型名称：</label>
+					<input type="text" name="${signlePrmaryKeyLower}" value=""/>
+				</li>
+<!--				<li>-->
+<!--					<label>条件2：</label>-->
+<!--					<select class="combox" name="${signlePrmaryKeyLower}" codeType="1111" defaultSelectTitle="-请选择-"  defaultSelectValue="" >-->
+<!--					currentVal="2"-->
+<!--					</select>-->
+<!--				</li>-->
+			</ul>
+			<div class="subBar">
+				<ul>						
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="${classNameLower}Search({pageNum:1})">查询</button></div></div></li>
+					<li><a class="button" href="/management/user!advancedSearch.do?userType=TRAINING" target="dialog" title="Advanced Search"><span>高级查询</span></a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</form>
+
+<div class="pageContent">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+			<li><a class="add" target="navTab" rel="userNav" href="javascript:getURL(CPATH.domain_${domain},'/pages/${subpackage}/${thirdpackage}/modify/${classNameLower}Modify.html');" title="新增${classNameLower}" authId="testAuth000001"><span>新增</span></a></li>
+			<li><a class="edit" target="navTab" rel="userNav1" href="javascript:getURL(CPATH.domain_${domain},'/pages/${subpackage}/${thirdpackage}/modify/${classNameLower}Modify.html?${signlePrmaryKeyLower}={slt_uid}');" title="修改${classNameLower}" authId="testAuth000002" multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
+			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_${domain},'/rs/${classNameLower}')"  rel="${signlePrmaryKeyLower}s" 
+			callBackMethod="${classNameLower}Search"	title="确认删除?" authId="testAuth000003"><span>删除</span></a></li>
+<!--			<li class="line">line</li>-->
+<!--			<li><a class="icon" href="/management/user!export.do" target="dwzExport" targetType="navTab" title="确认导出?"><span>导出</span></a></li>-->
+		</ul>
+	</div>
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr  searchMethod="${classNameLower}Search"><th width="22"><input type="checkbox" group="${signlePrmaryKeyLower}s" class="checkboxCtrl"></th>
+				<#list table.columns as column>
+					<#if !column.pk >
+					<#if !column.isCreateOrUpdate >
+						<th width="60" orderField="${column.columnNameLower}">${column.columnNameLower}</th>
+					</#if>
+					</#if>
+				</#list>
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="${classNameLower}TrTemplate" target="slt_uid">
+				<td name="${signlePrmaryKeyLower}" type="check"><input name="${signlePrmaryKeyLower}s" value="" type="checkbox"></td>
+				<#list table.columns as column>
+					<#if !column.pk >
+					<#if !column.isCreateOrUpdate >
+						<td name="${column.columnNameLower}"></td>
+					</#if>
+					</#if>
+				</#list>
+				
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage" onchange="${classNameLower}Search({numPerPage:this.value,pageNum:1})">
+				<option value="10">10</option>
+				<option value="40">40</option>
+				<option value="100">100</option>
+				<option value="200">200</option>
+			</select>
+			<span name="${classNameLower}CountDiv">条，共-条</span>
+		</div>
+		<div name="${classNameLower}PageBar" class="pagination" searchMethod="${classNameLower}Search" targetType="navTab" totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+</div>
+<script type="text/javascript">
+	//定义默认参数
+	var ${classNameLower}Args={};
+	 //查询方法
+    ${classNameLower}Search();
+	function ${classNameLower}Search(opt){
+		//序列化表单值，并扩展到${classNameLower}Args对象中
+		$.extend(${classNameLower}Args,findName('${classNameLower}SearchForm').serializeJson(),opt?opt:{});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_${domain},"/rs/${classNameLower}"),${classNameLower}Args,${classNameLower}List);
+	}
+	
+	//拼装
+	function ${classNameLower}List(data){
+		var sampleRow=findName('${classNameLower}TrTemplate');
+		pageResponse2Table(sampleRow,data);
+        printPageBarDiv(findName('${classNameLower}PageBar'),findName('${classNameLower}CountDiv'),data.jsonData);
+	}
+</script>
