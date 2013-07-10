@@ -22,6 +22,7 @@ public class XmMeetingServicePersonnel extends BaseEntity {
 	public static String XMMI_GUID= "xmmiGuid";
 	public static String XMPI_GUID= "xmpiGuid";
 	public static String XMPD_GUID= "xmpdGuid";
+	public static String XMRID_GUID= "xmridGuid";
 	public static String XMMSP_SERVICE_ROLE= "xmmspServiceRole"; 
 	
 	
@@ -39,6 +40,9 @@ public class XmMeetingServicePersonnel extends BaseEntity {
 	/** 设备ID*/
 	private java.lang.String xmpdGuid;
 	private java.lang.String xmpdGuidLabel;
+	/** 会议室座位 */
+	private java.lang.String xmridGuid; 
+	private java.lang.String xmridGuidLabel;
 
 	
 
@@ -138,6 +142,23 @@ public class XmMeetingServicePersonnel extends BaseEntity {
 
 	public void setXmpdGuidLabel(java.lang.String xmpdGuidLabel) {
 		this.xmpdGuidLabel = xmpdGuidLabel;
+	}
+
+	public java.lang.String getXmridGuid() {
+		return xmridGuid;
+	}
+
+	public void setXmridGuid(java.lang.String xmridGuid) {
+		this.xmridGuid = xmridGuid;
+	}
+
+	@Transient
+	public java.lang.String getXmridGuidLabel() {
+		return xmridGuidLabel;
+	}
+
+	public void setXmridGuidLabel(java.lang.String xmridGuidLabel) {
+		this.xmridGuidLabel = xmridGuidLabel;
 	}
 
 	public int compareTo(Object obj) {

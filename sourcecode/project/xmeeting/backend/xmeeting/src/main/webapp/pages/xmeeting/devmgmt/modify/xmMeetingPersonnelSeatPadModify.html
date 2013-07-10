@@ -17,14 +17,6 @@
 				<a   href="javascript:showDialog_xmMeetingPersonnelInfo2('xmpiGuidLabel','xmpiGuid')" class="btnLook">查找带回</a>
 			</p>
 			<p>
-				<label>人员角色</label>
-<!-- 				<input type="text" name="xmmpspMeetingRole" class="required" size="30" maxlength="20"/> -->
-
-					<select class="required combox" name="xmmpspMeetingRole" valueCode="valueCode" codeType="3010" valueDesc="valueDesc" >
-						<option value="" selected>请选择</option>
-					</select>
-			</p> 
-			<p>
 				<label>座位号</label>
 				<input type="text" name="xmridGuidLabel" readonlye="true" class="required"  />
 				<input type="hidden" name="xmridGuid"  />
@@ -33,11 +25,15 @@
 			<p>
 				<label>pad设备</label>
 				<input type="text" name="xmpdGuidLabel" readonlye="true" class="required"  />
-				<input type="hidden" name="xmpdGuid"  />
-				<!--
-				<a   href="javascript:showDialog_xmPadDeviceInfo2('xmpdGuidLabel','xmpdGuid')" class="btnLook">查找带回</a>
-				-->
+				<input type="hidden" name="xmpdGuid"  /> 
 			</p>
+			<p>
+				<label>人员角色</label>
+
+					<select class="required combox" name="xmmpspMeetingRole" valueCode="valueCode" codeType="3010" valueDesc="valueDesc" >
+						<option value="" selected>请选择</option>
+					</select>
+			</p> 
 	</div>
 			
 	<div class="formBar">
