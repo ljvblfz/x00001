@@ -21,6 +21,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
+import org.apache.http.params.HttpProtocolParams;
  
 
 
@@ -57,10 +58,10 @@ public class HttpPostSupport {
             nameValuePairs.add(new BasicNameValuePair(key,value));  
         } 
         request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+//        request.getParams().setParameter(HttpProtocolParams.HTTP_CONTENT_CHARSET,"utf-8");
         
 		// 发送请求
-		HttpClient httpclient = creteHttpClient(); 
-		request.setHeader("Content-type", "text/html; charset=UTF-8");
+		HttpClient httpclient = creteHttpClient();  
 		HttpResponse httpResponse = httpclient.execute(request);
 		// 得到应答的字符串，这也是一个 JSON 格式保存的数据 
 		String strResult = "";
@@ -86,6 +87,7 @@ public class HttpPostSupport {
 		HttpConnectionParams.setConnectionTimeout(httpParameters, REQUEST_TIMEOUT); 
 		HttpConnectionParams.setSoTimeout(httpParameters, SO_TIMEOUT); 
 		HttpClient httpclient = new DefaultHttpClient(httpParameters);
+		httpclient.getParams().setParameter(HttpProtocolParams.HTTP_CONTENT_CHARSET,"utf-8");
 		return httpclient;
 	} 
 
