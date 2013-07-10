@@ -20,6 +20,7 @@
 		<module>fwklogic</module>
 		<module>pologic</module>
 		<module>ibatislogic</module>
+		<module>integration</module>
 		<module>script</module>
 		<module>corejs</module>     
 		<module>fwkweb</module>    
