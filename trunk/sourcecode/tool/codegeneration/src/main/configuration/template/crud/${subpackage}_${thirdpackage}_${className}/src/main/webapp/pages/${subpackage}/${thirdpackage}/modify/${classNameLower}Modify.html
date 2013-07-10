@@ -1,0 +1,47 @@
+<#assign className = table.className>   
+<#assign classNameLower = className?uncap_first> 
+<#assign signlePrmaryKey = table.signlePrmaryKey>   
+<#assign signlePrmaryKeyLower = signlePrmaryKey?uncap_first>   
+<h2 class="contentTitle" name="showTitle">Edit Type</h2>
+<form name="pageForm" method="post" class="required-validate pageForm" onsubmit="return validateCallback(this, navTabAjaxDone);">
+		<input type="hidden" name="${signlePrmaryKeyLower}" id="${signlePrmaryKeyLower}"/>
+		<input type="hidden" name="navTabId" value="${classNameLower}" />
+		<input type="hidden" name="callbackType" value="closeCurrent" />
+		<input type="hidden" name="callBackMethod" value="${classNameLower}Search" />
+	<div class="pageFormContent" layoutH="97">
+		<#list table.columns as column>
+					<#if !column.pk >
+					<#if !column.isCreateOrUpdate >
+			<p>
+				<label>${column.columnNameLower}</label>
+				<input type="text" name="${column.columnNameLower}" class="required" size="30" maxlength="20"/>
+			</p>
+					</#if>
+					</#if>
+		</#list>
+	</div>
+			
+	<div class="formBar">
+		<ul>
+			<li><div class="buttonActive"><div class="buttonContent"><button type="submit" >保存</button></div></div></li>
+			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
+		</ul>
+	</div>
+</form>
+<script type="text/javascript">
+	//通过tab url得到行主键，获取信息，自动填充form表单
+	$(function(){
+		var $form = findName("pageForm");
+		var url = navTab._getTabUrl();
+		var ${signlePrmaryKeyLower}=navTab._getParam("${signlePrmaryKeyLower}")
+		if(${signlePrmaryKeyLower}){
+			findName('showTitle').html('修改${classNameLower}');
+			doGetAjax(CPATH.domain_${domain} + "/rs/${classNameLower}/" +${signlePrmaryKeyLower} ,null,function(data){$form.find("[name]").populate(data);});
+			$form.attr('action',CPATH.domain_${domain} + '/rs/${classNameLower}/'+${signlePrmaryKeyLower}+'?method=put');
+		}else{
+			findName('showTitle').html('新增${classNameLower}');
+			$form.attr('action',CPATH.domain_${domain} + '/rs/${classNameLower}');
+		}
+	});
+
+</script>

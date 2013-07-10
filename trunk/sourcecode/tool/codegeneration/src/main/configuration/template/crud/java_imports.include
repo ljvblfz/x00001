@@ -1,0 +1,13 @@
+import java.util.*;
+
+import com.founder.sipbus.*;
+import ${basepackage}.${subpackage}.${thirdpackage}.po.*;
+import ${basepackage}.${subpackage}.${thirdpackage}.dao.*;
+import ${basepackage}.${subpackage}.${thirdpackage}.resource.*;
+
+/**
+ * @author
+ * @version 1.0
+ * @since 1.0
+ */
+ 
