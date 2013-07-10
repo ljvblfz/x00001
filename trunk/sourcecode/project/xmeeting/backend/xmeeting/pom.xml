@@ -48,6 +48,8 @@
 		  <artifactId>pologic</artifactId>
 		  <version>1.0-SNAPSHOT</version> 
 		</dependency> 
+		
+		
 		 
 		
 		<dependency>
@@ -56,6 +58,13 @@
 		  <version>1.0-SNAPSHOT</version> 
 		</dependency> 
  
+		
+		<dependency>
+			<groupId>com.broadsoft.xmeeting</groupId>
+		  <artifactId>integration</artifactId>
+		  <version>1.0-SNAPSHOT</version> 
+		</dependency> 
+		
 <!--
 		<dependency>
 		  <groupId>com.founder.communication</groupId>
