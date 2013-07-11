@@ -31,6 +31,7 @@ public class MailSenderInfo {
 	private String content;
 	// 邮件附件的文件名
 	private String[] attachFileNames;
+	private String[] attachFullPath;
 
 	/**
 	 * 获得邮件会话属性
@@ -137,6 +138,14 @@ public class MailSenderInfo {
 
 	public void setBccAddress(String bccAddress) {
 		this.bccAddress = bccAddress;
+	}
+
+	public String[] getAttachFullPath() {
+		return attachFullPath;
+	}
+
+	public void setAttachFullPath(String[] attachFullPath) {
+		this.attachFullPath = attachFullPath;
 	}
 	
 	
