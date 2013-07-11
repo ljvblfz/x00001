@@ -22,6 +22,7 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
+import org.apache.http.util.EntityUtils;
 
 /**
  * http://www.androidsnippets.com/executing-a-http-post-request-with-httpclient
@@ -60,12 +61,14 @@ public class HttpPostSupport {
 		// 发送请求
 		HttpClient httpclient = creteHttpClient();
 		HttpResponse httpResponse = httpclient.execute(request);
+		
 		// 得到应答的字符串，这也是一个 JSON 格式保存的数据
 		String strResult = "";
 		if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {//
 			HttpEntity entity = httpResponse.getEntity();
-			InputStream is = entity.getContent();
-			strResult = inputStream2String(is);
+//			InputStream is = entity.getContent();
+//			strResult = inputStream2String(is);
+			strResult=EntityUtils.toString(entity, "UTF-8");
 		} else {
 			// TODO: fixme
 		}
