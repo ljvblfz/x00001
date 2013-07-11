@@ -1,0 +1,120 @@
+<!-- <form method="get" name="xmMeetingEmailSearchForm" action="/rs/xmMeetingEmail" onsubmit="return false;" > -->
+<!-- 	<input type="hidden" name="pageNum" value="1" /> -->
+<!-- 	<div class="pageHeader"> -->
+<!-- 		<div class="searchBar"> -->
+<!-- 			<ul class="searchContent"> -->
+<!-- 				<li> -->
+<!-- 					<label>类型名称：</label> -->
+<!-- 					<input type="text" name="xmmeGuid" value=""/> -->
+<!-- 				</li>  -->
+<!-- 			</ul> -->
+<!-- 			<div class="subBar"> -->
+<!-- 				<ul>						 -->
+<!-- 					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="xmMeetingEmailSearch({pageNum:1})">查询</button></div></div></li> -->
+<!-- 					<li><a class="button" href="/management/user!advancedSearch.do?userType=TRAINING" target="dialog" title="Advanced Search"><span>高级查询</span></a></li> -->
+<!-- 				</ul> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
+<!-- </form> -->
+
+<div class="pageContent">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+<!-- 			<li><a class="add" target="navTab" rel="userNav" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/modify/xmMeetingEmailModify.html');" title="新增xmMeetingEmail" authId="testAuth000001"><span>新增</span></a></li> -->
+			<li><a class="edit" target="navTab" rel="userNav_21" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/modify/xmMeetingEmailModify.html?xmmeGuid={slt_uid}');" title="查看邮件"   multiable="no" warn="请选择一条记录"><span>查看</span></a></li>
+<!-- 			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_3,'/rs/xmMeetingEmail')"  rel="xmmeGuids" callBackMethod="xmMeetingEmailSearch"	title="确认删除?" authId="testAuth000003"><span>删除</span></a></li>  -->
+			<li><a class="add"   rel="userNav_24" href="javascript:xmMeetingEmailSend();" title="发送邮件"  ><span>发送邮件</span></a></li>
+		</ul>
+	</div>
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr  searchMethod="xmMeetingEmailSearch"><th width="22"><input type="checkbox" group="xmmeGuids" class="checkboxCtrl"></th>
+<!-- 						<th width="60" orderField="xmmiGuid">xmmiGuid</th> -->
+						<th width="60" orderField="xmmeToAddress">收件人地址</th>
+						<th width="60" orderField="xmmeToName">收件人名字</th>
+						<th width="60" orderField="xmmeStatus">状态</th>
+<!-- 						<th width="60" orderField="delFlag">delFlag</th> -->
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="xmMeetingEmailTrTemplate" target="slt_uid">
+				<td name="xmmeGuid" type="check"><input name="xmmeGuids" value="" type="checkbox"></td>
+<!-- 						<td name="xmmiGuid"></td> -->
+						<td name="xmmeToAddress"></td>
+						<td name="xmmeToName"></td>
+						<td name="xmmeStatus"></td>
+<!-- 						<td name="delFlag"></td> -->
+				
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage" onchange="xmMeetingEmailSearch({numPerPage:this.value,pageNum:1})">
+				<option value="10">10</option>
+				<option value="40">40</option>
+				<option value="100">100</option>
+				<option value="200">200</option>
+			</select>
+			<span name="xmMeetingEmailCountDiv">条，共-条</span>
+		</div>
+		<div name="xmMeetingEmailPageBar" class="pagination" searchMethod="xmMeetingEmailSearch" targetType="navTab" totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+</div>
+<script type="text/javascript">
+	//定义默认参数
+	var xmMeetingEmailArgs={};
+	//查询方法 
+
+    $(function(){ 
+		var xmmiGuid=navTab._getParam("xmmiGuid");   
+		var opts={xmmiGuid:xmmiGuid}; 
+		xmMeetingEmailSearch(opts);
+	}); 
+	
+	function xmMeetingEmailSearch(opt){
+		//序列化表单值，并扩展到xmMeetingEmailArgs对象中
+		$.extend(xmMeetingEmailArgs,findName('xmMeetingEmailSearchForm').serializeJson(),opt?opt:{});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_3,"/rs/xmMeetingEmail"),xmMeetingEmailArgs,xmMeetingEmailList);
+	}
+	
+	//拼装
+	function xmMeetingEmailList(data){
+		var sampleRow=findName('xmMeetingEmailTrTemplate');
+		pageResponse2Table(sampleRow,data);
+        printPageBarDiv(findName('xmMeetingEmailPageBar'),findName('xmMeetingEmailCountDiv'),data.jsonData);
+	}
+	
+
+	//拼装
+	function xmMeetingEmailSend(){ 
+		logger.info("xmMeetingEmailSend----------begin");
+		var xmmiGuid=navTab._getParam("xmmiGuid"); 
+		var url=getURL(CPATH.domain_3,'/rs/xmMeetingEmailSendDocument/xmmiGuid/'+xmmiGuid);
+		logger.info("xmMeetingEmailSend---url--->"+url);  
+		dtd = $.ajax({
+			type : "GET", 
+			url : url,
+			dataType : "json",
+			cache : false,
+			global : false
+		});
+		dtd.done(function(respJson) {   
+			logger.info("xmMeetingEmailSend---respJson--done->"+respJson); 
+			alertMsg.correct('邮件发送成功！')
+			
+		}); 
+		dtd.fail(function(respJson) { 
+			logger.info("xmMeetingEmailSend---respJson--fail->"+respJson); 
+			alertMsg.error('邮件发送失败！') 
+			 
+		});
+		logger.info("xmMeetingEmailSend----------end");
+	}
+</script>
