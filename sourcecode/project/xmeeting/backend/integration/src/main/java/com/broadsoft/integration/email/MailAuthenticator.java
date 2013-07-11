@@ -2,15 +2,15 @@ package com.broadsoft.integration.email;
 
 import javax.mail.*;
 
-public class MyAuthenticator extends Authenticator {
+public class MailAuthenticator extends Authenticator {
 	
 	String userName = null;
 	String password = null;
 
-	public MyAuthenticator() {
+	public MailAuthenticator() {
 	}
 
-	public MyAuthenticator(String username, String password) {
+	public MailAuthenticator(String username, String password) {
 		this.userName = username;
 		this.password = password;
 	}

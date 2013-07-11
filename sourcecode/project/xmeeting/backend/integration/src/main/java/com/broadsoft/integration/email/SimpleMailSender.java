@@ -1,7 +1,6 @@
 package com.broadsoft.integration.email;
 
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.Properties;
 
@@ -30,7 +29,7 @@ public class SimpleMailSender {
 	 * @param mailInfo
 	 *            待发送的邮件的信息
 	 */
-	public boolean sendTextMail(MailSenderInfo mailInfo) {
+	public static boolean sendTextMail(MailSenderInfo mailInfo) {
 		// 判断是否需要身份认证
 		Session sendMailSession = createSession(mailInfo);
 		try {
@@ -52,13 +51,72 @@ public class SimpleMailSender {
 		}
 		return false;
 	}
-
-	private Session createSession(MailSenderInfo mailInfo) {
-		MyAuthenticator authenticator = null;
+	
+	/**
+	 * 以HTML格式发送邮件
+	 * 
+	 * @param mailInfo
+	 *            待发送的邮件信息
+	 */
+	public static boolean sendHtmlMail(MailSenderInfo mailInfo) {
+		Session sendMailSession = createSession(mailInfo);
+		try {  
+			// 根据session创建一个邮件消息
+			Message mailMessage = createMailMessage(mailInfo, sendMailSession); 
+			
+			// MiniMultipart类是一个容器类，包含MimeBodyPart类型的对象
+			Multipart mainPart = new MimeMultipart();
+			// 创建一个包含HTML内容的MimeBodyPart
+			BodyPart htmlBodyText = new MimeBodyPart();
+			// 设置HTML内容
+			htmlBodyText.setContent(mailInfo.getContent(), "text/html; charset=gb2312");
+			mainPart.addBodyPart(htmlBodyText);
+			
+			//设置信件的附件(用本地上的文件作为附件)
+			String[] attachFileNames=mailInfo.getAttachFileNames();
+			String[] attachFullPaths=mailInfo.getAttachFullPath();
+			if(null!=attachFileNames&&null!=attachFullPaths){ 
+				for(int i=0;i<attachFileNames.length;i++){
+					String attachFileName=attachFileNames[i];
+					String attachFullPath=attachFullPaths[i];
+					BodyPart htmlBodyAttachment = new MimeBodyPart();
+					FileDataSource fds = new FileDataSource(attachFullPath);
+					DataHandler dh = new DataHandler(fds);
+//					String fileName=attachFileName; 
+					try { 
+						attachFileName = javax.mail.internet.MimeUtility.encodeWord(attachFileName,"gb2312",null);
+					} catch (UnsupportedEncodingException e) { 
+						e.printStackTrace();
+					} 
+					htmlBodyAttachment.setFileName(attachFileName);
+					htmlBodyAttachment.setDataHandler(dh); 
+					mainPart.addBodyPart(htmlBodyAttachment); 
+				}
+			} 
+			// 将MiniMultipart对象设置为邮件内容
+			mailMessage.setContent(mainPart);
+			mailMessage.saveChanges(); 
+			// 发送邮件
+			Transport.send(mailMessage);
+			return true;
+		} catch (MessagingException ex) {
+			ex.printStackTrace();
+		}
+		return false;
+	}//end of sendHtmlMail
+	
+	
+	/**
+	 * 
+	 * @param mailInfo
+	 * @return
+	 */
+	private static Session createSession(MailSenderInfo mailInfo) {
+		MailAuthenticator authenticator = null;
 		Properties pro = mailInfo.getProperties();
 		if (mailInfo.isValidate()) {
 			// 如果需要身份认证，则创建一个密码验证器
-			authenticator = new MyAuthenticator(mailInfo.getUserName(),
+			authenticator = new MailAuthenticator(mailInfo.getUserName(),
 					mailInfo.getPassword());
 		}
 		// 根据邮件会话属性和密码验证器构造一个发送邮件的session
@@ -67,7 +125,15 @@ public class SimpleMailSender {
 		return sendMailSession;
 	}
 
-	private Message createMailMessage(MailSenderInfo mailInfo,
+	/**
+	 * 
+	 * @param mailInfo
+	 * @param sendMailSession
+	 * @return
+	 * @throws AddressException
+	 * @throws MessagingException
+	 */
+	private static Message createMailMessage(MailSenderInfo mailInfo,
 			Session sendMailSession) throws AddressException,
 			MessagingException {
 		Message mailMessage = new MimeMessage(sendMailSession); 
@@ -137,72 +203,13 @@ public class SimpleMailSender {
 		return mailMessage;
 	}//end of createMailMessage
 
+	
+	
 	/**
-	 * 以HTML格式发送邮件
 	 * 
-	 * @param mailInfo
-	 *            待发送的邮件信息
+	 * @param filePath
+	 * @return
 	 */
-	public boolean sendHtmlMail(MailSenderInfo mailInfo) {
-		Session sendMailSession = createSession(mailInfo);
-		try {
-//			// 根据session创建一个邮件消息
-//			Message mailMessage = new MimeMessage(sendMailSession);
-//			// 创建邮件发送者地址
-//			Address from = new InternetAddress(mailInfo.getFromAddress());
-//			// 设置邮件消息的发送者
-//			mailMessage.setFrom(from);
-//			// 创建邮件的接收者地址，并设置到邮件消息中
-//			Address to = new InternetAddress(mailInfo.getToAddress());
-//			// Message.RecipientType.TO属性表示接收者的类型为TO
-//			mailMessage.setRecipient(Message.RecipientType.TO, to);
-//			// 设置邮件消息的主题
-//			mailMessage.setSubject(mailInfo.getSubject());
-//			// 设置邮件消息发送的时间
-			
-
-			// 根据session创建一个邮件消息
-			Message mailMessage = createMailMessage(mailInfo, sendMailSession); 
-			
-			// MiniMultipart类是一个容器类，包含MimeBodyPart类型的对象
-			Multipart mainPart = new MimeMultipart();
-			// 创建一个包含HTML内容的MimeBodyPart
-			BodyPart htmlBodyText = new MimeBodyPart();
-			// 设置HTML内容
-			htmlBodyText.setContent(mailInfo.getContent(), "text/html; charset=gb2312");
-			mainPart.addBodyPart(htmlBodyText);
-			
-			//设置信件的附件(用本地上的文件作为附件)
-			String[] attachFileNames=mailInfo.getAttachFileNames();
-			if(null!=attachFileNames){
-				for(String attacheFileName:attachFileNames){
-					BodyPart htmlBodyAttachment = new MimeBodyPart();
-					FileDataSource fds = new FileDataSource(attacheFileName);
-					DataHandler dh = new DataHandler(fds);
-					String fileName=getFileNameByPath(attacheFileName); 
-					try { 
-						fileName = javax.mail.internet.MimeUtility.encodeWord(fileName,"gb2312",null);
-					} catch (UnsupportedEncodingException e) { 
-						e.printStackTrace();
-					} 
-					htmlBodyAttachment.setFileName(fileName);
-					htmlBodyAttachment.setDataHandler(dh); 
-					mainPart.addBodyPart(htmlBodyAttachment); 
-				}
-			} 
-			// 将MiniMultipart对象设置为邮件内容
-			mailMessage.setContent(mainPart);
-			mailMessage.saveChanges(); 
-			// 发送邮件
-			Transport.send(mailMessage);
-			return true;
-		} catch (MessagingException ex) {
-			ex.printStackTrace();
-		}
-		return false;
-	}
-	
-	
 	public static String getFileNameByPath(String filePath){
 		int idx = filePath.replaceAll("\\\\", "/").lastIndexOf("/");
 		return idx >= 0 ? filePath.substring(idx + 1) : filePath; 
