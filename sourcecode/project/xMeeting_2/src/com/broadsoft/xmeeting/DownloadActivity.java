@@ -85,7 +85,7 @@ public class DownloadActivity extends Activity {
 		MeetingInfoLVButtonAdapter meetingListItemAdapter = new MeetingInfoLVButtonAdapter(this);   
         lvMeetingInfo.setAdapter(meetingListItemAdapter);   
 		//UI handler
-		DownloadByWsUIHandler.init(this);
+		DownloadByWsUIHandler.init(this,meetingListItemAdapter);
         DownloadByHandUIHandler.init(this, meetingListItemAdapter);
         //
 		toggleBtnDownload = (ToggleButton ) findViewById(R.id.toggleBtnDownload);

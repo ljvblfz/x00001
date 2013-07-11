@@ -3,9 +3,6 @@ package com.broadsoft.xmeeting.uihandler;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.broadsoft.xmeeting.R;
-import com.broadsoft.xmeeting.R.id;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,6 +11,10 @@ import android.util.Log;
 import android.view.Gravity;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.broadsoft.xmcommon.appsupport.AppInitSupport;
+import com.broadsoft.xmdownload.adapter.MeetingInfoLVButtonAdapter;
+import com.broadsoft.xmeeting.R;
 
 
 /**
@@ -25,15 +26,17 @@ public class DownloadByWsUIHandler extends Handler {
 	private final String TAG = "DownloadByWsUIHandler";
 	private static DownloadByWsUIHandler downloadUIHandler;
 	private Activity act;
+	private MeetingInfoLVButtonAdapter meetingListItemAdapter ;
 
-	private DownloadByWsUIHandler(Activity act) {
+	private DownloadByWsUIHandler(Activity act,MeetingInfoLVButtonAdapter meetingListItemAdapter ) {
 		this.act = act;
+		this.meetingListItemAdapter=meetingListItemAdapter;
 	}
 	
 	
-	public static void init(Activity act){
+	public static void init(Activity act,MeetingInfoLVButtonAdapter meetingListItemAdapter ){
 		if(null==downloadUIHandler){
-			downloadUIHandler=new DownloadByWsUIHandler(act);
+			downloadUIHandler=new DownloadByWsUIHandler(act,meetingListItemAdapter);
 		} 
 	}//end of init 
 	
@@ -47,9 +50,23 @@ public class DownloadByWsUIHandler extends Handler {
 		super.handleMessage(msg);
 		Bundle bundle = msg.getData();
 		String payload = bundle.getString("payload");
-		String downloadinfo  = processMessage(payload);
-		TextView tvDownloadStatus=(TextView)act.findViewById(R.id.textViewDownloadStatus);
-		tvDownloadStatus.setText(downloadinfo);
+		JSONObject jo;
+		try {
+			jo = new JSONObject(payload);
+			String statusinfo=jo.getString("statusinfo"); 
+			TextView tvDownloadStatus=(TextView)act.findViewById(R.id.textViewDownloadStatus);
+			tvDownloadStatus.setText(statusinfo);
+			if(jo.has("isfinish")){
+				String isfinish=jo.getString("isfinish");
+				if("1".equals(isfinish)){
+					AppInitSupport.reloadEntity();
+					meetingListItemAdapter.reload();
+				}//end of if
+			}//end of if isfinish
+
+		} catch (JSONException e) { 
+			e.printStackTrace();
+		}    
 		Log.d(TAG, "handleMessage end");
 	}
 
@@ -85,6 +102,7 @@ public class DownloadByWsUIHandler extends Handler {
         try {
 			jsonMessage.put("type", "02");
 			jsonMessage.put("statusinfo", "下载会议信息中.");
+			jsonMessage.put("isfinish", "0");
 		} catch (JSONException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -97,6 +115,7 @@ public class DownloadByWsUIHandler extends Handler {
         try {
 			jsonMessage.put("type", "02");
 			jsonMessage.put("statusinfo", "下载会议信息结束.");
+			jsonMessage.put("isfinish", "1");
 		} catch (JSONException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -109,6 +128,7 @@ public class DownloadByWsUIHandler extends Handler {
         try {
 			jsonMessage.put("type", "01");
 			jsonMessage.put("statusinfo", "下载设备信息中.");
+			jsonMessage.put("isfinish", "0");
 		} catch (JSONException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -121,6 +141,7 @@ public class DownloadByWsUIHandler extends Handler {
         try {
 			jsonMessage.put("type", "01");
 			jsonMessage.put("statusinfo", "下载设备信息结束.");
+			jsonMessage.put("isfinish", "1");
 		} catch (JSONException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -133,6 +154,7 @@ public class DownloadByWsUIHandler extends Handler {
         try {
 			jsonMessage.put("type", "03");
 			jsonMessage.put("statusinfo", "激活会议完成");
+			jsonMessage.put("isfinish", "1");
 		} catch (JSONException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
