@@ -71,6 +71,26 @@
 	function xmMeetingMms_genContent(){    
 		logger.info("xmMeetingMms_genContent---begin--->"); 
 		var xmmiGuid=navTab._getParam("xmmiGuid"); 
+		var url=getURL(CPATH.domain_3,'/rs/xmMeetingMmsGenContent/xmmiGuid/'+xmmiGuid);
+		logger.info("xmMeetingMms_genContent---url--->"+url); 
+		dtd = $.ajax({
+			type : "GET",
+			url : url,
+			dataType : "json",
+			cache : false,
+			global : false
+		});
+		dtd.done(function(respJson) {   
+			logger.info("xmMeetingMms_genContent---respJson--done->"+respJson); 
+			findName("xmmcDescription1").val(respJson.jsonData);
+			alertMsg.correct('彩信内容生成成功！')
+			
+		}); 
+		dtd.fail(function(respJson) { 
+			logger.info("xmMeetingMms_genContent---respJson--fail->"+respJson);
+			alertMsg.error('彩信内容生成失败！') 
+			 
+		});
 		logger.info("xmMeetingMms_genContent---end--->"); 
 	}
 

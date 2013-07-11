@@ -22,11 +22,12 @@
 
 	<div class="panelBar">
 		<ul class="toolBar">
-			<li><a class="add" target="navTab" rel="userNav" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/modify/xmMeetingMmsContentModify.html');" title="新增彩信内容"  ><span>新增</span></a></li>
-			<li><a class="edit" target="navTab" rel="userNav1" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/modify/xmMeetingMmsContentModify.html?xmmcGuid={slt_uid}');" title="修改彩信内容"  multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
+			<li><a class="add" target="navTab" rel="userNav_0" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/modify/xmMeetingMmsContentModify.html');" title="新增彩信内容"  ><span>新增</span></a></li>
+			<li><a class="edit" target="navTab" rel="userNav_1" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/modify/xmMeetingMmsContentModify.html?xmmcGuid={slt_uid}');" title="修改彩信内容"  multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
 			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_3,'/rs/xmMeetingMmsContent')"  rel="xmmcGuids"  callBackMethod="xmMeetingMmsContentSearch"	title="确认删除?"  ><span>删除</span></a></li>
-<!--			<li class="line">line</li>-->
-<!--			<li><a class="icon" href="/management/user!export.do" target="dwzExport" targetType="navTab" title="确认导出?"><span>导出</span></a></li>-->
+			<li class="line">line</li> 
+			<li><a class="delete" target="navTab" rel="userNav_2" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/modify/xmMeetingMmsSendModify.html?xmmcGuid={slt_uid}');" title="发送彩信内容"  multiable="no" warn="请选择一条记录"><span>发送彩信</span></a></li>
+			
 		</ul>
 	</div>
 	

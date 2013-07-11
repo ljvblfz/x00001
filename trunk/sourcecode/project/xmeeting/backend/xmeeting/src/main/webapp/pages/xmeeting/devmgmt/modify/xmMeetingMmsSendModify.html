@@ -1,0 +1,74 @@
+<h2 class="contentTitle" name="showTitle">Edit Type</h2>
+<form name="pageForm" method="post" class="  pageForm"  >
+		<input type="hidden" name="xmmcGuid" id="xmmcGuid"/>
+		<input type="hidden" name="xmmiGuid" id="xmmiGuid"/>
+		<input type="hidden" name="xmmcDescription1" id="xmmcDescription1"/>
+		<input type="hidden" name="navTabId" value="xmMeetingMmsContent" />
+		<input type="hidden" name="callbackType" value="closeCurrent" />
+		<input type="hidden" name="callBackMethod" value="xmMeetingMmsContentSearch" />
+		<div class="pageFormContent" layoutH="97"> 
+				<p>
+					<label>收彩信号码:</label> 
+				</p>
+				<div class="unit">
+					   <textarea name="mTo"   rows="20" cols="100" ></textarea>
+				</div>
+				<p>
+					<label>多个号码以英文逗号(,)隔开</label> 
+				</p> 
+			 
+		</div>
+			
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="button" onClick="javascript:xmMeetingMms_sendContent();" >发送</button></div></div></li>
+		 
+				<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
+			</ul>
+		</div>
+</form>
+<script type="text/javascript">
+	//通过tab url得到行主键，获取信息，自动填充form表单
+	$(function(){
+		var $form = findName("pageForm");
+		var url = navTab._getTabUrl();
+		var xmmcGuid=navTab._getParam("xmmcGuid");
+		var xmmiGuid=navTab._getParam("xmmiGuid");  
+		if(xmmcGuid){
+			findName('showTitle').html('发送彩信内容');
+			doGetAjax(CPATH.domain_3 + "/rs/xmMeetingMmsContent/" +xmmcGuid ,null,function(data){$form.find("[name]").populate(data);}); 
+		} 
+	});
+	
+	 
+
+	function xmMeetingMms_sendContent(){    
+		logger.info("xmMeetingMms_sendContent---begin--->");  
+		var xmmcGuid=navTab._getParam("xmmcGuid"); 
+		
+		
+		var url=getURL(CPATH.domain_3,'/rs/xmMeetingMmsSendContent/xmmcGuid/'+xmmcGuid);
+		logger.info("xmMeetingMms_sendContent---url--->"+url); 
+		var formData=findName('pageForm').serialize();
+		dtd = $.ajax({
+			type : "POST",
+			data:formData,
+			url : url,
+			dataType : "json",
+			cache : false,
+			global : false
+		});
+		dtd.done(function(respJson) {   
+			logger.info("xmMeetingMms_sendContent---respJson--done->"+respJson); 
+			alertMsg.correct('彩信内容发送成功！')
+			
+		}); 
+		dtd.fail(function(respJson) { 
+			logger.info("xmMeetingMms_sendContent---respJson--fail->"+respJson); 
+			alertMsg.error('彩信内容发送失败！') 
+			 
+		});
+		logger.info("xmMeetingMms_sendContent---end--->"); 
+	}
+
+</script>
