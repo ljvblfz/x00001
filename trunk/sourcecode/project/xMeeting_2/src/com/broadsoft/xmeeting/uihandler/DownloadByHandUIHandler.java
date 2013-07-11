@@ -5,13 +5,13 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.broadsoft.xmcommon.appsupport.AppInitSupport;
 import com.broadsoft.xmdownload.adapter.MeetingInfoLVButtonAdapter;
 
 
@@ -57,6 +57,7 @@ public class DownloadByHandUIHandler extends Handler {
 		}else if("error".equals(downloadinfo)){//下载错误
 			Toast.makeText(act, "会议信息下载失败,请重新下载.", Toast.LENGTH_LONG).show();  
 		}else if("activate".equals(downloadinfo)){//激活会议
+			AppInitSupport.reloadEntity();
 			meetingInfoLVButtonAdapter.reload(); 
 			Toast.makeText(act, "会议信息激活.", Toast.LENGTH_LONG).show();  
 		} 
@@ -100,7 +101,7 @@ public class DownloadByHandUIHandler extends Handler {
 	public void sendDownloadMessageOnError() {
         JSONObject jsonMessage=new JSONObject();
         try {
-			jsonMessage.put("type", "03");
+			jsonMessage.put("type", "06");
 			jsonMessage.put("statusinfo", "error");
 		} catch (JSONException e1) { 
 			e1.printStackTrace();
@@ -112,7 +113,7 @@ public class DownloadByHandUIHandler extends Handler {
 	public void sendDownloadMessageOnBegin() {
         JSONObject jsonMessage=new JSONObject();
         try {
-			jsonMessage.put("type", "03");
+			jsonMessage.put("type", "06");
 			jsonMessage.put("statusinfo", "begin");
 		} catch (JSONException e1) { 
 			e1.printStackTrace();
@@ -123,7 +124,7 @@ public class DownloadByHandUIHandler extends Handler {
 	public void sendDownloadMessageOnEnd() {
         JSONObject jsonMessage=new JSONObject();
         try {
-			jsonMessage.put("type", "03");
+			jsonMessage.put("type", "06");
 			jsonMessage.put("statusinfo", "end");
 		} catch (JSONException e1) { 
 			e1.printStackTrace();
@@ -135,7 +136,7 @@ public class DownloadByHandUIHandler extends Handler {
 	public void sendActivateMessage() {
         JSONObject jsonMessage=new JSONObject();
         try {
-			jsonMessage.put("type", "03");
+			jsonMessage.put("type", "06");
 			jsonMessage.put("statusinfo", "activate");
 		} catch (JSONException e1) { 
 			e1.printStackTrace();

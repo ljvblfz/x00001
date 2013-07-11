@@ -34,6 +34,11 @@ public class AppInitSupport {
  		// 
 		WsDownloadServiceSupport.getInstance().initData(AndroidIdSupport.getAndroidID());
 		//读取会议信息
+		initEntity();
+
+	}//end of initApp
+
+	public static void initEntity() {
 		PadInfoEntity padInfoEntity=DaoHolder.getInstance().getPadInfoDao().uniqueOne();
 		Log.d(TAG, "[Sqlite]PadInfoEntity---->"+padInfoEntity);
 //		CompanyInfoEntity companyInfoEntity=DaoHolder.getInstance().getCompanyInfoDao().uniqueOne();
@@ -44,41 +49,20 @@ public class AppInitSupport {
 //		EntityInfoHolder.getInstance().setCompanyInfoEntity(companyInfoEntity);
 		EntityInfoHolder.getInstance().setPadInfoEntity(padInfoEntity);
 		EntityInfoHolder.getInstance().setDownloadInfoEntity(downloadInfoEntity);
+	}//end of initEntity
 
-	}//end of initApp
-
-
-
-
-//	private static void connectWS() {
-//		try{
-//			WsControllerServiceSupport.getInstance().disconnect();  
-//		}catch(Exception e){ 
-//			Log.d(TAG, "[Websocket]disconnect---exception--"+e.getMessage());
-//		}
-//		
-//		try{ 
-//			Log.d(TAG, "[WS]wait 10s"); 
-//			Thread.sleep(10*1000);
-//		}catch(Exception e){ 
-//			Log.d(TAG, "[Websocket]sleep---exception--"+e.getMessage());
-//		}
-//		WsControllerServiceSupport.getInstance().connect();
-//	}
-	
-	
-	
+	public static void reloadEntity() {
+		initEntity();
+	}  
 	
 	public static void initDownloadInfoEntity(){ 
 		DownloadInfoEntity downloadInfoEntity=DaoHolder.getInstance().getDownloadInfoDao().findByActivate();
-		EntityInfoHolder.getInstance().setDownloadInfoEntity(downloadInfoEntity);
-		
+		EntityInfoHolder.getInstance().setDownloadInfoEntity(downloadInfoEntity); 
 	}
 	
 	public static void initPadInfoEntity(){ 
 		PadInfoEntity padInfoEntity=DaoHolder.getInstance().getPadInfoDao().uniqueOne();
-		EntityInfoHolder.getInstance().setPadInfoEntity(padInfoEntity);
-		
+		EntityInfoHolder.getInstance().setPadInfoEntity(padInfoEntity); 
 	}
 	
 //	public static void initCompanyInfoEntity(){ 
