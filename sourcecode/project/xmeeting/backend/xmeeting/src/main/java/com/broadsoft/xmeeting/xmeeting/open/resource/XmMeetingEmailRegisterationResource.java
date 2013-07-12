@@ -21,8 +21,8 @@ import com.founder.sipbus.syweb.au.base.SyBaseResource;
 
 @Component
 @Scope(value="prototype")
-@RestletResource(urls="/open/sendmms/xmmiGuid/{xmmiGuid}/toAddress/{toAddress}/toName/{toName}")
-public class XmMeetingEmailSendResource extends SyBaseResource{
+@RestletResource(urls="/open/registeremail/xmmiGuid/{xmmiGuid}/toAddress/{toAddress}/toName/{toName}")
+public class XmMeetingEmailRegisterationResource extends SyBaseResource{
 	
 	private String xmmiGuid;
 	private String toAddress;
