@@ -27,13 +27,13 @@ public class DownloadInfoDao extends DownloadInfoConstant implements
 			+ COLUMN_MEMBER_ID + " , " + COLUMN_MEMBER_DISPLAY_NAME + " , "
 			+ COLUMN_SEATNO + " , " + COLUMN_SERVICE_MEMBER_ID + " , "
 			+ COLUMN_SERVICE_MEMBER_DISPLAY_NAME + " , " + COLUMN_STATUS
-			+ " , " + COLUMN_JSON_DATA + " FROM " + TABLE_DOWNLOADINFO;
+			+ " , " + COLUMN_JSON_DATA + " , "+COLUMN_DOWNLOAD_TIME+" FROM " + TABLE_DOWNLOADINFO;
 	
 
 	public final static String[] COLUMNS = { COLUMN_GUID, COLUMN_MEETING_ID,
 			COLUMN_MEETING_NAME, COLUMN_MEMBER_ID, COLUMN_MEMBER_DISPLAY_NAME,
 			COLUMN_SEATNO, COLUMN_SERVICE_MEMBER_ID,
-			COLUMN_SERVICE_MEMBER_DISPLAY_NAME, COLUMN_STATUS, COLUMN_JSON_DATA };
+			COLUMN_SERVICE_MEMBER_DISPLAY_NAME, COLUMN_STATUS, COLUMN_JSON_DATA,COLUMN_DOWNLOAD_TIME };
 	
 	
 	
@@ -60,6 +60,7 @@ public class DownloadInfoDao extends DownloadInfoConstant implements
 				entity.getServiceMemberDisplayName());
 		values.put(COLUMN_STATUS, entity.getStatus());
 		values.put(COLUMN_JSON_DATA, entity.getJsonData());
+		values.put(COLUMN_DOWNLOAD_TIME, entity.getDownloadTime());
 		db.insert(TABLE_DOWNLOADINFO, null, values);
 		db.close();
 		return true;
@@ -82,6 +83,7 @@ public class DownloadInfoDao extends DownloadInfoConstant implements
 				entity.getServiceMemberDisplayName());
 		values.put(COLUMN_STATUS, entity.getStatus());
 		values.put(COLUMN_JSON_DATA, entity.getJsonData());
+		values.put(COLUMN_DOWNLOAD_TIME, entity.getDownloadTime());
 		// updating row
 		int count = db.update(TABLE_DOWNLOADINFO, values, COLUMN_GUID + " = ?",
 				new String[] { String.valueOf(entity.getGuid()) });
@@ -108,7 +110,7 @@ public class DownloadInfoDao extends DownloadInfoConstant implements
 				+ "=?", new String[] { String.valueOf(guid) }, null, null,
 				null, null);
 		boolean flag=cursor.moveToFirst();
-		Log.d(TAG, "[findByPK]flag--->"+flag);
+//		Log.d(TAG, "[findByPK]flag--->"+flag);
 		if (cursor != null&&flag) { 
 			DownloadInfoEntity entity = new DownloadInfoEntity();
 			entity.setGuid(cursor.getString(0));
@@ -121,6 +123,7 @@ public class DownloadInfoDao extends DownloadInfoConstant implements
 			entity.setServiceMemberDisplayName(cursor.getString(7));
 			entity.setStatus(cursor.getString(8));
 			entity.setJsonData(cursor.getString(9));
+			entity.setDownloadTime(cursor.getString(10));
 			cursor.close();
 			db.close();
 			return entity;
@@ -153,6 +156,7 @@ public class DownloadInfoDao extends DownloadInfoConstant implements
 				entity.setServiceMemberDisplayName(cursor.getString(7));
 				entity.setStatus(cursor.getString(8));
 				entity.setJsonData(cursor.getString(9));
+				entity.setDownloadTime(cursor.getString(10));
 				entityList.add(entity);
 	        } while (cursor.moveToNext());
 	        cursor.close();
@@ -224,6 +228,7 @@ public class DownloadInfoDao extends DownloadInfoConstant implements
 			entity.setServiceMemberDisplayName(cursor.getString(7));
 			entity.setStatus(cursor.getString(8));
 			entity.setJsonData(cursor.getString(9));
+			entity.setDownloadTime(cursor.getString(10));
 			cursor.close();
 			db.close();
 			return entity;

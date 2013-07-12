@@ -12,66 +12,96 @@ public class DownloadInfoEntity {
 	private String serviceMemberDisplayName;
 	private String status;
 	private String jsonData;
+	private String downloadTime;
+
 	public String getGuid() {
 		return guid;
 	}
+
 	public void setGuid(String guid) {
 		this.guid = guid;
 	}
+
 	public String getMeetingId() {
 		return meetingId;
 	}
+
 	public void setMeetingId(String meetingId) {
 		this.meetingId = meetingId;
 	}
+
 	public String getMeetingName() {
 		return meetingName;
 	}
+
 	public void setMeetingName(String meetingName) {
 		this.meetingName = meetingName;
 	}
+
 	public String getMemberId() {
 		return memberId;
 	}
+
 	public void setMemberId(String memberId) {
 		this.memberId = memberId;
 	}
+
 	public String getMemberDisplayName() {
 		return memberDisplayName;
 	}
+
 	public void setMemberDisplayName(String memberDisplayName) {
 		this.memberDisplayName = memberDisplayName;
 	}
+
 	public String getSeatno() {
 		return seatno;
 	}
+
 	public void setSeatno(String seatno) {
 		this.seatno = seatno;
 	}
+
 	public String getServiceMemberId() {
 		return serviceMemberId;
 	}
+
 	public void setServiceMemberId(String serviceMemberId) {
 		this.serviceMemberId = serviceMemberId;
 	}
+
 	public String getServiceMemberDisplayName() {
 		return serviceMemberDisplayName;
 	}
+
 	public void setServiceMemberDisplayName(String serviceMemberDisplayName) {
 		this.serviceMemberDisplayName = serviceMemberDisplayName;
 	}
+
 	public String getStatus() {
 		return status;
 	}
+
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
 	public String getJsonData() {
 		return jsonData;
 	}
+
 	public void setJsonData(String jsonData) {
 		this.jsonData = jsonData;
 	}
+
+	public String getDownloadTime() {
+		return downloadTime;
+	}
+
+	public void setDownloadTime(String downloadTime) {
+		this.downloadTime = downloadTime;
+	}
+
 	@Override
 	public String toString() {
 		return "DownloadInfoEntity [guid=" + guid + ", meetingId=" + meetingId
@@ -79,9 +109,8 @@ public class DownloadInfoEntity {
 				+ ", memberDisplayName=" + memberDisplayName + ", seatno="
 				+ seatno + ", serviceMemberId=" + serviceMemberId
 				+ ", serviceMemberDisplayName=" + serviceMemberDisplayName
-				+ ", status=" + status + ", jsonData=" + jsonData + "]";
+				+ ", status=" + status + ", jsonData=" + jsonData
+				+ ", downloadTime=" + downloadTime + "]";
 	}
-
- 
 
 }

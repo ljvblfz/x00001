@@ -1,7 +1,5 @@
 package com.broadsoft.xmcommon.androidsqllite;
 
-import java.io.File;
-
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -11,7 +9,7 @@ public class SQLiteOpenHelperSupport extends SQLiteOpenHelper {
 
 	private final static String TAG = "SQLiteOpenHelperSupport";
 
-	public static final int DATABASE_VERSION = 22;
+	public static final int DATABASE_VERSION = 25;
 	// Database Name
 	public static final String DATABASE_NAME = "xmeeting";
 
@@ -26,7 +24,7 @@ public class SQLiteOpenHelperSupport extends SQLiteOpenHelper {
 
 		//
 		db.execSQL(PadInfoConstant.CREATE_PADINFO_TABLE);
-		db.execSQL(CompanyInfoConstant.CREATE_COMPANYINFO_TABLE);
+//		db.execSQL(CompanyInfoConstant.CREATE_COMPANYINFO_TABLE);
 		db.execSQL(DownloadInfoConstant.CREATE_DOWNLOADINFO_TABLE);
 		Log.d(TAG, "onCreate end");
 	}
@@ -36,7 +34,7 @@ public class SQLiteOpenHelperSupport extends SQLiteOpenHelper {
 		Log.d(TAG, "onUpgrade begin");
 		// Drop older table if existed
 		db.execSQL(PadInfoConstant.UPGRADE_PADINFO_TABLE);
-		db.execSQL(CompanyInfoConstant.UPGRADE_COMPANYINFO_TABLE);
+//		db.execSQL(CompanyInfoConstant.UPGRADE_COMPANYINFO_TABLE);
 		db.execSQL(DownloadInfoConstant.UPGRADE_DOWNLOADINFO_TABLE);
 		// Create tables again
 		onCreate(db);
