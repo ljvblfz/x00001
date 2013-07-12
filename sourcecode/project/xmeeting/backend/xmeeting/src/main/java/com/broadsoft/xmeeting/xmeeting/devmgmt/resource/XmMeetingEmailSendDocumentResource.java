@@ -58,11 +58,11 @@ public class XmMeetingEmailSendDocumentResource extends SyBaseResource {
 			XmMeetingEmail xmMeetingEmail=listOfXmMeetingEmail.get(i);
 			sbCCAddress.append(xmMeetingEmail.getXmmeToAddress());
 			if(i<listOfXmMeetingEmail.size()-1){
-				sbCCAddress.append(",");
+				sbCCAddress.append(";");
 			}
 		}//end of for
 		
-
+		//
 		MailSenderInfo mailSenderInfo=SendMailSupport.createMailSenderInfo(); 
 		mailSenderInfo.setSubject("江苏省电力公司会议会议资料("+xmMeetingInfo.getXmmiName()+")"); 
 		mailSenderInfo.setCcAddress(sbCCAddress.toString());
@@ -80,14 +80,18 @@ public class XmMeetingEmailSendDocumentResource extends SyBaseResource {
 		mailSenderInfo.setAttachFullPath(attachmentFullPath);
 		mailSenderInfo.setContent("<b>"+xmMeetingInfo.getXmmiName()+"</b>的会议资料,请查看附件.<br/><br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;智能会议系统小组");
 		//发送邮件
-		SendMailSupport.sendHtmlMail(mailSenderInfo);
+		boolean flag=SendMailSupport.sendHtmlMail(mailSenderInfo);
 		//
 		XmMeetingEmailHistoryLog xmMeetingEmailHistoryLog=new XmMeetingEmailHistoryLog();
 		xmMeetingEmailHistoryLog.setXmmiGuid(xmMeetingInfo.getXmmiName());
 		xmMeetingEmailHistoryLog.setXmmehlFrom(mailSenderInfo.getFromAddress());
 		xmMeetingEmailHistoryLog.setXmmehlTo(mailSenderInfo.getToAddress());
 		xmMeetingEmailHistoryLog.setXmmehlCc(mailSenderInfo.getCcAddress());
-		xmMeetingEmailHistoryLog.setXmmehlStatu("1-成功发送邮件."); 
+		if(flag){
+			xmMeetingEmailHistoryLog.setXmmehlStatu("1-发送邮件成功.");  
+		}else{ 
+			xmMeetingEmailHistoryLog.setXmmehlStatu("2-发送邮件失败."); 
+		}
 		xmMeetingEmailHistoryLogDao.insert(xmMeetingEmailHistoryLog);
 		return getJsonGzipRepresentation(JsonUtils.genSuccessReturnJson(null));
 	}//end of get 
