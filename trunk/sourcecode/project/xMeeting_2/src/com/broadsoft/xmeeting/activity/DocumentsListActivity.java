@@ -12,26 +12,30 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.vudroid.pdfdroid.PdfViewerActivity;
 
-import polaris.tangtj.downloadutil.PTTJDownLoadUtil;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
+import android.text.InputType;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
-import com.broadsoft.common.util.FolderUtils;
 import com.broadsoft.xmcommon.androiddao.EntityInfoHolder;
 import com.broadsoft.xmcommon.androidsdcard.SDCardSupport;
+import com.broadsoft.xmdownload.rsservice.RsServiceOnRegisterEmailSupport;
 import com.broadsoft.xmeeting.DesktopActivity;
 import com.broadsoft.xmeeting.R;
-import com.nmbb.oplayer.OPlayerApplication;
 import com.poqop.document.BaseBrowserActivity;
 
 public class DocumentsListActivity extends BaseBrowserActivity {
@@ -51,6 +55,7 @@ public class DocumentsListActivity extends BaseBrowserActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.meeting_files);
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		this.setTitle("BaseAdapter for ListView");
 		listView=(ListView)this.findViewById(R.id.meetingfilesList);
 //		listView.setAdapter(new ListViewAdapter(titles,texts,resIds));
@@ -95,6 +100,7 @@ public class DocumentsListActivity extends BaseBrowserActivity {
 //		controlBar.removeAllViewsInLayout();
 //		controlBar.addView(personalinfo);
 		InitTopbarAndBack();
+		InitTopbarAndSendMail();
 
 	}
 	
@@ -105,10 +111,46 @@ public class DocumentsListActivity extends BaseBrowserActivity {
 			@Override
 			public void onClick(View v) {
 				finish();
-				//overridePendingTransition(R.anim.zoom_enter,android.R.anim.fade_out);
 			}
 		});
 	}
+	
+	private void InitTopbarAndSendMail()
+	{
+		( (Button) this.findViewById(R.id.btnSendMail) ).setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) { 
+				//show dialog  
+				
+				final EditText etEmail=new EditText(DocumentsListActivity.this); 
+				etEmail.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+				new AlertDialog.Builder(DocumentsListActivity.this)
+						.setTitle("注册邮件地址,如xxx@163.com")
+						.setIcon(android.R.drawable.ic_dialog_info)
+						.setView(etEmail)
+						.setPositiveButton("确定", new OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) { 
+								String emailAddress=etEmail.getText().toString();  
+								registerMail(emailAddress);
+								Toast toast=Toast.makeText(DocumentsListActivity.this, "邮件地址("+emailAddress+")已经注册,会议结束后服务人员会发会议材料到你邮箱!",Toast.LENGTH_LONG);
+								toast.setGravity(Gravity.CENTER, 0, 0);
+								toast.show();
+								dialog.dismiss();
+							}
+						}).setNegativeButton("取消", null).show();
+			}
+		});
+	}
+	
+	public void registerMail(String toAddress){
+		String meetingId=EntityInfoHolder.getInstance().getDownloadInfoEntity().getMeetingId(); 
+		String toName=EntityInfoHolder.getInstance().getDownloadInfoEntity().getMemberDisplayName();
+		RsServiceOnRegisterEmailSupport.registerEmail(meetingId, toAddress, toName);
+	}
+	
 	
 	private List<Map<String, Object>> getData(String meetingId) {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();

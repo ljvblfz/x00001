@@ -383,7 +383,7 @@ public class DesktopActivity extends Activity {
 		}
 
 //		new GetWheatherDataTask().execute();
-		Log.d(TAG, "initWeather endd.");
+		Log.d(TAG, "initWeather end.");
 	}
 	
 	//执行异步的操作
