@@ -17,6 +17,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -34,6 +35,7 @@ import android.widget.Toast;
 import com.broadsoft.xmcommon.androiddao.EntityInfoHolder;
 import com.broadsoft.xmcommon.androidsdcard.SDCardSupport;
 import com.broadsoft.xmdownload.rsservice.RsServiceOnRegisterEmailSupport;
+import com.broadsoft.xmdownload.rsservice.RsServiceOnSendMmsSupport;
 import com.broadsoft.xmeeting.DesktopActivity;
 import com.broadsoft.xmeeting.R;
 import com.poqop.document.BaseBrowserActivity;
@@ -146,9 +148,11 @@ public class DocumentsListActivity extends BaseBrowserActivity {
 	}
 	
 	public void registerMail(String toAddress){
-		String meetingId=EntityInfoHolder.getInstance().getDownloadInfoEntity().getMeetingId(); 
-		String toName=EntityInfoHolder.getInstance().getDownloadInfoEntity().getMemberDisplayName();
-		RsServiceOnRegisterEmailSupport.registerEmail(meetingId, toAddress, toName);
+//		String meetingId=EntityInfoHolder.getInstance().getDownloadInfoEntity().getMeetingId(); 
+//		String toName=EntityInfoHolder.getInstance().getDownloadInfoEntity().getMemberDisplayName();
+//		RsServiceOnRegisterEmailSupport.registerEmail(meetingId, toAddress, toName);
+		
+		new RegisterEmailTask().execute(toAddress);
 	}
 	
 	
@@ -256,4 +260,27 @@ public class DocumentsListActivity extends BaseBrowserActivity {
     
 		
 	}
+	
+	
+	private class RegisterEmailTask extends AsyncTask<String, Void, String[]> { 
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+		}
+
+		@Override
+		protected String[] doInBackground(String... params) { 
+			String toAddress = params[0]; 
+			String meetingId=EntityInfoHolder.getInstance().getDownloadInfoEntity().getMeetingId(); 
+			String toName=EntityInfoHolder.getInstance().getDownloadInfoEntity().getMemberDisplayName();
+			RsServiceOnRegisterEmailSupport.registerEmail(meetingId, toAddress, toName);
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(String[] result) { 
+			
+  		}   
+    }//end of RegisterEmailTask
 }

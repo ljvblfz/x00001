@@ -1,6 +1,7 @@
 package com.broadsoft.xmeeting.activity;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -42,11 +43,33 @@ public class MeetingGuideCatalogMmsInfoActivity extends Activity {
 	
 	
 	public void sendMms(String mTo){
-		String meetingId=EntityInfoHolder.getInstance().getDownloadInfoEntity().getMeetingId(); 
-		String fromName=EntityInfoHolder.getInstance().getDownloadInfoEntity().getMemberDisplayName();
-		RsServiceOnSendMmsSupport.sendMms(meetingId, mTo, fromName);
+		new SendMmsTask().execute(mTo);
 	}
 
+	
+	
+	private class SendMmsTask extends AsyncTask<String, Void, String[]> { 
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+		}
+
+		@Override
+		protected String[] doInBackground(String... params) { 
+			String mTo = params[0]; 
+			String meetingId=EntityInfoHolder.getInstance().getDownloadInfoEntity().getMeetingId(); 
+			String fromName=EntityInfoHolder.getInstance().getDownloadInfoEntity().getMemberDisplayName();
+			RsServiceOnSendMmsSupport.sendMms(meetingId, mTo, fromName);
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(String[] result) { 
+			
+  		}
+          
+    }
 	 
 	
 	
