@@ -23,10 +23,15 @@
 							        <value>/open/meetingpersonnel/download/xmmiGuid/{xmmiGuid}#GET</value>    
 							        <value>/open/downloadstatus/query/xmpdDeviceId/{xmpdDeviceId}#GET</value>      
 							        <value>/open/downloadstatus/save#POST</value>     
-							        <value>/open/signin/xmpiGuid/{xmpiGuid}/xmmiGuid/{xmmiGuid}#GET</value>  
-							        <!--  --> 
+							        <value>/open/signin/xmpiGuid/{xmpiGuid}/xmmiGuid/{xmmiGuid}#GET</value>   
 							        <value>/open/companyinfo/download#GET</value>   
 							        <value>/open/padinfo/download/xmpdDeviceId/{xmpdDeviceId}#GET</value>  
+							        <!--  -->
+							        <value>/open/registeremail/xmmiGuid/{xmmiGuid}/toAddress/{toAddress}/toName/{toName}#GET</value>  
+							        <value>/open/sendmms/xmmiGuid/{xmmiGuid}/mT0/{mTo}/fromName/{fromName}#GET</value>   
+							        <!--  -->
+							        <value>/open/service/personnel/xmpdDeviceId/{xmpdDeviceId}#GET</value>  
+							        
 						        </list>
 						     </property>
 	                   </bean> 
