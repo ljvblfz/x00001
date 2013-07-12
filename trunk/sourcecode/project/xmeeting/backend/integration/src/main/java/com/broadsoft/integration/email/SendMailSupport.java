@@ -36,8 +36,8 @@ public class SendMailSupport {
 	 * html格式
 	 * @param mailInfo
 	 */
-	public static void sendHtmlMail(MailSenderInfo mailInfo ) {
-		SimpleMailSender.sendHtmlMail(mailInfo); 
+	public static boolean sendHtmlMail(MailSenderInfo mailInfo ) {
+		return SimpleMailSender.sendHtmlMail(mailInfo); 
 	}
 
 
