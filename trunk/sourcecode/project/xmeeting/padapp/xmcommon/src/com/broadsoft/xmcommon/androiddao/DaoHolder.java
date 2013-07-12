@@ -19,7 +19,7 @@ public class DaoHolder {
 		Log.d(TAG, "init begin");
 		this.downloadInfoDao=new DownloadInfoDao(context);
 		this.padInfoDao=new PadInfoDao(context); 
-		this.companyInfoDao=new CompanyInfoDao(context); 
+//		this.companyInfoDao=new CompanyInfoDao(context); 
 		Log.d(TAG, "init end");
 		
 	}
