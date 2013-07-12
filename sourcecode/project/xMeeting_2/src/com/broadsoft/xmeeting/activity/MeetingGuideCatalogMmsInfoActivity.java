@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.broadsoft.xmcommon.androiddao.EntityInfoHolder;
+import com.broadsoft.xmdownload.rsservice.RsServiceOnSendMmsSupport;
 import com.broadsoft.xmeeting.R;
 
 public class MeetingGuideCatalogMmsInfoActivity extends Activity {
@@ -29,12 +31,20 @@ public class MeetingGuideCatalogMmsInfoActivity extends Activity {
 		btnSendMms.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) { 
 				String phoneNumber=editTextPhone.getText().toString();
-				Toast toast=Toast.makeText(MeetingGuideCatalogMmsInfoActivity.this, "彩信("+phoneNumber+")发送成功!",Toast.LENGTH_LONG);
+				sendMms(phoneNumber); 
+				Toast toast=Toast.makeText(MeetingGuideCatalogMmsInfoActivity.this, "彩信("+phoneNumber+")发送成功,请查收!",Toast.LENGTH_LONG);
 				toast.setGravity(Gravity.CENTER, 0, 0);
 				toast.show();
 			}// end of on click
 		});
 
+	}
+	
+	
+	public void sendMms(String mTo){
+		String meetingId=EntityInfoHolder.getInstance().getDownloadInfoEntity().getMeetingId(); 
+		String fromName=EntityInfoHolder.getInstance().getDownloadInfoEntity().getMemberDisplayName();
+		RsServiceOnSendMmsSupport.sendMms(meetingId, mTo, fromName);
 	}
 
 	 
