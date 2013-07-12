@@ -93,9 +93,9 @@ public class ControllerMessageInbound extends MessageInbound {
 	 */
 	@Override
 	protected void onClose(int status) {
+		System.out.println("["+Thread.currentThread().getId()+"]onClose--->meeting id: "+this.getMeetingId()+"----member id: "+this.getMemberId());
 		if(logger.isTraceEnabled()){
-			logger.trace("onClose--->{}.",status);
-			System.out.println("onClose--->"+status);
+			logger.trace("onClose--->{}.",status); 
 		} 
 		if(ControllerMessageInboundHolder.checkIfExist(this)){
 			ControllerMessageInboundHolder.getSocketListByMeetingId(meetingId).remove(this);
@@ -110,18 +110,21 @@ public class ControllerMessageInbound extends MessageInbound {
 	 */
 	@Override
 	protected void onOpen(WsOutbound outbound) {
+		System.out.println("["+Thread.currentThread().getId()+"]onOpen--->meeting id: "+this.getMeetingId()+"----member id: "+this.getMemberId());
 		if(logger.isTraceEnabled()){
 			logger.trace("onOpen--->"); 
 		}  
 		if(!ControllerMessageInboundHolder.checkIfExist(this)){
 			if(logger.isTraceEnabled()){
 				logger.trace("用户[{}]可以添加.",memberId); 
+				System.out.println("["+Thread.currentThread().getId()+"]onOpen--->[add] meeting id: "+this.getMeetingId()+"----member id: "+this.getMemberId());
 			} 
 			super.onOpen(outbound);
 			ControllerMessageInboundHolder.getSocketListByMeetingId(meetingId).add(this); 
 		}else{ 
 			if(logger.isTraceEnabled()){
 				logger.trace("用户[{}]已经存在.",memberId); 
+				System.out.println("["+Thread.currentThread().getId()+"]onOpen--->[exist] meeting id: "+this.getMeetingId()+"----member id: "+this.getMemberId());
 			} 
 		}
 	}
