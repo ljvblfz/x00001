@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?> 
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#fcfcfc"
+    android:orientation="vertical" >
+            
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:background="@drawable/search_bar_bg"
+             android:gravity="center|left"
+             android:orientation="horizontal"
+             android:paddingBottom="7dp"
+             android:paddingLeft="7dp"
+             android:paddingTop="7dp" >
+
+             <Button
+                 android:id="@+id/btnAll"
+                 android:layout_width="84dp"
+                 android:layout_height="40dp"
+                 android:background="@drawable/bus_btn_left_s"
+                 android:text="全部"
+                 android:textColor="#ffffff" />
+
+             <Button
+                 android:id="@+id/waterBtn"
+                 android:layout_width="84dp"
+                 android:layout_height="40dp"
+                 android:background="@drawable/bus_btn_middle_n_l"
+                 android:text="茶水"
+                 android:textColor="#666666" />
+             
+              <Button
+                 android:id="@+id/penBtn"
+                 android:layout_width="84dp"
+                 android:layout_height="40dp"
+                 android:background="@drawable/bus_btn_middle_n_l"
+                 android:text="纸笔"
+                 android:textColor="#666666" />
+
+             <Button
+                 android:id="@+id/micoBtn"
+                 android:layout_width="84dp"
+                 android:layout_height="40dp"
+                 android:background="@drawable/bus_btn_middle_n_l"
+                 android:text="话筒"
+                 android:textColor="#666666" />
+
+             <Button
+                 android:id="@+id/waiterBtn"
+                 android:layout_width="84dp"
+                 android:layout_height="40dp"
+                 android:background="@drawable/bus_btn_right_n"
+                 android:text="服务人员"
+                 android:textColor="#666666" />
+
+             <TextView
+                 android:id="@+id/textView1"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_weight="0.93"
+                 />
+
+<!--              <Button -->
+<!--                  android:id="@+id/button1" -->
+<!--                  style="?android:attr/buttonStyleSmall" -->
+<!--                  android:layout_width="40dp" -->
+<!--                  android:layout_height="40dp" -->
+<!--                  android:background="@drawable/config" -->
+<!--                  android:paddingRight="7dp" /> -->
+
+         </LinearLayout>
+   
+    <ListView
+        android:id="@+id/group_list"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:background="#fcfcfc"
+        android:cacheColorHint="#fcfcfc" />
+
+</LinearLayout>
+ 

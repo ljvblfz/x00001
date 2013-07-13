@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="classes">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/bin/classes/zxing.jar!/" />
+      <root url="jar://$PROJECT_DIR$/bin/classes/ksoap2-android-assembly-2.5.2-jar-with-dependencies.jar!/" />
+      <root url="jar://$PROJECT_DIR$/bin/classes/android-support-v4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/bin/classes/xstream-1.3.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/bin/classes/baidumapapi.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
