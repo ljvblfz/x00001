@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:theme="@android:style/Theme.NoTitleBar"
+  android:background="#ffffff"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingTop="0dp" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/comm_bg_title"
+            android:gravity="center" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" >
+
+                <Button
+                    android:id="@+id/btnReturn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/comm_btn_back_s"
+                    android:paddingRight="30dp" />
+
+                <Button
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/comm_btn_back_s"
+                    android:paddingRight="30dp"
+                    android:visibility="invisible" />
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="地图模式"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#ffffff"
+                    android:textSize="20dp" />
+
+                <Button
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/comm_btn_back_s"
+                    android:paddingRight="30dp"
+                    android:visibility="invisible" />
+
+                <Button
+                    android:id="@+id/btnFun"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/btn_map_press_bg" />
+            </LinearLayout>
+        </LinearLayout>
+
+    	<LinearLayout
+    	    android:orientation="vertical" 
+    	    android:layout_width="fill_parent"
+			android:layout_height="fill_parent">
+				<com.baidu.mapapi.MapView 
+				    android:id="@+id/bmapsView"
+					android:layout_width="fill_parent" 
+					android:layout_height="fill_parent"
+					android:clickable="true" />
+		</LinearLayout>
+	
+    </LinearLayout>
+
+</LinearLayout>
