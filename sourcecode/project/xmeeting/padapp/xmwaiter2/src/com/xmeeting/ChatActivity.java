@@ -2,7 +2,9 @@ package com.xmeeting;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -28,12 +30,16 @@ public class ChatActivity extends Activity implements OnClickListener{
 	private ChatMsgViewAdapter mAdapter;
 	private List<ChatMsgEntity> mDataArrays = new ArrayList<ChatMsgEntity>();
 	
+	private String position,meetingId; 
+	
+	private static Map<String,Map<String,List<ChatMsgEntity>>> meetingChatList = new HashMap<String, Map<String,List<ChatMsgEntity>>>();
 	
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         //参与发送消息的宾客座位
-        String position=intent.getStringExtra("position"); 
+        position=intent.getStringExtra("position"); 
+        meetingId=intent.getStringExtra("meetingId"); 
         
         setContentView(R.layout.chat_xiaohei);
         //启动activity时不自动弹出软键盘
@@ -52,44 +58,46 @@ public class ChatActivity extends Activity implements OnClickListener{
     	mBtnBack = (Button) findViewById(R.id.btn_back);
     	mBtnBack.setOnClickListener(this);
 
-    	((TextView)findViewById(R.id.textView1)).setText("向客人XXX发送的消息");
+    	((TextView)findViewById(R.id.textView1)).setText("向"+position+"发送的消息");
     	mEditTextContent = (EditText) findViewById(R.id.et_sendmessage);
     	
     	
     }
     
-    private String[]msgArray = new String[]{"赶紧过来倒茶...",
-    										"收到。",
-    										"赶紧过来倒茶...", 
-    										"收到。", 
-    										"赶紧过来倒茶...",
-    										"收到。", 
-    										"赶紧过来倒茶...",
-    										"收到。"};
-    
-    private String[]dataArray = new String[]{"2012-09-01 18:00", "2012-09-01 18:10", 
-    										"2012-09-01 18:11", "2012-09-01 18:20", 
-    										"2012-09-01 18:30", "2012-09-01 18:35", 
-    										"2012-09-01 18:40", "2012-09-01 18:50"}; 
-    private final static int COUNT = 8;
+//    private String[]msgArray = new String[]{"赶紧过来倒茶...",
+//    										"收到。",
+//    										"赶紧过来倒茶...", 
+//    										"收到。", 
+//    										"赶紧过来倒茶...",
+//    										"收到。", 
+//    										"赶紧过来倒茶...",
+//    										"收到。"};
+//    
+//    private String[]dataArray = new String[]{"2012-09-01 18:00", "2012-09-01 18:10", 
+//    										"2012-09-01 18:11", "2012-09-01 18:20", 
+//    										"2012-09-01 18:30", "2012-09-01 18:35", 
+//    										"2012-09-01 18:40", "2012-09-01 18:50"}; 
+//    private final static int COUNT = 8;
     public void initData()
     {
-    	for(int i = 0; i < COUNT; i++)
-    	{
-    		ChatMsgEntity entity = new ChatMsgEntity();
-    		entity.setDate(dataArray[i]);
-//    		if (i % 2 == 0)
-//    		{
-//    			entity.setName("一号桌");
-//    			entity.setMsgType(true);
-//    		}else{
-			entity.setName("我");
-			entity.setMsgType(false);
-//    		}
-    		
-    		entity.setText(msgArray[i]);
-    		mDataArrays.add(entity);
-    	}
+    	mDataArrays=NotifyHandle.getInstance().getChatMsgList(position, meetingId);
+    	
+//    	for(int i = 0; i < COUNT; i++)
+//    	{
+//    		ChatMsgEntity entity = new ChatMsgEntity();
+//    		entity.setDate(dataArray[i]);
+////    		if (i % 2 == 0)
+////    		{
+////    			entity.setName("一号桌");
+////    			entity.setMsgType(true);
+////    		}else{
+//			entity.setName("我");
+//			entity.setMsgType(false);
+////    		}
+//    		
+//    		entity.setText(msgArray[i]);
+//    		mDataArrays.add(entity);
+//    	}
 
     	mAdapter = new ChatMsgViewAdapter(this, mDataArrays);
 		mListView.setAdapter(mAdapter);
@@ -121,9 +129,9 @@ public class ChatActivity extends Activity implements OnClickListener{
 			entity.setName("我");
 			entity.setMsgType(false);
 			entity.setText(contString);
-			
 			mDataArrays.add(entity);
 			mAdapter.notifyDataSetChanged();
+			NotifyHandle.getInstance().storeMsg(position, meetingId, entity);
 			
 			mEditTextContent.setText("");
 			

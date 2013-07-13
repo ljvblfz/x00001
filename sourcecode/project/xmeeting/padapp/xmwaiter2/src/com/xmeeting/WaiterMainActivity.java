@@ -48,6 +48,7 @@ public class WaiterMainActivity extends Activity {
     private List<Map<String, Object>> chatData;
 	private ListView chatListView;
 	
+	private String meetingId="testmeeting";
 	
 
     private TodoListAdapter adapter = null;
@@ -224,9 +225,11 @@ public class WaiterMainActivity extends Activity {
 		mAdapter = new ChatAdapter(this);
 //		chatListView.setAdapter(mAdapter);
 		
-		chatListView.setAdapter(new SimpleAdapter(this, getChatData("meetingId"), R.layout.main_chat_item, 
-				new String[]{"position", "lastchattime", "lastchatcontent"}, new int[]{R.id.position,R.id.lastchattime,R.id.lastchatcontent}));
-	
+		simpleAdapter = new SimpleAdapter(this, getChatData(), R.layout.main_chat_item, 
+				new String[]{"position", "company", "name_title"}, new int[]{R.id.position,R.id.company,R.id.name_title});
+		
+		chatListView.setAdapter(simpleAdapter);
+		
 		chatListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int pos,
@@ -235,12 +238,11 @@ public class WaiterMainActivity extends Activity {
 						.getItemAtPosition(pos);
 				Intent intent = new Intent(act, ChatActivity.class);
 				intent.putExtra("position", (String)item.get("position"));
+				intent.putExtra("meetingId", meetingId);
 				startActivity(intent);
 				overridePendingTransition(R.anim.slide_up_in,android.R.anim.fade_out);
-				
 //				Log.d("-------======",item.get("title")+"-----------------------------------");
 //				showDocument( Uri.fromFile(new File((String)item.get("path"))));
-				
 
 			}
 		});
@@ -248,16 +250,18 @@ public class WaiterMainActivity extends Activity {
 	}
 	
 	
+	private SimpleAdapter simpleAdapter ;
 	
-	private List<Map<String, Object>> getChatData(String meetingId)
+	
+	private List<Map<String, Object>> getChatData()
 	{
 		List<Map<String, Object>> l = new ArrayList<Map<String, Object>>();
 		for (int i = 0 ; i< 10; i ++)
 		{
 			Map<String, Object> m = new HashMap<String, Object>();
-			m.put("position", "A402");
-			m.put("lastchattime", "昨天晚上");
-			m.put("lastchatcontent", "吃饭");
+			m.put("position", "A40"+i);
+			m.put("company", "江苏电力分公司");
+			m.put("name_title", "陆臻(总经理)");
 			l.add(m);
 		}
 		return l;
