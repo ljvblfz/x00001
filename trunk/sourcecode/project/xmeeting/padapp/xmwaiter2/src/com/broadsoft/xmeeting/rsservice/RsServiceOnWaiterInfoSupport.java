@@ -11,7 +11,7 @@ import com.broadsoft.xmcommon.androidhttp.HttpRestSupport;
 import com.broadsoft.xmcommon.androidutil.AndroidIdSupport;
 
 public class RsServiceOnWaiterInfoSupport {
-	private static final String TAG="RsServiceOnSendMmsSupport";  
+	private static final String TAG="RsServiceOnWaiterInfoSupport";  
 	private final static String rspathWaiterInfo="http://{0}/xmeeting/rs/open/service/personnel/xmpdDeviceId/{1}";  
 	
 	public static JSONObject requestWaiterInfo(){
