@@ -5,15 +5,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.res.AssetManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,22 +32,35 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
+import com.broadsoft.xmcommon.androidconfig.AppConfig;
+import com.broadsoft.xmcommon.androidconfig.DomAppConfigFactory;
+import com.broadsoft.xmcommon.androidsdcard.SDCardSupport;
+import com.broadsoft.xmcommon.androidutil.AndroidIdSupport;
+import com.broadsoft.xmcommon.appsupport.AppInitSupport;
+import com.broadsoft.xmeeting.rsservice.RsServiceOnMeetingPersonnelInfoSupport;
+import com.broadsoft.xmeeting.rsservice.RsServiceOnWaiterInfoSupport;
+import com.broadsoft.xmeeting.uihandler.NotifyUIHandler;
+import com.broadsoft.xmeeting.uihandler.ToDoUIHandler;
+import com.broadsoft.xmeeting.wsservice.WsControllerServiceSupport;
 import com.founder.common.data.AsyncBitmapLoader;
 import com.founder.enforcer.R;
 public class WaiterMainActivity extends Activity {
     /** Called when the activity is first created. */
-	private ViewPager viewPager;//Ò³¿¨ÄÚÈİ   
-    private ImageView imageView;// ¶¯»­Í¼Æ¬   
+	private ViewPager viewPager;//é¡µé”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·   
+    private ImageView imageView;// é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·å›¾ç‰‡   
     private TextView textView1,textView2;   
-    private List<View> views;// TabÒ³ÃæÁĞ±í   
-    private int offset = 0;// ¶¯»­Í¼Æ¬Æ«ÒÆÁ¿   
-    private int currIndex = 0;// µ±Ç°Ò³¿¨±àºÅ   
-    private View view1,view2;//¸÷¸öÒ³¿¨   
+    private List<View> views;// Tabé¡µé”Ÿæ–¤æ‹·é”Ÿå«æ†‹æ‹·   
+    private int offset = 0;// é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·å›¾ç‰‡åé”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·   
+    private int currIndex = 0;// é”Ÿæ–¤æ‹·å‰é¡µé”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿï¿½  
+    private View view1,view2;//é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é¡µé”Ÿæ–¤æ‹·   
     private Activity act = this;
     
     private ChatAdapter mAdapter;
@@ -52,9 +71,20 @@ public class WaiterMainActivity extends Activity {
 	
 
     private TodoListAdapter adapter = null;
-    private ListView toDoListView = null; 
-    private List<String> toDoData = new ArrayList<String>(); 
+    
+    public void notifyAdapter(){
+    	adapter.notifyDataSetChanged();
+    }
+
+	public void setAdapter(TodoListAdapter adapter) {
+		this.adapter = adapter;
+	}
+
+
+	private ListView toDoListView = null; 
+    private List<ToDoEntity> toDoData = new ArrayList<ToDoEntity>(); 
     private List<String> toDoTagData = new ArrayList<String>(); 
+    
 
     
     
@@ -65,12 +95,20 @@ public class WaiterMainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ship_info);
 
+        
+        
+        new AppInitSupport().initApp(getApplicationContext(), getAssets());
+
+        ToDoUIHandler.initToDo(this);
         InitTopbarAndBack();
         
         InitTab();
         
         InitChatListView();
         InitTodoListView();
+
+		((TextView)findViewById(R.id.textView1)).setText("æœåŠ¡å·¥ä½œå°_"+AndroidIdSupport.getAndroidID());
+
     }
     
 	/*---------------------------InitTab------------------------------------------*/
@@ -115,15 +153,15 @@ public class WaiterMainActivity extends Activity {
         imageView= (ImageView) findViewById(R.id.cursor);      
         DisplayMetrics dm = new DisplayMetrics();   
         getWindowManager().getDefaultDisplay().getMetrics(dm);   
-        int screenW = dm.widthPixels;// »ñÈ¡·Ö±æÂÊ¿í¶È   
+        int screenW = dm.widthPixels;// é”Ÿæ–¤æ‹·å–é”Ÿè¡—æ†‹æ‹·é”Ÿç»åŒ¡æ‹·é”Ÿï¿½  
         imageView.setMinimumWidth(screenW / 2);
-        offset = screenW / 2;// ¼ÆËãÆ«ÒÆÁ¿   
+        offset = screenW / 2;// é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·åé”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·   
 
     } 
     
     /**   
      *       
-     * Í·±êµã»÷¼àÌı 3 */   
+     * å¤´é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹· 3 */   
     private class MyOnClickListener implements OnClickListener{   
         private int index=0;   
         public MyOnClickListener(int i){   
@@ -168,7 +206,7 @@ public class WaiterMainActivity extends Activity {
    
     public class MyOnPageChangeListener implements OnPageChangeListener{   
     	   
-        int one = offset;// Ò³¿¨1 -> Ò³¿¨2 Æ«ÒÆÁ¿   
+        int one = offset;// é¡µé”Ÿæ–¤æ‹·1 -> é¡µé”Ÿæ–¤æ‹·2 åé”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·   
         public void onPageScrollStateChanged(int arg0) {   
                    
         }   
@@ -179,9 +217,9 @@ public class WaiterMainActivity extends Activity {
    
         public void onPageSelected(int arg0) {   
             
-            Animation animation = new TranslateAnimation(one*currIndex, one*arg0, 0, 0);//ÏÔÈ»Õâ¸ö±È½Ï¼ò½à£¬Ö»ÓĞÒ»ĞĞ´úÂë¡£   
+            Animation animation = new TranslateAnimation(one*currIndex, one*arg0, 0, 0);//é”Ÿæ–¤æ‹·ç„¶é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·å†‰éœé”Ÿæ´ï¼Œåªé”Ÿæ–¤æ‹·ä¸€é”Ÿå«è¾¾æ‹·é”Ÿè¯«ã€‚   
             currIndex = arg0;   
-            animation.setFillAfter(true);// True:Í¼Æ¬Í£ÔÚ¶¯»­½áÊøÎ»ÖÃ   
+            animation.setFillAfter(true);// True:å›¾ç‰‡åœé”ŸèŠ‚è®¹æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·ä½é”Ÿæ–¤æ‹·   
             animation.setDuration(300);   
             imageView.startAnimation(animation);   
            
@@ -225,7 +263,7 @@ public class WaiterMainActivity extends Activity {
 		mAdapter = new ChatAdapter(this);
 //		chatListView.setAdapter(mAdapter);
 		
-		simpleAdapter = new SimpleAdapter(this, getChatData(), R.layout.main_chat_item, 
+		simpleAdapter = new SimpleAdapter(this, memberList, R.layout.main_chat_item, 
 				new String[]{"position", "company", "name_title"}, new int[]{R.id.position,R.id.company,R.id.name_title});
 		
 		chatListView.setAdapter(simpleAdapter);
@@ -237,8 +275,16 @@ public class WaiterMainActivity extends Activity {
 				Map<String, Object> item = (Map<String, Object>) parent
 						.getItemAtPosition(pos);
 				Intent intent = new Intent(act, ChatActivity.class);
-				intent.putExtra("position", (String)item.get("position"));
+				
+//				m.put("position", memberArray.getJSONObject(i).getString("xmridSeatno"));
+//				m.put("company",  memberArray.getJSONObject(i).getString("xmpiDeptinfo"));
+//				m.put("name_title", memberArray.getJSONObject(i).getString("xmpiName")+"("+memberArray.getJSONObject(i).getString("xmpiTitle")+")");
+//				m.put("memberId", memberArray.getJSONObject(i).getString("xmpiGuid"));
+				intent.putExtra("company", (String)item.get("company"));
+				intent.putExtra("name_title", (String)item.get("name_title"));
+				intent.putExtra("memberId", (String)item.get("memberId"));
 				intent.putExtra("meetingId", meetingId);
+				intent.putExtra("memberDisplayName", memberDisplayName);
 				startActivity(intent);
 				overridePendingTransition(R.anim.slide_up_in,android.R.anim.fade_out);
 //				Log.d("-------======",item.get("title")+"-----------------------------------");
@@ -246,28 +292,16 @@ public class WaiterMainActivity extends Activity {
 
 			}
 		});
-		
 	}
 	
 	
 	private SimpleAdapter simpleAdapter ;
 	
 	
-	private List<Map<String, Object>> getChatData()
-	{
-		List<Map<String, Object>> l = new ArrayList<Map<String, Object>>();
-		for (int i = 0 ; i< 10; i ++)
-		{
-			Map<String, Object> m = new HashMap<String, Object>();
-			m.put("position", "A40"+i);
-			m.put("company", "½­ËÕµçÁ¦·Ö¹«Ë¾");
-			m.put("name_title", "Â½Õé(×Ü¾­Àí)");
-			l.add(m);
-		}
-		return l;
-	}
+	private  List<Map<String, Object>> memberList = new ArrayList<Map<String,Object>>();
 	
-	/*¶ÔÓ¦Ò»ÌõchatItemÏÔÊ¾µÄÄÚÈİ*/
+	
+	/*é”Ÿæ–¤æ‹·åº”ä¸€é”Ÿæ–¤æ‹·chatItemé”Ÿæ–¤æ‹·ç¤ºé”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·*/
 	public final class ChatViewHolder{
         public ImageView ivPhoto;
         public TextView tvName;
@@ -346,7 +380,7 @@ public class WaiterMainActivity extends Activity {
     		});
             
             //holder.tvName.setText((String)chatData.get(position).get("name"));
-            /*Òì²½¼ÓÔØÍ¼Æ¬*/
+            /*é”Ÿå±Šæ­¥é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·å›¾ç‰‡*/
             /*
             holder.ivPhoto.setImageBitmap(null);
             Bitmap bitmap = asyncLoader.loadBitmap(holder.ivPhoto,   
@@ -388,140 +422,278 @@ public class WaiterMainActivity extends Activity {
 	
 	private void InitTodoListView()
 	{
-		getTodoListData(); 
-        adapter = new TodoListAdapter(this, toDoData, toDoTagData); 
+//		getTodoListData(); 
+        adapter = new TodoListAdapter(this, ToDoUIHandler.getInstance().getToDoData()); 
         toDoListView = (ListView) view2.findViewById(R.id.group_list);
         toDoListView.setDivider(this.getResources().getDrawable(R.drawable.comm_select_list_line));
         toDoListView.setAdapter(adapter); 
-        
 
-        Button waterBtn = (Button)view2.findViewById(R.id.waterBtn);
-        Button btnAll = (Button)view2.findViewById(R.id.btnAll);
-        Button waiterBtn = (Button)view2.findViewById(R.id.waiterBtn);
-        Button penBtn = (Button)view2.findViewById(R.id.penBtn);
-        Button micoBtn = (Button)view2.findViewById(R.id.micoBtn);
-        btnAll.setOnClickListener(btnClickListener);
-        waterBtn.setOnClickListener(btnClickListener);
-        waiterBtn.setOnClickListener(btnClickListener);
-        penBtn.setOnClickListener(btnClickListener);
-        micoBtn.setOnClickListener(btnClickListener);
+//        Button waterBtn = (Button)view2.findViewById(R.id.waterBtn);
+//        Button btnAll = (Button)view2.findViewById(R.id.btnAll);
+//        Button waiterBtn = (Button)view2.findViewById(R.id.waiterBtn);
+//        Button penBtn = (Button)view2.findViewById(R.id.penBtn);
+//        Button micoBtn = (Button)view2.findViewById(R.id.micoBtn);
+//        btnAll.setOnClickListener(btnClickListener);
+//        waterBtn.setOnClickListener(btnClickListener);
+//        waiterBtn.setOnClickListener(btnClickListener);
+//        penBtn.setOnClickListener(btnClickListener);
+//        micoBtn.setOnClickListener(btnClickListener);
         
 	}
 	
 	
-	private View.OnClickListener btnClickListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {  
-	        Button waterBtn = (Button)view2.findViewById(R.id.waterBtn);
-	        Button btnAll = (Button)view2.findViewById(R.id.btnAll);
-	        Button waiterBtn = (Button)view2.findViewById(R.id.waiterBtn);
-	        Button penBtn = (Button)view2.findViewById(R.id.penBtn);
-	        Button micoBtn = (Button)view2.findViewById(R.id.micoBtn);
-			System.out.println(1+"=============="+(v.getId()==R.id.btnAll));
-			System.out.println(2+"=============="+(v.getId()==R.id.waterBtn));
-			System.out.println(3+"=============="+(v.getId()==R.id.penBtn));
-			System.out.println(4+"=============="+(v.getId()==R.id.micoBtn));
-			System.out.println(5+"=============="+(v.getId()==R.id.waiterBtn));
-			if(v.getId()==R.id.btnAll){
-				((Button)btnAll).setBackgroundResource(R.drawable.bus_btn_left_s);
-				((Button)btnAll).setTextColor(Color.rgb(255, 255, 255));
-			}else{
-				((Button)btnAll).setBackgroundResource(R.drawable.bus_btn_left_n);
-				((Button)btnAll).setTextColor(Color.rgb(66,66,66));
-			}
-			if(v.getId()==R.id.waterBtn){
-				((Button)waterBtn).setBackgroundResource(R.drawable.bus_btn_middle_s);
-				((Button)waterBtn).setTextColor(Color.rgb(255, 255, 255));
-			}else{
-				((Button)waterBtn).setBackgroundResource(R.drawable.bus_btn_middle_n_l);
-				((Button)waterBtn).setTextColor(Color.rgb(66,66,66));
-			}
-
-			if(v.getId()==R.id.penBtn){
-				((Button)penBtn).setBackgroundResource(R.drawable.bus_btn_middle_s);
-				((Button)penBtn).setTextColor(Color.rgb(255, 255, 255));
-			}else{
-				((Button)penBtn).setBackgroundResource(R.drawable.bus_btn_middle_n_l);
-				((Button)penBtn).setTextColor(Color.rgb(66,66,66));
-			}
-
-			if(v.getId()==R.id.micoBtn){
-				((Button)micoBtn).setBackgroundResource(R.drawable.bus_btn_middle_s);
-				((Button)micoBtn).setTextColor(Color.rgb(255, 255, 255));
-			}else{
-				((Button)micoBtn).setBackgroundResource(R.drawable.bus_btn_middle_n_l);
-				((Button)micoBtn).setTextColor(Color.rgb(66,66,66));
-			}
-
-			if(v.getId()==R.id.waiterBtn){
-				((Button)waiterBtn).setBackgroundResource(R.drawable.bus_btn_right_s);
-				((Button)waiterBtn).setTextColor(Color.rgb(255, 255, 255));
-			}else{
-				((Button)waiterBtn).setBackgroundResource(R.drawable.bus_btn_right_n);
-				((Button)waiterBtn).setTextColor(Color.rgb(66,66,66));
-			}
-		}
-	};
+//	private View.OnClickListener btnClickListener = new View.OnClickListener() {
+//		@Override
+//		public void onClick(View v) {  
+//	        Button waterBtn = (Button)view2.findViewById(R.id.waterBtn);
+//	        Button btnAll = (Button)view2.findViewById(R.id.btnAll);
+//	        Button waiterBtn = (Button)view2.findViewById(R.id.waiterBtn);
+//	        Button penBtn = (Button)view2.findViewById(R.id.penBtn);
+//	        Button micoBtn = (Button)view2.findViewById(R.id.micoBtn);
+//			System.out.println(1+"=============="+(v.getId()==R.id.btnAll));
+//			System.out.println(2+"=============="+(v.getId()==R.id.waterBtn));
+//			System.out.println(3+"=============="+(v.getId()==R.id.penBtn));
+//			System.out.println(4+"=============="+(v.getId()==R.id.micoBtn));
+//			System.out.println(5+"=============="+(v.getId()==R.id.waiterBtn));
+//			if(v.getId()==R.id.btnAll){
+//				((Button)btnAll).setBackgroundResource(R.drawable.bus_btn_left_s);
+//				((Button)btnAll).setTextColor(Color.rgb(255, 255, 255));
+//			}else{
+//				((Button)btnAll).setBackgroundResource(R.drawable.bus_btn_left_n);
+//				((Button)btnAll).setTextColor(Color.rgb(66,66,66));
+//			}
+//			if(v.getId()==R.id.waterBtn){
+//				((Button)waterBtn).setBackgroundResource(R.drawable.bus_btn_middle_s);
+//				((Button)waterBtn).setTextColor(Color.rgb(255, 255, 255));
+//			}else{
+//				((Button)waterBtn).setBackgroundResource(R.drawable.bus_btn_middle_n_l);
+//				((Button)waterBtn).setTextColor(Color.rgb(66,66,66));
+//			}
+//
+//			if(v.getId()==R.id.penBtn){
+//				((Button)penBtn).setBackgroundResource(R.drawable.bus_btn_middle_s);
+//				((Button)penBtn).setTextColor(Color.rgb(255, 255, 255));
+//			}else{
+//				((Button)penBtn).setBackgroundResource(R.drawable.bus_btn_middle_n_l);
+//				((Button)penBtn).setTextColor(Color.rgb(66,66,66));
+//			}
+//
+//			if(v.getId()==R.id.micoBtn){
+//				((Button)micoBtn).setBackgroundResource(R.drawable.bus_btn_middle_s);
+//				((Button)micoBtn).setTextColor(Color.rgb(255, 255, 255));
+//			}else{
+//				((Button)micoBtn).setBackgroundResource(R.drawable.bus_btn_middle_n_l);
+//				((Button)micoBtn).setTextColor(Color.rgb(66,66,66));
+//			}
+//
+//			if(v.getId()==R.id.waiterBtn){
+//				((Button)waiterBtn).setBackgroundResource(R.drawable.bus_btn_right_s);
+//				((Button)waiterBtn).setTextColor(Color.rgb(255, 255, 255));
+//			}else{
+//				((Button)waiterBtn).setBackgroundResource(R.drawable.bus_btn_right_n);
+//				((Button)waiterBtn).setTextColor(Color.rgb(66,66,66));
+//			}
+//		}
+//	};
 	
-	private void getTodoListData(){ 
-        toDoData.add("2013-05-06"); 
-        toDoTagData.add("2013-05-06"); 
-        for(int i=0;i<3;i++){ 
-            toDoData.add("Ò»ºÅ×À¿ÍÈË"); 
-        } 
-        toDoData.add("2013-05-04"); 
-        toDoTagData.add("2013-05-04"); 
-        for(int i=0;i<3;i++){ 
-            toDoData.add("¶şºÅ×À¿ÍÈË"); 
-        } 
-        toDoData.add("2013-05-01"); 
-        toDoTagData.add("2013-05-01"); 
-        for(int i=0;i<30;i++){ 
-            toDoData.add("ÈıºÅ×À¿ÍÈË"); 
-        } 
-    } 
-    private class TodoListAdapter extends ArrayAdapter<String>{ 
+//	private void getTodoListData(){ 
+////        toDoData.add("2013-05-06"); 
+////        toDoTagData.add("2013-05-06"); 
+//		
+//		ToDoEntity e = new ToDoEntity();
+//		e.setPosition("1111111111");
+//		e.setChecked(true);
+//		e.setType("1");
+//		e.setTodoId("0000000000000000");
+//		e.setTimeStr("2013-10-11");
+//
+//		ToDoEntity e1 = new ToDoEntity();
+//		e1.setPosition("222");
+//		e1.setChecked(false);
+//		e1.setType("2");
+//		e1.setTodoId("11111");
+//		e1.setTimeStr("2013-10-12");
+//		ToDoEntity e2 = new ToDoEntity();
+//		e2.setPosition("333");
+//		e2.setChecked(true);
+//		e2.setType("3");
+//		e2.setTodoId("33333");
+//		e2.setTimeStr("2013-10-13");
+//        for(int i=0;i<3;i++){ 
+//            toDoData.add(e); 
+//        } 
+////        toDoData.add("2013-05-04"); 
+////        toDoTagData.add("2013-05-04"); 
+//        for(int i=0;i<3;i++){ 
+//            toDoData.add(e1); 
+//        } 
+////        toDoData.add("2013-05-01"); 
+////        toDoTagData.add("2013-05-01"); 
+//        for(int i=0;i<30;i++){ 
+//            toDoData.add(e2); 
+//        } 
+//    } 
+    private class TodoListAdapter extends ArrayAdapter<ToDoEntity>{ 
           
         private List<String> listTag = null; 
-        public TodoListAdapter(Context context, List<String> objects, List<String> tags) { 
+        public TodoListAdapter(Context context, List<ToDoEntity> objects) { 
             super(context, 0, objects); 
-            this.listTag = tags; 
+//            this.listTag = tags; 
         } 
-          
+//        public boolean isEnabled(int position) { 
+//            if(listTag.contains(getItem(position))){ 
+//                return false; 
+//            } 
+//            return super.isEnabled(position); 
+//        } 
         @Override
-        public boolean isEnabled(int position) { 
-            if(listTag.contains(getItem(position))){ 
-                return false; 
-            } 
-            return super.isEnabled(position); 
-        } 
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) { 
+        public View getView(final int position, View convertView, ViewGroup parent) {
             View view = convertView; 
-            if(listTag.contains(getItem(position))){ 
-                view = LayoutInflater.from(getContext()).inflate(R.layout.todolist_tag, null); 
-            }else{                     
+//            if(listTag.contains(getItem(position))){ 
+//                view = LayoutInflater.from(getContext()).inflate(R.layout.todolist_tag, null); 
+//            }else{                     
                 view = LayoutInflater.from(getContext()).inflate(R.layout.todolist_item, null);
-                view.setOnClickListener(new View.OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						// TODO Auto-generated method stub
-						Intent intent = new Intent(act, WaiterMainActivity.class);
-						intent.putExtra("scanResult", toDoData.get(position));
-						//startActivity(intent);
-						//overridePendingTransition(R.anim.slide_up_in,android.R.anim.fade_out);
-					}
-				});
-            } 
+
+                
+                ((TextView)view.findViewById(R.id.textView2)).setText(getItem(position).getType());
+//                ((ImageView)view.findViewById(R.id.head)).setImageResource(getItem(position).getType().equals("2")?R.drawable.bookpen2:R.drawable.coffee2);
+                if(getItem(position).getType().startsWith("è¯·æ±‚èŒ¶")){
+                	 ((ImageView)view.findViewById(R.id.head)).setImageResource(R.drawable.coffee2);
+                }else if (getItem(position).getType().startsWith("è¯·æ±‚çº¸")){
+               	 ((ImageView)view.findViewById(R.id.head)).setImageResource(R.drawable.bookpen2);
+                }else if (getItem(position).getType().startsWith("è¯·æ±‚è¯")){
+               	 ((ImageView)view.findViewById(R.id.head)).setImageResource(R.drawable.microphone);
+                }else {
+               	 ((ImageView)view.findViewById(R.id.head)).setImageResource(R.drawable.users);
+                }
+                
+//                ((ImageView)view.findViewById(R.id.head)).setImageResource(getItem(position).getType().equals("2")?
+//                		R.drawable.microphone:R.drawable.users);
+                
+                ((TextView)view.findViewById(R.id.textView3)).setText(getItem(position).getTimeStr());
+                
+                final ToggleButton toggleButton = (ToggleButton)view.findViewById(R.id.toggleButton1);
+                if(getItem(position).isChecked()){
+            		toggleButton.setChecked(true); 
+                }
+                toggleButton.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+                	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) { 
+                		if(!isChecked){
+                			//TODO set task status to done
+                			System.out.println(getItem(position).getTodoId()+"*****************************");
+                    		toggleButton.setChecked(true); 
+                		}
+                	}
+                });
+                 
+                
+//            } 
             TextView textView = (TextView) view.findViewById(R.id.group_list_item_text); 
-            textView.setText(getItem(position)); 
+            textView.setText(getItem(position).getPosition()); 
             return view; 
         } 
     } 
     
+
+    private static JSONObject jsobj ;
+    
+    private static String xmmiName;
+    
+    private static String memberId;
+    
+    private static String memberDisplayName;
+    
 	
-	
-	
+    private class AppInitSupport {
+    	private static final String TAG="AppInitSupport"; 
+
+    	
+    	public void initApp(Context ctx,AssetManager assetManager ) {
+    		//åˆå§‹åŒ–é…ç½®
+    		DomAppConfigFactory.init(assetManager);
+    		AppConfig appConfig=DomAppConfigFactory.getAppConfig();
+    		Log.d(TAG, "[Config]AppConfig---->"+appConfig);
+    		//åˆå§‹åŒ–è®¾å¤‡ID
+    		AndroidIdSupport.init(ctx);
+    		Log.d(TAG, "[AndroidI]AndroidID---->"+AndroidIdSupport.getAndroidID()); 
+    		//SD card
+    		String sdcardDir = SDCardSupport.getSDCardDirectory();
+    		Log.d(TAG, "[SDCard]sdcardDir---->"+sdcardDir);   
+    		//WS service
+    		new RequestWaiterInfoTask().execute();
+
+    	}//end of initApp
+     
+
+        
+        
+    	 private class RequestWaiterInfoTask extends AsyncTask<Void, Void, String[]> { 
+    			@Override
+    			protected void onPreExecute() {
+    				super.onPreExecute();
+    			}
+    			@Override
+    			protected String[] doInBackground(Void... params) { 
+    				//Get waiter infomation
+    				try {
+    					System.out.println(RsServiceOnWaiterInfoSupport.requestWaiterInfo()+"----RsServiceOnWaiterInfoSupport.requestWaiterInfo()-----");
+    					JSONObject  waiterObj = RsServiceOnWaiterInfoSupport.requestWaiterInfo();
+    					int i = 0;
+    					while(null==waiterObj && i<10){
+    						waiterObj=RsServiceOnWaiterInfoSupport.requestWaiterInfo();
+    						i++;
+    					}
+    					if(waiterObj==null){
+    						finish();
+    					}
+    					jsobj = waiterObj.getJSONObject("jsonData");
+    					meetingId = jsobj.getJSONObject("xervicePersonnelPadIVO").getJSONArray("list").getJSONObject(0).getString("xmmiGuid");
+    					xmmiName = jsobj.getJSONObject("xervicePersonnelPadIVO").getJSONArray("list").getJSONObject(0).getString("xmmiName");
+    					memberId = jsobj.getJSONObject("xervicePersonnelPadIVO").getJSONArray("list").getJSONObject(0).getString("xmpiGuid");
+    					memberDisplayName = jsobj.getJSONObject("xervicePersonnelPadIVO").getJSONArray("list").getJSONObject(0).getString("xmpiName");
+    				} catch (JSONException e) {
+    					e.printStackTrace();
+    				}
+    				
+    				loadMemberList(RsServiceOnMeetingPersonnelInfoSupport.requestMeetingPersonnelInfo(meetingId));
+    				WsControllerServiceSupport.getInstance().initData(meetingId, memberId, memberDisplayName);
+    				WsControllerServiceSupport.getInstance().connect();
+    				return null;
+    			}
+
+    			
+    			private void loadMemberList(JSONObject jsobj){
+    				
+    				try {
+    					JSONArray memberArray = jsobj.getJSONObject("jsonData").getJSONArray("listOfXmMeetingPersonnelSeatPadIVO");
+    					l = new ArrayList<Map<String, Object>>();
+    					for (int i = 0 ; i< memberArray.length(); i ++){
+    						Map<String, Object> m = new HashMap<String, Object>();
+    						m.put("position", memberArray.getJSONObject(i).getString("xmridSeatno"));
+    						m.put("company",  memberArray.getJSONObject(i).getString("xmpiDeptinfo"));
+    						m.put("name_title", memberArray.getJSONObject(i).getString("xmpiName")+"("+memberArray.getJSONObject(i).getString("xmpiTitle")+")");
+    						m.put("memberId", memberArray.getJSONObject(i).getString("xmpiGuid"));
+    						memberList.add(m);
+    					}
+    					
+    				} catch (JSONException e) {
+    					e.printStackTrace();
+    				}
+    			}
+    			
+    			private List<Map<String, Object>> l ;
+    			
+    			@Override
+    			protected void onPostExecute(String[] result) { 
+    				((TextView)findViewById(R.id.textView1)).setText("æœåŠ¡å·¥ä½œå°("+xmmiName+")_"+AndroidIdSupport.getAndroidID() + " "+memberDisplayName);
+    				simpleAdapter.notifyDataSetChanged();
+    	  		}   
+    	    }//end of RequestWaiterInfoTask
+    	    
+
+    	public void destroyApp(Context ctx,AssetManager assetManager) { 
+    		WsControllerServiceSupport.getInstance().disconnect();
+    	}
+    }
     
 }

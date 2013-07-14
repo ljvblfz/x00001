@@ -1,8 +1,5 @@
 package com.broadsoft.xmeeting.uihandler;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,6 +15,8 @@ import android.os.Message;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
+
+import com.xmeeting.ChatActivity;
 
 public class NotifyUIHandler extends Handler {
 	private final String TAG = "NotifyUIHandler";
@@ -49,29 +48,11 @@ public class NotifyUIHandler extends Handler {
 		String payload = bundle.getString("payload");
 		try {
 			JSONObject jo = new JSONObject(payload);
-			if(jo.has("msgtype")){
-				String msgtype = jo.getString("msgtype");
-				if ("01".equals(msgtype)) {//呼叫服务
-					String msgcontent = jo.getString("msgcontent");
-					int size=notificationListItem.size();
-		            HashMap<String, Object> mapOfContent = new HashMap<String, Object>();     
-		            mapOfContent.put("notificationSeq", String.valueOf((size+1)));  
-		            mapOfContent.put("notificationContent", msgcontent);  
-//		            mapOfContent.put("notificationStatus", "未读");  
-		            mapOfContent.put("notificationTime", getCurrentTime());  
-					notificationListItem.add(mapOfContent); 					
-					showDialog(msgcontent); 
-				} else if ("02".equals(msgtype)) {//通知消息
-					String msgcontent = jo.getString("msgcontent");
-					int size=notificationListItem.size();
-		            HashMap<String, Object> mapOfContent = new HashMap<String, Object>();     
-		            mapOfContent.put("notificationSeq", String.valueOf((size+1)));  
-		            mapOfContent.put("notificationContent", msgcontent);  
-//		            mapOfContent.put("notificationStatus", "未读");  
-		            mapOfContent.put("notificationTime", getCurrentTime());  
-					notificationListItem.add(mapOfContent); 					
-					showDialog(msgcontent); 
-				}
+
+			System.out.println("--------------------------0");
+			if(jo.has("msgcontent")){
+				System.out.println("--------------------------0.1");
+				((ChatActivity)act).notifyMsgList(jo.getString("msgcontent"));
 			}
 		} catch (JSONException e) { 
 			e.printStackTrace();
@@ -80,16 +61,7 @@ public class NotifyUIHandler extends Handler {
 	}
 	
 	
-	public static String getCurrentTime() {
-		String parrten="MM-dd HH:mm";
-		String timestr; 
-		java.util.Date cday = new java.util.Date();
-
-		SimpleDateFormat sdf = new SimpleDateFormat(parrten);
-		timestr = sdf.format(cday);
-		return timestr;
-	}
-	
+	 
 	public void sendControllerMessage(String payload){
 
 		Message msg = new Message();  
@@ -137,12 +109,6 @@ public class NotifyUIHandler extends Handler {
 //		return messageList;
 //	}
 	
-
-	private  ArrayList<HashMap<String, Object>> notificationListItem = new ArrayList<HashMap<String, Object>>();
-	public ArrayList<HashMap<String, Object>> getNotificationListItem() {
-		return notificationListItem;
-	}  
-	
-	
+ 
 	
 }
