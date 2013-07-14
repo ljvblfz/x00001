@@ -3,10 +3,12 @@ package com.broadsoft.xmeeting.wsservice;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.os.Looper;
 import android.util.Log;
 
 import com.broadsoft.xmcommon.androidconfig.DomAppConfigFactory;
 import com.broadsoft.xmeeting.uihandler.NotifyUIHandler;
+import com.broadsoft.xmeeting.uihandler.ToDoUIHandler;
 
 import de.tavendo.autobahn.WebSocketConnection;
 import de.tavendo.autobahn.WebSocketException;
@@ -73,6 +75,29 @@ public class WsControllerServiceSupport {
 		sendMessage(jsonMessage.toString());
 	}//end of sendCallServiceMessage
 	
+	/**
+	 * 
+	 * @param msgcontent
+	 * @param to
+	 */
+	public void sendMessageServiceMessage(String msgcontent,String to){  
+		JSONObject jsonMessage=new  JSONObject();
+		try {
+			jsonMessage.put("meetingid", this.meetingId);
+			jsonMessage.put("from", this.memberId);
+			jsonMessage.put("fromDisplayName", this.memberDisplayName);
+			jsonMessage.put("msgtype", "02");
+			jsonMessage.put("msgcontent", msgcontent);
+			jsonMessage.put("to", to);
+		} catch (JSONException e) { 
+			e.printStackTrace();
+		}
+		sendMessage(jsonMessage.toString());
+	}//end of sendCallServiceMessage
+	
+	
+	
+	
 	public void sendHearbeat(){
 		while(true){
 			if(client.isConnected()){
@@ -100,7 +125,8 @@ public class WsControllerServiceSupport {
 	 * 
 	 * @param msg
 	 */
-	private void sendMessage(String msg){  
+	private void sendMessage(String msg){ 
+//		Looper.prepare(); 
 		client.sendTextMessage(msg);
 	}
 	
@@ -133,7 +159,22 @@ public class WsControllerServiceSupport {
 //            bundle.putString("payload", payload);  
 //            msg.setData(bundle);   
 //            NotifyUIHandler.getInstance().sendMessage(msg);
-			NotifyUIHandler.getInstance().sendControllerMessage(payload);
+			
+			try {
+				JSONObject jo = new JSONObject(payload);
+				if(jo.has("msgtype")){
+					String msgtype=jo.getString("msgtype");
+					if("02".equals(msgtype)){
+						NotifyUIHandler.getInstance().sendControllerMessage(payload);
+					}else if("01".equals(msgtype)){
+						ToDoUIHandler.getInstance().sendControllerMessage(payload);
+					}
+					 
+				}
+			} catch (JSONException e) { 
+				e.printStackTrace();
+			}
+			
 		}
 
 		@Override

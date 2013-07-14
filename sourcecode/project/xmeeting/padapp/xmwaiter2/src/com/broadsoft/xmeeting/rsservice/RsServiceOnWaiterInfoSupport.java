@@ -2,6 +2,7 @@ package com.broadsoft.xmeeting.rsservice;
 
 import java.text.MessageFormat;
 
+import org.apache.http.util.ExceptionUtils;
 import org.json.JSONObject;
 
 import android.util.Log;
@@ -24,6 +25,8 @@ public class RsServiceOnWaiterInfoSupport {
 		String rspathWaiterInfoResult = MessageFormat.format(rspathWaiterInfo,arguments);  
 		Log.d(TAG, "rspathWaiterInfoResult  is : "+rspathWaiterInfoResult); 
 		try {
+//			Throwable a = new Throwable(); 
+//			a.getStackTrace();
 			JSONObject jsonRespSendSms=HttpRestSupport.getByHttpClientWithGzip(rspathWaiterInfoResult);
 			Log.d(TAG,"requestWaiterInfo jsonRespSendSms----->"+ jsonRespSendSms.toString());
 			return jsonRespSendSms;

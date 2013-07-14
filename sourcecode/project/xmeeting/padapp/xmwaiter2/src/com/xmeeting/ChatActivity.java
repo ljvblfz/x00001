@@ -17,6 +17,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.broadsoft.xmeeting.uihandler.NotifyUIHandler;
+import com.broadsoft.xmeeting.wsservice.WsControllerServiceSupport;
 import com.founder.enforcer.R;
 
 
@@ -30,23 +32,28 @@ public class ChatActivity extends Activity implements OnClickListener{
 	private ChatMsgViewAdapter mAdapter;
 	private List<ChatMsgEntity> mDataArrays = new ArrayList<ChatMsgEntity>();
 	
-	private String position,meetingId; 
+	private String position,meetingId,company,name_title,memberId,memberDisplayName; 
 	
 	private static Map<String,Map<String,List<ChatMsgEntity>>> meetingChatList = new HashMap<String, Map<String,List<ChatMsgEntity>>>();
 	
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        //≤Œ”Î∑¢ÀÕœ˚œ¢µƒ±ˆøÕ◊˘Œª
-        position=intent.getStringExtra("position"); 
+        //ÂèÇ‰∏éÂèëÈÄÅÊ∂àÊÅØÁöÑÂÆæÂÆ¢Â∫ß‰Ωç
+        position=intent.getStringExtra("name_title"); 
         meetingId=intent.getStringExtra("meetingId"); 
-        
+        company=intent.getStringExtra("company"); 
+		name_title=intent.getStringExtra("name_title"); 
+		memberId=intent.getStringExtra("memberId"); 
+		memberDisplayName=intent.getStringExtra("memberDisplayName"); 
         setContentView(R.layout.chat_xiaohei);
-        //∆Ù∂Øactivity ±≤ª◊‘∂ØµØ≥ˆ»Ìº¸≈Ã
+        //ÂêØÂä®activityÊó∂‰∏çËá™Âä®ÂºπÂá∫ËΩØÈîÆÁõò
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); 
         initView();
         
         initData();
+        NotifyUIHandler.init(this);
+        
     }
     
     
@@ -58,20 +65,20 @@ public class ChatActivity extends Activity implements OnClickListener{
     	mBtnBack = (Button) findViewById(R.id.btn_back);
     	mBtnBack.setOnClickListener(this);
 
-    	((TextView)findViewById(R.id.textView1)).setText("œÚ"+position+"∑¢ÀÕµƒœ˚œ¢");
+    	((TextView)findViewById(R.id.textView1)).setText("Âêë"+company+"  "+name_title+"ÂèëÈÄÅÊ∂àÊÅØ");
     	mEditTextContent = (EditText) findViewById(R.id.et_sendmessage);
     	
     	
     }
     
-//    private String[]msgArray = new String[]{"∏œΩÙπ˝¿¥µπ≤Ë...",
-//    										" ’µΩ°£",
-//    										"∏œΩÙπ˝¿¥µπ≤Ë...", 
-//    										" ’µΩ°£", 
-//    										"∏œΩÙπ˝¿¥µπ≤Ë...",
-//    										" ’µΩ°£", 
-//    										"∏œΩÙπ˝¿¥µπ≤Ë...",
-//    										" ’µΩ°£"};
+//    private String[]msgArray = new String[]{"Ëµ∂Á¥ßËøáÊù•ÂÄíËå∂...",
+//    										"Êî∂Âà∞„ÄÇ",
+//    										"Ëµ∂Á¥ßËøáÊù•ÂÄíËå∂...", 
+//    										"Êî∂Âà∞„ÄÇ", 
+//    										"Ëµ∂Á¥ßËøáÊù•ÂÄíËå∂...",
+//    										"Êî∂Âà∞„ÄÇ", 
+//    										"Ëµ∂Á¥ßËøáÊù•ÂÄíËå∂...",
+//    										"Êî∂Âà∞„ÄÇ"};
 //    
 //    private String[]dataArray = new String[]{"2012-09-01 18:00", "2012-09-01 18:10", 
 //    										"2012-09-01 18:11", "2012-09-01 18:20", 
@@ -88,10 +95,10 @@ public class ChatActivity extends Activity implements OnClickListener{
 //    		entity.setDate(dataArray[i]);
 ////    		if (i % 2 == 0)
 ////    		{
-////    			entity.setName("“ª∫≈◊¿");
+////    			entity.setName("‰∏ÄÂè∑Ê°å");
 ////    			entity.setMsgType(true);
 ////    		}else{
-//			entity.setName("Œ“");
+//			entity.setName("Êàë");
 //			entity.setMsgType(false);
 ////    		}
 //    		
@@ -124,20 +131,36 @@ public class ChatActivity extends Activity implements OnClickListener{
 		String contString = mEditTextContent.getText().toString();
 		if (contString.length() > 0)
 		{
-			ChatMsgEntity entity = new ChatMsgEntity();
-			entity.setDate(getDate());
-			entity.setName("Œ“");
-			entity.setMsgType(false);
-			entity.setText(contString);
-			mDataArrays.add(entity);
-			mAdapter.notifyDataSetChanged();
-			NotifyHandle.getInstance().storeMsg(position, meetingId, entity);
-			
-			mEditTextContent.setText("");
-			
-			mListView.setSelection(mListView.getCount() - 1);
+//			try{
+				WsControllerServiceSupport.getInstance().sendMessageServiceMessage(contString, memberId);
+//			}catch(Exception ae){
+//				ae.printStackTrace();
+//			}
 		}
 	}
+
+
+	public void notifyMsgList(String contString) {
+		ChatMsgEntity entity = new ChatMsgEntity();
+		entity.setDate(getDate());
+		entity.setName("Êàë");
+		entity.setMsgType(false);
+		System.out.println("--------------------------1");
+		entity.setText(contString);
+		System.out.println("--------------------------2");
+		mDataArrays.add(entity);
+		System.out.println("--------------------------3");
+		mAdapter.notifyDataSetChanged();
+		System.out.println("--------------------------4");
+		NotifyHandle.getInstance().storeMsg(position, meetingId, entity);
+		System.out.println("--------------------------5");
+		mEditTextContent.setText("");
+		System.out.println("--------------------------6");
+		mListView.setSelection(mListView.getCount() - 1);
+		System.out.println("--------------------------7");
+	}
+	
+	
 	
     private String getDate() {
         Calendar c = Calendar.getInstance();
@@ -157,7 +180,7 @@ public class ChatActivity extends Activity implements OnClickListener{
     }
     
     
-    public void head_xiaohei(View v) {     //±ÍÃ‚¿∏ ∑µªÿ∞¥≈•
+    public void head_xiaohei(View v) {     //Ê†áÈ¢òÊ†è ËøîÂõûÊåâÈíÆ
     	//Intent intent = new Intent (ChatActivity.this,InfoXiaohei.class);			
 		//startActivity(intent);	
       } 
