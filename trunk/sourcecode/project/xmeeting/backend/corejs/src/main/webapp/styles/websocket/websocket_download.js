@@ -23,6 +23,7 @@ function downloadLogoutWS() {
 function downloadCreateWebSocket(padId, roleName) {
 	var url = configuration.wshostprefix + "ws/download?padId=" + padId
 			+ "&roleName=" + roleName;
+	logger.info("ws url---->"+url);
 	var wsDownload = null;
 	if ('WebSocket' in window) {
 		wsDownload = new WebSocket(url);
@@ -49,12 +50,12 @@ function downloadStartWebSocket(padId, roleName) {
 	
 	wsDownload.onclose = function(evt) {
 		 // 在连接被关闭时调用 
-		logger.info("onclose>>>>退出系统"+ evt.data);
+		logger.info("onclose>>>>退出系统["+padId+"]");
 	};
 
 	wsDownload.onopen = function(evt) {
 		// 连接被打开时调用
-		logger.info("onopen>>>>进入系统"+ evt.data);
+		logger.info("onopen>>>>进入系统["+padId+"]");
 	};
 }// end of downloadStartWebSocket
 
