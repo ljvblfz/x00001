@@ -9,6 +9,7 @@ public class XmMeetingMessageIVO {
 	private String xmmmToDisplayname;  
 	private String xmmmMessage; 
 	private String xmmmTime; 
+	private String  xmmmStatus;
 	
 	
 	
@@ -76,8 +77,14 @@ public class XmMeetingMessageIVO {
 				+ xmmmFrom + ", xmmmTo=" + xmmmTo + ", xmmmFromDisplayname="
 				+ xmmmFromDisplayname + ", xmmmToDisplayname="
 				+ xmmmToDisplayname + ", xmmmMessage=" + xmmmMessage
-				+ ", xmmmTime=" + xmmmTime + ", xmmiName=" + xmmiName
-				+ ", xmmiGuid=" + xmmiGuid + "]";
+				+ ", xmmmTime=" + xmmmTime + ", xmmmStatus=" + xmmmStatus
+				+ ", xmmiName=" + xmmiName + ", xmmiGuid=" + xmmiGuid + "]";
+	}
+	public String getXmmmStatus() {
+		return xmmmStatus;
+	}
+	public void setXmmmStatus(String xmmmStatus) {
+		this.xmmmStatus = xmmmStatus;
 	}
  
 

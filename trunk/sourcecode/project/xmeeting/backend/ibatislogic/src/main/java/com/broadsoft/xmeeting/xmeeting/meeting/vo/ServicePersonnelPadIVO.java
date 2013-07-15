@@ -7,6 +7,9 @@ public class ServicePersonnelPadIVO {
 	public String xmpdGuid;
 	public String xmpdDeviceId;
 	public String xmpiName;
+	public String xmpiGuid;
+	
+	
 	public String getXmmiGuid() {
 		return xmmiGuid;
 	}
@@ -36,14 +39,19 @@ public class ServicePersonnelPadIVO {
 	}
 	public void setXmpiName(String xmpiName) {
 		this.xmpiName = xmpiName;
+	} 
+	public String getXmpiGuid() {
+		return xmpiGuid;
 	}
-	
-	
+	public void setXmpiGuid(String xmpiGuid) {
+		this.xmpiGuid = xmpiGuid;
+	}
 	@Override
 	public String toString() {
 		return "ServicePersonnelPadIVO [xmmiGuid=" + xmmiGuid + ", xmmiName="
 				+ xmmiName + ", xmpdGuid=" + xmpdGuid + ", xmpdDeviceId="
-				+ xmpdDeviceId + ", xmpiName=" + xmpiName + "]";
+				+ xmpdDeviceId + ", xmpiName=" + xmpiName + ", xmpiGuid="
+				+ xmpiGuid + "]";
 	}
 	 
 

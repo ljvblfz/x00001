@@ -113,7 +113,7 @@
 		<select id="findServicePersonnelByDeviceId" parameterClass="java.util.HashMap"  resultClass="com.broadsoft.xmeeting.xmeeting.meeting.vo.ServicePersonnelPadIVO">
 	    <![CDATA[
 			    
-					select 	a.xmmi_guid xmmiGuid,xmmi_name  xmmiName ,d.xmpd_guid  xmpdGuid,d.XMPD_DEVICE_ID  xmpdDeviceId,b.xmpi_name  xmpiName
+					select 	a.xmmi_guid xmmiGuid,xmmi_name  xmmiName ,d.xmpd_guid  xmpdGuid,d.XMPD_DEVICE_ID  xmpdDeviceId,b.xmpi_name  xmpiName,b.xmpi_guid  xmpiGuid
 
 					from 	xm_meeting_info a ,XM_PERSONNEL_INFO b,XM_MEETING_SERVICE_PERSONNEL c,xm_pad_device d
 					

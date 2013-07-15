@@ -32,21 +32,28 @@
     
    
     <select id="searchMeetingCallByName" parameterClass="java.util.HashMap"  resultClass="com.broadsoft.xmeeting.xmeeting.meeting.vo.XmMeetingCallIVO">
+ 
 	    <![CDATA[
 			        
-					select 	a.xmmcall_guid xmmcallGuid, a.xmmcall_caller xmmcllCaller,
 					
+							
+							
+			select 			a.xmmcall_guid xmmcallGuid, a.xmmcall_caller xmmcllCaller, 
 							a.xmmcall_message xmmcallMessage,  a.XMMCALL_CALLER_DISPLAYNAME xmmcallCallerDisplayname,
 							to_char(a.XMMCALL_TIME,'yyyy-mm-dd hh24:mi:ss') xmmcallTime,
 							
-							b.xmmi_name xmmiName,b.xmmi_guid xmmiGuid 
+							b.xmmi_name xmmiName,b.xmmi_guid xmmiGuid ,
+            				c.value_desc xmmcallStatus
 					
-					from  XM_MEETING_CALL a,XM_MEETING_INFO  b 
+					from  	XM_MEETING_CALL a,XM_MEETING_INFO  b ,
+          					(select value_code,value_desc from sy_code  where type_id in (select type_id from sy_code_type where type_name='3018')) c 
+					
 					
 					where 			1=1 
 							and  a.xmmi_guid=b.xmmi_guid
 							and  a.del_flag=0 
 							and  b.del_flag=0 
+					    	and  a.xmmcall_STATUS=c.value_code  
 				
 		]]> 	
 		<isNotEmpty prepend="and" property="xmmiName"> 
@@ -62,23 +69,27 @@
 	
     
     <select id="searchMeetingMessageByName" parameterClass="java.util.HashMap"  resultClass="com.broadsoft.xmeeting.xmeeting.meeting.vo.XmMeetingMessageIVO">
-	    <![CDATA[ 
-
+  
+	    <![CDATA[	
+							
 		select * from (
 					select 
 						a.xmmm_guid xmmmGuid , a.xmmm_from xmmmFrom,a.xmmm_to xmmmTo ,
 						a.XMMM_FROM_DISPLAYNAME xmmmFromDisplayname,
 						a.XMMM_TO_DISPLAYNAME xmmmToDisplayname, 
 						a.xmmm_message xmmmMessage,to_char(a.XMMM_TIME,'yyyy-mm-dd hh24:mi:ss')   xmmmTime,
-						b.xmmi_name xmmiName,b.xmmi_guid xmmiGuid 
+						b.xmmi_name xmmiName,b.xmmi_guid xmmiGuid,
+            			c.value_desc xmmmStatus
 						
-					from XM_MEETING_MESSAGE a, XM_MEETING_INFO  b 
+					from XM_MEETING_MESSAGE a, XM_MEETING_INFO  b ,
+          				 (select value_code,value_desc from sy_code  where type_id in (select type_id from sy_code_type where type_name='3017')) c 
 					
 					
 					where       	1=1 
 							and  a.xmmi_guid=b.xmmi_guid
 							and  a.del_flag=0 
 							and  b.del_flag=0 
+					    	and a.XMMM_STATUS=c.value_code  
 						
 		]]> 	
 		<isNotEmpty prepend="and" property="xmmiName"> 

@@ -10,6 +10,7 @@ public class XmMeetingCallIVO {
 	/** 会议 */
 	public String xmmiName;
 	public String xmmiGuid;
+	public String xmmcallStatus;
 
 	public String getXmmcallGuid() {
 		return xmmcallGuid;
@@ -75,7 +76,16 @@ public class XmMeetingCallIVO {
 				+ ", xmmcallCaller=" + xmmcallCaller + ", xmmcallMessage="
 				+ xmmcallMessage + ", xmmcallCallerDisplayname="
 				+ xmmcallCallerDisplayname + ", xmmcallTime=" + xmmcallTime
-				+ ", xmmiName=" + xmmiName + ", xmmiGuid=" + xmmiGuid + "]";
+				+ ", xmmiName=" + xmmiName + ", xmmiGuid=" + xmmiGuid
+				+ ", xmmcallStatus=" + xmmcallStatus + "]";
+	}
+
+	public String getXmmcallStatus() {
+		return xmmcallStatus;
+	}
+
+	public void setXmmcallStatus(String xmmcallStatus) {
+		this.xmmcallStatus = xmmcallStatus;
 	}
 
  
