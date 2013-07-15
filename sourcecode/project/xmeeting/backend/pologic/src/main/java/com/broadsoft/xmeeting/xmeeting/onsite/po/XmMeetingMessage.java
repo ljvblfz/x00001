@@ -25,6 +25,7 @@ public class XmMeetingMessage extends BaseEntity {
 	public static String XMMM_FROM= "xmmmFrom";
 	public static String XMMM_TO= "xmmmTo";
 	public static String XMMM_MESSAGE= "xmmmMessage"; 
+	public static String XMMM_STATUS= "xmmmStatus"; 
 
 	//primary key
 	/** PID */
@@ -39,6 +40,8 @@ public class XmMeetingMessage extends BaseEntity {
 	private java.lang.String xmmmToDisplayname;
 	/** 消息内容 */
 	private java.lang.String xmmmMessage; 
+	/** 状态 */
+	private java.lang.String xmmmStatus; 
 
 	private Date xmmmTime;
 	
@@ -152,6 +155,14 @@ public class XmMeetingMessage extends BaseEntity {
 
 	public void setXmmmTime(Date xmmmTime) {
 		this.xmmmTime = xmmmTime;
+	}
+
+	public java.lang.String getXmmmStatus() {
+		return xmmmStatus;
+	}
+
+	public void setXmmmStatus(java.lang.String xmmmStatus) {
+		this.xmmmStatus = xmmmStatus;
 	}
 
 	public int compareTo(Object obj) {

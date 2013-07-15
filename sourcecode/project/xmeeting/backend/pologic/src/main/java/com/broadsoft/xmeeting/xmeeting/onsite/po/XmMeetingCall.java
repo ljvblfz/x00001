@@ -24,6 +24,7 @@ public class XmMeetingCall extends BaseEntity {
 	public static String XMMI_GUID= "xmmiGuid";
 	public static String XMMCALL_CALLER= "xmmcallCaller";
 	public static String XMMCALL_MESSAGE= "xmmcallMessage"; 
+	public static String XMMCALL_STATUS= "xmmcallStatus"; 
 
 	//primary key
 	/** PID */
@@ -35,6 +36,8 @@ public class XmMeetingCall extends BaseEntity {
 	private java.lang.String xmmcallCallerDisplayname;
 	/** 呼叫内容 */
 	private java.lang.String xmmcallMessage; 
+	/** 状态 */
+	private java.lang.String xmmcallStatus; 
 
 
 	private Date xmmcallTime;
@@ -126,6 +129,14 @@ public class XmMeetingCall extends BaseEntity {
 
 	public void setXmmcallTime(Date xmmcallTime) {
 		this.xmmcallTime = xmmcallTime;
+	}
+
+	public java.lang.String getXmmcallStatus() {
+		return xmmcallStatus;
+	}
+
+	public void setXmmcallStatus(java.lang.String xmmcallStatus) {
+		this.xmmcallStatus = xmmcallStatus;
 	}
 
 	public int compareTo(Object obj) {
