@@ -5,6 +5,8 @@
  
 package com.broadsoft.xmeeting.xmeeting.devmgmt.resource;
 
+import java.util.List;
+
 import net.sf.json.JSON;
 import net.sf.json.JSONSerializer;
 
@@ -21,10 +23,12 @@ import com.founder.sipbus.common.annotation.RestletResource;
 import com.founder.sipbus.common.page.PageResponse;
 import com.founder.sipbus.common.util.JsonUtils;
 import com.founder.sipbus.common.util.PMGridCopyUtil;
+import com.broadsoft.xmeeting.xmeeting.basic.po.XmPadDevice;
 import com.broadsoft.xmeeting.xmeeting.devmgmt.dao.XmMeetingDocumentDaoImpl;
 import com.broadsoft.xmeeting.xmeeting.devmgmt.po.XmMeetingDocument;
 import com.broadsoft.xmeeting.xmeeting.devmgmt.vo.XmMeetingDocumentSearchVO;
 import com.founder.sipbus.syweb.au.base.SyBaseResource;
+import com.founder.sipbus.syweb.au.service.SyCodeService;
 
 @Component
 @Scope(value="prototype")
@@ -36,6 +40,11 @@ public class XmMeetingDocumentsResource extends SyBaseResource {
 	public void setXmMeetingDocumentDao(XmMeetingDocumentDaoImpl xmMeetingDocumentDao) {
 		this.xmMeetingDocumentDao = xmMeetingDocumentDao;
 	}
+	private SyCodeService syCodeService; 
+	public void setSyCodeService(SyCodeService syCodeService) {
+		this.syCodeService = syCodeService;
+	}
+	
 
 	@SuppressWarnings("unchecked")
 	@Get
@@ -44,6 +53,11 @@ public class XmMeetingDocumentsResource extends SyBaseResource {
 		XmMeetingDocumentSearchVO sVO=new XmMeetingDocumentSearchVO();
 		PMGridCopyUtil.copyGridToDto(sVO,getQueryMap());
 		PageResponse p = xmMeetingDocumentDao.findPage(getPageRequest(),fillDetachedCriteria(XmMeetingDocument.class,sVO));
+		List list = p.getList();
+		for (int i = 0; i < list.size(); i++) {
+			XmMeetingDocument xmMeetingDocument = (XmMeetingDocument) list.get(i);
+			xmMeetingDocument.setXmmdIsAllowedSentLabel(syCodeService.getSyCodeName("3016", xmMeetingDocument.getXmmdIsAllowedSent()));// 从码表读出对应名称  
+		}
 		JSON jp = JSONSerializer.toJSON(getPageResponse(p),config);
 		return getJsonGzipRepresentation(JsonUtils.genSuccessReturnJson(jp));   
 	}

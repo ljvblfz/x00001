@@ -15,17 +15,24 @@
 				<input type="text" name="xmmdName" class="required" size="30" maxlength="20"/>
 			</p>
 			<p>
+				<label>是否允许发送</label> 
+
+					<select class="required combox" name="xmmdIsAllowedSent" valueCode="valueCode" codeType="3016" valueDesc="valueDesc" >
+						<option value="" selected>请选择</option>
+					</select>
+			</p> 
+			<p>
 				<label>文稿描述</label>
-				<input type="text" name="xmmdDescription" class="required" size="30" maxlength="20"/>
+				<input type="text" name="xmmdDescription"   size="30" maxlength="20"/>
 			</p>
+			<p></p>
+			<p></p>
+			<p></p>
 			<p>
 				<label>文稿文件</label>
 				<input type="hidden" name="xmmdFile" class="required"    />
 			</p> 
 			
-			<p></p>
-			<p></p>
-			<p></p>
 			 
 			<div id="xmmdFileFileQueue" class="fileQueue"></div>  
 			<input  type="file"  id="xmmdFileFile" name="xmmdFileFile"  
@@ -55,6 +62,7 @@
 		$("#xmmdFileFile").attr("script","xmeeting_meetingdocument.uploadify?meetingId="+xmmiGuid);
 		if(xmmdGuid){
 			findName('showTitle').html('修改资料文件');
+			findName("xmmdIsAllowedSent").addClass("sync");
 			doGetAjax(CPATH.domain_3 + "/rs/xmMeetingDocument/" +xmmdGuid ,null,function(data){$form.find("[name]").populate(data);});
 			$form.attr('action',CPATH.domain_3 + '/rs/xmMeetingDocument/'+xmmdGuid+'?method=put');
 		}else{
