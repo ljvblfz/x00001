@@ -24,11 +24,21 @@
             android:textSize="30dp" />
 
         <TextView
+            android:id="@+id/blankInvisible"
+            android:layout_width="150dip"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/btnlogin" 
+            android:textColor="@color/White"
+            android:textSize="200sp" android:visibility="invisible"/>
+        
+        
+        <TextView
             android:id="@+id/loginname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/btnlogin"
+            android:layout_toLeftOf="@+id/blankInvisible"
             android:ems="10"
             android:gravity="right|center_vertical"
             android:inputType="text"

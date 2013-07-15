@@ -144,7 +144,7 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 			DownloadInfoEntity downloadInfoEntityParam=this.createDownloadInfoEntity(jsonDataMeetingInfo,jsonDataPersonnelInfo );
 			this.saveDBForDownloadInfo(downloadInfoEntityParam); 
 			//下载文件
-			if(type==RsServiceOnMeetingInfoSupport.TYPE_DOWNLOAD_WITH_FILE){
+			if(type==RsServiceOnMeetingInfoSupport.TYPE_DOWNLOAD_WITH_FILE||type==RsServiceOnMeetingInfoSupport.TYPE_DEFAULT){
 				long begintime=System.currentTimeMillis();
 				cleanFileForDownloadInfo(jsonDataMeetingInfo);
 				saveFileForDownloadInfo(jsonDataMeetingInfo); 

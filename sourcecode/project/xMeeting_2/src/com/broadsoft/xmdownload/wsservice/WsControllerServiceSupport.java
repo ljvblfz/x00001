@@ -138,14 +138,20 @@ public class WsControllerServiceSupport {
 		@Override
 		public void onTextMessage(String payload) {
 			Log.d(TAG, "[onTextMessage]Got echo: " + payload);   
-			
-//			Message msg = new Message();  
-//            Bundle bundle = new Bundle();  
-//            bundle.putString("payload", payload);  
-//            msg.setData(bundle);   
-//            NotifyUIHandler.getInstance().sendMessage(msg);
-			NotifyUIHandler.getInstance().sendControllerMessage(payload);
-		}
+
+			JSONObject jsonObject;
+			try {
+				jsonObject = new JSONObject(payload);
+				String msgtype=jsonObject.getString("msgtype");  
+				if("01".equals(msgtype)){//呼叫服务
+//					NotifyUIHandler.getInstance().sendControllerMessage(payload); 
+				}else if("02".equals(msgtype)){//通知服务
+					NotifyUIHandler.getInstance().sendControllerMessage(payload); 
+				}
+			} catch (JSONException e) { 
+				e.printStackTrace();
+			}
+		}//end of onTextMessage
 
 		@Override
 		public void onClose(int code, String reason) {
@@ -158,6 +164,7 @@ public class WsControllerServiceSupport {
 	 * connect
 	 */
 	public void connect(){ 
+		Log.d(TAG, "[connect]begin: wspath is: " + wspath); 
 		try {
 			WebSocketOptions   options  =new WebSocketOptions  (); 
 			options.setSocketConnectTimeout(1000*1000);//ms
@@ -166,6 +173,7 @@ public class WsControllerServiceSupport {
 		} catch (WebSocketException e) { 
 			Log.d(TAG, e.toString());
 		}   
+		Log.d(TAG, "[connect]end: wspath is: " + wspath); 
 	}//end of connect
 
 
