@@ -165,9 +165,8 @@ public class MeetingInfoLVButtonAdapter extends BaseAdapter {
 				RsServiceOnMeetingInfoSupport.downloadByType(RsServiceOnMeetingInfoSupport.TYPE_DOWNLOAD_WITH_FILE,strMeetingId); 
 			} else if ("3".equals(strType)) { 
 				//activate  
-//				DownloadByHandUIHandler.getInstance().sendDownloadMessageOnBegin();
 				DaoHolder.getInstance().getDownloadInfoDao().activate(strMeetingId); 
-//				DownloadByHandUIHandler.getInstance().sendDownloadMessageOnEnd();
+				DownloadByHandUIHandler.getInstance().sendActivateMessage(); 
 			}
 		}
 	}// end of LVBtnCommonListener 

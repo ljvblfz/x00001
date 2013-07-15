@@ -51,7 +51,17 @@ public class NotifyUIHandler extends Handler {
 			JSONObject jo = new JSONObject(payload);
 			if(jo.has("msgtype")){
 				String msgtype = jo.getString("msgtype");
-				if ("01".equals(msgtype)) {
+				if ("01".equals(msgtype)) {//呼叫服务
+//					String msgcontent = jo.getString("msgcontent");
+//					int size=notificationListItem.size();
+//		            HashMap<String, Object> mapOfContent = new HashMap<String, Object>();     
+//		            mapOfContent.put("notificationSeq", String.valueOf((size+1)));  
+//		            mapOfContent.put("notificationContent", msgcontent);  
+////		            mapOfContent.put("notificationStatus", "未读");  
+//		            mapOfContent.put("notificationTime", getCurrentTime());  
+//					notificationListItem.add(mapOfContent); 					
+//					showDialog(msgcontent); 
+				} else if ("02".equals(msgtype)) {//通知消息
 					String msgcontent = jo.getString("msgcontent");
 					int size=notificationListItem.size();
 		            HashMap<String, Object> mapOfContent = new HashMap<String, Object>();     
@@ -60,9 +70,8 @@ public class NotifyUIHandler extends Handler {
 //		            mapOfContent.put("notificationStatus", "未读");  
 		            mapOfContent.put("notificationTime", getCurrentTime());  
 					notificationListItem.add(mapOfContent); 					
-					showDialog(msgcontent);
-	//				showDialog2(msgcontent);
-				}//end of if 01
+					showDialog(msgcontent); 
+				}
 			}
 		} catch (JSONException e) { 
 			e.printStackTrace();
