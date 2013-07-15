@@ -17,6 +17,8 @@ public class XmMeetingCallSearchVO {
 	public String xmmcallCaller;
 	/** 呼叫内容 */
 	public String xmmcallMessage;
+	/** 状态 */
+	private java.lang.String xmmcallStatus; 
 	
 	
 	
@@ -76,6 +78,12 @@ public class XmMeetingCallSearchVO {
 	 */
 	public void setXmmcallMessage(String xmmcallMessage) {
 		this.xmmcallMessage = xmmcallMessage;
+	}
+	public java.lang.String getXmmcallStatus() {
+		return xmmcallStatus;
+	}
+	public void setXmmcallStatus(java.lang.String xmmcallStatus) {
+		this.xmmcallStatus = xmmcallStatus;
 	}
 	
 	 

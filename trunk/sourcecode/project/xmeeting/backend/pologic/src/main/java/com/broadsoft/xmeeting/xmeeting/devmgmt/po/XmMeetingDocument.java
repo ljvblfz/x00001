@@ -23,6 +23,10 @@ public class XmMeetingDocument extends BaseEntity {
 	public static String XMMD_NAME= "xmmdName";
 	public static String XMMD_DESCRIPTION= "xmmdDescription";
 	public static String XMMD_FILE= "xmmdFile"; 
+	
+	
+
+	public static String XMMD_IS_ALLOWED_SENT = "xmmdIsAllowedSent"; 
 
 	//primary key
 	/** PID */
@@ -35,6 +39,9 @@ public class XmMeetingDocument extends BaseEntity {
 	private java.lang.String xmmdDescription;
 	/** 文稿文件 */
 	private java.lang.String xmmdFile; 
+	/** 是否允许发送 */
+	private java.lang.String xmmdIsAllowedSent;  
+	private java.lang.String xmmdIsAllowedSentLabel; 
 
 	
 
@@ -125,6 +132,23 @@ public class XmMeetingDocument extends BaseEntity {
 		this.xmmdFile = value;
 	}
  
+
+	public java.lang.String getXmmdIsAllowedSent() {
+		return xmmdIsAllowedSent;
+	}
+
+	public void setXmmdIsAllowedSent(java.lang.String xmmdIsAllowedSent) {
+		this.xmmdIsAllowedSent = xmmdIsAllowedSent;
+	}
+
+	@Transient
+	public java.lang.String getXmmdIsAllowedSentLabel() {
+		return xmmdIsAllowedSentLabel;
+	}
+
+	public void setXmmdIsAllowedSentLabel(java.lang.String xmmdIsAllowedSentLabel) {
+		this.xmmdIsAllowedSentLabel = xmmdIsAllowedSentLabel;
+	}
 
 	public int compareTo(Object obj) {
 		int compare = -1;

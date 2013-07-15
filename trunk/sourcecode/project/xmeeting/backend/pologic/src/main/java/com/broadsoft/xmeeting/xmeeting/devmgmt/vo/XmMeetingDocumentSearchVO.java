@@ -19,6 +19,8 @@ public class XmMeetingDocumentSearchVO {
 	public String xmmdDescription;
 	/** 文稿文件 */
 	public String xmmdFile;
+	/** 是否允许发送 */
+	private java.lang.String xmmdIsAllowedSent; 
 	
 	
 	
@@ -92,6 +94,12 @@ public class XmMeetingDocumentSearchVO {
 	 */
 	public void setXmmdFile(String xmmdFile) {
 		this.xmmdFile = xmmdFile;
+	}
+	public java.lang.String getXmmdIsAllowedSent() {
+		return xmmdIsAllowedSent;
+	}
+	public void setXmmdIsAllowedSent(java.lang.String xmmdIsAllowedSent) {
+		this.xmmdIsAllowedSent = xmmdIsAllowedSent;
 	}
 	
 	 
