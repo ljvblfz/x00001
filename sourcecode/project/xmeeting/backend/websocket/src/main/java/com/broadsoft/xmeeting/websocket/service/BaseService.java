@@ -44,6 +44,9 @@ public class BaseService implements IService{
 				if(validateMember(to, messageInbound)){
 					writeResponse(meetingid, msgtype, msgcontent, from,fromDisplayName, to, messageInbound);
 				} 
+				if(validateMember(from, messageInbound)){
+					writeResponse(meetingid, msgtype, msgcontent, from,fromDisplayName, to, messageInbound);
+				} 
 			}//end of for
 		} catch (IOException e) { 
 			e.printStackTrace();

@@ -18,6 +18,8 @@ import org.apache.catalina.websocket.WsOutbound;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.broadsoft.xmeeting.springholder.SpringDaoHolder;
+
 public class ControllerWebSocketServlet extends WebSocketServlet {
 
 	private Logger logger = LoggerFactory
@@ -47,10 +49,12 @@ public class ControllerWebSocketServlet extends WebSocketServlet {
 		if (logger.isTraceEnabled()) {
 			logger.trace("createWebSocketInbound begin--->{}.", subProtocol); 
 		}
+		
 		String memberId = request.getParameter("memberId");
 		String meetingId = request.getParameter("meetingId");
-		String memberDisplayName = request.getParameter("memberDisplayName");
-		ControllerMessageInbound controllerMessageInbound=new ControllerMessageInbound(meetingId, memberId,memberDisplayName);
+		String memberDisplayName =SpringDaoHolder.getInstance().getXmPersonnelInfoDao().findById(memberId).getXmpiName();
+		String meetingName =SpringDaoHolder.getInstance().getXmMeetingInfoDao().findById(meetingId).getXmmiName();
+		ControllerMessageInbound controllerMessageInbound=new ControllerMessageInbound(meetingId, memberId,meetingName,memberDisplayName);
 		if (logger.isTraceEnabled()) {
 			logger.trace("createWebSocketInbound end."); 
 		}

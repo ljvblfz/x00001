@@ -152,6 +152,7 @@ public class DownloadMessageInbound extends MessageInbound {
 	 */
 	@Override
 	protected void onClose(int status) {
+		super.onClose(status);
 		if(logger.isTraceEnabled()){
 			logger.trace("onClose--->{}.",status);
 			System.out.println("["+Thread.currentThread().getId()+"]onClose--->"+this.getPadId());
@@ -160,7 +161,6 @@ public class DownloadMessageInbound extends MessageInbound {
 //			DownloadMessageInboundHolder.getSocketList().remove(this); 
 			DownloadMessageInboundHolder.removeByPadId(padId);
 			System.out.println("["+Thread.currentThread().getId()+"]onClose--->remove the pad: "+this.getPadId());
-			super.onClose(status);
 		}
 	}
 
@@ -172,12 +172,12 @@ public class DownloadMessageInbound extends MessageInbound {
 	 */
 	@Override
 	protected void onOpen(WsOutbound outbound) {
+		super.onOpen(outbound);
 		if(logger.isTraceEnabled()){
 			logger.trace("onOpen--->"); 
 			System.out.println("["+Thread.currentThread().getId()+"]onOpen--->"+this.getPadId());
 		}  
 		if(!DownloadMessageInboundHolder.checkIfExist(this)){ 
-			super.onOpen(outbound);
 			DownloadMessageInboundHolder.add(this); 
 			System.out.println("["+Thread.currentThread().getId()+"]onOpen--->add the pad: "+this.getPadId());
 		}else{ 

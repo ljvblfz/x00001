@@ -3,6 +3,8 @@ package com.broadsoft.xmeeting.springholder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.broadsoft.xmeeting.xmeeting.basic.dao.XmPersonnelInfoDaoImpl;
+import com.broadsoft.xmeeting.xmeeting.devmgmt.dao.XmMeetingInfoDaoImpl;
 import com.broadsoft.xmeeting.xmeeting.onsite.dao.XmMeetingCallDaoImpl;
 import com.broadsoft.xmeeting.xmeeting.onsite.dao.XmMeetingMessageDaoImpl;
 import com.broadsoft.xmeeting.xmeeting.onsite.dao.XmMeetingVoteDaoImpl;
@@ -21,6 +23,30 @@ public class SpringDaoHolder {
 	}
 
 	// =======================IOC================>
+	
+	
+	private XmMeetingInfoDaoImpl xmMeetingInfoDao;
+	
+	
+	
+	public XmMeetingInfoDaoImpl getXmMeetingInfoDao() {
+		return xmMeetingInfoDao;
+	}
+
+	public void setXmMeetingInfoDao(XmMeetingInfoDaoImpl xmMeetingInfoDao) {
+		this.xmMeetingInfoDao = xmMeetingInfoDao;
+	}
+
+	//人员信息
+	private XmPersonnelInfoDaoImpl xmPersonnelInfoDao;
+
+	public XmPersonnelInfoDaoImpl getXmPersonnelInfoDao() {
+		return xmPersonnelInfoDao;
+	}
+
+	public void setXmPersonnelInfoDao(XmPersonnelInfoDaoImpl xmPersonnelInfoDao) {
+		this.xmPersonnelInfoDao = xmPersonnelInfoDao;
+	}
 
 	// 投票服务
 	private XmMeetingVoteDaoImpl xmMeetingVoteDao;

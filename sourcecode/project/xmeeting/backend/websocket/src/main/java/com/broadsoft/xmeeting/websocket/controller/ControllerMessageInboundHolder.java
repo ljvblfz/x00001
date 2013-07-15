@@ -1,10 +1,9 @@
 package com.broadsoft.xmeeting.websocket.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
-import org.apache.catalina.websocket.MessageInbound;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +18,7 @@ public class ControllerMessageInboundHolder {
 		if(socketMapList.containsKey(meetingId)){
 			return socketMapList.get(meetingId);
 		}else{ 
-			List<ControllerMessageInbound> socketList = new ArrayList<ControllerMessageInbound>();
+			List<ControllerMessageInbound> socketList = new CopyOnWriteArrayList<ControllerMessageInbound>();
 			socketMapList.putIfAbsent(meetingId, socketList);
 			return socketMapList.get(meetingId); 
 		} 
@@ -47,6 +46,18 @@ public class ControllerMessageInboundHolder {
 		}
 		return false;
 	}
+	
+	
+	public static void removeByMemberIdAndMeetingId(String memberId,String meetingId) {
+		List<ControllerMessageInbound> listOfMeeting=getSocketListByMeetingId(meetingId); 
+		for(ControllerMessageInbound inbound:listOfMeeting){
+			if(memberId.equals(inbound.getMemberId())){
+				listOfMeeting.remove(inbound);
+				break;
+			}
+		}//end of for 
+	}
+	
 
 	
  
