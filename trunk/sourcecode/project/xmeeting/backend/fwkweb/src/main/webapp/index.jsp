@@ -8,6 +8,8 @@
 <%@page import="com.founder.sipbus.syweb.au.util.ISSOManager"%>  
 <%@ page import="com.founder.sipbus.syweb.au.po.SysUser"%>
 
+
+
 <%
 	SysUser sysUser =null;
 	String userid ="undefined";
@@ -26,7 +28,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-<title>方正智能公交</title>
+<title>江苏电力会议系统</title>
 
 
 <link  href="styles/jquery-ui-1.8.18/themes/base/jquery.ui.all.css" rel="stylesheet">
@@ -55,6 +57,9 @@
 
 <script type="text/javascript"> 
 	var mxBasePath = 'styles/mxGraph_1_10_4_2/src';
+	
+	
+	
 </script>
 
 <!-- <script type="text/javascript" src="styles/mxGraph_1_10_4_2/src/js/mxClient.js"></script> -->
@@ -180,6 +185,16 @@
 <!--<canvas name="cvss" style="display:none"></canvas> -->
 <script type="text/javascript">
 $(function(){
+	
+	var loginName='<%=userid%>';
+	
+	if("undefined"==loginName){
+		doLogout();
+		return;
+	} 
+	//websocket
+	downloadLoginWS(loginName);
+	
 	DWZ.init("styles/xjs.frag.xml", {
 		//loginUrl:"login_dialog.html", loginTitle:"登录",	// 弹出登录对话框
 		loginUrl:"login.html",	// 跳到登录页面
@@ -261,9 +276,6 @@ $(function(){
      initTopNav();
 	 
 	 
-	 //websocket
-	 var loginName='<%=userid%>';
-	 downloadLoginWS(loginName);
 });
 
 	function doLogout(){
