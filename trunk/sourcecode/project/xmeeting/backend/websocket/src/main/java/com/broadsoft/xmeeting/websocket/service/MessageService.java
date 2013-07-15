@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.broadsoft.xmeeting.springholder.SpringDaoHolder;
+import com.broadsoft.xmeeting.xmeeting.basic.dao.XmPersonnelInfoDaoImpl;
 import com.broadsoft.xmeeting.xmeeting.onsite.dao.XmMeetingMessageDaoImpl;
 import com.broadsoft.xmeeting.xmeeting.onsite.po.XmMeetingMessage;
 
@@ -16,13 +17,9 @@ public class MessageService extends  BaseService{
 	@Override
 	protected void updateDB(JSONObject responseContent) throws JSONException {
 		XmMeetingMessageDaoImpl xmMeetingMessageDao=SpringDaoHolder.getInstance().getXmMeetingMessageDao();
-		
-//		xmMeetingCall.setXmmcallCaller(responseContent.getString("from"));
-//		xmMeetingCall.setXmmcallCallerDisplayname(responseContent.getString("from"));
-//		xmMeetingCall.setXmmcallMessage(responseContent.getString("msgcontent"));
-//		xmMeetingCall.setXmmcallTime(new Date());
-//		xmMeetingCall.setXmmiGuid(responseContent.getString("meetingid"));
-		
+		XmPersonnelInfoDaoImpl xmPersonnelInfoDao=SpringDaoHolder.getInstance().getXmPersonnelInfoDao();
+		 
+		//
 		String to=responseContent.getString("to");
 		if(!to.isEmpty()){
 
@@ -32,14 +29,18 @@ public class MessageService extends  BaseService{
 					XmMeetingMessage xmMeetingMessage=new XmMeetingMessage(); 
 					initXmMeetingMessage(responseContent, xmMeetingMessage);
 					xmMeetingMessage.setXmmmTo(strTo);
-					xmMeetingMessage.setXmmmToDisplayname(strTo);
+					String strToDisplayName=xmPersonnelInfoDao.findById(strTo).getXmpiName();
+					xmMeetingMessage.setXmmmToDisplayname(strToDisplayName);
+					xmMeetingMessage.setXmmmStatus("1");
 					xmMeetingMessageDao.insert(xmMeetingMessage);
 				}//end of for 
 			}else{
 				XmMeetingMessage xmMeetingMessage=new XmMeetingMessage(); 
 				initXmMeetingMessage(responseContent, xmMeetingMessage);
 				xmMeetingMessage.setXmmmTo(to);
-				xmMeetingMessage.setXmmmToDisplayname(to);
+				String strToDisplayName=xmPersonnelInfoDao.findById(to).getXmpiName();
+				xmMeetingMessage.setXmmmToDisplayname(strToDisplayName);
+				xmMeetingMessage.setXmmmStatus("1");
 				xmMeetingMessageDao.insert(xmMeetingMessage);
 			}
 		}
@@ -49,9 +50,13 @@ public class MessageService extends  BaseService{
 	
 	private void initXmMeetingMessage(JSONObject responseContent,
 			XmMeetingMessage xmMeetingMessage) throws JSONException {
+		XmPersonnelInfoDaoImpl xmPersonnelInfoDao=SpringDaoHolder.getInstance().getXmPersonnelInfoDao();
+		//
 		xmMeetingMessage.setXmmiGuid(responseContent.getString("meetingid"));
 		xmMeetingMessage.setXmmmFrom(responseContent.getString("from"));
-		xmMeetingMessage.setXmmmFromDisplayname(responseContent.getString("from"));
+		String strFrom=responseContent.getString("from");
+		String strFromDisplayName=xmPersonnelInfoDao.findById(strFrom).getXmpiName();
+		xmMeetingMessage.setXmmmFromDisplayname(strFromDisplayName);
 		xmMeetingMessage.setXmmmMessage(responseContent.getString("msgcontent"));
 		xmMeetingMessage.setXmmmTime(new Date());
 	}

@@ -28,6 +28,7 @@ public class CallService extends  BaseService{
 		xmMeetingCall.setXmmcallMessage(responseContent.getString("msgcontent"));
 		xmMeetingCall.setXmmcallTime(new Date());
 		xmMeetingCall.setXmmiGuid(responseContent.getString("meetingid"));
+		xmMeetingCall.setXmmcallStatus("0");
 		xmMeetingCallDao.insert(xmMeetingCall);
 	}//end of updateDB
 
