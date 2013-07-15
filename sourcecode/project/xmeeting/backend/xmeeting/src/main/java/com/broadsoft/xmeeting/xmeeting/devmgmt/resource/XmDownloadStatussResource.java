@@ -59,7 +59,9 @@ public class XmDownloadStatussResource extends SyBaseResource {
 			XmPadDevice xmPadDevice=xmPadDeviceDao.findById(xmpdGuid);
 			XmMeetingInfo xmMeetingInfo=xmMeetingInfoDao.findById(xmmiGuid);
 			xmDownloadStatus.setXmmiGuidLabel(xmMeetingInfo.getXmmiName());
-			xmDownloadStatus.setXmpdGuidLabel(xmPadDevice.getXmpdCode());
+			if(null!=xmPadDevice){
+				xmDownloadStatus.setXmpdGuidLabel(xmPadDevice.getXmpdCode()); 
+			}
 		}//end of for 
 		
 		JSON jp = JSONSerializer.toJSON(getPageResponse(p),config);

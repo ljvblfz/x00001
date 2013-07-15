@@ -22,6 +22,7 @@ import com.founder.sipbus.common.util.*;
 import com.broadsoft.xmeeting.xmeeting.devmgmt.dao.XmMeetingDocumentDaoImpl;
 import com.broadsoft.xmeeting.xmeeting.devmgmt.po.XmMeetingDocument;
 import com.founder.sipbus.syweb.au.base.SyBaseResource;
+import com.founder.sipbus.syweb.au.service.SyCodeService;
 
 
 @Component
@@ -36,6 +37,11 @@ public class XmMeetingDocumentResource extends SyBaseResource{
 	public void setXmMeetingDocumentDao(XmMeetingDocumentDaoImpl xmMeetingDocumentDao) {
 		this.xmMeetingDocumentDao = xmMeetingDocumentDao;
 	}
+	private SyCodeService syCodeService; 
+	public void setSyCodeService(SyCodeService syCodeService) {
+		this.syCodeService = syCodeService;
+	}
+	
 
 	@Override
     protected void doInit() throws ResourceException {

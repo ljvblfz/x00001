@@ -31,6 +31,9 @@
 							        <value>/open/sendmms/xmmiGuid/{xmmiGuid}/mT0/{mTo}/fromName/{fromName}#GET</value>   
 							        <!--  -->
 							        <value>/open/service/personnel/xmpdDeviceId/{xmpdDeviceId}#GET</value>  
+							        <!--  -->
+							        <value>/open/xmMeetingCall/process/xmmcallGuid/{xmmcallGuid}#GET</value>  
+							        <value>/open/xmMeetingCall/list/xmmiGuid/{xmmiGuid}#GET</value>  
 							        
 						        </list>
 						     </property>
