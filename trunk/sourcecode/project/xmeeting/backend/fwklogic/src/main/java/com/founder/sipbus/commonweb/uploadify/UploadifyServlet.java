@@ -96,7 +96,9 @@ public class UploadifyServlet extends HttpServlet {
 
 		ServletFileUpload upload = new ServletFileUpload(factory);
 		upload.setHeaderEncoding("UTF-8");
-		upload.setFileSizeMax(1024*1024*100);//10M
+//		int sizeM=300;
+		int sizeM=Environment.getInstance().getInt(UPLOAD_FILE_SIZEMAX);
+		upload.setFileSizeMax(1024*1024*sizeM);//300M
 		
 
 		JSONObject jsonObject=new JSONObject();
@@ -155,6 +157,7 @@ public class UploadifyServlet extends HttpServlet {
 	public final static String UPLOAD_BASE_DIRECTORY = "com.broadsoft.platform.upload.base.directory";
 
 	public final static String UPLOAD_BASE_URL = "com.broadsoft.platform.upload.base.url";
+	public final static String UPLOAD_FILE_SIZEMAX = "com.broadsoft.platform.upload.file.sizemax";
 
 	public String getRandomFileNamePrefix() {
 		Date now = new Date();
