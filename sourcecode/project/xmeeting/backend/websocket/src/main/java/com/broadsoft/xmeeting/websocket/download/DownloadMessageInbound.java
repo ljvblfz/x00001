@@ -27,10 +27,12 @@ public class DownloadMessageInbound extends MessageInbound {
 	public static String ROLE_NAME_PERSONNEL="PERSONNEL";
 	
 	private String padId;
+	private String padCode;
 	private String roleName;
-	public DownloadMessageInbound( String padId,String roleName){
+	public DownloadMessageInbound( String padId,String padCode,String roleName){
 		super(); 
 		this.padId=padId;
+		this.padCode=padCode;
 		this.roleName=roleName;
 	}
 
@@ -196,6 +198,10 @@ public class DownloadMessageInbound extends MessageInbound {
 
 	public String getRoleName() {
 		return roleName;
+	}
+
+	public String getPadCode() {
+		return padCode;
 	} 
 
 }
