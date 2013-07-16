@@ -31,6 +31,7 @@ import com.founder.sipbus.common.page.PageResponse;
 import com.founder.sipbus.common.util.JsonUtils;
 import com.founder.sipbus.common.util.PMGridCopyUtil;
 import com.founder.sipbus.syweb.au.base.SyBaseResource;
+import com.founder.sipbus.syweb.au.service.SyCodeService;
 
 @Component
 @Scope(value="prototype")
@@ -41,6 +42,11 @@ public class XmDownloadStatussResource extends SyBaseResource {
 	
 	public void setXmDownloadStatusDao(XmDownloadStatusDaoImpl xmDownloadStatusDao) {
 		this.xmDownloadStatusDao = xmDownloadStatusDao;
+	}
+	
+	private SyCodeService syCodeService; 
+	public void setSyCodeService(SyCodeService syCodeService) {
+		this.syCodeService = syCodeService;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -62,6 +68,11 @@ public class XmDownloadStatussResource extends SyBaseResource {
 			if(null!=xmPadDevice){
 				xmDownloadStatus.setXmpdGuidLabel(xmPadDevice.getXmpdCode()); 
 			}
+			//
+			xmDownloadStatus.setXmdsMeetingScheduleLabel(syCodeService.getSyCodeName("3019", xmDownloadStatus.getXmdsMeetingSchedule()));
+			xmDownloadStatus.setXmdsDocumentLabel(syCodeService.getSyCodeName("3019", xmDownloadStatus.getXmdsDocument()));
+			xmDownloadStatus.setXmdsVideoLabel(syCodeService.getSyCodeName("3019", xmDownloadStatus.getXmdsVideo()));
+			xmDownloadStatus.setXmdsImageLabel(syCodeService.getSyCodeName("3019", xmDownloadStatus.getXmdsImage()));
 		}//end of for 
 		
 		JSON jp = JSONSerializer.toJSON(getPageResponse(p),config);

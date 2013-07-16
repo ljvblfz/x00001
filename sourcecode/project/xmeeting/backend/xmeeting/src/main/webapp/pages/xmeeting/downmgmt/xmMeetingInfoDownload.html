@@ -5,7 +5,9 @@
 			<ul class="searchContent">
 				<li>
 					<label>会议名称：</label>
-					<input type="text" name="xmmiGuid" value=""/>
+					<input type="hidden" name="xmmiGuid" />
+					<input type="text" name="xmmiGuidLabel" class="required"  readonly="true" maxlength="50" value=""/>
+					<a   href="javascript:download_showDialog_xmMeetingBasicInfo('xmmiGuidLabel','xmmiGuid')" class="btnLook">查找带回</a>   
 				</li> 
 			</ul>
 			<div class="subBar">
@@ -215,6 +217,35 @@
 		});
 		
 	}
+	
+	
+	
+
+	function download_showDialog_xmMeetingBasicInfo(xlabel,xhidden){  
+		//
+		
+		//
+		var title = "会议选择";
+		var rel = "download_showDialog_xmMeetingBasicInfo";
+		var options = {}; 
+		options.width = 500;
+		options.height = 400;
+		options.max =false;
+		options.mask = true;
+		options.maxable = false;
+		options.minable = false;
+		options.fresh = true;
+		options.resizable = false;
+		options.drawable = true;
+		options.close = "";
+		options.param = {xlabel:xlabel,xhidden:xhidden};
+		options.zIndex = "1000";
+
+		var url = "/xmeeting/pages/xmeeting/onsite/chooser/xmMeetingInfoChooser.html";
+
+		$.pdialog.open(url, rel, title, options);
+		
+	}//end of showDialog_xmMeetingBasicInfo2
 	
 	
 </script>

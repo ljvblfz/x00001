@@ -12,20 +12,9 @@
 <!-- 			</p> -->
 			<p>
 				<label>人员名字</label>
-				<input type="text" name="xmpiGuidLabel" readonlye="true" class="required"  />
+				<input type="text" name="xmpiGuidLabel" readonly="true" class="required"  />
 				<input type="hidden" name="xmpiGuid"  />
 				<a   href="javascript:showDialog_xmMeetingPersonnelInfo2('xmpiGuidLabel','xmpiGuid')" class="btnLook">查找带回</a>
-			</p>
-			<p>
-				<label>座位号</label>
-				<input type="text" name="xmridGuidLabel" readonlye="true" class="required"  />
-				<input type="hidden" name="xmridGuid"  />
-				<a   href="javascript:showDialog_xmRoomSeatInfo2('xmridGuidLabel','xmridGuid','xmpdGuid','xmpdGuidLabel')" class="btnLook">查找带回</a>
-			</p>
-			<p>
-				<label>pad设备</label>
-				<input type="text" name="xmpdGuidLabel" readonlye="true" class="required"  />
-				<input type="hidden" name="xmpdGuid"  /> 
 			</p>
 			<p>
 				<label>人员角色</label>
@@ -34,6 +23,17 @@
 						<option value="" selected>请选择</option>
 					</select>
 			</p> 
+			<p>
+				<label>座位号</label>
+				<input type="text" name="xmridGuidLabel" readonly="true" class="required"  />
+				<input type="hidden" name="xmridGuid"  />
+				<a   href="javascript:showDialog_xmRoomSeatInfo2('xmridGuidLabel','xmridGuid','xmpdGuid','xmpdGuidLabel')" class="btnLook">查找带回</a>
+			</p>
+			<p>
+				<label>pad设备</label>
+				<input type="text" name="xmpdGuidLabel" readonly="true" class="required"  />
+				<input type="hidden" name="xmpdGuid"  /> 
+			</p>
 	</div>
 			
 	<div class="formBar">
