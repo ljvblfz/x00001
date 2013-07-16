@@ -15,6 +15,9 @@ import org.apache.catalina.websocket.WsOutbound;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.broadsoft.xmeeting.springholder.SpringDaoHolder;
+import com.broadsoft.xmeeting.xmeeting.basic.po.XmPadDevice;
+
 public class DownloadWebSocketServlet extends WebSocketServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -48,7 +51,13 @@ public class DownloadWebSocketServlet extends WebSocketServlet {
 		}
 		String padId = request.getParameter("padId");
 		String roleName = request.getParameter("roleName");
-		DownloadMessageInbound downloadMessageInbound=new DownloadMessageInbound(padId, roleName);
+		XmPadDevice xmPadDevice=SpringDaoHolder.getInstance().getXmPadDeviceDao().findByXmpdDeviceId(padId);
+		String padCode="";
+		if(null!=xmPadDevice){
+			padCode=xmPadDevice.getXmpdCode();
+		}
+		
+		DownloadMessageInbound downloadMessageInbound=new DownloadMessageInbound(padId,padCode, roleName);
 		if (logger.isTraceEnabled()) {
 			logger.trace("createWebSocketInbound end."); 
 		}

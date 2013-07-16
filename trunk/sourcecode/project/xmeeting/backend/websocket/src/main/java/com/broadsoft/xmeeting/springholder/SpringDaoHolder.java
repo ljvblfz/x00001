@@ -3,6 +3,7 @@ package com.broadsoft.xmeeting.springholder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.broadsoft.xmeeting.xmeeting.basic.dao.XmPadDeviceDaoImpl;
 import com.broadsoft.xmeeting.xmeeting.basic.dao.XmPersonnelInfoDaoImpl;
 import com.broadsoft.xmeeting.xmeeting.devmgmt.dao.XmMeetingInfoDaoImpl;
 import com.broadsoft.xmeeting.xmeeting.onsite.dao.XmMeetingCallDaoImpl;
@@ -35,6 +36,16 @@ public class SpringDaoHolder {
 
 	public void setXmMeetingInfoDao(XmMeetingInfoDaoImpl xmMeetingInfoDao) {
 		this.xmMeetingInfoDao = xmMeetingInfoDao;
+	}
+	//
+	private XmPadDeviceDaoImpl xmPadDeviceDao;
+
+	public XmPadDeviceDaoImpl getXmPadDeviceDao() {
+		return xmPadDeviceDao;
+	}
+
+	public void setXmPadDeviceDao(XmPadDeviceDaoImpl xmPadDeviceDao) {
+		this.xmPadDeviceDao = xmPadDeviceDao;
 	}
 
 	//人员信息

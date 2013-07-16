@@ -48,9 +48,11 @@ public class XmWebsocketMonitorResource extends SyBaseResource {
 		Collection<DownloadMessageInbound> downloadSocketList=DownloadMessageInboundHolder.getSocketList();
 		for(DownloadMessageInbound downloadMessageInbound:downloadSocketList){
 			String padId=downloadMessageInbound.getPadId();
+			String padCode=downloadMessageInbound.getPadCode();
 			String roleName=downloadMessageInbound.getRoleName();
 			JSONObject jsonDownload=new JSONObject();
 			jsonDownload.put("padId", padId);
+			jsonDownload.put("padCode", padCode);
 			jsonDownload.put("roleName", roleName);
 			downloadArray.add(jsonDownload);
 		} 
@@ -71,9 +73,11 @@ public class XmWebsocketMonitorResource extends SyBaseResource {
 //				String meetingId=controllerMessageInbound.getMeetingId();
 				String memberDisplayName=controllerMessageInbound.getMemberDisplayName();
 				String memberId=controllerMessageInbound.getMemberId(); 
+				String meetingName=controllerMessageInbound.getMeetingName();
 				JSONObject jsonMember=new JSONObject();
 				jsonMember.put("memberDisplayName", memberDisplayName);
 				jsonMember.put("memberId", memberId);
+				jsonMember.put("meetingName", meetingName);
 				memberArray.add(jsonMember);
 			}//end of for
 			jsonMeetingController.put("meetingId", key);
