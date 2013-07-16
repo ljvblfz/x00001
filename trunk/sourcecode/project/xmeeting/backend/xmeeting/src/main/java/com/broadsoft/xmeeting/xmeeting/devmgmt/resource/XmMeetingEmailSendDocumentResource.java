@@ -5,6 +5,7 @@
 
 package com.broadsoft.xmeeting.xmeeting.devmgmt.resource;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.restlet.representation.Representation;
@@ -54,6 +55,7 @@ public class XmMeetingEmailSendDocumentResource extends SyBaseResource {
 		if(null==listOfXmMeetingEmail){
 			return getJsonGzipRepresentation(JsonUtils.genFailureReturnJson(null, null)); 
 		}
+		
 		for(int i=0;i<listOfXmMeetingEmail.size();i++){
 			XmMeetingEmail xmMeetingEmail=listOfXmMeetingEmail.get(i);
 			sbCCAddress.append(xmMeetingEmail.getXmmeToAddress());
@@ -69,15 +71,19 @@ public class XmMeetingEmailSendDocumentResource extends SyBaseResource {
 		List<XmMeetingDocument> listOfXmMeetingDocument = xmMeetingDocumentDao.findByXmmiGuid(xmmiGuid);
 		String[] attachmentFullPath=new String[listOfXmMeetingDocument.size()];
 		String[] attachmentFileName=new String[listOfXmMeetingDocument.size()];
+		int index=0;
 		for(int i=0;i<listOfXmMeetingDocument.size();i++){
 			XmMeetingDocument doc=listOfXmMeetingDocument.get(i);
-			String filePath=mergeFilePath(doc.getXmmdFile());
-			String fileName=doc.getXmmdName()+"."+getFileExtByPath(filePath);
-			attachmentFullPath[i]=filePath;
-			attachmentFileName[i]=fileName; 
-		}//end of for
-		mailSenderInfo.setAttachFileNames(attachmentFileName);
-		mailSenderInfo.setAttachFullPath(attachmentFullPath);
+			if("1".equals(doc.getXmmdIsAllowedSent())){ 
+				String filePath=mergeFilePath(doc.getXmmdFile());
+				String fileName=doc.getXmmdName()+"."+getFileExtByPath(filePath);
+				attachmentFullPath[index]=filePath;
+				attachmentFileName[index]=fileName;
+				index++;
+			}
+		}//end of for 
+		mailSenderInfo.setAttachFileNames(Arrays.copyOf(attachmentFileName, index+1));
+		mailSenderInfo.setAttachFullPath(Arrays.copyOf(attachmentFullPath, index+1));
 		mailSenderInfo.setContent("<b>"+xmMeetingInfo.getXmmiName()+"</b>的会议资料,请查看附件.<br/><br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;智能会议系统小组");
 		//发送邮件
 		boolean flag=SendMailSupport.sendHtmlMail(mailSenderInfo);

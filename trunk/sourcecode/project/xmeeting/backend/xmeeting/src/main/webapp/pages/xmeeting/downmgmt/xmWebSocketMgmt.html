@@ -40,6 +40,7 @@
 				var memberInfo=memberList[j];
 				html+="<tr> ";
 				html+="		<td >"+controllerinfo.meetingId+"</td> ";
+				html+="		<td >"+memberInfo.meetingName+"</td> ";
 				html+="		<td >"+memberInfo.memberId+"</td> ";
 				html+="		<td >"+memberInfo.memberDisplayName+"</td>  ";
 				html+="</tr> ";
@@ -59,7 +60,8 @@
 
 			html+="<tr> ";
 			html+="		<td >"+downloadinfo.padId+"</td> ";
-			html+="		<td >"+downloadinfo.roleName+"</td>  ";
+			html+="		<td >"+downloadinfo.padCode+"</td> ";
+			html+="		<td >"+convertDownloadMonitorForRoleName(downloadinfo.roleName)+"</td>  ";
 			html+="</tr> ";
 			
 		}
@@ -67,6 +69,17 @@
 		findName("xmMeetingDownloadTbody").html(html);
 	}
  
+	
+	
+
+	function convertDownloadMonitorForRoleName(roleName){
+		if("personnel"==roleName){
+			return "管理用户";
+		}else if("DEVICE"==roleName){
+			return "设备Pad";
+		}
+		return roleName;
+	}
 	
 	
 	
@@ -77,7 +90,7 @@
  
 	<!-- ======================会议控制========================== -->
 	<div class="panel collapse" defH="150">
-		<h1>会议控制</h1>
+		<h1>会议服务(呼叫服务和通知消息)</h1>
 		<div>
 			
 			<table class="table" layoutH="138" width="100%">
@@ -85,16 +98,18 @@
 					<tr >
 					 
 								<th width="60" >会议ID</th>
+								<th width="60" >会议名称</th>
 								<th width="60" >人员ID</th>
 								<th width="60" >人员名字</th> 
 					</tr>
 				</thead>
 				<tbody name="xmMeetingControllerTbody">
-					<tr > 
-								<td ></td>
-								<td ></td> 
-								<td ></td> 
-					</tr>
+<!-- 					<tr >  -->
+<!-- 								<td ></td> -->
+<!-- 								<td ></td>  -->
+<!-- 								<td ></td>  -->
+<!-- 								<td ></td>  -->
+<!-- 					</tr> -->
 				</tbody>
 			</table>
 		
@@ -113,8 +128,9 @@
 				<thead>
 					<tr >
 					 
-								<th width="60"  >连接ID</th>
-								<th width="60" >角色</th> 
+								<th width="60"  >设备ID</th>
+								<th width="60"  >设备资产编号</th>
+								<th width="60"  >角色</th> 
 					</tr>
 				</thead>
 				<tbody name="xmMeetingDownloadTbody">
