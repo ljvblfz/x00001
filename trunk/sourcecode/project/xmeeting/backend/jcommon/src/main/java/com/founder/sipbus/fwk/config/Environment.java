@@ -24,6 +24,11 @@ public class Environment {
 	public String getString(String key){
 		return configMap.get(key);
 	}
+	
+
+	public int getInt(String key){
+		return Integer.valueOf(configMap.get(key)).intValue();
+	}
 
 	 
 	
