@@ -58,6 +58,12 @@ public class XmDownloadStatus extends BaseEntity {
 	private java.lang.String xmdsVideo;
 	/** 会议图片下载 */
 	private java.lang.String xmdsImage;  
+	//
+
+	private java.lang.String xmdsMeetingScheduleLabel;
+	private java.lang.String xmdsDocumentLabel;
+	private java.lang.String xmdsVideoLabel;
+	private java.lang.String xmdsImageLabel; 
 
 	
 
@@ -271,6 +277,43 @@ public class XmDownloadStatus extends BaseEntity {
 
 	public void setXmpdGuidLabel(java.lang.String xmpdGuidLabel) {
 		this.xmpdGuidLabel = xmpdGuidLabel;
+	}
+
+	@Transient
+	public java.lang.String getXmdsMeetingScheduleLabel() {
+		return xmdsMeetingScheduleLabel;
+	}
+
+	public void setXmdsMeetingScheduleLabel(
+			java.lang.String xmdsMeetingScheduleLabel) {
+		this.xmdsMeetingScheduleLabel = xmdsMeetingScheduleLabel;
+	}
+
+	@Transient
+	public java.lang.String getXmdsDocumentLabel() {
+		return xmdsDocumentLabel;
+	}
+
+	public void setXmdsDocumentLabel(java.lang.String xmdsDocumentLabel) {
+		this.xmdsDocumentLabel = xmdsDocumentLabel;
+	}
+
+	@Transient
+	public java.lang.String getXmdsVideoLabel() {
+		return xmdsVideoLabel;
+	}
+
+	public void setXmdsVideoLabel(java.lang.String xmdsVideoLabel) {
+		this.xmdsVideoLabel = xmdsVideoLabel;
+	}
+
+	@Transient
+	public java.lang.String getXmdsImageLabel() {
+		return xmdsImageLabel;
+	}
+
+	public void setXmdsImageLabel(java.lang.String xmdsImageLabel) {
+		this.xmdsImageLabel = xmdsImageLabel;
 	}
 
 	public int compareTo(Object obj) {
