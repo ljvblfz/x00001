@@ -85,8 +85,15 @@ public class WsControllerServiceSupport {
 	}//end of sendCallServiceMessage
 	
 	public void sendHearbeat(){
-		while(true){
+		while(true){ 
+			long currentConnectedTime=System.currentTimeMillis();
 			if(client.isConnected()){
+				long elapsedTime=currentConnectedTime-lastConnectedTime;
+				if(elapsedTime>1000*100){
+					reconnect(); 
+					continue;
+				}
+				
 				JSONObject jsonObject=new JSONObject();
 				try {
 					jsonObject.put("msgtype", "10");
@@ -100,12 +107,30 @@ public class WsControllerServiceSupport {
 				} catch (InterruptedException e) { 
 					e.printStackTrace();
 				}
-			}else{
-				return;
+			}else{  
+				reconnect();
+				break;
 			}
 		}
 	}//end of sendHearbeat
 	
+	private void reconnect(){
+		Log.d(TAG, "reconnect begin."); 
+		if(null!=client){
+			Log.d(TAG, "connect status: "+client.isConnected()); 
+//			disconnect();
+//			try {
+//				Thread.sleep(10*1000);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+			connect();
+		}
+		Log.d(TAG, "reconnect end."); 
+	}
+
+	private long lastConnectedTime=System.currentTimeMillis();
 
 	/**
 	 * 
@@ -128,6 +153,8 @@ public class WsControllerServiceSupport {
 	
 	
 	
+
+	
 	WebSocketHandler wsHandler=new WebSocketHandler() { 
 		@Override
 		public void onOpen() {
@@ -147,6 +174,8 @@ public class WsControllerServiceSupport {
 //					NotifyUIHandler.getInstance().sendControllerMessage(payload); 
 				}else if("02".equals(msgtype)){//通知服务
 					NotifyUIHandler.getInstance().sendControllerMessage(payload); 
+				}else if("10".equals(msgtype)){//心跳消息  
+					lastConnectedTime=System.currentTimeMillis();
 				}
 			} catch (JSONException e) { 
 				e.printStackTrace();
@@ -187,6 +216,16 @@ public class WsControllerServiceSupport {
 			}
 		}//end of if
 		
+	} //end of disconnect
+	/**
+	 * isConnected
+	 */
+	public boolean isConnected(){
+		if(null!=client){ 
+			return client.isConnected();
+		}else{
+			return false;
+		} 
 	} //end of disconnect
 
 	//==================================================
