@@ -105,7 +105,14 @@ public class WsDownloadServiceSupport {
 	
 	public void sendHearbeat(){
 		while(true){
-			if(client.isConnected()){
+			long currentConnectedTime=System.currentTimeMillis();
+			Log.d(TAG, "Connected Status[isConnected]: "+client.isConnected());
+			if(null!=client&&client.isConnected()){
+				long elapsedTime=currentConnectedTime-lastConnectedTime;
+				if(elapsedTime>1000*100){
+					reconnect(); 
+					continue;
+				}
 				JSONObject jsonObject=new JSONObject();
 				try {
 					jsonObject.put("msgtype", "10");
@@ -119,14 +126,29 @@ public class WsDownloadServiceSupport {
 					e.printStackTrace();
 				}
 			}else{
-				return;
+				reconnect();
+				break;
 			}
 		}
 	}//end of sendHearbeat
 	
 	
-	
-	
+
+	private long lastConnectedTime=System.currentTimeMillis();
+	private void reconnect(){
+		Log.d(TAG, "reconnect begin. client is: "+client); 
+		if(null!=client){
+//			disconnect();
+//			try {
+//				Thread.sleep(10*1000);
+//			} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+			connect();
+		}
+		Log.d(TAG, "reconnect end."); 
+	}
 	private void processMessage(String message) {
 		try {
 			

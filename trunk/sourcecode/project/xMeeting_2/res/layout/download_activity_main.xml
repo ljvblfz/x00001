@@ -7,23 +7,16 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="100dip"
+        android:layout_height="50dip"
         android:layout_marginTop="100dip"
         android:orientation="horizontal" >
 
         <TextView
             android:id="@+id/tvSpace0"
-            android:layout_width="300dip"
+            android:layout_width="200dip"
             android:layout_height="fill_parent"
             android:text=""
-            android:textSize="40dip" />
-
-<!--         <TextView -->
-<!--             android:id="@+id/tvTitle" -->
-<!--             android:layout_width="wrap_content" -->
-<!--             android:layout_height="fill_parent" -->
-<!--             android:text="系统管理" -->
-<!--             android:textSize="40dip" /> -->
+            android:textSize="40dip" /> 
 
         <TextView
             android:id="@+id/tvSpace"
@@ -80,60 +73,83 @@
             android:text="WIFI设置状态"
             android:textSize="30dip" />
     </LinearLayout>
-
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="100dip"
+        android:layout_height="50dip"
+        android:layout_marginTop="20dip"
         android:orientation="horizontal" >
-
-        <!-- <Button -->
-        <!-- android:id="@+id/buttonEntry" -->
-        <!-- android:layout_width="wrap_content" -->
-        <!-- android:layout_height="wrap_content" -->
-        <!-- android:layout_marginTop="50dip" -->
-        <!-- android:text="进入下载" -->
-        <!-- android:textSize="30dip" /> -->
-
-
-        <!-- <TextView -->
-        <!-- android:id="@+id/tvSpace2" -->
-        <!-- android:layout_width="50dip" -->
-        <!-- android:layout_height="fill_parent" -->
-        <!-- android:text="" -->
-        <!-- android:textSize="40dip" /> -->
-
-
-        <!-- <Button -->
-        <!-- android:id="@+id/buttonExit" -->
-        <!-- android:layout_width="wrap_content" -->
-        <!-- android:layout_height="wrap_content" -->
-        <!-- android:layout_marginTop="50dip" -->
-        <!-- android:text="退出下载" -->
-        <!-- android:textSize="30dip" /> -->
-
-        <ToggleButton
-            android:id="@+id/toggleBtnDownload"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dip"
-            android:textOff="进入下载"
-            android:textOn="退出下载" >
-        </ToggleButton>
-
         <TextView
-            android:id="@+id/tvSpace2"
+            android:id="@+id/tvSpace_20"
+            android:layout_width="200dip"
+            android:layout_height="fill_parent"
+            android:text=""
+            android:textSize="40dip" /> 
+        <TextView
+            android:id="@+id/tvSpace_2"
+            android:layout_width="30dip"
+            android:layout_height="fill_parent"
+            android:text=""
+            android:textSize="40dip" />
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="设备资产编号"
+            android:textSize="30dip" />
+        <TextView
+            android:id="@+id/tvSpace_23"
             android:layout_width="50dip"
             android:layout_height="fill_parent"
             android:text=""
             android:textSize="40dip"
             android:visibility="invisible" />
+        <TextView
+            android:id="@+id/textViewDeviceCode"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text=""
+            android:textSize="30dip" />
+        <TextView
+            android:id="@+id/tvSpace_231"
+            android:layout_width="50dip"
+            android:layout_height="fill_parent"
+            android:text=""
+            android:textSize="40dip"
+            android:visibility="invisible" />  
+        <Button
+	        android:id="@+id/buttonSyncDeviceInfo"
+	        android:layout_width="220dip"
+	        android:layout_height="fill_parent" 
+	        android:text="同步设备信息"
+            android:textSize="20dip" />   
+           
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="100dip"
+        android:orientation="horizontal" > 
+
+<!--         <ToggleButton -->
+<!--             android:id="@+id/toggleBtnDownload" -->
+<!--             android:layout_width="wrap_content" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:layout_marginTop="50dip" -->
+<!--             android:textOff="进入下载" -->
+<!--             android:textOn="退出下载" > -->
+<!--         </ToggleButton> -->
+
+        <TextView
+            android:id="@+id/tvSpace2x"
+            android:layout_width="200dip"
+            android:layout_height="fill_parent"
+            android:text="" 
+            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/tvLabelDownloadStatus"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dip"
-            android:text="下载状态:"
+            android:layout_height="wrap_content" 
+            android:text="提示信息"
             android:textSize="30dip" />
 
         <TextView
@@ -147,8 +163,35 @@
         <TextView
             android:id="@+id/textViewDownloadStatus"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dip"
+            android:layout_height="wrap_content" 
+            android:text=""
+            android:textSize="30dip" />
+            
+        <TextView
+            android:id="@+id/tvSpace5"
+            android:layout_width="50dip"
+            android:layout_height="fill_parent"
+            android:text=""
+            android:textSize="40dip"
+            android:visibility="invisible" />
+            
+        <TextView
+            android:id="@+id/tvLabelOnlineStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" 
+            android:text="是否在线"
+            android:textSize="30dip" />
+        <TextView
+            android:id="@+id/tvSpace6"
+            android:layout_width="50dip"
+            android:layout_height="fill_parent"
+            android:text=""
+            android:textSize="40dip"
+            android:visibility="invisible" />
+        <TextView
+            android:id="@+id/tvValueOnlineStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" 
             android:text=""
             android:textSize="30dip" />
     </LinearLayout>

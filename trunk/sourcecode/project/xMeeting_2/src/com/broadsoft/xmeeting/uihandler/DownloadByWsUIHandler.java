@@ -12,6 +12,7 @@ import android.view.Gravity;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.broadsoft.xmcommon.androiddao.EntityInfoHolder;
 import com.broadsoft.xmcommon.appsupport.AppInitSupport;
 import com.broadsoft.xmdownload.adapter.MeetingInfoLVButtonAdapter;
 import com.broadsoft.xmeeting.R;
@@ -60,7 +61,19 @@ public class DownloadByWsUIHandler extends Handler {
 				String isfinish=jo.getString("isfinish");
 				if("1".equals(isfinish)){
 					AppInitSupport.reloadEntity();
-					meetingListItemAdapter.reload();
+					meetingListItemAdapter.reload(); 
+					if(jo.has("type")){
+						String type=jo.getString("type");
+						if("01".equals(type)){ //更新设备资产编号
+							try {
+								String padAssetCode=EntityInfoHolder.getInstance().getAssetCode(); 
+								TextView textViewDeviceCode=(TextView)act.findViewById(R.id.textViewDeviceCode);
+								textViewDeviceCode.setText(padAssetCode);
+							} catch (JSONException e) { 
+								e.printStackTrace();
+							}
+						} //end of if on 01
+					}
 				}//end of if
 			}//end of if isfinish
 
