@@ -1,38 +1,38 @@
-<form method="get" name="xmDownloadStatusSearchForm" action="/rs/xmDownloadStatus" onsubmit="return false;" >
-	<input type="hidden" name="pageNum" value="1" />
-	<div class="pageHeader">
-		<div class="searchBar">
-			<ul class="searchContent">
-				<li>
-					<label>会议名称:：</label> 
-					<input type="hidden" name="xmmiGuid" />
-					<input type="text" name="xmmiGuidLabel" class="required"  readonly="true" maxlength="50" value=""/>
-					<a   href="javascript:download2_showDialog_xmMeetingBasicInfo('xmmiGuidLabel','xmmiGuid')" class="btnLook">查找带回</a>   
-				</li> 
-			</ul>
-			<div class="subBar">
-				<ul>						
-					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="xmDownloadStatusSearch({pageNum:1})">查询</button></div></div></li>
-					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="javascript:findName('xmDownloadStatusSearchForm')[0].reset()">清空</button></div></div></li>
-				</ul>
-			</div>
-		</div>
-	</div>
-</form>
+<!-- <form method="get" name="xmDownloadStatusSearchForm" action="/rs/xmDownloadStatus" onsubmit="return false;" > -->
+<!-- 	<input type="hidden" name="pageNum" value="1" /> -->
+<!-- 	<div class="pageHeader"> -->
+<!-- 		<div class="searchBar"> -->
+<!-- 			<ul class="searchContent"> -->
+<!-- 				<li> -->
+<!-- 					<label>会议名称:：</label>  -->
+<!-- 					<input type="hidden" name="xmmiGuid" /> -->
+<!-- 					<input type="text" name="xmmiGuidLabel" class="required"  readonly="true" maxlength="50" value=""/> -->
+<!-- 					<a   href="javascript:download2_showDialog_xmMeetingBasicInfo('xmmiGuidLabel','xmmiGuid')" class="btnLook">查找带回</a>    -->
+<!-- 				</li>  -->
+<!-- 			</ul> -->
+<!-- 			<div class="subBar"> -->
+<!-- 				<ul>						 -->
+<!-- 					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="xmDownloadStatusSearch({pageNum:1})">查询</button></div></div></li> -->
+<!-- 					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="javascript:findName('xmDownloadStatusSearchForm')[0].reset()">清空</button></div></div></li> -->
+<!-- 				</ul> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
+<!-- </form> -->
 
 <div class="pageContent">
 
-<!-- 	<div class="panelBar"> -->
-<!-- 		<ul class="toolBar"> -->
+	<div class="panelBar">
+		<ul class="toolBar">
 <!--  			<li><a class="edit" target="navTab" rel="userNav1" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/modify/xmDownloadStatusModify.html?xmdsGuid={slt_uid}');" title="重新下载"   multiable="no" warn="请选择一条记录"><span>重新下载</span></a></li> -->
 
-<!-- 		</ul> -->
-<!-- 	</div> -->
+		</ul>
+	</div>
 	
 	<table class="table" layoutH="138" width="100%">
 		<thead>
 			<tr  searchMethod="xmDownloadStatusSearch"><th width="22"><input type="checkbox" group="xmdsGuids" class="checkboxCtrl"></th>
-						<th width="60"  orderField="xmmiGuidLabel">会议名称</th>
+<!-- 						<th width="60"  orderField="xmmiGuidLabel">会议名称</th> -->
 						<th width="60"  orderField="xmpdGuidLabel">设备编号</th> 
 						<th width="200" orderField="xmdsMeetingSchedule">会议指南(行程安排/人员名单/车辆安排/天气情况/通讯服务)</th> 
 						<th width="60"  orderField="xmdsDocument">会议资料</th>
@@ -43,7 +43,7 @@
 		<tbody>
 			<tr name="xmDownloadStatusTrTemplate" target="slt_uid">
 						<td name="xmdsGuid" type="check"><input name="xmdsGuids" value="" type="checkbox"></td>
-						<td name="xmmiGuidLabel"></td>
+<!-- 						<td name="xmmiGuidLabel"></td> -->
 						<td name="xmpdGuidLabel"></td>  
 						<td name="xmdsMeetingScheduleLabel"></td> 
 						<td name="xmdsDocumentLabel"></td>
@@ -70,8 +70,13 @@
 <script type="text/javascript">
 	//定义默认参数
 	var xmDownloadStatusArgs={};
-	 //查询方法
-    xmDownloadStatusSearch();
+	 //查询方法 
+
+    $(function(){ 
+		var xmmiGuid=navTab._getParam("xmmiGuid");   
+		var opts={xmmiGuid:xmmiGuid}; 
+		xmDownloadStatusSearch(opts);
+	}); 
 	function xmDownloadStatusSearch(opt){
 		//序列化表单值，并扩展到xmDownloadStatusArgs对象中
 		$.extend(xmDownloadStatusArgs,findName('xmDownloadStatusSearchForm').serializeJson(),opt?opt:{});
