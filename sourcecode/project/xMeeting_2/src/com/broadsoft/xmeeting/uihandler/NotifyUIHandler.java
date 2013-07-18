@@ -7,6 +7,8 @@ import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.broadsoft.xmeeting.R;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -17,6 +19,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.Gravity;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 public class NotifyUIHandler extends Handler {
@@ -71,6 +74,12 @@ public class NotifyUIHandler extends Handler {
 		            mapOfContent.put("notificationTime", getCurrentTime());  
 					notificationListItem.add(mapOfContent); 					
 					showDialog(msgcontent); 
+				}else if ("90".equals(msgtype)){//在线通知
+					ImageView ivOnlineIcon=(ImageView)act.findViewById(R.id.ivOnlineIcon);
+					ivOnlineIcon.setImageResource(R.drawable.online_64);
+				}else if ("91".equals(msgtype)){//离线通知
+					ImageView ivOnlineIcon=(ImageView)act.findViewById(R.id.ivOnlineIcon);
+					ivOnlineIcon.setImageResource(R.drawable.offline_64);
 				}
 			}
 		} catch (JSONException e) { 
@@ -88,6 +97,39 @@ public class NotifyUIHandler extends Handler {
 		SimpleDateFormat sdf = new SimpleDateFormat(parrten);
 		timestr = sdf.format(cday);
 		return timestr;
+	}
+	
+	public void sendOnlineMessage(){
+
+		JSONObject jo = new JSONObject();
+		try {
+			jo.put("msgtype", "90");
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Message msg = new Message();  
+        Bundle bundle = new Bundle();  
+        bundle.putString("payload", jo.toString());  
+        msg.setData(bundle);   
+        sendMessage(msg);
+	}
+	
+	
+	public void sendOfflineMessage(){
+		JSONObject jo = new JSONObject();
+		try {
+			jo.put("msgtype", "91");
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		Message msg = new Message();  
+        Bundle bundle = new Bundle();  
+        bundle.putString("payload", jo.toString());  
+        msg.setData(bundle);   
+        sendMessage(msg);
 	}
 	
 	public void sendControllerMessage(String payload){

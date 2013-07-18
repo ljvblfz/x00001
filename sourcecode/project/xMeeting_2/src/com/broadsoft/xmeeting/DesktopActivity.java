@@ -8,9 +8,11 @@ import org.ksoap2.serialization.SoapObject;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -31,6 +33,7 @@ import com.broadsoft.common.MyImageView;
 import com.broadsoft.common.util.FileStoreTools;
 import com.broadsoft.common.util.WeatherWebServiceUtil;
 import com.broadsoft.xmcommon.androiddao.EntityInfoHolder;
+import com.broadsoft.xmcommon.androidnetwork.NetworkSupport;
 import com.broadsoft.xmcommon.androidsdcard.SDCardSupport;
 import com.broadsoft.xmdownload.wsservice.WsControllerServiceSupport;
 import com.broadsoft.xmeeting.activity.CallOutActivity;
@@ -53,7 +56,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
  * @author lu.zhen
  * 
  */
-public class DesktopActivity extends Activity { 
+public class DesktopActivity extends Activity implements Runnable  { 
 	/**
 	 * 数据
 	 */
@@ -81,24 +84,63 @@ public class DesktopActivity extends Activity {
 	 * 其他控件
 	 */
 	
+	private Handler handlerCheckingWifi = new Handler(); 
+	
 //	public Handler notifyUIHandler;
+	
+	
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.desktop_activity_main);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		//人名显示
+		TextView textViewDisplayName=(TextView)this.findViewById(R.id.textViewDisplayName);
+		String memberDisplayName=EntityInfoHolder.getInstance().getDownloadInfoEntity().getMemberDisplayName();
+		textViewDisplayName.setText(memberDisplayName);
+		
+		//wifi设置
+		handlerCheckingWifi.postDelayed(this, timeOfRetry); 
+		
 		//桌面按钮
 		initGridButton();  
 		//天气预报
-		initWeather();   
-//		notifyUIHandler=new NotifyUIHandler(this);
+		initWeather();    
+		//
 		NotifyUIHandler.init(this);
 		//init websocket  
 		initWebsocket(); 
+		
+		
+		
 		 
 	}
+
 	
+	private boolean flagOnHandler=true;
+	protected boolean isConnected(){
+		ConnectivityManager connMgr = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+		return NetworkSupport.isConnected(connMgr);
+	}
+
+	@Override
+	public void run() {
+		if(!flagOnHandler){
+			return;
+		}
+		Log.d(TAG, "[run]check the wifi status.");
+		ImageView ivWifiIcon=(ImageView)findViewById(R.id.ivWifiIcon); 
+		if(isConnected()){
+			ivWifiIcon.setImageResource(R.drawable.wifi_on_64); 
+		}else{
+			ivWifiIcon.setImageResource(R.drawable.wifi_off_64);  
+		}
+		handlerCheckingWifi.postDelayed(this,timeOfRetry );
+	}
+	
+	private long timeOfRetry=20*1000;
 	
 	/**
 	 * Disable back key
@@ -116,6 +158,7 @@ public class DesktopActivity extends Activity {
 	
 	@Override
 	protected void onDestroy() {
+		this.flagOnHandler=false;
 		try{
 			WsControllerServiceSupport.getInstance().disconnect();  
 		}catch(Exception e){ 
@@ -880,5 +923,7 @@ public class DesktopActivity extends Activity {
 		return city;
 		
 	}
+
+
 	
 }

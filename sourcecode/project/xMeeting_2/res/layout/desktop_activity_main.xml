@@ -548,12 +548,59 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.3"
-            android:gravity="center"
             android:orientation="vertical"
             android:paddingBottom="30dp"
             android:paddingLeft="60dp"
-            android:paddingRight="20dp"
-            android:paddingTop="125dp" >
+            android:paddingRight="20dp" >
+            <LinearLayout
+                android:layout_width="731dp"
+                android:layout_height="180dp"
+            	android:paddingBottom="30dp"  
+                android:paddingTop="0dp" >
+                <TextView
+                    android:id="@+id/tvSpace3"
+                    android:layout_width="350dip"
+                    android:layout_height="fill_parent"
+                    android:text="" 
+                    android:visibility="invisible" />
+                
+                <ImageView 
+                    android:id="@+id/ivOnlineIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" 
+                	android:paddingTop="20dp"  
+                	android:src="@drawable/offline_64">
+                   
+                </ImageView>
+                <TextView
+                    android:id="@+id/tvSpace4" 
+                    android:layout_width="10dip"
+                    android:layout_height="fill_parent"
+                    android:text="" 
+                    android:visibility="invisible" />
+
+                <TextView
+                    android:id="@+id/textViewDisplayName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:text="名字"
+                	android:paddingTop="20dp" 
+                    android:textSize="50dip" />
+                <TextView
+                    android:id="@+id/tvSpace5" 
+                    android:layout_width="50dip"
+                    android:layout_height="fill_parent"
+                    android:text="" 
+                    android:visibility="invisible" />
+                <ImageView 
+                    android:id="@+id/ivWifiIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" 
+                	android:paddingTop="20dp"  
+                	android:src="@drawable/wifi_off_64">
+                   
+                </ImageView>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="731dp"

@@ -1,10 +1,17 @@
 package com.broadsoft.xmeeting;
 
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Executor;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.WindowManager;
 
 /**
@@ -27,11 +34,14 @@ public class WelcomeActivity extends Activity  {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
 				WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		//
-		setContentView(R.layout.welcome_activity_main);
- 
+		setContentView(R.layout.welcome_activity_main); 
 		
-
-		new GetDataTask().execute();
+		int corePoolSize = 5;
+		int maximumPoolSize = 5;
+		int keepAliveTime = 10; 
+		BlockingQueue<Runnable> workQueue = new LinkedBlockingQueue<Runnable>(maximumPoolSize);
+		Executor threadPoolExecutor = new ThreadPoolExecutor(corePoolSize, maximumPoolSize, keepAliveTime, TimeUnit.SECONDS, workQueue);
+		new GotoDesktopActivityTask().executeOnExecutor(threadPoolExecutor);
 	}
 	
 	
@@ -39,38 +49,43 @@ public class WelcomeActivity extends Activity  {
 
 
 
-	//执行异步的操作
-  	private class GetDataTask extends AsyncTask<Void, Void, String[]> {
+	//执行异步的操作,等待3秒
+	private class GotoDesktopActivityTask extends AsyncTask<Void, Void, String[]> {
 
-  		  @Override  
-          protected void onPreExecute() {  
-              //第一个执行方法  
-              super.onPreExecute();  
-          }  
-  		  
-  		  
-          @Override
-          protected String[] doInBackground(Void... params) {
-              // Simulates a background job.
-        	  try {Thread.sleep(3000);
-              } catch (InterruptedException e) 
-              {}
+		@Override
+		protected void onPreExecute() {
+			Log.d(TAG, "onPreExecute begin"); 
+			super.onPreExecute();
+			Log.d(TAG, "onPreExecute end");
+		}
+
+		@Override
+		protected String[] doInBackground(Void... params) {
+			Log.d(TAG, "doInBackground begin");
+			// Simulates a background job.
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			Log.d(TAG, "doInBackground end");
 			return null;
-       
-          }
 
-  		@Override
-          protected void onPostExecute(String[] result) {
+		}
 
-            //Call onRefreshComplete when the list has been refreshed.
-  			Intent intent = new Intent();
-  			intent.setClass(WelcomeActivity.this, DesktopActivity.class);// 指定了跳转前的Activity和跳转后的Activity
-  			intent.setData(Uri.parse("one"));// 向下一个Activity传递了string类型参数"one"
-  			startActivityForResult(intent, REQUEST_CODE);// 以传递参数的方式跳转到下一个Activity
-  			finish();
-  		}
-          
-    }
+		@Override
+		protected void onPostExecute(String[] result) {
+			Log.d(TAG, "onPostExecute begin");
+			// Call onRefreshComplete when the list has been refreshed.
+			Intent intent = new Intent();
+			intent.setClass(WelcomeActivity.this, DesktopActivity.class); 
+			intent.setData(Uri.parse("one")); 
+			startActivityForResult(intent, REQUEST_CODE); 
+			finish();
+			Log.d(TAG, "onPostExecute end");
+		}
+
+	}
 
 
  

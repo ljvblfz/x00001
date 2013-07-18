@@ -38,7 +38,7 @@ public class DownloadOnlineStatusUIHandler extends Handler {
 
 	@Override
 	public void handleMessage(Message msg) {
-		Log.d(TAG, "handleMessage begin");
+		Log.d(TAG, "handleMessage begin. "+msg);
 		super.handleMessage(msg);
 		Bundle bundle = msg.getData();
 		String payload = bundle.getString("payload");
@@ -77,6 +77,40 @@ public class DownloadOnlineStatusUIHandler extends Handler {
         bundle.putString("payload", payload);  
         msg.setData(bundle);   
         sendMessage(msg);
+	}
+	
+	
+	public void sendDownloadOnlineOnMessage(){ 
+		String payload=createJsonMessage(true).toString();
+		Message msg = new Message();  
+        Bundle bundle = new Bundle();  
+        bundle.putString("payload", payload);  
+        msg.setData(bundle);   
+        sendMessage(msg);
+	}
+	
+
+	public void sendDownloadOnlineOffMessage(){ 
+		String payload=createJsonMessage(false).toString();
+		Message msg = new Message();  
+        Bundle bundle = new Bundle();  
+        bundle.putString("payload", payload);  
+        msg.setData(bundle);   
+        sendMessage(msg);
+	}
+	
+	private JSONObject createJsonMessage(boolean status) {
+		JSONObject jsonStatus = new JSONObject();
+		try {
+			if (status) {
+				jsonStatus.put("status", "1");
+			} else {
+				jsonStatus.put("status", "0"); 
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return jsonStatus;
 	}
   
 	

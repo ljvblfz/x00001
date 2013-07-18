@@ -1,5 +1,7 @@
 package com.broadsoft.xmdownload.wsservice;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,10 +28,15 @@ public class WsControllerServiceSupport {
 	private final String TAG="WsControllerServiceSupport";
 
 	private String wspath; 
-	
-	
+
+	private static AtomicInteger countOfReconnect=new AtomicInteger(0);
+
+	private boolean keepAlive=true;
 	
 	private static WsControllerServiceSupport wsServiceSupport=new WsControllerServiceSupport();
+
+//	private WebSocketConnection client = new WebSocketConnection();
+	private WebSocketConnection client ;
 	
 	private  WsControllerServiceSupport(){
 		
@@ -52,17 +59,97 @@ public class WsControllerServiceSupport {
 		this.memberDisplayName=memberDisplayName;
 		String serveripport=DomAppConfigFactory.getAppConfig().getServeripport();
 		this.wspath="ws://"+serveripport+"/websocket/ws/controller?meetingId=" + meetingId + "&memberId=" + memberId + "&memberDisplayName=" + memberDisplayName;
+//		this.wspath="ws://"+serveripport+"/websocket/ws/controller?meetingId=" + meetingId + "&memberId=" + memberId ;
 	}
  
-//
-//	/**
-//	 * 
-//	 * @param jsonMessage
-//	 */
-//	public void sendMessage(JSONObject jsonMessage){ 
-//		client.sendTextMessage(jsonMessage.toString());
-//	}//end of sendMessage
+ 
+
+	WebSocketHandler wsHandler=new WebSocketHandler() { 
+		@Override
+		public void onOpen() {
+			Log.d(TAG, "[onOpen]Status: Connected to " + wspath); 
+			NotifyUIHandler.getInstance().sendOnlineMessage();
+			new Thread(heartRunnable).start();
+		}
+
+		@Override
+		public void onTextMessage(String payload) {
+			Log.d(TAG, "[onTextMessage]Got echo: " + payload);   
+
+			JSONObject jsonObject;
+			try {
+				jsonObject = new JSONObject(payload);
+				String msgtype=jsonObject.getString("msgtype");  
+				if("01".equals(msgtype)){//呼叫服务
+//					NotifyUIHandler.getInstance().sendControllerMessage(payload); 
+				}else if("02".equals(msgtype)){//通知服务
+					NotifyUIHandler.getInstance().sendControllerMessage(payload); 
+				}else if("10".equals(msgtype)){//心跳消息  
+//					lastConnectedTime=System.currentTimeMillis();
+				}
+			} catch (JSONException e) { 
+				e.printStackTrace();
+			}
+		}//end of onTextMessage
+
+		@Override
+		public void onClose(int code, String reason) {
+			Log.d(TAG, "[onClose]"+code+"--"+reason);
+			NotifyUIHandler.getInstance().sendOfflineMessage();
+			//try to reconnect
+			if(keepAlive){ 
+				Log.d(TAG, "[onClose]countOfReconnect is:  "+countOfReconnect.incrementAndGet());
+				reconnect(); 
+			}
+		}
+	};
 	
+
+	Runnable heartRunnable = new Runnable() { 
+		@Override
+		public void run() { 
+			sendHearbeat();
+		}
+
+	};
+
+	public void sendHearbeat(){
+		while(keepAlive){  
+			if(null!=client&&client.isConnected()){  
+				JSONObject jsonObject=new JSONObject();
+				try {
+					jsonObject.put("msgtype", "10");
+					jsonObject.put("msgtimstamp", ""+System.currentTimeMillis());
+				} catch (JSONException e) { 
+					e.printStackTrace();
+				}
+				sendMessage(jsonObject.toString()); 
+				try {
+					Thread.sleep(100*1000);
+				} catch (InterruptedException e) { 
+					e.printStackTrace();
+				}
+			}else{  
+				 return;
+			}
+		}
+	}//end of sendHearbeat
+	
+	private void reconnect(){
+		Log.d(TAG, "reconnect begin."); 
+		if(null!=client){
+			Log.d(TAG, "connect status: "+client.isConnected()); 
+//			disconnect();
+//			try {
+//				Thread.sleep(10*1000);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+			connect();
+		}
+		Log.d(TAG, "reconnect end."); 
+	}
 
 	/**
 	 * 
@@ -84,125 +171,34 @@ public class WsControllerServiceSupport {
 		sendMessage(jsonMessage.toString());
 	}//end of sendCallServiceMessage
 	
-	public void sendHearbeat(){
-		while(true){ 
-			long currentConnectedTime=System.currentTimeMillis();
-			if(client.isConnected()){
-				long elapsedTime=currentConnectedTime-lastConnectedTime;
-				if(elapsedTime>1000*100){
-					reconnect(); 
-					continue;
-				}
-				
-				JSONObject jsonObject=new JSONObject();
-				try {
-					jsonObject.put("msgtype", "10");
-					jsonObject.put("test", "from android");
-				} catch (JSONException e) { 
-					e.printStackTrace();
-				}
-				sendMessage(jsonObject.toString()); 
-				try {
-					Thread.sleep(100*1000);
-				} catch (InterruptedException e) { 
-					e.printStackTrace();
-				}
-			}else{  
-				reconnect();
-				break;
-			}
-		}
-	}//end of sendHearbeat
-	
-	private void reconnect(){
-		Log.d(TAG, "reconnect begin."); 
-		if(null!=client){
-			Log.d(TAG, "connect status: "+client.isConnected()); 
-//			disconnect();
-//			try {
-//				Thread.sleep(10*1000);
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-			connect();
-		}
-		Log.d(TAG, "reconnect end."); 
-	}
-
-	private long lastConnectedTime=System.currentTimeMillis();
 
 	/**
 	 * 
 	 * @param msg
 	 */
 	private void sendMessage(String msg){  
+		Log.d(TAG, "[sendMessage]msg : " + msg);  
 		client.sendTextMessage(msg);
 	}
-	
-	private final WebSocketConnection client = new WebSocketConnection();
-
-	Runnable heartRunnable = new Runnable() {
-
-		@Override
-		public void run() { 
-			sendHearbeat();
-		}
-
-	};
-	
-	
-	
-
-	
-	WebSocketHandler wsHandler=new WebSocketHandler() { 
-		@Override
-		public void onOpen() {
-			Log.d(TAG, "[onOpen]Status: Connected to " + wspath); 
-			new Thread(heartRunnable).start();
-		}
-
-		@Override
-		public void onTextMessage(String payload) {
-			Log.d(TAG, "[onTextMessage]Got echo: " + payload);   
-
-			JSONObject jsonObject;
-			try {
-				jsonObject = new JSONObject(payload);
-				String msgtype=jsonObject.getString("msgtype");  
-				if("01".equals(msgtype)){//呼叫服务
-//					NotifyUIHandler.getInstance().sendControllerMessage(payload); 
-				}else if("02".equals(msgtype)){//通知服务
-					NotifyUIHandler.getInstance().sendControllerMessage(payload); 
-				}else if("10".equals(msgtype)){//心跳消息  
-					lastConnectedTime=System.currentTimeMillis();
-				}
-			} catch (JSONException e) { 
-				e.printStackTrace();
-			}
-		}//end of onTextMessage
-
-		@Override
-		public void onClose(int code, String reason) {
-			Log.d(TAG, "[onClose]Connection lost.");
-		}
-	};
-	
+	 
 	 
 	/**
 	 * connect
 	 */
 	public void connect(){ 
 		Log.d(TAG, "[connect]begin: wspath is: " + wspath); 
+		this.keepAlive=true;
 		try {
 			WebSocketOptions   options  =new WebSocketOptions  (); 
 			options.setSocketConnectTimeout(1000*1000);//ms
 			options.setSocketReceiveTimeout(1000*1000);//ms
+			client = new WebSocketConnection();
 			client.connect(wspath,wsHandler,options );
+			Log.d(TAG, "[connect]client.isConnected() is: " + client.isConnected()); 
 		} catch (WebSocketException e) { 
 			Log.d(TAG, e.toString());
 		}   
-		Log.d(TAG, "[connect]end: wspath is: " + wspath); 
+		Log.d(TAG, "[connect]end"); 
 	}//end of connect
 
 
@@ -210,6 +206,7 @@ public class WsControllerServiceSupport {
 	 * disconnect
 	 */
 	public void disconnect(){
+		this.keepAlive=false;
 		if(null!=client){ 
 			if(client.isConnected()){
 				client.disconnect(); 
@@ -221,6 +218,7 @@ public class WsControllerServiceSupport {
 	 * isConnected
 	 */
 	public boolean isConnected(){
+		Log.d(TAG, "[isConnected]client.isConnected() is: " + client.isConnected()); 
 		if(null!=client){ 
 			return client.isConnected();
 		}else{
