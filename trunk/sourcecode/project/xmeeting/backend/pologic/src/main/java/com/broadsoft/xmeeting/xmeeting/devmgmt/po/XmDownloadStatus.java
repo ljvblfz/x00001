@@ -60,6 +60,7 @@ public class XmDownloadStatus extends BaseEntity {
 	private java.lang.String xmdsImage;  
 	//
 
+	private java.lang.String xmdsCompanyLabel;
 	private java.lang.String xmdsMeetingScheduleLabel;
 	private java.lang.String xmdsDocumentLabel;
 	private java.lang.String xmdsVideoLabel;
@@ -314,6 +315,15 @@ public class XmDownloadStatus extends BaseEntity {
 
 	public void setXmdsImageLabel(java.lang.String xmdsImageLabel) {
 		this.xmdsImageLabel = xmdsImageLabel;
+	}
+
+	@Transient
+	public java.lang.String getXmdsCompanyLabel() {
+		return xmdsCompanyLabel;
+	}
+
+	public void setXmdsCompanyLabel(java.lang.String xmdsCompanyLabel) {
+		this.xmdsCompanyLabel = xmdsCompanyLabel;
 	}
 
 	public int compareTo(Object obj) {
