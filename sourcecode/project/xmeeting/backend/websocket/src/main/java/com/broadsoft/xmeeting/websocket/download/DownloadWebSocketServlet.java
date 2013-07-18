@@ -2,6 +2,8 @@ package com.broadsoft.xmeeting.websocket.download;
 
 import java.io.IOException;
 import java.nio.CharBuffer;
+import java.util.Collection;
+import java.util.Iterator;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -24,20 +26,22 @@ public class DownloadWebSocketServlet extends WebSocketServlet {
 	private Logger logger = LoggerFactory
 			.getLogger(DownloadWebSocketServlet.class);
 
+	private boolean stopKeepAlive=false;
+	private boolean stopTimeout=false;
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 
-//		new Thread(heartRunnable).start();
+		new Thread(timeoutRunnable).start();
 		 
 
 	}
 	
 	
-	private boolean stop=false;
 	@Override
 	public void destroy(){
-		stop=true;
+		stopKeepAlive=true;
+		stopTimeout=true;
 	}
 
 	/**
@@ -95,11 +99,48 @@ public class DownloadWebSocketServlet extends WebSocketServlet {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				if(stop){
+				if(stopKeepAlive){
 					return;
 				}
 			}//end of while
 		}
 
 	};
+	
+	
+	Runnable timeoutRunnable = new Runnable() { 
+		@Override
+		public void run() {
+			while (true) { 
+				try {
+					Thread.sleep(100 * 1000);
+				} catch (InterruptedException e) {
+					 e.printStackTrace();
+				}
+				Collection<DownloadMessageInbound> collOfInbound=DownloadMessageInboundHolder.getSocketList();
+				Iterator<DownloadMessageInbound> iterOfInbound=collOfInbound.iterator();
+				while(iterOfInbound.hasNext()){
+					DownloadMessageInbound inbound=iterOfInbound.next();
+					long lastUpdatedTimestamp=inbound.getLastUpdatedTimestamp();
+					long currentTimestamp=System.currentTimeMillis();
+					//超过600秒要删除
+					if((currentTimestamp-lastUpdatedTimestamp)>600*1000){
+						String padId=inbound.getPadId();
+						String roleName=inbound.getRoleName();
+						if("DEVICE".equals(roleName)){
+							DownloadMessageInboundHolder.removeByPadId(padId);  
+							if (logger.isTraceEnabled()) {
+								logger.trace("[timeoutRunnable]remove the pad:  "+padId); 
+							} 
+						}//end of roleName
+					}
+				}//end of while
+				
+				if(stopTimeout){
+					return;
+				}
+			}//end of while
+		}//end of run
+
+	};//end of timeoutRunnable
 }
