@@ -54,9 +54,12 @@ public class XmRoomInfoDetailResource extends SyBaseResource{
 		}
 		
 		String xmpdGuid=xmRoomInfoDetail.getXmpdGuid();
-		XmPadDevice xmPadDevice=xmPadDeviceDao.findById(xmpdGuid);
-		 
-		xmRoomInfoDetail.setXmpdGuidLabel(xmPadDevice.getXmpdCode());
+		if(null!=xmpdGuid&&!"".equals(xmpdGuid)){
+			XmPadDevice xmPadDevice=xmPadDeviceDao.findById(xmpdGuid);
+			if(null!=xmPadDevice){
+				xmRoomInfoDetail.setXmpdGuidLabel(xmPadDevice.getXmpdCode()); 
+			} 
+		}
 		
 		return getJsonGzipRepresentation(JSONSerializer.toJSON(xmRoomInfoDetail,config));
 	}

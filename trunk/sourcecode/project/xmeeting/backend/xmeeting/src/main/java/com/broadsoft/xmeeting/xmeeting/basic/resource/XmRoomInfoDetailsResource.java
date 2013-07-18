@@ -56,8 +56,12 @@ public class XmRoomInfoDetailsResource extends SyBaseResource {
 		for (int i = 0; i < list.size(); i++) {
 			XmRoomInfoDetail xmRoomInfoDetail = (XmRoomInfoDetail) list.get(i);  
 			String xmpdGuid=xmRoomInfoDetail.getXmpdGuid();
-			XmPadDevice xmPadDevice=xmPadDeviceDao.findById(xmpdGuid); 
-			xmRoomInfoDetail.setXmpdGuidLabel(xmPadDevice.getXmpdCode());
+			if(null!=xmpdGuid&&!"".equals(xmpdGuid)){
+				XmPadDevice xmPadDevice=xmPadDeviceDao.findById(xmpdGuid); 
+				if(null!=xmPadDevice){
+					xmRoomInfoDetail.setXmpdGuidLabel(xmPadDevice.getXmpdCode());
+				}
+			}
 		}//end of for
 		JSON jp = JSONSerializer.toJSON(getPageResponse(p),config);
 		return getJsonGzipRepresentation(JsonUtils.genSuccessReturnJson(jp));   
