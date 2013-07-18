@@ -30,10 +30,11 @@ public class ControllerMessageInbound extends MessageInbound {
 	private String meetingName;
 	private String memberId;
 	private String memberDisplayName;
+	private long lastUpdatedTimestamp=System.currentTimeMillis();
 	public ControllerMessageInbound(String meetingId,String memberId,String meetingName,String memberDisplayName){
 		super();
 		this.meetingId=meetingId;
-		this.meetingId=meetingName;
+		this.meetingName=meetingName;
 		this.memberId=memberId; 
 		this.memberDisplayName=memberDisplayName;
 	}
@@ -55,6 +56,7 @@ public class ControllerMessageInbound extends MessageInbound {
 		if(logger.isTraceEnabled()){
 			logger.trace("onTextMessage--->begin"); 
 		} 
+		this.lastUpdatedTimestamp=System.currentTimeMillis();
 		String strMsg=msg.toString();
 		if(logger.isTraceEnabled()){
 			logger.trace("onTextMessage--->strMsg={}.",strMsg); 
@@ -151,6 +153,10 @@ public class ControllerMessageInbound extends MessageInbound {
 
 	public void setMeetingName(String meetingName) {
 		this.meetingName = meetingName;
+	}
+
+	public long getLastUpdatedTimestamp() {
+		return lastUpdatedTimestamp;
 	}
  
 	

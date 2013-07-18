@@ -29,6 +29,8 @@ public class DownloadMessageInbound extends MessageInbound {
 	private String padId;
 	private String padCode;
 	private String roleName;
+	private long lastUpdatedTimestamp=System.currentTimeMillis();
+	
 	public DownloadMessageInbound( String padId,String padCode,String roleName){
 		super(); 
 		this.padId=padId;
@@ -54,6 +56,7 @@ public class DownloadMessageInbound extends MessageInbound {
 		if(logger.isTraceEnabled()){
 			logger.trace("onTextMessage--->begin"); 
 		} 
+		this.lastUpdatedTimestamp=System.currentTimeMillis();
 		String strMsg=msg.toString();
 		if(logger.isTraceEnabled()){
 			logger.trace("onTextMessage--->strMsg={}.",strMsg); 
@@ -202,6 +205,10 @@ public class DownloadMessageInbound extends MessageInbound {
 
 	public String getPadCode() {
 		return padCode;
+	}
+
+	public long getLastUpdatedTimestamp() {
+		return lastUpdatedTimestamp;
 	} 
 
 }

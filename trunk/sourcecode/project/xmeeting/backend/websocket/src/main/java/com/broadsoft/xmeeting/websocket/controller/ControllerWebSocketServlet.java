@@ -29,15 +29,17 @@ public class ControllerWebSocketServlet extends WebSocketServlet {
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config); 
-//		new Thread(heartRunnable).start();
+		new Thread(timeoutRunnable).start();
 
 	}
 
-	private boolean stop = false;
+	private boolean stopKeepAlive = false; 
+	private boolean stopTimeout=false;
 
 	@Override
 	public void destroy() {
-		stop = true;
+		stopKeepAlive = true;
+		stopTimeout=true;
 	}
 
 	/**
@@ -95,12 +97,49 @@ public class ControllerWebSocketServlet extends WebSocketServlet {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				if (stop) {
+				if (stopKeepAlive) {
 					return;
 				}
 			}// end of while
 		}
 
-	};
+	};//end of heartRunnable
+	
+	Runnable timeoutRunnable = new Runnable() { 
+		@Override
+		public void run() {
+			while (true) { 
+				try {
+					Thread.sleep(100 * 1000);
+				} catch (InterruptedException e) {
+					 e.printStackTrace();
+				} 
+				ConcurrentHashMap<String, List<ControllerMessageInbound>> mapListOfControllerMessageInbound = ControllerMessageInboundHolder
+						.getAllSocketList();
+				Collection<List<ControllerMessageInbound>> coll = mapListOfControllerMessageInbound
+						.values();
+				for (List<ControllerMessageInbound> listOfControllerMessageInbound : coll) {
+					for (ControllerMessageInbound messageInbound : listOfControllerMessageInbound) {
+						//
+						long lastUpdatedTimestamp=messageInbound.getLastUpdatedTimestamp();
+						long currentTimestamp=System.currentTimeMillis();
+						//超过600秒要删除
+						if((currentTimestamp-lastUpdatedTimestamp)>600*1000){
+							String memberId=messageInbound.getMemberId();
+							String meetingId=messageInbound.getMeetingId();
+							ControllerMessageInboundHolder.removeByMemberIdAndMeetingId(memberId,meetingId); 
+							if (logger.isTraceEnabled()) {
+								logger.trace("remove the member==> memberIdis : "+memberId+"--meetingId  is: "+meetingId); 
+							}
+						}
+					}// end of on listOfControllerMessageInbound
+				}// end of on coll
+				if(stopTimeout){
+					return;
+				}
+			}//end of while
+		}//end of run
+
+	};//end of timeoutRunnable
 
 }
