@@ -5,10 +5,13 @@
  
 package com.broadsoft.xmeeting.xmeeting.devmgmt.resource;
 
+import java.util.Date;
 import java.util.List;
 
 import net.sf.json.JSON;
 import net.sf.json.JSONSerializer;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.CycleDetectionStrategy;
 
 import org.restlet.data.Form;
 import org.restlet.representation.Representation;
@@ -28,6 +31,7 @@ import com.broadsoft.xmeeting.xmeeting.devmgmt.po.XmMeetingInfo;
 import com.broadsoft.xmeeting.xmeeting.devmgmt.vo.XmDownloadStatusSearchVO;
 import com.founder.sipbus.common.annotation.RestletResource;
 import com.founder.sipbus.common.page.PageResponse;
+import com.founder.sipbus.common.util.DateJsonValueProcessor;
 import com.founder.sipbus.common.util.JsonUtils;
 import com.founder.sipbus.common.util.PMGridCopyUtil;
 import com.founder.sipbus.syweb.au.base.SyBaseResource;
@@ -48,7 +52,7 @@ public class XmDownloadStatussResource extends SyBaseResource {
 	public void setSyCodeService(SyCodeService syCodeService) {
 		this.syCodeService = syCodeService;
 	}
-
+ 
 	@SuppressWarnings("unchecked")
 	@Get
 	public Representation get(Representation entity) throws Exception {
@@ -69,13 +73,18 @@ public class XmDownloadStatussResource extends SyBaseResource {
 				xmDownloadStatus.setXmpdGuidLabel(xmPadDevice.getXmpdCode()); 
 			}
 			//
+			xmDownloadStatus.setXmdsCompanyLabel(syCodeService.getSyCodeName("3019", xmDownloadStatus.getXmdsCompany()));
 			xmDownloadStatus.setXmdsMeetingScheduleLabel(syCodeService.getSyCodeName("3019", xmDownloadStatus.getXmdsMeetingSchedule()));
 			xmDownloadStatus.setXmdsDocumentLabel(syCodeService.getSyCodeName("3019", xmDownloadStatus.getXmdsDocument()));
 			xmDownloadStatus.setXmdsVideoLabel(syCodeService.getSyCodeName("3019", xmDownloadStatus.getXmdsVideo()));
 			xmDownloadStatus.setXmdsImageLabel(syCodeService.getSyCodeName("3019", xmDownloadStatus.getXmdsImage()));
 		}//end of for 
-		
-		JSON jp = JSONSerializer.toJSON(getPageResponse(p),config);
+		JsonConfig configx = new JsonConfig(); 
+		configx.setIgnoreDefaultExcludes(false);
+		configx.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);
+		configx.registerJsonValueProcessor(java.util.Date.class,new DateJsonValueProcessor("yyyy-MM-dd HH:mm:ss")); //date processor register
+		configx.registerJsonValueProcessor(java.sql.Date.class,new DateJsonValueProcessor("yyyy-MM-dd")); //date processor register
+		JSON jp = JSONSerializer.toJSON(getPageResponse(p),configx);
 		return getJsonGzipRepresentation(JsonUtils.genSuccessReturnJson(jp));   
 	}
 	

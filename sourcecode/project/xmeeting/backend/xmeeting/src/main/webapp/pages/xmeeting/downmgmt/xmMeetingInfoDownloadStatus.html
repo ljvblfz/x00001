@@ -33,11 +33,13 @@
 		<thead>
 			<tr  searchMethod="xmDownloadStatusSearch"><th width="22"><input type="checkbox" group="xmdsGuids" class="checkboxCtrl"></th>
 <!-- 						<th width="60"  orderField="xmmiGuidLabel">会议名称</th> -->
-						<th width="60"  orderField="xmpdGuidLabel">设备编号</th> 
+						<th width="150"  orderField="xmpdGuidLabel">设备编号</th> 
+						<th width="60" orderField="xmdsCompany">公司简介</th> 
 						<th width="200" orderField="xmdsMeetingSchedule">会议指南(行程安排/人员名单/车辆安排/天气情况/通讯服务)</th> 
 						<th width="60"  orderField="xmdsDocument">会议资料</th>
 						<th width="60"  orderField="xmdsVideo">会议视频</th>
 						<th width="60"  orderField="xmdsImage">会议图片</th> 
+						<th width="100"  orderField="createDt">时间</th> 
 			</tr>
 		</thead>
 		<tbody>
@@ -45,10 +47,12 @@
 						<td name="xmdsGuid" type="check"><input name="xmdsGuids" value="" type="checkbox"></td>
 <!-- 						<td name="xmmiGuidLabel"></td> -->
 						<td name="xmpdGuidLabel"></td>  
+						<td name="xmdsCompanyLabel"></td> 
 						<td name="xmdsMeetingScheduleLabel"></td> 
 						<td name="xmdsDocumentLabel"></td>
 						<td name="xmdsVideoLabel"></td>
 						<td name="xmdsImageLabel"></td>
+						<td name="createDt"></td>
 			</tr>
 		</tbody>
 	</table>

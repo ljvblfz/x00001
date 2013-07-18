@@ -76,12 +76,16 @@ public class XmMeetingPersonnelSeatPadResource extends SyBaseResource{
 		String xmpdGuid=xmMeetingPersonnelSeatPad.getXmpdGuid();
 		XmPersonnelInfo xmPersonnelInfo=xmPersonnelInfoDao.findById(xmpiGuid);
 		XmRoomInfoDetail xmRoomInfoDetail=xmRoomInfoDetailDao.findById(xmridGuid);
-		XmPadDevice xmPadDevice=xmPadDeviceDao.findById(xmpdGuid);
 		
+		if(null!=xmpdGuid&&!"".equals(xmpdGuid)){
+			XmPadDevice xmPadDevice=xmPadDeviceDao.findById(xmpdGuid);
+			if(null!=xmPadDevice){
+				xmMeetingPersonnelSeatPad.setXmpdGuidLabel(xmPadDevice.getXmpdCode());
+			} 
+		} 
 		//
 		xmMeetingPersonnelSeatPad.setXmpiGuidLabel(xmPersonnelInfo.getXmpiName());
 		xmMeetingPersonnelSeatPad.setXmridGuidLabel(xmRoomInfoDetail.getXmridSeatno());
-		xmMeetingPersonnelSeatPad.setXmpdGuidLabel(xmPadDevice.getXmpdCode());
 		if(null==xmMeetingPersonnelSeatPad){
 			getResponse().setStatus(Status.CLIENT_ERROR_NOT_FOUND);   
 			return null;
