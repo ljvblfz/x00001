@@ -1,5 +1,7 @@
 package com.broadsoft.xmdownload.wsservice;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -10,6 +12,7 @@ import com.broadsoft.xmcommon.androiddao.DaoHolder;
 import com.broadsoft.xmdownload.rsservice.RsServiceOnMeetingInfoSupport;
 import com.broadsoft.xmdownload.rsservice.RsServiceOnPadInfoSupport;
 import com.broadsoft.xmeeting.uihandler.DownloadByWsUIHandler;
+import com.broadsoft.xmeeting.uihandler.DownloadOnlineStatusUIHandler;
 
 import de.tavendo.autobahn.WebSocketConnection;
 import de.tavendo.autobahn.WebSocketException;
@@ -27,7 +30,9 @@ public class WsDownloadServiceSupport {
 
 	private String wspath;  
 	private String padId; //android id
-	
+	//
+	private boolean keepAlive=true;
+	private static AtomicInteger countOfReconnect=new AtomicInteger(0);
 	private static WsDownloadServiceSupport wsDownloadServiceSupport=new WsDownloadServiceSupport();
 	
 	private  WsDownloadServiceSupport(){
@@ -47,28 +52,50 @@ public class WsDownloadServiceSupport {
 	}
 	
 
-	private final WebSocketConnection client = new WebSocketConnection();
+//	private WebSocketConnection client = new WebSocketConnection();
+	private WebSocketConnection client;
 
+	
+	
 	WebSocketHandler handler=new WebSocketHandler() { 
 		@Override
 		public void onOpen() {
 			Log.d(TAG, "[onOpen]Status: Connected to " + wspath);
 			DownloadByWsUIHandler.getInstance().sendEntryDownloadStatus();
+			DownloadOnlineStatusUIHandler.getInstance().sendDownloadOnlineOnMessage();
 			new Thread(heartRunnable).start();
 		}
 
 		@Override
 		public void onTextMessage(String payload) {
-			Log.d(TAG, "[onTextMessage]Got echo: " + payload);
+			Log.d(TAG, "[onTextMessage]" + payload);
 			processMessage(payload);
 		}
 
 		@Override
 		public void onClose(int code, String reason) {
-			Log.d(TAG, "[onClose]Connection lost.");
-			DownloadByWsUIHandler.getInstance().sendExitDownloadStatus();
-		}
+			Log.d(TAG, "[onClose]"+code+"--"+reason);
+			DownloadByWsUIHandler.getInstance().sendExitDownloadStatus(); 
+			DownloadOnlineStatusUIHandler.getInstance().sendDownloadOnlineOffMessage();
+//			JSONObject jsonMessage = createOnlineStatusJsonMessage();
+//			DownloadOnlineStatusUIHandler.getInstance().sendDownloadOnlineMessage(jsonMessage.toString());
+			//try to reconnect
+			if(keepAlive){ 
+				Log.d(TAG, "[onClose]countOfReconnect is:  "+countOfReconnect.incrementAndGet());
+				reconnect(); 
+			}
+		}//end of onClose
 	};
+	
+	private JSONObject createOnlineStatusJsonMessage() {
+		JSONObject jsonStatus = new JSONObject();
+		try { 
+			jsonStatus.put("status", "0");  
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return jsonStatus;
+	}
 	
 	Runnable heartRunnable = new Runnable() {
 
@@ -84,14 +111,20 @@ public class WsDownloadServiceSupport {
 	 * connect
 	 */
 	public void connect(){   
+		Log.d(TAG, "[connect]begin: wspath is: " + wspath); 
+		this.keepAlive=true;
 		try {
 			WebSocketOptions   options  =new WebSocketOptions  (); 
 			options.setSocketConnectTimeout(1000*1000);//ms
 			options.setSocketReceiveTimeout(1000*1000);//ms
+			client = new WebSocketConnection();
 			client.connect(wspath,handler,options );
+			Log.d(TAG, "[connect]client.isConnected() is: " + client.isConnected()); 
+			 
 		} catch (WebSocketException e) { 
 			Log.d(TAG, e.toString());
 		} 
+		Log.d(TAG, "[connect]end: wspath is: " + wspath); 
  
 	}//end of connect
 	
@@ -104,18 +137,13 @@ public class WsDownloadServiceSupport {
 	
 	
 	public void sendHearbeat(){
-		while(true){
-			long currentConnectedTime=System.currentTimeMillis();
-			Log.d(TAG, "Connected Status[isConnected]: "+client.isConnected());
-			if(null!=client&&client.isConnected()){
-				long elapsedTime=currentConnectedTime-lastConnectedTime;
-				if(elapsedTime>1000*100){
-					reconnect(); 
-					continue;
-				}
+		while(keepAlive){  
+			Log.d(TAG, "[sendHearbeat]client.isConnected() is: " + client.isConnected()); 
+			if(null!=client&&client.isConnected()){ 
 				JSONObject jsonObject=new JSONObject();
 				try {
 					jsonObject.put("msgtype", "10");
+					jsonObject.put("msgtimestamp", System.currentTimeMillis()+"");
 				} catch (JSONException e) { 
 					e.printStackTrace();
 				}
@@ -125,16 +153,14 @@ public class WsDownloadServiceSupport {
 				} catch (InterruptedException e) { 
 					e.printStackTrace();
 				}
-			}else{
-				reconnect();
+			}else{ 
 				break;
 			}
 		}
 	}//end of sendHearbeat
 	
 	
-
-	private long lastConnectedTime=System.currentTimeMillis();
+ 
 	private void reconnect(){
 		Log.d(TAG, "reconnect begin. client is: "+client); 
 		if(null!=client){
@@ -191,9 +217,10 @@ public class WsDownloadServiceSupport {
 							RsServiceOnPadInfoSupport.download();
 						}
 					} 
-				} else if("04".equals(msgtype)){//下载公司信息
-					 //nothing to do
 				} 
+//				else if("04".equals(msgtype)){//下载公司信息
+//					 //nothing to do
+//				} 
 				
 			}//end of if
 			
@@ -204,10 +231,12 @@ public class WsDownloadServiceSupport {
 	}
 
 
+	
 	/**
 	 * disconnect
 	 */
 	public void disconnect(){
+		this.keepAlive=false;
 		if(null!=client){ 
 			client.disconnect(); 
 		} 

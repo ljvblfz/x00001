@@ -32,7 +32,10 @@ public class RsServiceOnMeetingInfoSupport {
 	public final static int TYPE_DOWNLOAD_WITHOUT_FILE=1;
 	public final static int TYPE_DOWNLOAD_WITH_FILE=2;
 	
-	
+	/**
+	 * type=TYPE_DEFAULT
+	 * @param meetingId
+	 */
 	public static void download(String meetingId){
 		Log.d(TAG, String.format("download begin, meetingId:  %s", meetingId));
 		// 
@@ -53,7 +56,11 @@ public class RsServiceOnMeetingInfoSupport {
 		Log.d(TAG, "download end"); 
 	}//end of download
 	
-	
+	/**
+	 * type=TYPE_DOWNLOAD_WITHOUT_FILE and TYPE_DOWNLOAD_WITH_FILE
+	 * @param type
+	 * @param meetingId
+	 */
 	public static void downloadByType(int type,String meetingId){
 		Log.d(TAG, String.format("download begin, meetingId:  %s", meetingId));
 		// 
@@ -66,7 +73,7 @@ public class RsServiceOnMeetingInfoSupport {
 		String rspathDownloadStatusSaveResult = MessageFormat.format(rspathDownloadStatusSave,arguments2);
 		Log.d(TAG, "rspathMeetingInfoResult is : "+rspathMeetingInfoResult);
 		Log.d(TAG, "rspathMeetingPersonnelResult  is : "+rspathMeetingPersonnelResult);
-		Log.d(TAG, "rspathMeetingPersonnelResult  is : "+rspathDownloadStatusSaveResult);
+		Log.d(TAG, "rspathDownloadStatusSaveResult  is : "+rspathDownloadStatusSaveResult);
 		
 		Thread thread=new Thread(new DownloadMeetingInfoRunnable(type,meetingId,rspathMeetingInfoResult,rspathMeetingPersonnelResult,rspathDownloadStatusSaveResult));
 		thread.start();
@@ -183,7 +190,7 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 		jsoninfo.put("meetingInfo", jsonMeetingInfo);
 		jsoninfo.put("personnelInfo", jsonMeetingPersonnel);
 		downloadInfoEntityParam.setJsonData(jsoninfo.toString());
-		//pad人员  
+		//与会人员  
 		String androidId=AndroidIdSupport.getAndroidID();
 		JSONArray listOfXmMeetingPersonnelSeatPadIVO=jsonMeetingPersonnel.getJSONArray("listOfXmMeetingPersonnelSeatPadIVO");
 		for(int i=0;i<listOfXmMeetingPersonnelSeatPadIVO.length();i++){
@@ -287,14 +294,20 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 		for(int i=0;i<listOfXmCompanyInfo.length();i++){
 			JSONObject docJson=listOfXmCompanyInfo.getJSONObject(i);
 			String docFile=docJson.getString("xmciAttachment");
-			HttpDownloadSupport.downloadFile(serveriport, docFile);
+			int retFlagCompInfo=HttpDownloadSupport.downloadFile(serveriport, docFile);
+			if(0==retFlagCompInfo){
+				jsonDownloadStatus.put("xmdsCompany", "0"); 
+			} 
 		} 
 		//会议文稿
 		JSONArray listOfXmMeetingDocument=jsonMeetingInfo.getJSONArray("listOfXmMeetingDocument"); 
 		for(int i=0;i<listOfXmMeetingDocument.length();i++){
 			JSONObject docJson=listOfXmMeetingDocument.getJSONObject(i);
 			String docFile=docJson.getString("xmmdFile");
-			HttpDownloadSupport.downloadFile(serveriport, docFile);
+			int retFlagDocInfo=HttpDownloadSupport.downloadFile(serveriport, docFile);
+			if(0==retFlagDocInfo){
+				jsonDownloadStatus.put("xmdsDocument", "0"); 
+			}
 		}
 		
 		//会议图片
@@ -305,7 +318,10 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 			for(int j=0;j<listOfXmMeetingPictureDetail.length();j++){
 				JSONObject picJson=listOfXmMeetingPictureDetail.getJSONObject(j);
 				String picFile=picJson.getString("xmmpicImageFile");
-				HttpDownloadSupport.downloadFile(serveriport, picFile); 
+				int retFlagPicInfo=HttpDownloadSupport.downloadFile(serveriport, picFile); 
+				if(0==retFlagPicInfo){
+					jsonDownloadStatus.put("xmdsImage", "0"); 
+				}
 			}//end of for j 
 		}
 		
@@ -314,7 +330,10 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 		for(int i=0;i<listOfXmMeetingVideo.length();i++){
 			JSONObject videoJson=listOfXmMeetingVideo.getJSONObject(i);
 			String videoFile=videoJson.getString("xmmvFile");
-			HttpDownloadSupport.downloadFile(serveriport, videoFile);  
+			int retFlagVideoInfo=HttpDownloadSupport.downloadFile(serveriport, videoFile);  
+			if(0==retFlagVideoInfo){
+				jsonDownloadStatus.put("xmdsVideo", "0"); 
+			}
 		}
 		
 	}
@@ -323,10 +342,20 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 	public void postMeetingInfoDownloadStatus() throws Exception{
 		jsonDownloadStatus.put("xmmiGuid", meetingId);
 		jsonDownloadStatus.put("xmpdGuid", EntityInfoHolder.getInstance().getXmpdGuid()); 
-		jsonDownloadStatus.put("xmdsMeetingSchedule", "1");
-		jsonDownloadStatus.put("xmdsDocument", "1");
-		jsonDownloadStatus.put("xmdsVideo", "1");
-		jsonDownloadStatus.put("xmdsImage", "1");  
+		jsonDownloadStatus.put("xmdsMeetingSchedule", "1"); 
+ 
+		if(!jsonDownloadStatus.has("xmdsCompany")){
+			jsonDownloadStatus.put("xmdsCompany", "1"); 
+		}	
+		if(!jsonDownloadStatus.has("xmdsDocument")){
+			jsonDownloadStatus.put("xmdsDocument", "1"); 
+		}	
+		if(!jsonDownloadStatus.has("xmdsVideo")){
+			jsonDownloadStatus.put("xmdsVideo", "1"); 
+		}	
+		if(!jsonDownloadStatus.has("xmdsImage")){
+			jsonDownloadStatus.put("xmdsImage", "1"); 
+		}  
 		Log.d(TAG, "jsonDownloadStatus is : "+jsonDownloadStatus);
 		HttpRestSupport.postByHttpClientWithGzip(rspathDownloadStatusSaveResult, jsonDownloadStatus); 
 	}

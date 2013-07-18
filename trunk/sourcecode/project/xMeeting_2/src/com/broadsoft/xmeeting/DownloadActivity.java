@@ -10,11 +10,13 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -37,7 +39,7 @@ import com.broadsoft.xmeeting.uihandler.DownloadOnlineStatusUIHandler;
  * @author lu.zhen
  *
  */
-public class DownloadActivity extends Activity {
+public class DownloadActivity extends Activity implements Runnable{
 	private static final String TAG="DownloadActivity"; 
 
 
@@ -47,6 +49,7 @@ public class DownloadActivity extends Activity {
 	
 	 
 
+	private long timeOfRetry=20*1000;
 	protected boolean isConnected(){
 		ConnectivityManager connMgr = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
 		return NetworkSupport.isConnected(connMgr);
@@ -81,6 +84,8 @@ public class DownloadActivity extends Activity {
     	}else{
     		tvValueWifiStatus.setText("Wifi连接失败!");
 		}
+
+		handlerCheckingWifi.postDelayed(this,timeOfRetry );
     	//同步设备信息
     	Button buttonSyncDeviceInfo=(Button)this.findViewById(R.id.buttonSyncDeviceInfo);
     	buttonSyncDeviceInfo.setOnClickListener(new OnClickListener() {      
@@ -127,68 +132,93 @@ public class DownloadActivity extends Activity {
         		intent.setClass(DownloadActivity.this, LoginActivity.class); 
         		intent.setData(Uri.parse("one")); 
         		startActivityForResult(intent, REQUEST_CODE);// 以传递参数的方式跳转到下一个Activity 
+        		finish();
             }   
         });    
 		
-		new CheckOnlineStatusTask().execute();
+//		new CheckOnlineStatusTask().execute();
 		Log.d(TAG, "onCreate end");
 		
 	}//end of onCreate  
 	
 	
-	private boolean flagOnTask=true;
+	private boolean flagOnHandler=true;
+
+	private Handler handlerCheckingWifi = new Handler(); 
 	
-	private class CheckOnlineStatusTask extends AsyncTask<Void, Void, Void> { 
- 
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
+	
+
+	@Override
+	public void run() {
+		if(!flagOnHandler){
+			return;
 		}
-
-		@Override
-		protected Void doInBackground(Void... params) {
-			while (flagOnTask) {
-				boolean status = WsControllerServiceSupport.getInstance().isConnected();
-				JSONObject jsonMessage = createJsonMessage(status);
-				DownloadOnlineStatusUIHandler.getInstance().sendDownloadOnlineMessage(jsonMessage.toString());
-				try {
-					Thread.sleep(100 * 1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-			return null;
+		Log.d(TAG, "[run]check the wifi status.");
+		TextView tvValueWifiStatus=(TextView)this.findViewById(R.id.tvValueWifiStatus);
+    	if(isConnected()){ 
+    		tvValueWifiStatus.setText("Wifi连接成功!");
+    	}else{
+    		tvValueWifiStatus.setText("Wifi连接失败!");
 		}
-
-		private JSONObject createJsonMessage(boolean status) {
-			JSONObject jsonStatus = new JSONObject();
-			try {
-				if (status) {
-					jsonStatus.put("status", "1");
-				} else {
-					jsonStatus.put("status", "0"); 
-				}
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			return jsonStatus;
-		}
-
-		@Override
-		protected void onPostExecute(Void result) {
- 
-
-  		}
-          
-    }
+		handlerCheckingWifi.postDelayed(this,timeOfRetry );
+	}
+	 
+	
+//	private class CheckWifiStatusTask extends AsyncTask<Void, Void, Void> { 
+// 
+//		@Override
+//		protected void onPreExecute() {
+//			super.onPreExecute();
+//		}
+//
+//		@Override
+//		protected Void doInBackground(Void... params) {
+//			while (flagOnTask) {
+//				Log.d(TAG, "[CheckWifiStatusTask]before send status.");
+//				boolean wifiStatus=isConnected();
+//				Log.d(TAG, "[CheckWifiStatusTask]after send status.");
+//				try {
+//					Thread.sleep(5 * 60*1000);
+//				} catch (InterruptedException e) {
+//					e.printStackTrace();
+//				}
+//				Log.d(TAG, "[CheckOnlineStatusTask]complete sleep.");
+//			}
+//			return null;
+//		}
+//
+//		private JSONObject createJsonMessage(boolean status) {
+//			JSONObject jsonStatus = new JSONObject();
+//			try {
+//				if (status) {
+//					jsonStatus.put("status", "1");
+//				} else {
+//					jsonStatus.put("status", "0"); 
+//				}
+//			} catch (JSONException e) {
+//				e.printStackTrace();
+//			}
+//			return jsonStatus;
+//		}
+//
+//		@Override
+//		protected void onPostExecute(Void result) {
+// 
+//
+//  		}
+//          
+//    }
 	
 	
 	
 
 	@Override
 	protected void onDestroy(){ 
-		flagOnTask=false;
+		Log.d(TAG, "[onDestroy]begin.");
 		super.onDestroy();  
+		flagOnHandler=false;
+		WsDownloadServiceSupport.getInstance().disconnect();
+		Log.d(TAG, "[onDestroy]end.");
 		
 	}
 }//end of MainActivity

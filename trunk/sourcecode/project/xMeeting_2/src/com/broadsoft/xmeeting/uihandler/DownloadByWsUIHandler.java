@@ -47,7 +47,7 @@ public class DownloadByWsUIHandler extends Handler {
 
 	@Override
 	public void handleMessage(Message msg) {
-		Log.d(TAG, "handleMessage begin");
+		Log.d(TAG, "handleMessage begin.  "+msg);
 		super.handleMessage(msg);
 		Bundle bundle = msg.getData();
 		String payload = bundle.getString("payload");
