@@ -33,23 +33,39 @@
 	</select>
     
   
+<!--       select  a.XMMPSP_GUID xmmpspGuid, a.xmmi_guid xmmiGuid,b.xmpi_name xmpiName,b.xmpi_guid xmpiGuid, -->
+<!-- 						b.XMPI_DEPTINFO xmpiDeptinfo,b.XMPI_TITLE xmpiTitle,b.XMPI_CONTACT xmpiContact , -->
+<!-- 						c.xmpd_code xmpdCode,c.xmpd_device_id xmpdDeviceId,d.xmrid_seatno xmridSeatno,e.value_desc  meetingRole -->
+									    
+<!-- 				from XM_MEETING_PERSONNEL_SEAT_PAD a, XM_PERSONNEL_INFO b,XM_PAD_DEVICE c,XM_ROOM_INFO_DETAIL d , -->
+<!-- 				(select value_code,value_desc from sy_code  where type_id in (select type_id from sy_code_type where type_name='3010')) e -->
+<!-- 				where 1=1 -->
+<!-- 						and a.xmpi_guid=b.xmpi_guid   -->
+<!-- 						and c.xmpd_guid=a.xmpd_guid   -->
+<!-- 						and d.xmrid_guid=a.xmrid_guid  -->
+<!-- 						and a.xmmpsp_meeting_role =e.value_code  -->
+<!-- 						and  a.del_flag=0  -->
+<!-- 						and  b.del_flag=0   -->
+<!-- 						and  c.del_flag=0  -->
+<!-- 						and  d.del_flag=0  -->
+    
 	<select id="findPersonnelSeatPadByMeetingID" parameterClass="java.util.HashMap"  resultClass="com.broadsoft.xmeeting.xmeeting.meeting.vo.XmMeetingPersonnelSeatPadIVO">
 	    <![CDATA[
-			    select  a.XMMPSP_GUID xmmpspGuid, a.xmmi_guid xmmiGuid,b.xmpi_name xmpiName,b.xmpi_guid xmpiGuid,
+			  	select  a.XMMPSP_GUID xmmpspGuid, a.xmmi_guid xmmiGuid,b.xmpi_name xmpiName,b.xmpi_guid xmpiGuid,
 						b.XMPI_DEPTINFO xmpiDeptinfo,b.XMPI_TITLE xmpiTitle,b.XMPI_CONTACT xmpiContact ,
 						c.xmpd_code xmpdCode,c.xmpd_device_id xmpdDeviceId,d.xmrid_seatno xmridSeatno,e.value_desc  meetingRole
 									    
-				from XM_MEETING_PERSONNEL_SEAT_PAD a, XM_PERSONNEL_INFO b,XM_PAD_DEVICE c,XM_ROOM_INFO_DETAIL d ,
-				(select value_code,value_desc from sy_code  where type_id in (select type_id from sy_code_type where type_name='3010')) e
-				where 1=1
-						and a.xmpi_guid=b.xmpi_guid  
-						and c.xmpd_guid=a.xmpd_guid  
-						and d.xmrid_guid=a.xmrid_guid 
-						and a.xmmpsp_meeting_role =e.value_code 
-						and  a.del_flag=0 
-						and  b.del_flag=0  
-						and  c.del_flag=0 
-						and  d.del_flag=0 
+	            from 		XM_MEETING_PERSONNEL_SEAT_PAD a 
+	            inner join 	XM_PERSONNEL_INFO b  	on a.xmpi_guid=b.xmpi_guid    
+	            left  join 	XM_PAD_DEVICE c  		on a.xmpd_guid =c.xmpd_guid  
+	            inner join 	XM_ROOM_INFO_DETAIL d 	on d.xmrid_guid=a.xmrid_guid 
+	            inner join  (select value_code,value_desc from sy_code  where type_id in (select type_id from sy_code_type where type_name='3010')) e on a.xmmpsp_meeting_role =e.value_code
+	         
+                        
+	       	 	where 1=1 
+							and  a.del_flag=0 
+							and  b.del_flag=0  
+							and  d.del_flag=0 
 				
 		]]> 	
 		<isNotEmpty prepend="and" property="xmmiGuid"> 
