@@ -84,14 +84,16 @@ public class HttpDownloadSupport {
 				Log.d(TAG, "localDir is : "+localDir); 
 				file.createNewFile();// 新建文件
 				output = new FileOutputStream(file); 
-				writeFile(input,output,docPathFile);
+				return writeFile(input,output,docPathFile);
 			}
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 			retFlag= 0;
+			return retFlag;
 		} catch (IOException e) {
 			e.printStackTrace();
 			retFlag= 0;
+			return retFlag;
 		} finally {
 			 
 		}
@@ -100,7 +102,7 @@ public class HttpDownloadSupport {
 		return retFlag;
 	}//end of downloadFile 
 	
-	private static  void writeFile(InputStream input,OutputStream output,String fileName){ 
+	private static  int writeFile(InputStream input,OutputStream output,String fileName){ 
 		long totalRead=0;
 		try { 
 			int bytesRead = 0;
@@ -120,8 +122,10 @@ public class HttpDownloadSupport {
 			Log.d(TAG, "[File("+fileName+") Download] totalReadInKB--->"+totalReadInKB+"  KB");
 		} catch (FileNotFoundException e) { 
 			e.printStackTrace();
+			return 0;
 		} catch (IOException e) { 
 			e.printStackTrace();
+			return 0;
 		}finally{
 			try {
 				output.flush();
@@ -131,6 +135,7 @@ public class HttpDownloadSupport {
 				e.printStackTrace();
 			} 
 		} 
+		return 1;
 	}
 
 }//end of HttpDownloadSupport
