@@ -275,9 +275,9 @@
 				padIdArray.push(padList[i].xmpdDeviceId);
 			}  
 			logger.info("padIdArray.toString--->"+padIdArray.toString());
-			deleteSendMsg(meetingGuid,padIdArray.toString());
+			entrySendMsg(meetingGuid,padIdArray.toString());
 			
-			alertMsg.correct('删除会议已经提交成功！')
+			alertMsg.correct('进入会议已经提交成功！')
 		
 		});
 		dtdXHR.fail(function(respJson){    
