@@ -19,6 +19,7 @@ public class XmMeetingInfoSearchVO {
 	public String xmmiDescription;
 	/** 会议状态 */
 	public String xmmiStatus;
+	private java.lang.String xmmiNavMeetingGuide; 
 	
 	
 	
@@ -84,6 +85,12 @@ public class XmMeetingInfoSearchVO {
 	}
 	public void setXmriGuid(java.lang.String xmriGuid) {
 		this.xmriGuid = xmriGuid;
+	}
+	public java.lang.String getXmmiNavMeetingGuide() {
+		return xmmiNavMeetingGuide;
+	}
+	public void setXmmiNavMeetingGuide(java.lang.String xmmiNavMeetingGuide) {
+		this.xmmiNavMeetingGuide = xmmiNavMeetingGuide;
 	}
 	
 	 
