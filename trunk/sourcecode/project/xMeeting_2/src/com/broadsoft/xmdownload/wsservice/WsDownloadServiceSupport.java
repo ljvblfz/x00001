@@ -5,12 +5,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 
 import com.broadsoft.xmcommon.androidconfig.DomAppConfigFactory;
 import com.broadsoft.xmcommon.androiddao.DaoHolder;
 import com.broadsoft.xmdownload.rsservice.RsServiceOnMeetingInfoSupport;
 import com.broadsoft.xmdownload.rsservice.RsServiceOnPadInfoSupport;
+import com.broadsoft.xmeeting.DownloadActivity;
+import com.broadsoft.xmeeting.LoginActivity;
 import com.broadsoft.xmeeting.uihandler.DownloadByWsUIHandler;
 import com.broadsoft.xmeeting.uihandler.DownloadOnlineStatusUIHandler;
 
@@ -215,6 +219,20 @@ public class WsDownloadServiceSupport {
 					for(String strTo:toList){
 						if(strTo.equals(padId)){ 
 							RsServiceOnPadInfoSupport.download();
+						}
+					} 
+				} else if("05".equals(msgtype)){//删除会议
+					for(String strTo:toList){
+						if(strTo.equals(padId)){ 
+							DaoHolder.getInstance().getDownloadInfoDao().deleteByMeetingId(meetingid);
+							DownloadByWsUIHandler.getInstance().sendDeleteMeetingInfoOnPad();
+						}
+					} 
+				} else if("06".equals(msgtype)){//进入会议
+					for(String strTo:toList){
+						if(strTo.equals(padId)){  
+							DaoHolder.getInstance().getDownloadInfoDao().activate(meetingid);
+							DownloadByWsUIHandler.getInstance().sendEntryMeetingInfoOnPad();
 						}
 					} 
 				} 

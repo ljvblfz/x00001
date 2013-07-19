@@ -77,13 +77,12 @@ public class DesktopActivity extends Activity implements Runnable  {
 	private List<String> citys;
 	private SharedPreferences preference;
 	private SoapObject detail;
-	private ArrayList<String> list;
-//	private int falg = 0;
+	private ArrayList<String> list; 
 	
 	/**
 	 * 其他控件
-	 */
-	
+	 */ 
+	private long timeOfRetry=20*1000;
 	private Handler handlerCheckingWifi = new Handler(); 
 	
 //	public Handler notifyUIHandler;
@@ -102,6 +101,7 @@ public class DesktopActivity extends Activity implements Runnable  {
 		textViewDisplayName.setText(memberDisplayName);
 		
 		//wifi设置
+		initWifiStatus();
 		handlerCheckingWifi.postDelayed(this, timeOfRetry); 
 		
 		//桌面按钮
@@ -118,6 +118,17 @@ public class DesktopActivity extends Activity implements Runnable  {
 		 
 	}
 
+	private void initWifiStatus() {
+		Log.d(TAG, "[initWifiStatus]begin.");
+		ImageView ivWifiIcon=(ImageView)findViewById(R.id.ivWifiIcon); 
+		if(isConnected()){
+			ivWifiIcon.setImageResource(R.drawable.wifi_on_64); 
+		}else{
+			ivWifiIcon.setImageResource(R.drawable.wifi_off_64);  
+		}
+		Log.d(TAG, "[initWifiStatus]end.");
+	}
+
 	
 	private boolean flagOnHandler=true;
 	protected boolean isConnected(){
@@ -130,17 +141,10 @@ public class DesktopActivity extends Activity implements Runnable  {
 		if(!flagOnHandler){
 			return;
 		}
-		Log.d(TAG, "[run]check the wifi status.");
-		ImageView ivWifiIcon=(ImageView)findViewById(R.id.ivWifiIcon); 
-		if(isConnected()){
-			ivWifiIcon.setImageResource(R.drawable.wifi_on_64); 
-		}else{
-			ivWifiIcon.setImageResource(R.drawable.wifi_off_64);  
-		}
+		initWifiStatus();
 		handlerCheckingWifi.postDelayed(this,timeOfRetry );
 	}
 	
-	private long timeOfRetry=20*1000;
 	
 	/**
 	 * Disable back key
@@ -425,7 +429,7 @@ public class DesktopActivity extends Activity implements Runnable  {
 			}
 		}
 
-//		new GetWheatherDataTask().execute();
+		new GetWheatherDataTask().execute();
 		Log.d(TAG, "initWeather end.");
 	}
 	

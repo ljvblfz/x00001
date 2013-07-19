@@ -96,11 +96,12 @@ public class MeetingInfoLVButtonAdapter extends BaseAdapter {
 			holder.tvMeetingStatus = (TextView) convertView
 					.findViewById(R.id.tvMeetingStatus);
 			holder.tvDownloadTime = (TextView) convertView
-					.findViewById(R.id.tvDownloadTime);
-
+					.findViewById(R.id.tvDownloadTime); 
 			//
 			holder.btnActivate = (Button) convertView
 					.findViewById(R.id.btnActivate);
+			holder.btnDelete = (Button) convertView
+					.findViewById(R.id.btnDelete);
 			holder.btnDownloadJsonInfo = (Button) convertView
 					.findViewById(R.id.btnDownloadJsonInfo);
 			holder.btnDownloadAllInfo = (Button) convertView.findViewById(R.id.btnDownloadAllInfo);
@@ -125,6 +126,8 @@ public class MeetingInfoLVButtonAdapter extends BaseAdapter {
 					strMeetingId));
 			holder.btnActivate.setOnClickListener(new LVBtnCommonListener("3",
 					strMeetingId));
+			holder.btnDelete.setOnClickListener(new LVBtnCommonListener("4",
+					strMeetingId));
 		}// end of if
 		return convertView;
 	} // end of getView
@@ -139,6 +142,7 @@ public class MeetingInfoLVButtonAdapter extends BaseAdapter {
 		Button btnDownloadJsonInfo;
 		Button btnDownloadAllInfo;
 		Button btnActivate;
+		Button btnDelete;
 	}
 
 	// =================button listener
@@ -166,6 +170,10 @@ public class MeetingInfoLVButtonAdapter extends BaseAdapter {
 			} else if ("3".equals(strType)) { 
 				//activate  
 				DaoHolder.getInstance().getDownloadInfoDao().activate(strMeetingId); 
+				DownloadByHandUIHandler.getInstance().sendActivateMessage(); 
+			}else if ("4".equals(strType)) { 
+				//activate  
+				DaoHolder.getInstance().getDownloadInfoDao().deleteByMeetingId(strMeetingId);
 				DownloadByHandUIHandler.getInstance().sendActivateMessage(); 
 			}
 		}

@@ -47,11 +47,12 @@
 
     <Button
         android:id="@+id/btnDownloadJsonInfo"
-        android:layout_width="200dip"
+        android:layout_width="100dip"
         android:layout_height="50dip"
         android:gravity="center"
-        android:text="同步会议人员和日程"
+        android:text="同步文字信息"
         android:textSize="20dip" />
+    
     <TextView
         android:id="@+id/tvSpace3"
         android:layout_width="20dip"
@@ -61,10 +62,10 @@
 
     <Button
         android:id="@+id/btnDownloadAllInfo"
-        android:layout_width="200dip"
+        android:layout_width="100dip"
         android:layout_height="50dip"
         android:gravity="center"
-        android:text="同步会议所有信息"
+        android:text="同步文字和文件"
         android:textSize="20dip" />
 
     <TextView
@@ -80,6 +81,19 @@
         android:layout_height="50dip"
         android:gravity="center"
         android:text="激活"
+        android:textSize="20dip" />
+    <TextView
+        android:id="@+id/tvSpace3"
+        android:layout_width="20dip"
+        android:layout_height="fill_parent"
+        android:text="" 
+        android:visibility="invisible" />
+    <Button
+        android:id="@+id/btnDelete"
+        android:layout_width="100dip"
+        android:layout_height="50dip"
+        android:gravity="center"
+        android:text="删除"
         android:textSize="20dip" />
 
 

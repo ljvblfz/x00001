@@ -4,6 +4,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 import com.broadsoft.xmcommon.androiddao.EntityInfoHolder;
 import com.broadsoft.xmcommon.appsupport.AppInitSupport;
 import com.broadsoft.xmdownload.adapter.MeetingInfoLVButtonAdapter;
+import com.broadsoft.xmeeting.LoginActivity;
 import com.broadsoft.xmeeting.R;
 
 
@@ -45,38 +48,42 @@ public class DownloadByWsUIHandler extends Handler {
 		return downloadUIHandler;
 	}
 
+	private static int REQUEST_CODE = 2; 
 	@Override
 	public void handleMessage(Message msg) {
 		Log.d(TAG, "handleMessage begin.  "+msg);
 		super.handleMessage(msg);
 		Bundle bundle = msg.getData();
-		String payload = bundle.getString("payload");
-		JSONObject jo;
+		String payload = bundle.getString("payload"); 
 		try {
-			jo = new JSONObject(payload);
+			JSONObject jo = new JSONObject(payload);
+			//更新提示信息
 			String statusinfo=jo.getString("statusinfo"); 
 			TextView tvDownloadStatus=(TextView)act.findViewById(R.id.textViewDownloadStatus);
-			tvDownloadStatus.setText(statusinfo);
+			tvDownloadStatus.setText(statusinfo); 
+			//reload data
 			if(jo.has("isfinish")){
-				String isfinish=jo.getString("isfinish");
+				String isfinish=jo.getString("isfinish");  
 				if("1".equals(isfinish)){
 					AppInitSupport.reloadEntity();
-					meetingListItemAdapter.reload(); 
-					if(jo.has("type")){
-						String type=jo.getString("type");
-						if("01".equals(type)){ //更新设备资产编号
-							try {
-								String padAssetCode=EntityInfoHolder.getInstance().getAssetCode(); 
-								TextView textViewDeviceCode=(TextView)act.findViewById(R.id.textViewDeviceCode);
-								textViewDeviceCode.setText(padAssetCode);
-							} catch (JSONException e) { 
-								e.printStackTrace();
-							}
-						} //end of if on 01
-					}
-				}//end of if
-			}//end of if isfinish
-
+					meetingListItemAdapter.reload();   
+				}
+			}//end of isfinish
+			//
+			if(jo.has("type")){
+					String type=jo.getString("type");   
+					if("06".equals(type)){ 
+		        		Intent intent = new Intent();
+		        		intent.setClass(act, LoginActivity.class); 
+		        		intent.setData(Uri.parse("one")); 
+		        		act.startActivityForResult(intent, REQUEST_CODE);// 以传递参数的方式跳转到下一个Activity 
+		        		act.finish();
+					}else if("01".equals(type)){ //更新设备资产编号 
+						String padAssetCode=EntityInfoHolder.getInstance().getAssetCode(); 
+						TextView textViewDeviceCode=(TextView)act.findViewById(R.id.textViewDeviceCode);
+						textViewDeviceCode.setText(padAssetCode); 
+					} //end of if on 01
+			} //end of type
 		} catch (JSONException e) { 
 			e.printStackTrace();
 		}    
@@ -168,6 +175,31 @@ public class DownloadByWsUIHandler extends Handler {
 			jsonMessage.put("type", "03");
 			jsonMessage.put("statusinfo", "激活会议完成");
 			jsonMessage.put("isfinish", "1");
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		sendJsonMessage(jsonMessage);
+	}
+	//================================删除会议
+	public void sendDeleteMeetingInfoOnPad() {
+        JSONObject jsonMessage=new JSONObject();
+        try {
+			jsonMessage.put("type", "05");
+			jsonMessage.put("statusinfo", "删除会议完成");
+			jsonMessage.put("isfinish", "1");
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		sendJsonMessage(jsonMessage);
+	}
+	//================================删除会议
+	public void sendEntryMeetingInfoOnPad() {
+        JSONObject jsonMessage=new JSONObject();
+        try {
+			jsonMessage.put("type", "06");
+			jsonMessage.put("statusinfo", "进入会议完成"); 
 		} catch (JSONException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
