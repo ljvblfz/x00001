@@ -18,7 +18,7 @@ public class XmCompanyInfoDaoImpl extends
 		DefaultBaseDaoImpl<XmCompanyInfo, java.lang.String> {
 
 	public List<XmCompanyInfo> findAllActivateInfo() {
-		String hql = " from XmCompanyInfo a where a.xmciStatus='1'";
+		String hql = " from XmCompanyInfo a where a.xmciStatus='1' and a.delFlag=0 ";
 		List<XmCompanyInfo> listOfXmCompanyInfo = super.findByHql(hql);
 		return listOfXmCompanyInfo;
 	}
