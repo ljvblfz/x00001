@@ -1,14 +1,12 @@
 package com.broadsoft.xmeeting;
  
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -16,7 +14,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -27,7 +24,6 @@ import com.broadsoft.xmcommon.androidutil.AndroidIdSupport;
 import com.broadsoft.xmcommon.appsupport.AppInitSupport;
 import com.broadsoft.xmdownload.adapter.MeetingInfoLVButtonAdapter;
 import com.broadsoft.xmdownload.rsservice.RsServiceOnPadInfoSupport;
-import com.broadsoft.xmdownload.wsservice.WsControllerServiceSupport;
 import com.broadsoft.xmdownload.wsservice.WsDownloadServiceSupport;
 import com.broadsoft.xmeeting.uihandler.DownloadByHandUIHandler;
 import com.broadsoft.xmeeting.uihandler.DownloadByWsUIHandler;
