@@ -1,6 +1,8 @@
 var wsDownload = null;
+var downloadPadId=null;
 
 function downloadLoginWS(padId) {
+	downloadPadId=padId;
 	//padId = "system"; // 用户名
 	logger.info("downloadLoginWS begin");
 	var roleName = "personnel";// 人员
@@ -88,7 +90,7 @@ function activateSendMsg(meetingId,to) {
 }
 
 
-
+//下载设备信息
 function padinfoSendMsg(to) {
 	var message = new Object(); 
 	// 
@@ -102,11 +104,37 @@ function padinfoSendMsg(to) {
 
 
 
-function companyinfoSendMsg(to) {
+/*function companyinfoSendMsg(to) {
 	var message = new Object();  
 	//下载
 	message.msgtype = '04';  
 	message.to = to;
 	logger.info("companyinfoSendMsg content: " + JSON.stringify(message));
+	wsDownload.send(JSON.stringify(message));
+}*/
+
+
+
+function deleteSendMsg(meetingId,to) {
+	var message = new Object(); 
+	//
+	message.meetingid = meetingId;
+	//下载
+	message.msgtype = '05';  
+	message.to = to;
+	logger.info("deleteSendMsg content: " + JSON.stringify(message));
+	wsDownload.send(JSON.stringify(message));
+}
+
+
+
+function entrySendMsg(meetingId,to) {
+	var message = new Object(); 
+	//
+	message.meetingid = meetingId;
+	//下载
+	message.msgtype = '06';  
+	message.to = to;
+	logger.info("entrySendMsg content: " + JSON.stringify(message));
 	wsDownload.send(JSON.stringify(message));
 }
