@@ -60,6 +60,10 @@ public class DownloadByHandUIHandler extends Handler {
 			AppInitSupport.reloadEntity();
 			meetingInfoLVButtonAdapter.reload(); 
 			Toast.makeText(act, "会议信息激活.", Toast.LENGTH_LONG).show();  
+		} else if("delete".equals(downloadinfo)){//激活会议
+			AppInitSupport.reloadEntity();
+			meetingInfoLVButtonAdapter.reload(); 
+			Toast.makeText(act, "会议信息删除.", Toast.LENGTH_LONG).show();  
 		} 
 		Log.d(TAG, "handleMessage end");
 	}
@@ -138,6 +142,16 @@ public class DownloadByHandUIHandler extends Handler {
         try {
 			jsonMessage.put("type", "06");
 			jsonMessage.put("statusinfo", "activate");
+		} catch (JSONException e1) { 
+			e1.printStackTrace();
+		}
+		sendJsonMessage(jsonMessage);
+	}	
+	public void sendDeleteMessage() {
+        JSONObject jsonMessage=new JSONObject();
+        try {
+			jsonMessage.put("type", "06");
+			jsonMessage.put("statusinfo", "delete");
 		} catch (JSONException e1) { 
 			e1.printStackTrace();
 		}

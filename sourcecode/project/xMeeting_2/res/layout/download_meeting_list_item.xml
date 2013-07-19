@@ -14,7 +14,7 @@
         android:textSize="20dip" />
     <TextView
         android:id="@+id/tvMeetingTitle"
-        android:layout_width="300dip"
+        android:layout_width="250dip"
         android:layout_height="fill_parent"
         android:gravity="center_vertical"
         android:text="会议名称"
@@ -47,7 +47,7 @@
 
     <Button
         android:id="@+id/btnDownloadJsonInfo"
-        android:layout_width="100dip"
+        android:layout_width="150dip"
         android:layout_height="50dip"
         android:gravity="center"
         android:text="同步文字信息"
@@ -62,7 +62,7 @@
 
     <Button
         android:id="@+id/btnDownloadAllInfo"
-        android:layout_width="100dip"
+        android:layout_width="150dip"
         android:layout_height="50dip"
         android:gravity="center"
         android:text="同步文字和文件"
