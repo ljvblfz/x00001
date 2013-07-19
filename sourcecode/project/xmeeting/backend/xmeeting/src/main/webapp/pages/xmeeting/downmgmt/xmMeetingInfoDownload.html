@@ -26,7 +26,9 @@
 		<ul class="toolBar">
 			<!--  -->
 			<li><a class="edit"  rel="userNav12" href="javascript:xmMeetingInfoDownloadDownload();"     title="发起下载"   		multiable="no" warn="请选择一条记录"><span>发起下载</span></a></li>
-			<li><a class="edit"  rel="userNav13" href="javascript:xmMeetingInfoDownloadActivate();"     title="激活设备"   		multiable="no" warn="请选择一条记录"><span>激活设备</span></a></li>
+			<li><a class="edit"  rel="userNav13" href="javascript:xmMeetingInfoDownloadActivate();"     title="激活会议"   		multiable="no" warn="请选择一条记录"><span>激活会议</span></a></li>
+			<li><a class="edit"  rel="userNav13" href="javascript:xmMeetingInfoDownloadDelete();"     title="删除会议"   			multiable="no" warn="请选择一条记录"><span>删除会议</span></a></li>
+			<li><a class="edit"  rel="userNav13" href="javascript:xmMeetingInfoDownloadEntry();"     title="进入会议"   			multiable="no" warn="请选择一条记录"><span>进入会议</span></a></li>
 			<li class="line">line</li>
 			<li><a class="edit" target="navTab" rel="userNav14" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/downmgmt/xmMeetingInfoDownloadStatus.html?xmmiGuid={slt_uid}');" title="设备下载状态"   		multiable="no" warn="请选择一条记录"><span>设备下载状态</span></a></li>
 			
@@ -164,8 +166,7 @@
 		
 	}
 	
-	//xmMeetingInfoDownloadActivate
-	
+	//xmMeetingInfoDownloadActivate 
 	function xmMeetingInfoDownloadActivate(){ 
 		logger.info("xmMeetingInfoDownloadActivate begin");
 		
@@ -178,8 +179,111 @@
 			  }//end of if
 			  
 		}); 
-		logger.info("xmMeetingInfoDownloadActivate end");
+		logger.info("xmMeetingInfoDownloadActivate end"); 
+	}
+	
+	
+	//xmMeetingInfoDownloadActivate 
+	function xmMeetingInfoDownloadDelete(){ 
+		logger.info("xmMeetingInfoDownloadDelete begin");
 		
+		$("input[name='xmmiGuids']").each(function() {
+			  var attrChecked=$(this).attr("checked");
+			  var meetingGuid=$(this).attr("value");
+			  //logger.info("each ......attrChecked===>"+attrChecked+"    meetingGuid===>"+meetingGuid);
+			  if(attrChecked){
+				  xmMeetingInfoDeletePadAndroidID(meetingGuid);
+			  }//end of if
+			  
+		}); 
+		logger.info("xmMeetingInfoDownloadDelete end"); 
+	}
+	
+	
+	function xmMeetingInfoDeletePadAndroidID(meetingGuid){
+		logger.info("xmMeetingInfoActivatePadAndroidID begin  meetingGuid====>"+meetingGuid);
+		var urlx=getURL(CPATH.domain_3,"/rs/getPadIdsByMeetingIdResource/"+meetingGuid);
+		
+		
+		dtdXHR = $.ajax({
+			  type: "GET",
+			  url: urlx,
+			  dataType: "json",
+			  cache:false,
+			  global:false
+		});
+			
+		dtdXHR.done(function(respJson){    
+			logger.info("done--->"+respJson);
+			
+			var padList=respJson.jsonData.listOfXmMeetingPadIVO; 
+			
+			var padIdArray=new Array();
+			for(var i=0;i<padList.length;i++){
+				padIdArray.push(padList[i].xmpdDeviceId);
+			}  
+			logger.info("padIdArray.toString--->"+padIdArray.toString());
+			deleteSendMsg(meetingGuid,padIdArray.toString());
+			
+			alertMsg.correct('删除会议已经提交成功！')
+		
+		});
+		dtdXHR.fail(function(respJson){    
+			logger.info("fail--->"+respJson);
+			//alertMsg.error('激活会议已经提交失败！')
+		});
+		
+	}
+	
+	
+	function xmMeetingInfoDownloadEntry(){ 
+		logger.info("xmMeetingInfoDownloadEntry begin");
+		
+		$("input[name='xmmiGuids']").each(function() {
+			  var attrChecked=$(this).attr("checked");
+			  var meetingGuid=$(this).attr("value");
+			   logger.info("each ......attrChecked===>"+attrChecked+"    meetingGuid===>"+meetingGuid);
+			  if(attrChecked){
+				  xmMeetingInfoEntryPadAndroidID(meetingGuid);
+			  }//end of if
+			  
+		}); 
+		logger.info("xmMeetingInfoDownloadEntry end"); 
+	}
+	
+	
+	function xmMeetingInfoEntryPadAndroidID(meetingGuid){
+		logger.info("xmMeetingInfoEntryPadAndroidID    meetingGuid====>"+meetingGuid);
+		var urlx=getURL(CPATH.domain_3,"/rs/getPadIdsByMeetingIdResource/"+meetingGuid);
+		
+		
+		dtdXHR = $.ajax({
+			  type: "GET",
+			  url: urlx,
+			  dataType: "json",
+			  cache:false,
+			  global:false
+		});
+			
+		dtdXHR.done(function(respJson){    
+			logger.info("done--->"+respJson);
+			
+			var padList=respJson.jsonData.listOfXmMeetingPadIVO; 
+			
+			var padIdArray=new Array();
+			for(var i=0;i<padList.length;i++){
+				padIdArray.push(padList[i].xmpdDeviceId);
+			}  
+			logger.info("padIdArray.toString--->"+padIdArray.toString());
+			deleteSendMsg(meetingGuid,padIdArray.toString());
+			
+			alertMsg.correct('删除会议已经提交成功！')
+		
+		});
+		dtdXHR.fail(function(respJson){    
+			logger.info("fail--->"+respJson);
+			//alertMsg.error('激活会议已经提交失败！')
+		});
 		
 	}
 	
@@ -210,11 +314,12 @@
 			logger.info("padIdArray.toString--->"+padIdArray.toString());
 			activateSendMsg(meetingGuid,padIdArray.toString());
 			
-			alertMsg.correct('激活设备已经提交成功！')
+			alertMsg.correct('激活会议已经提交成功！')
 		
 		});
 		dtdXHR.fail(function(respJson){    
 			logger.info("fail--->"+respJson);
+			//alertMsg.error('激活会议已经提交失败！')
 		});
 		
 	}
