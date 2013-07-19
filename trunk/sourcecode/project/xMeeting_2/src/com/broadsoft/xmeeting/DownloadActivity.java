@@ -5,6 +5,7 @@ import org.json.JSONException;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -77,8 +78,10 @@ public class DownloadActivity extends Activity implements Runnable{
 		TextView tvValueWifiStatus=(TextView)this.findViewById(R.id.tvValueWifiStatus);
     	if(isConnected()){ 
     		tvValueWifiStatus.setText("Wifi连接成功!");
+    		tvValueWifiStatus.setTextColor(Color.GREEN);
     	}else{
     		tvValueWifiStatus.setText("Wifi连接失败!");
+    		tvValueWifiStatus.setTextColor(Color.RED);
 		}
 
 		handlerCheckingWifi.postDelayed(this,timeOfRetry );
@@ -153,8 +156,10 @@ public class DownloadActivity extends Activity implements Runnable{
 		TextView tvValueWifiStatus=(TextView)this.findViewById(R.id.tvValueWifiStatus);
     	if(isConnected()){ 
     		tvValueWifiStatus.setText("Wifi连接成功!");
+    		tvValueWifiStatus.setTextColor(Color.GREEN);
     	}else{
     		tvValueWifiStatus.setText("Wifi连接失败!");
+    		tvValueWifiStatus.setTextColor(Color.RED);
 		}
 		handlerCheckingWifi.postDelayed(this,timeOfRetry );
 	}

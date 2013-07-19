@@ -159,8 +159,7 @@ public class MeetingInfoLVButtonAdapter extends BaseAdapter {
 
 		@Override
 		public void onClick(View v) {
-			Log.d(TAG, "type is :  " + strType + " ----meeting id is: "
-					+ strMeetingId);
+			Log.d(TAG, "type is :  " + strType + " ----meeting id is: " + strMeetingId);
 			if ("1".equals(strType)) {
 				//download json info
 				RsServiceOnMeetingInfoSupport.downloadByType(RsServiceOnMeetingInfoSupport.TYPE_DOWNLOAD_WITHOUT_FILE,strMeetingId); 
@@ -172,9 +171,9 @@ public class MeetingInfoLVButtonAdapter extends BaseAdapter {
 				DaoHolder.getInstance().getDownloadInfoDao().activate(strMeetingId); 
 				DownloadByHandUIHandler.getInstance().sendActivateMessage(); 
 			}else if ("4".equals(strType)) { 
-				//activate  
+				//delete  
 				DaoHolder.getInstance().getDownloadInfoDao().deleteByMeetingId(strMeetingId);
-				DownloadByHandUIHandler.getInstance().sendActivateMessage(); 
+				DownloadByHandUIHandler.getInstance().sendDeleteMessage();
 			}
 		}
 	}// end of LVBtnCommonListener 

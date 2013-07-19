@@ -6,6 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -48,9 +49,11 @@ public class DownloadOnlineStatusUIHandler extends Handler {
 			if(jo.has("status")){ 
 				String status=jo.getString("status");
 				if("1".equals(status)){//在线
-					tvOnlineStatus.setText("在线");
+					tvOnlineStatus.setText("在线"); 
+					tvOnlineStatus.setTextColor(Color.GREEN);
 				} else{//离线
 					tvOnlineStatus.setText("离线");
+					tvOnlineStatus.setTextColor(Color.RED);
 					
 				}
 			}//end of if
