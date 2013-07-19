@@ -101,6 +101,16 @@ public class DownloadInfoDao extends DownloadInfoConstant implements
 		return (count > 0 ? true : false);
 	}
 	
+	
+	public boolean deleteByMeetingId(String meetingId) {
+		SQLiteDatabase db = sqliteOpenHelperSupport.getWritableDatabase();
+		// deleting row
+		int count = db.delete(TABLE_DOWNLOADINFO, COLUMN_MEETING_ID + " = ?",
+				new String[] { String.valueOf(meetingId) });
+		db.close();
+		return (count > 0 ? true : false);
+	}
+	
 
 
 	@Override
