@@ -23,6 +23,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -67,7 +68,7 @@ public class WaiterMainActivity extends Activity {
     private List<Map<String, Object>> chatData;
 	private ListView chatListView;
 	
-	private String meetingId="testmeeting";
+	private String meetingId=null;
 	
 
     private TodoListAdapter adapter = null;
@@ -82,11 +83,8 @@ public class WaiterMainActivity extends Activity {
 
 
 	private ListView toDoListView = null; 
-    private List<ToDoEntity> toDoData = new ArrayList<ToDoEntity>(); 
-    private List<String> toDoTagData = new ArrayList<String>(); 
-    
-
-    
+//    private List<ToDoEntity> toDoData = new ArrayList<ToDoEntity>(); 
+//    private List<String> toDoTagData = new ArrayList<String>(); 
     
     private Button btnBack;
     
@@ -95,7 +93,8 @@ public class WaiterMainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ship_info);
 
-        
+
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         
         new AppInitSupport().initApp(getApplicationContext(), getAssets());
 
@@ -554,6 +553,7 @@ public class WaiterMainActivity extends Activity {
 //            }else{                     
                 view = LayoutInflater.from(getContext()).inflate(R.layout.todolist_item, null);
 
+//    			System.out.println(getItem(position).getType()+getItem(position).getTodoId()+"****11111*************************"+getItem(position).isChecked());
                 
                 ((TextView)view.findViewById(R.id.textView2)).setText(getItem(position).getType());
 //                ((ImageView)view.findViewById(R.id.head)).setImageResource(getItem(position).getType().equals("2")?R.drawable.bookpen2:R.drawable.coffee2);
@@ -576,16 +576,19 @@ public class WaiterMainActivity extends Activity {
                 if(getItem(position).isChecked()){
             		toggleButton.setChecked(true); 
                 }
-                toggleButton.setOnCheckedChangeListener(new OnCheckedChangeListener(){
-                	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) { 
-                		if(!isChecked){
-                			//TODO set task status to done
-                			System.out.println(getItem(position).getTodoId()+"*****************************");
-                    		toggleButton.setChecked(true); 
-                		}
-                	}
-                });
-                 
+                toggleButton.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						if(!getItem(position).isChecked()){
+	            			//TODO set task status to done
+//	            			System.out.println(getItem(position).getTodoId()+"*****************************"+getItem(position).isChecked());
+	                		toggleButton.setChecked(true); 
+	                		ToDoUIHandler.getInstance().setCheck(true, position+1);
+	                		getItem(position).setChecked(true);
+						}
+            		}
+				}); 
                 
 //            } 
             TextView textView = (TextView) view.findViewById(R.id.group_list_item_text); 
@@ -636,21 +639,36 @@ public class WaiterMainActivity extends Activity {
     			protected String[] doInBackground(Void... params) { 
     				//Get waiter infomation
     				try {
-    					System.out.println(RsServiceOnWaiterInfoSupport.requestWaiterInfo()+"----RsServiceOnWaiterInfoSupport.requestWaiterInfo()-----");
-    					JSONObject  waiterObj = RsServiceOnWaiterInfoSupport.requestWaiterInfo();
-    					int i = 0;
-    					while(null==waiterObj && i<10){
-    						waiterObj=RsServiceOnWaiterInfoSupport.requestWaiterInfo();
-    						i++;
-    					}
+    					Log.d(this.getClass().getName(),RsServiceOnWaiterInfoSupport.requestWaiterInfo()+"----RsServiceOnWaiterInfoSupport.requestWaiterInfo()-----");
+    					JSONObject  waiterObj =  null ;
+//    						waiterObj = RsServiceOnWaiterInfoSupport.requestWaiterInfo();
+	    					int i = 0;
+	    					while(null==waiterObj && i<10){
+	    						try{
+	    							waiterObj=RsServiceOnWaiterInfoSupport.requestWaiterInfo();
+		    					}catch(Exception ae){
+//		    						ae.printStackTrace();
+		    					}
+//	    						Log.d(this.getClass().getName(), "============requestWaiterInfo times============="+i);
+//	    						Log.d(this.getClass().getName(), "============waiterObj============="+waiterObj);
+	    						i++;
+	    					}
+    					
     					if(waiterObj==null){
     						finish();
     					}
-    					jsobj = waiterObj.getJSONObject("jsonData");
-    					meetingId = jsobj.getJSONObject("xervicePersonnelPadIVO").getJSONArray("list").getJSONObject(0).getString("xmmiGuid");
-    					xmmiName = jsobj.getJSONObject("xervicePersonnelPadIVO").getJSONArray("list").getJSONObject(0).getString("xmmiName");
-    					memberId = jsobj.getJSONObject("xervicePersonnelPadIVO").getJSONArray("list").getJSONObject(0).getString("xmpiGuid");
-    					memberDisplayName = jsobj.getJSONObject("xervicePersonnelPadIVO").getJSONArray("list").getJSONObject(0).getString("xmpiName");
+//    					if(null!=jsobj){
+	    					jsobj = waiterObj.getJSONObject("jsonData");
+							Log.d(this.getClass().getName(), "============jsobj============="+jsobj);
+	    					meetingId = jsobj.getJSONObject("xervicePersonnelPadIVO").getJSONArray("list").getJSONObject(0).getString("xmmiGuid");
+	    					xmmiName = jsobj.getJSONObject("xervicePersonnelPadIVO").getJSONArray("list").getJSONObject(0).getString("xmmiName");
+	    					memberId = jsobj.getJSONObject("xervicePersonnelPadIVO").getJSONArray("list").getJSONObject(0).getString("xmpiGuid");
+	    					memberDisplayName = jsobj.getJSONObject("xervicePersonnelPadIVO").getJSONArray("list").getJSONObject(0).getString("xmpiName");
+//    					}
+//						Log.d(this.getClass().getName(), "============meetingId============="+meetingId);
+//						Log.d(this.getClass().getName(), "============xmmiName============="+xmmiName);
+//						Log.d(this.getClass().getName(), "============memberId============="+memberId);
+//						Log.d(this.getClass().getName(), "============memberDisplayName============="+memberDisplayName);
     				} catch (JSONException e) {
     					e.printStackTrace();
     				}
@@ -685,7 +703,8 @@ public class WaiterMainActivity extends Activity {
     			
     			@Override
     			protected void onPostExecute(String[] result) { 
-    				((TextView)findViewById(R.id.textView1)).setText("服务工作台("+xmmiName+")_"+AndroidIdSupport.getAndroidID() + " "+memberDisplayName);
+    				((TextView)findViewById(R.id.textView1)).setText("服务工作台("+xmmiName+")_"+AndroidIdSupport.getAndroidID());
+    				((TextView)findViewById(R.id.offlineTipText1)).setText(memberDisplayName);
     				simpleAdapter.notifyDataSetChanged();
     	  		}   
     	    }//end of RequestWaiterInfoTask

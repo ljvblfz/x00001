@@ -1,7 +1,9 @@
 package com.xmeeting;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +41,7 @@ public class ChatActivity extends Activity implements OnClickListener{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         //参与发送消息的宾客座位
         position=intent.getStringExtra("name_title"); 
         meetingId=intent.getStringExtra("meetingId"); 
@@ -163,20 +166,9 @@ public class ChatActivity extends Activity implements OnClickListener{
 	
 	
     private String getDate() {
-        Calendar c = Calendar.getInstance();
-
-        String year = String.valueOf(c.get(Calendar.YEAR));
-        String month = String.valueOf(c.get(Calendar.MONTH));
-        String day = String.valueOf(c.get(Calendar.DAY_OF_MONTH) + 1);
-        String hour = String.valueOf(c.get(Calendar.HOUR_OF_DAY));
-        String mins = String.valueOf(c.get(Calendar.MINUTE));
-        
-        
-        StringBuffer sbBuffer = new StringBuffer();
-        sbBuffer.append(year + "-" + month + "-" + day + " " + hour + ":" + mins); 
+        SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");						
         						
-        						
-        return sbBuffer.toString();
+        return sdf.format(new Date());
     }
     
     

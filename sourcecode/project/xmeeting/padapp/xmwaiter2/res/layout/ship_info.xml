@@ -13,11 +13,20 @@
         <Button
             android:id="@+id/btnFun"
             android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_alignParentRight="true"
+            android:layout_height="28dp" 
+            android:layout_toLeftOf="@+id/offlineTipText1"
             android:layout_centerVertical="true"
-            android:background="@drawable/v5_0_1_flipper_head_menu" />
-
+            android:background="@drawable/offline_64" />
+		<TextView
+            android:id="@+id/offlineTipText1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:paddingLeft="5dp"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/white" />
         <ImageView
             android:id="@+id/imageView3"
             android:layout_width="wrap_content"

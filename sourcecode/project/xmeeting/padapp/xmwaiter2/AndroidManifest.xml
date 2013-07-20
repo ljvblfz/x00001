@@ -80,7 +80,8 @@
         android:theme="@android:style/Theme.NoTitleBar" >
         <activity
             android:name="com.xmeeting.ViewGroupActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:screenOrientation="portrait" >
             
             
         </activity>
@@ -88,7 +89,9 @@
        
                 
         <activity android:name="com.xmeeting.WaiterMainActivity"
-            android:label="会议服务">
+            android:label="会议服务"
+            android:screenOrientation="portrait" 
+            >
              <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -100,7 +103,8 @@
         
     	<activity
             android:name="com.xmeeting.ChatActivity" 
-            android:theme="@android:style/Theme.NoTitleBar">
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:screenOrientation="portrait" >
         </activity> 
         
     	
