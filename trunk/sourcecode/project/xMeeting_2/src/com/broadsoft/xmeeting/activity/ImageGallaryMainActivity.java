@@ -108,13 +108,17 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
        InitTopbarAndBack();
     }
-	
+
+	private int backCount=0;
 	private void InitTopbarAndBack() {
 		( (Button) this.findViewById(R.id.btnBack) ).setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				finish(); 
+				backCount++; 
+				if(backCount==1){
+					finish();	
+				} 
 			}
 		});
 	}

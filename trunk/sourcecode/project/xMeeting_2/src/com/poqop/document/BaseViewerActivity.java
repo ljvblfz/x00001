@@ -83,13 +83,17 @@ public abstract class BaseViewerActivity extends Activity implements DecodingPro
         InitTopbarAndBack();
     }
 
+	private int backCount=0;
 	private void InitTopbarAndBack()
 	{
 		( (Button) this.findViewById(R.id.btnBack) ).setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				finish();
+				backCount++; 
+				if(backCount==1){
+					finish();	
+				} 
 			}
 		});
 	}

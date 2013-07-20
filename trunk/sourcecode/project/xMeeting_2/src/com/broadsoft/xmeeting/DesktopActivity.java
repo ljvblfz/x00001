@@ -349,29 +349,33 @@ public class DesktopActivity extends Activity implements Runnable  {
 			// Call onRefreshComplete when the list has been refreshed.
 			Intent intent = new Intent();
 			switch (flag) {
-			case 1:
-				intent.setClass(act, CompanyInfoActivity.class);// 指定了跳转前的Activity和跳转后的Activity
-				break;
-			case 2:
-				intent.setClass(act, MeetingGuideCatalogActivity.class);// 指定了跳转前的Activity和跳转后的Activity
-				break;
-			case 3:
-				intent.setClass(act, CallOutActivity.class);// 指定了跳转前的Activity和跳转后的Activity
-				break;
-			case 4:
-				intent.setClass(act, DocumentsListActivity.class);// 指定了跳转前的Activity和跳转后的Activity
-				break;
-			case 5:
-				intent.setClass(act, ImageGallaryMainActivity.class);// 指定了跳转前的Activity和跳转后的Activity
-				break;
-			case 6:
-				intent.setClass(act, VideosListActivity.class);// 指定了跳转前的Activity和跳转后的Activity
-				break;
-			case 7:
-				intent.setClass(act, SysSettingActivity.class);// 指定了跳转前的Activity和跳转后的Activity
-			case 8:
-				intent.setClass(act, NotificationListActivity.class);// 指定了跳转前的Activity和跳转后的Activity
-			}
+				case 1:
+					intent.setClass(act, CompanyInfoActivity.class);// 指定了跳转前的Activity和跳转后的Activity
+					break;
+				case 2:
+					intent.setClass(act, MeetingGuideCatalogActivity.class);// 指定了跳转前的Activity和跳转后的Activity
+					break;
+				case 3:
+					intent.setClass(act, CallOutActivity.class);// 指定了跳转前的Activity和跳转后的Activity
+					break;
+				case 4:
+					intent.setClass(act, DocumentsListActivity.class);// 指定了跳转前的Activity和跳转后的Activity
+					break;
+				case 5:
+					intent.setClass(act, ImageGallaryMainActivity.class);// 指定了跳转前的Activity和跳转后的Activity
+					break;
+				case 6:
+					intent.setClass(act, VideosListActivity.class);// 指定了跳转前的Activity和跳转后的Activity
+					break;
+				case 7:
+					intent.setClass(act, SysSettingActivity.class);// 指定了跳转前的Activity和跳转后的Activity
+					break;
+				case 8:
+					intent.setClass(act, NotificationListActivity.class);// 指定了跳转前的Activity和跳转后的Activity 
+					MyImageView mivMessage=(MyImageView)act.findViewById(R.id.btnMessage);
+					mivMessage.setImageResource(R.drawable.s_message);
+					break;
+			}//end of switch
 
 			startActivity(intent);// 以传递参数的方式跳转到下一个Activity
 

@@ -55,8 +55,8 @@ public class WsControllerServiceSupport {
 		this.memberId=memberId;
 		this.memberDisplayName=memberDisplayName;
 		String serveripport=DomAppConfigFactory.getAppConfig().getServeripport();
-		this.wspath="ws://"+serveripport+"/websocket/ws/controller?meetingId=" + meetingId + "&memberId=" + memberId + "&memberDisplayName=" + memberDisplayName;
-//		this.wspath="ws://"+serveripport+"/websocket/ws/controller?meetingId=" + meetingId + "&memberId=" + memberId ;
+//		this.wspath="ws://"+serveripport+"/websocket/ws/controller?meetingId=" + meetingId + "&memberId=" + memberId + "&memberDisplayName=" + memberDisplayName;
+		this.wspath="ws://"+serveripport+"/websocket/ws/controller?meetingId=" + meetingId + "&memberId=" + memberId ;
 	}
  
  
@@ -135,14 +135,7 @@ public class WsControllerServiceSupport {
 	private void reconnect(){
 		Log.d(TAG, "reconnect begin."); 
 		if(null!=client){
-			Log.d(TAG, "connect status: "+client.isConnected()); 
-//			disconnect();
-//			try {
-//				Thread.sleep(10*1000);
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
+			Log.d(TAG, "connect status: "+client.isConnected());  
 			connect();
 		}
 		Log.d(TAG, "reconnect end."); 

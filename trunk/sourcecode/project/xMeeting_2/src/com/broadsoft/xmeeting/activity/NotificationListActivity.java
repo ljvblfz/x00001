@@ -1,11 +1,14 @@
 package com.broadsoft.xmeeting.activity;
 
 
+ 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -76,11 +79,16 @@ public class NotificationListActivity extends Activity {
 
 	 
 	
+	private int backCount=0;
 	private void initTopbarAndBack(){
 		( (Button) this.findViewById(R.id.btnBack) ).setOnClickListener(new View.OnClickListener() { 
 			@Override
 			public void onClick(View v) {
-				finish(); 
+				backCount++;
+				Log.d(TAG, "backCount is: "+backCount);
+				if(backCount==1){
+					finish();	
+				} 
 			}
 		});
 	}//end of initTopbarAndBack
