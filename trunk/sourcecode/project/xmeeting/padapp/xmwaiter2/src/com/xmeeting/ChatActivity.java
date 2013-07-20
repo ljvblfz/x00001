@@ -59,6 +59,12 @@ public class ChatActivity extends Activity implements OnClickListener{
         
     }
     
+    @Override
+    protected void onDestroy() {
+    	// TODO Auto-generated method stub
+    	super.onDestroy();
+    	NotifyUIHandler.getInstance().destory();
+    }
     
     public void initView()
     {
@@ -90,7 +96,7 @@ public class ChatActivity extends Activity implements OnClickListener{
 //    private final static int COUNT = 8;
     public void initData()
     {
-    	mDataArrays=NotifyHandle.getInstance().getChatMsgList(position, meetingId);
+    	mDataArrays.addAll(NotifyHandle.getInstance().getChatMsgList(position, meetingId));
     	
 //    	for(int i = 0; i < COUNT; i++)
 //    	{
@@ -152,10 +158,13 @@ public class ChatActivity extends Activity implements OnClickListener{
 		entity.setText(contString);
 		System.out.println("--------------------------2");
 		mDataArrays.add(entity);
-		System.out.println("--------------------------3");
+		System.out.println("--------------------------3.1");
+//		mDataArrays = NotifyHandle.getInstance().getChatMsgList(position, meetingId);
+//		mAdapter = null;
+//		mAdapter = new ChatMsgViewAdapter(this, mDataArrays);
 		mAdapter.notifyDataSetChanged();
-		System.out.println("--------------------------4");
 		NotifyHandle.getInstance().storeMsg(position, meetingId, entity);
+		System.out.println("--------------------------4");
 		System.out.println("--------------------------5");
 		mEditTextContent.setText("");
 		System.out.println("--------------------------6");
