@@ -29,6 +29,7 @@ public class NotifyUIHandler extends Handler {
 	
 	
 	public static void init(Activity act){
+		System.out.println("======================notifyUIHandler====================="+notifyUIHandler);
 		if(null==notifyUIHandler){
 			notifyUIHandler=new NotifyUIHandler(act);
 		} 
@@ -44,8 +45,10 @@ public class NotifyUIHandler extends Handler {
 	public void handleMessage(Message msg) {
 		Log.d(TAG, "handleMessage begin");
 		super.handleMessage(msg);
+		System.out.println("============================receivesuccess1=======================");
 		Bundle bundle = msg.getData();
 		String payload = bundle.getString("payload");
+		System.out.println("============================receivesuccess2======================="+payload);
 		try {
 			JSONObject jo = new JSONObject(payload);
 
@@ -103,6 +106,10 @@ public class NotifyUIHandler extends Handler {
 		builder.create().show();
 	}
 	
+	
+	public void destory(){
+		notifyUIHandler=null;
+	}
 	
 //	private ArrayList<String> messageList=new ArrayList<String>();
 //	public ArrayList<String> getMessageList() {

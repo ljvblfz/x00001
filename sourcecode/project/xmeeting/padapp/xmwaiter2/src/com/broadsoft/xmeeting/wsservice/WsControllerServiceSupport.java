@@ -103,6 +103,7 @@ public class WsControllerServiceSupport {
 			e.printStackTrace();
 		}
 		sendMessage(jsonMessage.toString());
+		System.out.println("============================sendsuccess=======================");
 	}//end of sendCallServiceMessage
 	
 	
@@ -140,9 +141,9 @@ public class WsControllerServiceSupport {
 	}
 
 
-	private int truecount=0;
-
-	private int falsecount=0;
+//	private int truecount=0;
+//
+//	private int falsecount=0;
 	
 	/**
 	 * 
@@ -150,11 +151,11 @@ public class WsControllerServiceSupport {
 	 */
 	private void sendMessage(String msg){ 
 //		Looper.prepare(); 
-		if(client.isConnected()){
-			truecount++;
-		}else{
-			falsecount++;
-		} 
+//		if(client.isConnected()){
+//			truecount++;
+//		}else{
+//			falsecount++;
+//		} 
 		client.sendTextMessage(msg);
 	}
 	
@@ -211,7 +212,7 @@ public class WsControllerServiceSupport {
 			if(keepAlive){ 
 				int count=countOfReconnect.incrementAndGet();
 				Log.d(TAG, "[onClose]countOfReconnect is:  "+count);
-				if(count<MAX_RECONNECT)
+//				if(count<MAX_RECONNECT)
 				reconnect(); 
 			}
 		}
@@ -224,8 +225,8 @@ public class WsControllerServiceSupport {
 	public void connect(){ 
 		try {
 			WebSocketOptions   options  =new WebSocketOptions  (); 
-			options.setSocketConnectTimeout(1000*1000);//ms
-			options.setSocketReceiveTimeout(1000*1000);//ms
+			options.setSocketConnectTimeout(10*1000);//ms
+			options.setSocketReceiveTimeout(10*1000);//ms
 			client = new WebSocketConnection();
 			client.connect(wspath,wsHandler,options );
 		} catch (WebSocketException e) { 
