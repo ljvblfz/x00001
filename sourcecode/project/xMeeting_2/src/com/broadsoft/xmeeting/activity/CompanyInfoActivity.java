@@ -8,6 +8,7 @@ import android.app.TabActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -157,14 +158,18 @@ public class CompanyInfoActivity extends TabActivity{
         return tempSpec;
     }
 	
-	
+
+	private int backCount=0;
 	private void initTopbarAndBack()
 	{
 		( (Button) this.findViewById(R.id.btnBack) ).setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				finish(); 
+				backCount++; 
+				if(backCount==1){
+					finish();	
+				} 
 			}
 		});
 	}

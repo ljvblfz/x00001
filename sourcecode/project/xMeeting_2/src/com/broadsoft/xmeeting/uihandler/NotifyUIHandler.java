@@ -7,8 +7,6 @@ import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.broadsoft.xmeeting.R;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -21,6 +19,9 @@ import android.util.Log;
 import android.view.Gravity;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.broadsoft.common.MyImageView;
+import com.broadsoft.xmeeting.R;
 
 public class NotifyUIHandler extends Handler {
 	private final String TAG = "NotifyUIHandler";
@@ -74,6 +75,8 @@ public class NotifyUIHandler extends Handler {
 		            mapOfContent.put("notificationTime", getCurrentTime());  
 					notificationListItem.add(mapOfContent); 					
 					showDialog(msgcontent); 
+					MyImageView mivMessage=(MyImageView)act.findViewById(R.id.btnMessage);
+					mivMessage.setImageResource(R.drawable.s_message_new);
 				}else if ("90".equals(msgtype)){//在线通知
 					ImageView ivOnlineIcon=(ImageView)act.findViewById(R.id.ivOnlineIcon);
 					ivOnlineIcon.setImageResource(R.drawable.online_64);

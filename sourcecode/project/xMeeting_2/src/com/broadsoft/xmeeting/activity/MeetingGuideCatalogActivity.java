@@ -78,14 +78,17 @@ public class MeetingGuideCatalogActivity extends ActivityGroup {
 
 
 
+	private int backCount=0;
 	private void InitTopbarAndBack()
 	{
 		( (Button) this.findViewById(R.id.btnBack) ).setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				finish();
-				//overridePendingTransition(R.anim.zoom_enter,android.R.anim.fade_out);
+				backCount++; 
+				if(backCount==1){
+					finish();	
+				} 
 			}
 		});
 	}
