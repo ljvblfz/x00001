@@ -159,7 +159,8 @@ public class WsControllerServiceSupport {
 	WebSocketHandler wsHandler=new WebSocketHandler() { 
 		@Override
 		public void onOpen() {
-			Log.d(TAG, "[onOpen]Status: Connected to " + wspath); 
+			Log.d(TAG, "[onOpen]Status: Connected to " + wspath);  
+//			NotifyUIHandler.getInstance().sendOnlineMessage();
 			new Thread(heartRunnable).start();
 		}
 
@@ -188,6 +189,7 @@ public class WsControllerServiceSupport {
 		@Override
 		public void onClose(int code, String reason) {
 			Log.d(TAG, "[onClose]"+code+"--"+reason);
+//			NotifyUIHandler.getInstance().sendOfflineMessage();
 			//try to reconnect
 			if(keepAlive){ 
 				Log.d(TAG, "[onClose]countOfReconnect is:  "+countOfReconnect.incrementAndGet());
