@@ -1,5 +1,7 @@
 package com.broadsoft.xmeeting.wsservice;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,8 +28,10 @@ public class WsControllerServiceSupport {
 
 	private String wspath; 
 	
-	
-	
+
+	private static AtomicInteger countOfReconnect=new AtomicInteger(0);
+
+	private boolean keepAlive=true;
 	private static WsControllerServiceSupport wsServiceSupport=new WsControllerServiceSupport();
 	
 	private  WsControllerServiceSupport(){
@@ -50,7 +54,8 @@ public class WsControllerServiceSupport {
 		this.memberId=memberId;
 		this.memberDisplayName=memberDisplayName;
 		String serveripport=DomAppConfigFactory.getAppConfig().getServeripport();
-		this.wspath="ws://"+serveripport+"/websocket/ws/controller?meetingId=" + meetingId + "&memberId=" + memberId + "&memberDisplayName=" + memberDisplayName;
+		this.wspath="ws://"+serveripport+"/websocket/ws/controller?meetingId=" + meetingId + "&memberId=" + memberId ;
+//		this.wspath="ws://"+serveripport+"/websocket/ws/controller?meetingId=" + meetingId + "&memberId=" + memberId + "&memberDisplayName=" + memberDisplayName;
 	}
   
 	
@@ -99,12 +104,12 @@ public class WsControllerServiceSupport {
 	
 	
 	public void sendHearbeat(){
-		while(true){
+		while(keepAlive){  
 			if(client.isConnected()){
 				JSONObject jsonObject=new JSONObject();
 				try {
 					jsonObject.put("msgtype", "10");
-					jsonObject.put("test", "from android");
+					jsonObject.put("msgtimstamp", ""+System.currentTimeMillis());
 				} catch (JSONException e) { 
 					e.printStackTrace();
 				}
@@ -119,7 +124,15 @@ public class WsControllerServiceSupport {
 			}
 		}
 	}//end of sendHearbeat
-	
+
+	private void reconnect(){
+		Log.d(TAG, "reconnect begin."); 
+		if(null!=client){
+			Log.d(TAG, "connect status: "+client.isConnected());  
+			connect();
+		}
+		Log.d(TAG, "reconnect end."); 
+	}
 
 	/**
 	 * 
@@ -130,7 +143,7 @@ public class WsControllerServiceSupport {
 		client.sendTextMessage(msg);
 	}
 	
-	private final WebSocketConnection client = new WebSocketConnection();
+	private WebSocketConnection client;
 
 	Runnable heartRunnable = new Runnable() {
 
@@ -152,13 +165,7 @@ public class WsControllerServiceSupport {
 
 		@Override
 		public void onTextMessage(String payload) {
-			Log.d(TAG, "[onTextMessage]Got echo: " + payload);   
-			
-//			Message msg = new Message();  
-//            Bundle bundle = new Bundle();  
-//            bundle.putString("payload", payload);  
-//            msg.setData(bundle);   
-//            NotifyUIHandler.getInstance().sendMessage(msg);
+			Log.d(TAG, "[onTextMessage]Got echo: " + payload);    
 			
 			try {
 				JSONObject jo = new JSONObject(payload);
@@ -168,9 +175,10 @@ public class WsControllerServiceSupport {
 						NotifyUIHandler.getInstance().sendControllerMessage(payload);
 					}else if("01".equals(msgtype)){
 						ToDoUIHandler.getInstance().sendControllerMessage(payload);
-					}
-					 
-				}
+					}else if("10".equals(msgtype)){
+						//TODO:
+					} 
+				}//end of msgtype
 			} catch (JSONException e) { 
 				e.printStackTrace();
 			}
@@ -179,7 +187,12 @@ public class WsControllerServiceSupport {
 
 		@Override
 		public void onClose(int code, String reason) {
-			Log.d(TAG, "[onClose]Connection lost.");
+			Log.d(TAG, "[onClose]"+code+"--"+reason);
+			//try to reconnect
+			if(keepAlive){ 
+				Log.d(TAG, "[onClose]countOfReconnect is:  "+countOfReconnect.incrementAndGet());
+				reconnect(); 
+			}
 		}
 	};
 	
@@ -192,6 +205,7 @@ public class WsControllerServiceSupport {
 			WebSocketOptions   options  =new WebSocketOptions  (); 
 			options.setSocketConnectTimeout(1000*1000);//ms
 			options.setSocketReceiveTimeout(1000*1000);//ms
+			client = new WebSocketConnection();
 			client.connect(wspath,wsHandler,options );
 		} catch (WebSocketException e) { 
 			Log.d(TAG, e.toString());
@@ -203,6 +217,7 @@ public class WsControllerServiceSupport {
 	 * disconnect
 	 */
 	public void disconnect(){
+		this.keepAlive=false;
 		if(null!=client){ 
 			if(client.isConnected()){
 				client.disconnect(); 
