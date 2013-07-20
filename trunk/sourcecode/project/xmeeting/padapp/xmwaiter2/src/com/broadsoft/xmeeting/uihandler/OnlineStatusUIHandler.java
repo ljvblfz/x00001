@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -48,12 +49,12 @@ public class OnlineStatusUIHandler extends Handler {
 			JSONObject jo = new JSONObject(payload);
 			if(jo.has("status")){ 
 				String status=jo.getString("status");
-				ImageView ivOnlineIcon=null;
-//				ivOnlineIcon=(ImageView)act.findViewById(R.id.ivOnlineIcon);
+				Button ivOnlineIcon=null;
+				ivOnlineIcon=(Button)act.findViewById(R.id.offlineTip);
 				if("1".equals(status)){//在线  
-					ivOnlineIcon.setImageResource(R.drawable.online_64);
+					ivOnlineIcon.setBackgroundResource(R.drawable.online_64);
 				} else{//离线  
-					ivOnlineIcon.setImageResource(R.drawable.offline_64);
+					ivOnlineIcon.setBackgroundResource(R.drawable.offline_64);
 					
 				}
 			}//end of if
