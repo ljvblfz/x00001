@@ -86,6 +86,16 @@ public class ToDoUIHandler extends Handler {
     public List<ToDoEntity> getToDoData(){
     	return toDoData;
     }
+    
+    public void setCheck(boolean checked , int positionId){
+    	for(ToDoEntity t: toDoData){
+    		if(t.getPosition().equals(positionId+"")){
+    			t.setChecked(checked);
+    			break;
+    		}
+    	}
+    	System.out.println("================setchecked================"+toDoData);
+    }
 	 
 	public void sendControllerMessage(String payload){
 		Message msg = new Message();  

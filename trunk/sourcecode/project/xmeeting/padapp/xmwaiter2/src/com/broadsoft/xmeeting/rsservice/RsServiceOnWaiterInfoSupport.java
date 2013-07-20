@@ -28,7 +28,7 @@ public class RsServiceOnWaiterInfoSupport {
 //			Throwable a = new Throwable(); 
 //			a.getStackTrace();
 			JSONObject jsonRespSendSms=HttpRestSupport.getByHttpClientWithGzip(rspathWaiterInfoResult);
-			Log.d(TAG,"requestWaiterInfo jsonRespSendSms----->"+ jsonRespSendSms.toString());
+			Log.d(TAG,"requestWaiterInfo requestWaiterInfo----->"+ jsonRespSendSms.toString());
 			return jsonRespSendSms;
 		} catch (Exception e) { 
 			e.printStackTrace();

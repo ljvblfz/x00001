@@ -17,7 +17,7 @@ public class NotifyHandle {
 	private static Map<String,Map<String,List<ChatMsgEntity>>> meetingChatList = new HashMap<String, Map<String,List<ChatMsgEntity>>>();
 	
 	public List<ChatMsgEntity> getChatMsgList(String position, String meetingId ){
-		System.out.println(meetingChatList+"==============================");
+//		System.out.println(meetingChatList+"==============================");
 		List<ChatMsgEntity> mDataArrays = new ArrayList<ChatMsgEntity>();
 		if(null==meetingChatList.get(position))
 			mDataArrays=new ArrayList<ChatMsgEntity>();

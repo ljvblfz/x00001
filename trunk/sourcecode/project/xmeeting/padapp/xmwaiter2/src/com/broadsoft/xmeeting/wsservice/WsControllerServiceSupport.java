@@ -30,6 +30,7 @@ public class WsControllerServiceSupport {
 	
 
 	private static AtomicInteger countOfReconnect=new AtomicInteger(0);
+	private static final int MAX_RECONNECT=2;
 
 	private boolean keepAlive=true;
 	private static WsControllerServiceSupport wsServiceSupport=new WsControllerServiceSupport();
@@ -55,6 +56,9 @@ public class WsControllerServiceSupport {
 		this.memberDisplayName=memberDisplayName;
 		String serveripport=DomAppConfigFactory.getAppConfig().getServeripport();
 		this.wspath="ws://"+serveripport+"/websocket/ws/controller?meetingId=" + meetingId + "&memberId=" + memberId ;
+//		this.wspath="ws://"+serveripport+"/websocket/ws/controller?meetingId=" + meetingId + "&memberId=" + memberId ;
+//		this.wspath="ws://"+serveripport+"/websocket/ws/controller?meetingId=000000000XMMEETINGINFO13041820484043&memberId=0000000XMPERSONNELINFO13041820484041" ;
+		//
 //		this.wspath="ws://"+serveripport+"/websocket/ws/controller?meetingId=" + meetingId + "&memberId=" + memberId + "&memberDisplayName=" + memberDisplayName;
 	}
   
@@ -134,12 +138,22 @@ public class WsControllerServiceSupport {
 		Log.d(TAG, "reconnect end."); 
 	}
 
+
+	private int truecount=0;
+
+	private int falsecount=0;
+	
 	/**
 	 * 
 	 * @param msg
 	 */
 	private void sendMessage(String msg){ 
 //		Looper.prepare(); 
+		if(client.isConnected()){
+			truecount++;
+		}else{
+			falsecount++;
+		} 
 		client.sendTextMessage(msg);
 	}
 	
@@ -192,7 +206,9 @@ public class WsControllerServiceSupport {
 //			NotifyUIHandler.getInstance().sendOfflineMessage();
 			//try to reconnect
 			if(keepAlive){ 
-				Log.d(TAG, "[onClose]countOfReconnect is:  "+countOfReconnect.incrementAndGet());
+				int count=countOfReconnect.incrementAndGet();
+				Log.d(TAG, "[onClose]countOfReconnect is:  "+count);
+				if(count<MAX_RECONNECT)
 				reconnect(); 
 			}
 		}
