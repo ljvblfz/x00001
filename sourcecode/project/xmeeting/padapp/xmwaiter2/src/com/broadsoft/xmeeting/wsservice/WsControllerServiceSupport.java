@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.broadsoft.xmcommon.androidconfig.DomAppConfigFactory;
 import com.broadsoft.xmeeting.uihandler.NotifyUIHandler;
+import com.broadsoft.xmeeting.uihandler.OnlineStatusUIHandler;
 import com.broadsoft.xmeeting.uihandler.ToDoUIHandler;
 
 import de.tavendo.autobahn.WebSocketConnection;
@@ -175,6 +176,7 @@ public class WsControllerServiceSupport {
 		public void onOpen() {
 			Log.d(TAG, "[onOpen]Status: Connected to " + wspath);  
 //			NotifyUIHandler.getInstance().sendOnlineMessage();
+			OnlineStatusUIHandler.getInstance().sendOnlineOnMessage();
 			new Thread(heartRunnable).start();
 		}
 
@@ -204,6 +206,7 @@ public class WsControllerServiceSupport {
 		public void onClose(int code, String reason) {
 			Log.d(TAG, "[onClose]"+code+"--"+reason);
 //			NotifyUIHandler.getInstance().sendOfflineMessage();
+			OnlineStatusUIHandler.getInstance().sendOnlineOffMessage();
 			//try to reconnect
 			if(keepAlive){ 
 				int count=countOfReconnect.incrementAndGet();

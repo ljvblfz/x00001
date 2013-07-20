@@ -49,6 +49,7 @@ import com.broadsoft.xmcommon.appsupport.AppInitSupport;
 import com.broadsoft.xmeeting.rsservice.RsServiceOnMeetingPersonnelInfoSupport;
 import com.broadsoft.xmeeting.rsservice.RsServiceOnWaiterInfoSupport;
 import com.broadsoft.xmeeting.uihandler.NotifyUIHandler;
+import com.broadsoft.xmeeting.uihandler.OnlineStatusUIHandler;
 import com.broadsoft.xmeeting.uihandler.ToDoUIHandler;
 import com.broadsoft.xmeeting.wsservice.WsControllerServiceSupport;
 import com.founder.common.data.AsyncBitmapLoader;
@@ -99,6 +100,7 @@ public class WaiterMainActivity extends Activity {
         new AppInitSupport().initApp(getApplicationContext(), getAssets());
 
         ToDoUIHandler.initToDo(this);
+        OnlineStatusUIHandler.init(this);
         InitTopbarAndBack();
         
         InitTab();

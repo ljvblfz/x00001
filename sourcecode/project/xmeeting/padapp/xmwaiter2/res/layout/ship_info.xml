@@ -11,7 +11,7 @@
         android:paddingRight="10dp" >
 
         <Button
-            android:id="@+id/btnFun"
+            android:id="@+id/offlineTip"
             android:layout_width="28dp"
             android:layout_height="28dp" 
             android:layout_toLeftOf="@+id/offlineTipText1"
