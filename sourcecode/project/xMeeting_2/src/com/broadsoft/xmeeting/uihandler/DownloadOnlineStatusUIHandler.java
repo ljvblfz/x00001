@@ -31,6 +31,12 @@ public class DownloadOnlineStatusUIHandler extends Handler {
 		} 
 	}//end of init
 	
+
+	
+	public static void destroy(){
+		downloadOnlineStatusUIHandler=null;
+	}//end of init
+	
 	
 	public static DownloadOnlineStatusUIHandler getInstance(){
 		return downloadOnlineStatusUIHandler;

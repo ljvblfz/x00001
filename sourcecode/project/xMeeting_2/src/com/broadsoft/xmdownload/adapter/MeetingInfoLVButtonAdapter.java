@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -171,9 +173,20 @@ public class MeetingInfoLVButtonAdapter extends BaseAdapter {
 				DaoHolder.getInstance().getDownloadInfoDao().activate(strMeetingId); 
 				DownloadByHandUIHandler.getInstance().sendActivateMessage(); 
 			}else if ("4".equals(strType)) { 
-				//delete  
-				DaoHolder.getInstance().getDownloadInfoDao().deleteByMeetingId(strMeetingId);
-				DownloadByHandUIHandler.getInstance().sendDeleteMessage();
+				//delete   
+				new AlertDialog.Builder(mContext)
+			 	.setTitle("确认")
+			 	.setMessage("确定要删除会议信息吗？")
+				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog,
+							int which) {   
+						DaoHolder.getInstance().getDownloadInfoDao().deleteByMeetingId(strMeetingId);
+						DownloadByHandUIHandler.getInstance().sendDeleteMessage();
+						dialog.dismiss();
+					}
+				}).setNegativeButton("取消", null).show();
+				
 			}
 		}
 	}// end of LVBtnCommonListener 

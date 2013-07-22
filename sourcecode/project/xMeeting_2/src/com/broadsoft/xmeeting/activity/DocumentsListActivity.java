@@ -131,8 +131,9 @@ public class DocumentsListActivity extends BaseBrowserActivity {
 				
 				final EditText etEmail=new EditText(DocumentsListActivity.this); 
 				etEmail.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+				etEmail.setHint("格式如:xxx@163.com");
 				new AlertDialog.Builder(DocumentsListActivity.this)
-						.setTitle("注册邮件地址,如xxx@163.com")
+						.setTitle("请输入电子邮件地址")
 						.setIcon(android.R.drawable.ic_dialog_info)
 						.setView(etEmail)
 						.setPositiveButton("确定", new OnClickListener() {

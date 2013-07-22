@@ -38,6 +38,11 @@ public class DownloadByHandUIHandler extends Handler {
 		} 
 	}//end of init 
 	
+	public static void destroy(){
+		downloadUIHandler=null;
+	}//end of init
+	
+	
 	public static DownloadByHandUIHandler getInstance(){
 		return downloadUIHandler;
 	}
