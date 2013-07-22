@@ -44,6 +44,11 @@ public class DownloadByWsUIHandler extends Handler {
 		} 
 	}//end of init 
 	
+	public static void destroy(){
+		downloadUIHandler=null;
+	}//end of init
+	
+	
 	public static DownloadByWsUIHandler getInstance(){
 		return downloadUIHandler;
 	}

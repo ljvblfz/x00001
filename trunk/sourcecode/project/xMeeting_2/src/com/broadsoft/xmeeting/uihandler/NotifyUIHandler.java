@@ -38,7 +38,10 @@ public class NotifyUIHandler extends Handler {
 			notifyUIHandler=new NotifyUIHandler(act);
 		} 
 	}//end of init
-	
+
+	public static void destroy(){
+		notifyUIHandler=null;
+	}//end of init
 	
 	public static NotifyUIHandler getInstance(){
 		return notifyUIHandler;

@@ -4,6 +4,8 @@ package com.broadsoft.xmeeting;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.ksoap2.serialization.SoapObject;
 
 import android.app.Activity;
@@ -103,7 +105,8 @@ public class DesktopActivity extends Activity implements Runnable  {
 		//wifi设置
 		initWifiStatus();
 		handlerCheckingWifi.postDelayed(this, timeOfRetry); 
-		
+		//会议指南图标
+		initMeetingGuidIcon();
 		//桌面按钮
 		initGridButton();  
 		//天气预报
@@ -111,11 +114,26 @@ public class DesktopActivity extends Activity implements Runnable  {
 		//
 		NotifyUIHandler.init(this);
 		//init websocket  
-		initWebsocket(); 
-		
-		
-		
+		initWebsocket();  
 		 
+	}
+
+	private void initMeetingGuidIcon(){
+		String jsonData=EntityInfoHolder.getInstance().getDownloadInfoEntity().getJsonData();
+		try {
+			JSONObject jsonObject=new JSONObject(jsonData);
+			JSONObject jsonMeetingInfo=jsonObject.getJSONObject("meetingInfo");
+			JSONObject jsonXmMeetingInfo=jsonMeetingInfo.getJSONObject("xmMeetingInfo");
+			String xmmiNavMeetingGuide=jsonXmMeetingInfo.getString("xmmiNavMeetingGuide");
+			MyImageView myImageView= (com.broadsoft.common.MyImageView) this.findViewById(R.id.btnGuide);
+			if("1".equals(xmmiNavMeetingGuide)){
+				myImageView.setImageResource(R.drawable.d_guide_1); 
+			}else if("2".equals(xmmiNavMeetingGuide)){
+				myImageView.setImageResource(R.drawable.d_guide_2); 
+			} 
+		} catch (JSONException e) { 
+			e.printStackTrace();
+		}
 	}
 
 	private void initWifiStatus() {
@@ -168,6 +186,7 @@ public class DesktopActivity extends Activity implements Runnable  {
 		}catch(Exception e){ 
 			Log.d(TAG, "[Websocket]disconnect---exception--"+e.getMessage());
 		}
+		NotifyUIHandler.destroy();
 	}
 
 	private void initWebsocket() {
@@ -376,8 +395,17 @@ public class DesktopActivity extends Activity implements Runnable  {
 					mivMessage.setImageResource(R.drawable.s_message);
 					break;
 			}//end of switch
-
-			startActivity(intent);// 以传递参数的方式跳转到下一个Activity
+//			if(3==flag){
+//				if(WsControllerServiceSupport.getInstance().isConnected()){
+//					startActivity(intent);
+//				}else{
+//					Log.d(TAG,"系统不在线,不能使用呼叫服务!");
+//					Toast.makeText(act, "系统离线,不能使用呼叫服务!",  Toast.LENGTH_SHORT).show();
+//				} 
+//			}else{
+//				startActivity(intent); 
+//			}
+			startActivity(intent); 
 
   		}
           
