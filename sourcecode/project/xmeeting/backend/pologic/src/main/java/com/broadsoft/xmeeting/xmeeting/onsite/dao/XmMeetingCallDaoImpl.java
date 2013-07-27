@@ -17,7 +17,7 @@ import com.broadsoft.xmeeting.xmeeting.onsite.po.*;
 @Component
 public class XmMeetingCallDaoImpl extends DefaultBaseDaoImpl<XmMeetingCall,java.lang.String> {
 	public List<XmMeetingCall> findByXmmiGuid(String xmmiGuid){
-		String hql="from XmMeetingCall  a where a.xmmiGuid=?  and a.delFlag=0  ";
+		String hql="from XmMeetingCall  a where a.xmmiGuid=?  and a.delFlag=0 order by  a.createDt desc ";//and a.xmmcallStatus='0' 
 		List<XmMeetingCall> listOfXmMeetingCall=super.findByHql(hql, xmmiGuid);
 		return listOfXmMeetingCall; 
 	}

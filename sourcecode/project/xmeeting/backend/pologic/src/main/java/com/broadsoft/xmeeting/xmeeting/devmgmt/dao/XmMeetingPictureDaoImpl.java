@@ -16,9 +16,9 @@ import com.broadsoft.xmeeting.xmeeting.devmgmt.po.*;
 @Component
 public class XmMeetingPictureDaoImpl extends DefaultBaseDaoImpl<XmMeetingPicture,java.lang.String> {
 	
-	public List<XmMeetingPicture> findByXmmiGuid(String xmmiGuid){
-		String hql="from XmMeetingPicture  a where a.xmmiGuid=?  and a.delFlag=0  ";
-		List<XmMeetingPicture> listOfXmMeetingPicture=super.findByHql(hql, xmmiGuid);
-		return listOfXmMeetingPicture; 
-	}
+//	public List<XmMeetingPicture> findByXmmiGuid(String xmmiGuid){
+//		String hql="from XmMeetingPicture  a where a.xmmiGuid=?  and a.delFlag=0  ";
+//		List<XmMeetingPicture> listOfXmMeetingPicture=super.findByHql(hql, xmmiGuid);
+//		return listOfXmMeetingPicture; 
+//	}
 }
