@@ -46,7 +46,7 @@
             				c.value_desc xmmcallStatus
 					
 					from  	XM_MEETING_CALL a,XM_MEETING_INFO  b ,
-          					(select value_code,value_desc from sy_code  where type_id in (select type_id from sy_code_type where type_name='3018')) c 
+          					(select value_code,value_desc from sy_code  where type_id in (select type_id from sy_code_type where type_name='3017')) c 
 					
 					
 					where 			1=1 
@@ -82,7 +82,7 @@
             			c.value_desc xmmmStatus
 						
 					from XM_MEETING_MESSAGE a, XM_MEETING_INFO  b ,
-          				 (select value_code,value_desc from sy_code  where type_id in (select type_id from sy_code_type where type_name='3017')) c 
+          				 (select value_code,value_desc from sy_code  where type_id in (select type_id from sy_code_type where type_name='3018')) c 
 					
 					
 					where       	1=1 
