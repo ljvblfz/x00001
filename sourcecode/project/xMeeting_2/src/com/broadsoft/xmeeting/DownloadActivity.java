@@ -70,7 +70,16 @@ public class DownloadActivity extends Activity implements Runnable{
 		try {
 			String padAssetCode=EntityInfoHolder.getInstance().getAssetCode(); 
 			TextView textViewDeviceCode=(TextView)this.findViewById(R.id.textViewDeviceCode);
-			textViewDeviceCode.setText(padAssetCode);
+			if(null!=padAssetCode&&!"".equals(padAssetCode)){
+
+				textViewDeviceCode.setText(padAssetCode);
+				textViewDeviceCode.setTextColor(Color.GREEN);
+			}else{
+				textViewDeviceCode.setText("没有设备编号,请同步设备信息!");
+				textViewDeviceCode.setTextColor(Color.RED);
+				
+				
+			}
 		} catch (JSONException e) { 
 			e.printStackTrace();
 		}
