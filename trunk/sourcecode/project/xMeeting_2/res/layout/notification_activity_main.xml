@@ -16,7 +16,6 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:background="@drawable/title_btn_back"
-            android:onClick="activity_back"
             android:text="返回"
             android:textColor="#fff"
             android:textSize="14sp" />
