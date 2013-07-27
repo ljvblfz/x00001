@@ -141,6 +141,7 @@ public class DesktopActivity extends Activity implements Runnable  {
 		ImageView ivWifiIcon=(ImageView)findViewById(R.id.ivWifiIcon); 
 		if(isConnected()){
 			ivWifiIcon.setImageResource(R.drawable.wifi_on_64); 
+			ivWifiIcon.setVisibility(ivWifiIcon.INVISIBLE);
 		}else{
 			ivWifiIcon.setImageResource(R.drawable.wifi_off_64);  
 		}
@@ -264,8 +265,14 @@ public class DesktopActivity extends Activity implements Runnable  {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				startActivity("3");
+				// TODO Auto-generated method stub 
+				if(WsControllerServiceSupport.getInstance().isConnected()){
+					Log.d(TAG,"系统在线!");
+					startActivity("3");
+				}else {
+					Log.d(TAG,"系统不在线,不能使用呼叫服务!");
+					Toast.makeText(act, "系统离线,不能使用呼叫服务!",  Toast.LENGTH_SHORT).show();
+				}  
 			}
 		});
 		
@@ -395,16 +402,7 @@ public class DesktopActivity extends Activity implements Runnable  {
 					mivMessage.setImageResource(R.drawable.s_message);
 					break;
 			}//end of switch
-//			if(3==flag){
-//				if(WsControllerServiceSupport.getInstance().isConnected()){
-//					startActivity(intent);
-//				}else{
-//					Log.d(TAG,"系统不在线,不能使用呼叫服务!");
-//					Toast.makeText(act, "系统离线,不能使用呼叫服务!",  Toast.LENGTH_SHORT).show();
-//				} 
-//			}else{
-//				startActivity(intent); 
-//			}
+			 
 			startActivity(intent); 
 
   		}

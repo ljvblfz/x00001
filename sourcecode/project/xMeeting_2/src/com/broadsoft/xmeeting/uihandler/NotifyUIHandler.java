@@ -83,6 +83,9 @@ public class NotifyUIHandler extends Handler {
 				}else if ("90".equals(msgtype)){//在线通知
 					ImageView ivOnlineIcon=(ImageView)act.findViewById(R.id.ivOnlineIcon);
 					ivOnlineIcon.setImageResource(R.drawable.online_64);
+					//
+//					MyImageView btnCall=(MyImageView)act.findViewById(R.id.btnCall);
+					
 				}else if ("91".equals(msgtype)){//离线通知
 					ImageView ivOnlineIcon=(ImageView)act.findViewById(R.id.ivOnlineIcon);
 					ivOnlineIcon.setImageResource(R.drawable.offline_64);

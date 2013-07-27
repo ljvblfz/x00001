@@ -218,6 +218,7 @@ public class DownloadActivity extends Activity implements Runnable{
 		Log.d(TAG, "[onDestroy]begin.");
 		super.onDestroy();  
 		flagOnHandler=false;
+		WsDownloadServiceSupport.getInstance().setKeepAlive(false);
 		WsDownloadServiceSupport.getInstance().disconnect();
 		//
 		DownloadByWsUIHandler.destroy();

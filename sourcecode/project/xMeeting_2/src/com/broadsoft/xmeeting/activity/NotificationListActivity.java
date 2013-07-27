@@ -84,11 +84,15 @@ public class NotificationListActivity extends Activity {
 		( (Button) this.findViewById(R.id.btnBack) ).setOnClickListener(new View.OnClickListener() { 
 			@Override
 			public void onClick(View v) {
-				backCount++;
-				Log.d(TAG, "backCount is: "+backCount);
-				if(backCount==1){
-					finish();	
-				} 
+				try{
+					backCount++;
+					Log.d(TAG, "backCount is: "+backCount);
+					if(backCount==1){
+						finish();	
+					} 
+				}catch(Exception e){
+					e.printStackTrace();
+				}
 			}
 		});
 	}//end of initTopbarAndBack
