@@ -42,6 +42,7 @@ public class UploadifyServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		String meetingId=request.getParameter("meetingId");  
+		String xmmpicGuid=request.getParameter("xmmpicGuid"); 
 //		String xmmpicGuid=request.getParameter("xmmpicGuid"); 
 		
 		
@@ -65,24 +66,24 @@ public class UploadifyServlet extends HttpServlet {
 
 		
 		if(null!=meetingId){
-			String xmmpicGuid=null;
-			if(meetingId.indexOf("-")>0){
-				String[] idarr=meetingId.split("-");
-				meetingId=idarr[0];
-				xmmpicGuid=idarr[1];
-			}
+//			if(meetingId.indexOf("-")>0){
+//				String[] idarr=meetingId.split("-");
+//				meetingId=idarr[0];
+//				xmmpicGuid=idarr[1];
+//			}
 			
 			fileUrlPathPrefix+="xmeeting"+"/"+meetingId+"/"+module+"/";
 			fileDirectory+="xmeeting"+"/"+meetingId+"/"+module+"/"; 
-			//图片主题
-			if(null!=xmmpicGuid){
-				fileUrlPathPrefix+=xmmpicGuid+"/";
-				fileDirectory+=xmmpicGuid+"/";
-			}
-		}else{ 
+			
+		}else if(null!=xmmpicGuid){ //图片主题  
 			fileUrlPathPrefix+=module+"/";
 			fileDirectory+=module+"/"; 
-		} 
+			fileUrlPathPrefix+=xmmpicGuid+"/";
+			fileDirectory+=xmmpicGuid+"/"; 
+		} else{//视频
+			fileUrlPathPrefix+=module+"/";
+			fileDirectory+=module+"/";  
+		}
 	 
 		//创建文件夹
 		File dirFile = new File(fileDirectory);
