@@ -22,8 +22,8 @@
 
 	<div class="panelBar">
 		<ul class="toolBar">
-			<li><a class="add" target="navTab" rel="7userNav" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/modify/xmMeetingPictureDetailModify.html');" title="新增xmMeetingPictureDetail"  ><span>新增</span></a></li>
-			<li><a class="edit" target="navTab" rel="7userNav1" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/modify/xmMeetingPictureDetailModify.html?xmmpicdGuid={slt_uid}');" title="修改xmMeetingPictureDetail"   multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
+			<li><a class="add" target="navTab" rel="7userNav" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/basic/modify/xmMeetingPictureDetailModify.html');" title="新增xmMeetingPictureDetail"  ><span>新增</span></a></li>
+			<li><a class="edit" target="navTab" rel="7userNav1" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/basic/modify/xmMeetingPictureDetailModify.html?xmmpicdGuid={slt_uid}');" title="修改xmMeetingPictureDetail"   multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
 			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_3,'/rs/xmMeetingPictureDetail')"  rel="xmmpicdGuids" 
 			callBackMethod="xmMeetingPictureDetailSearch"	title="确认删除?" ><span>删除</span></a></li> 
 		</ul>
@@ -72,11 +72,11 @@
     $(function(){
 		var url = navTab._getTabUrl();
 		var xmmpicGuid=navTab._getParam("xmmpicGuid");
-		var xmmiGuid=navTab._getParam("xmmiGuid");
-		var xurl="/pages/xmeeting/devmgmt/modify/xmMeetingPictureDetailModify.html?xmmpicGuid="+xmmpicGuid+"&xmmiGuid="+xmmiGuid;
+// 		var xmmiGuid=navTab._getParam("xmmiGuid");
+		var xurl="/pages/xmeeting/basic/modify/xmMeetingPictureDetailModify.html?xmmpicGuid="+xmmpicGuid;
 		findClass("add").attr("href",getURL(CPATH.domain_3,xurl));
 		//
-		var xurledit="/pages/xmeeting/devmgmt/modify/xmMeetingPictureDetailModify.html?xmmpicdGuid={slt_uid}&xmmpicGuid="+xmmpicGuid+"&xmmiGuid="+xmmiGuid;
+		var xurledit="/pages/xmeeting/basic/modify/xmMeetingPictureDetailModify.html?xmmpicdGuid={slt_uid}&xmmpicGuid="+xmmpicGuid;
 		findClass("edit").attr("href",getURL(CPATH.domain_3,xurledit));
 		var opts={xmmpicGuid:xmmpicGuid}; 
 		xmMeetingPictureDetailSearch(opts);

@@ -5,6 +5,7 @@
  
 package com.broadsoft.xmeeting.xmeeting.open.resource;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.json.JSONObject;
@@ -27,6 +28,7 @@ import com.broadsoft.xmeeting.xmeeting.devmgmt.dao.XmMeetingScheduleDaoImpl;
 import com.broadsoft.xmeeting.xmeeting.devmgmt.dao.XmMeetingScheduleDetailDaoImpl;
 import com.broadsoft.xmeeting.xmeeting.devmgmt.dao.XmMeetingVideoDaoImpl;
 import com.broadsoft.xmeeting.xmeeting.devmgmt.dao.XmMeetingWeatherDaoImpl;
+import com.broadsoft.xmeeting.xmeeting.devmgmt.dao.XmMeetingXpictureDaoImpl;
 import com.broadsoft.xmeeting.xmeeting.devmgmt.po.XmMeetingBus;
 import com.broadsoft.xmeeting.xmeeting.devmgmt.po.XmMeetingContact;
 import com.broadsoft.xmeeting.xmeeting.devmgmt.po.XmMeetingDocument;
@@ -37,6 +39,7 @@ import com.broadsoft.xmeeting.xmeeting.devmgmt.po.XmMeetingSchedule;
 import com.broadsoft.xmeeting.xmeeting.devmgmt.po.XmMeetingScheduleDetail;
 import com.broadsoft.xmeeting.xmeeting.devmgmt.po.XmMeetingVideo;
 import com.broadsoft.xmeeting.xmeeting.devmgmt.po.XmMeetingWeather;
+import com.broadsoft.xmeeting.xmeeting.devmgmt.po.XmMeetingXpicture;
 import com.broadsoft.xmeeting.xmeeting.onsite.dao.XmMeetingVoteDaoImpl;
 import com.broadsoft.xmeeting.xmeeting.onsite.dao.XmMeetingVoteDetailDaoImpl;
 import com.broadsoft.xmeeting.xmeeting.onsite.po.XmMeetingVote;
@@ -101,7 +104,14 @@ public class XmMeetingInfoDownloadResource extends SyBaseResource{
 		List<XmMeetingVideo> listOfXmMeetingVideo=xmMeetingVideoDao.findByXmmiGuid(xmmiGuid);
 		allInfo.put("listOfXmMeetingVideo", listOfXmMeetingVideo);
 		//会议图片
-		List<XmMeetingPicture> listOfXmMeetingPicture=xmMeetingPictureDao.findByXmmiGuid(xmmiGuid);
+//		List<XmMeetingPicture> listOfXmMeetingPicture=xmMeetingPictureDao.findByXmmiGuid(xmmiGuid);
+		List<XmMeetingXpicture> listOfXmMeetingXpicture=xmMeetingXpictureDao.findByXmmiGuid(xmmiGuid); 
+		List<XmMeetingPicture> listOfXmMeetingPicture=new ArrayList<XmMeetingPicture>();
+		for(XmMeetingXpicture xmMeetingXpicture:listOfXmMeetingXpicture){
+			String xmmpicGuid=xmMeetingXpicture.getXmmpicGuid();
+			XmMeetingPicture xmMeetingPicture=xmMeetingPictureDao.findById(xmmpicGuid);
+			listOfXmMeetingPicture.add(xmMeetingPicture);
+		}
 		for(XmMeetingPicture xmMeetingPicture:listOfXmMeetingPicture){
 			xmMeetingPictureDao.evict(xmMeetingPicture);
 			String xmmpicGuid=xmMeetingPicture.getXmmpicGuid();
@@ -180,6 +190,11 @@ public class XmMeetingInfoDownloadResource extends SyBaseResource{
 		this.xmMeetingVideoDao = xmMeetingVideoDao;
 	}
 	
+	private XmMeetingXpictureDaoImpl xmMeetingXpictureDao;
+	
+	public void setXmMeetingXpictureDao(XmMeetingXpictureDaoImpl xmMeetingXpictureDao) {
+		this.xmMeetingXpictureDao = xmMeetingXpictureDao;
+	}
 	
 	private XmMeetingPictureDaoImpl xmMeetingPictureDao; 
 	public void setXmMeetingPictureDao(XmMeetingPictureDaoImpl xmMeetingPictureDao) {

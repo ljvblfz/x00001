@@ -7,6 +7,7 @@ package com.broadsoft.xmeeting.xmeeting.open.resource;
 
 import java.util.List;
 
+import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 
 import org.restlet.data.Status;
@@ -42,11 +43,13 @@ public class XmMeetingCallListResource extends SyBaseResource{
 	
 	@Get
 	public Representation get(Representation entity) {
-		 List<XmMeetingCall>  listOfXmMeetingCall =  xmMeetingCallDao.findByXmmiGuid(xmmiGuid);
+		JSONObject allInfo=new JSONObject();
+		List<XmMeetingCall>  listOfXmMeetingCall =  xmMeetingCallDao.findByXmmiGuid(xmmiGuid); 
+		allInfo.put("listOfXmMeetingCall", listOfXmMeetingCall);
 		if(null==listOfXmMeetingCall){
 			getResponse().setStatus(Status.CLIENT_ERROR_NOT_FOUND);   
 			return null;
-		}
-		return getJsonGzipRepresentation(JSONSerializer.toJSON(listOfXmMeetingCall,config));
-	} 
+		} 
+		return getJsonGzipRepresentation(JSONSerializer.toJSON(allInfo,config));
+	}//end of get 
 }
