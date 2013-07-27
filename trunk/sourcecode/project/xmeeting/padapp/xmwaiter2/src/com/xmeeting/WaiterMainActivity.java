@@ -1,6 +1,8 @@
 package com.xmeeting;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,9 +25,9 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
@@ -33,8 +35,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -45,11 +45,11 @@ import com.broadsoft.xmcommon.androidconfig.AppConfig;
 import com.broadsoft.xmcommon.androidconfig.DomAppConfigFactory;
 import com.broadsoft.xmcommon.androidsdcard.SDCardSupport;
 import com.broadsoft.xmcommon.androidutil.AndroidIdSupport;
-import com.broadsoft.xmcommon.appsupport.AppInitSupport;
 import com.broadsoft.xmeeting.rsservice.RsServiceOnMeetingPersonnelInfoSupport;
+import com.broadsoft.xmeeting.rsservice.RsServiceOnMeetingToDoListSupport;
 import com.broadsoft.xmeeting.rsservice.RsServiceOnWaiterInfoSupport;
-import com.broadsoft.xmeeting.uihandler.NotifyUIHandler;
 import com.broadsoft.xmeeting.uihandler.OnlineStatusUIHandler;
+import com.broadsoft.xmeeting.uihandler.ProcessToDoAsyncTask;
 import com.broadsoft.xmeeting.uihandler.ToDoUIHandler;
 import com.broadsoft.xmeeting.wsservice.WsControllerServiceSupport;
 import com.founder.common.data.AsyncBitmapLoader;
@@ -583,21 +583,20 @@ public class WaiterMainActivity extends Activity {
 					@Override
 					public void onClick(View v) {
 						if(!getItem(position).isChecked()){
-	            			//TODO set task status to done
-//	            			System.out.println(getItem(position).getTodoId()+"*****************************"+getItem(position).isChecked());
-	                		toggleButton.setChecked(true); 
-	                		ToDoUIHandler.getInstance().setCheck(true, position+1);
-	                		getItem(position).setChecked(true);
+//							ToDoUIHandler.getInstance().processToDo(getItem(position).getTodoId(),toggleButton,getItem(position));
+							new ProcessToDoAsyncTask(getItem(position).getTodoId(),toggleButton,getItem(position)).execute();
+								
 						}
             		}
 				}); 
-                
 //            } 
             TextView textView = (TextView) view.findViewById(R.id.group_list_item_text); 
             textView.setText(getItem(position).getPosition()); 
             return view; 
         } 
     } 
+    
+    
     
 
     private static JSONObject jsobj ;
@@ -629,9 +628,6 @@ public class WaiterMainActivity extends Activity {
 
     	}//end of initApp
      
-
-        
-        
     	 private class RequestWaiterInfoTask extends AsyncTask<Void, Void, String[]> { 
     			@Override
     			protected void onPreExecute() {
@@ -674,13 +670,35 @@ public class WaiterMainActivity extends Activity {
     				} catch (JSONException e) {
     					e.printStackTrace();
     				}
-    				
+
     				loadMemberList(RsServiceOnMeetingPersonnelInfoSupport.requestMeetingPersonnelInfo(meetingId));
+    				loadToDoList(RsServiceOnMeetingToDoListSupport.requestMeetingToDoList(meetingId));
     				WsControllerServiceSupport.getInstance().initData(meetingId, memberId, memberDisplayName);
     				WsControllerServiceSupport.getInstance().connect();
     				return null;
     			}
 
+    			
+    			
+				private void loadToDoList(JSONObject jsobj){
+    				try {
+    					JSONArray memberArray = jsobj.getJSONArray("listOfXmMeetingCall");
+    					l = new ArrayList<Map<String, Object>>();
+    					for (int i = 0 ; i< memberArray.length(); i ++){
+    						ToDoEntity toDoEntity = new ToDoEntity();
+    						toDoEntity.setPosition(memberArray.getJSONObject(i).getString("xmmcallCallerDisplayname"));
+    						toDoEntity.setChecked("1".equals(memberArray.getJSONObject(i).getString("xmmcallStatus")));
+    						toDoEntity.setType(memberArray.getJSONObject(i).getString("xmmcallMessage"));
+    						toDoEntity.setTodoId(memberArray.getJSONObject(i).getString("xmmcallGuid"));
+    						SimpleDateFormat smp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    						toDoEntity.setTimeStr(smp.format(new Date(Long.valueOf(memberArray.getJSONObject(i).getJSONObject("xmmcallTime").getString("time")))));
+    						ToDoUIHandler.getInstance().getToDoData().add(toDoEntity);
+    					}
+    				} catch (JSONException e) {
+    					e.printStackTrace();
+    				}
+    			}
+    			
     			
     			private void loadMemberList(JSONObject jsobj){
     				
