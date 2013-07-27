@@ -1,32 +1,33 @@
-<!-- <form method="get" name="xmMeetingPictureSearchForm" action="/rs/xmMeetingPicture" onsubmit="return false;" > -->
-<!-- 	<input type="hidden" name="pageNum" value="1" /> -->
-<!-- 	<div class="pageHeader"> -->
-<!-- 		<div class="searchBar"> -->
-<!-- 			<ul class="searchContent"> -->
-<!-- 				<li> -->
-<!-- 					<label>类型名称：</label> -->
-<!-- 					<input type="text" name="xmmpicGuid" value=""/> -->
-<!-- 				</li>  -->
-<!-- 			</ul> -->
-<!-- 			<div class="subBar"> -->
-<!-- 				<ul>						 -->
-<!-- 					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="xmMeetingPictureSearch({pageNum:1})">查询</button></div></div></li> -->
+<form method="get" name="xmMeetingPictureSearchForm" action="/rs/xmMeetingPicture" onsubmit="return false;" >
+	<input type="hidden" name="pageNum" value="1" />
+	<div class="pageHeader">
+		<div class="searchBar">
+			<ul class="searchContent">
+				<li>
+					<label>相册名称：</label>
+					<input type="text" name="xmmpicImageTitle" value=""/>
+				</li> 
+			</ul>
+			<div class="subBar">
+				<ul>						
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="xmMeetingPictureSearch({pageNum:1})">查询</button></div></div></li>
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="javascript:findName('xmMeetingPictureSearchForm')[0].reset()">清空</button></div></div></li>
 <!-- 					<li><a class="button" href="/management/user!advancedSearch.do?userType=TRAINING" target="dialog" title="Advanced Search"><span>高级查询</span></a></li> -->
-<!-- 				</ul> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-<!-- 	</div> -->
-<!-- </form> -->
+				</ul>
+			</div>
+		</div>
+	</div>
+</form>
 
 <div class="pageContent">
 
 	<div class="panelBar">
 		<ul class="toolBar">
-			<li><a class="add" target="navTab" rel="6userNav" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/modify/xmMeetingPictureModify.html');" title="新增xmMeetingPicture" ><span>新增</span></a></li>
-			<li><a class="edit" target="navTab" rel="6userNav1" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/modify/xmMeetingPictureModify.html?xmmpicGuid={slt_uid}');" title="修改xmMeetingPicture"   multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
+			<li><a class="add" target="navTab" rel="6userNav" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/basic/modify/xmMeetingPictureModify.html');" title="新增xmMeetingPicture" ><span>新增</span></a></li>
+			<li><a class="edit" target="navTab" rel="6userNav1" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/basic/modify/xmMeetingPictureModify.html?xmmpicGuid={slt_uid}');" title="修改xmMeetingPicture"   multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
 			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_3,'/rs/xmMeetingPicture')"  rel="xmmpicGuids" callBackMethod="xmMeetingPictureSearch"	title="确认删除?" ><span>删除</span></a></li> 
 			<li class="line">line</li>
-			<li><a class="edit" name="editpicdetail" target="navTab" rel="userNav1" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/xmMeetingPictureDetail.html?xmmpicGuid={slt_uid}');" title="编辑图片"   multiable="no" warn="请选择一条记录"><span>编辑图片</span></a></li>
+			<li><a class="edit" name="editpicdetail" target="navTab" rel="userNav1" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/basic/xmMeetingPictureDetail.html?xmmpicGuid={slt_uid}');" title="编辑图片"   multiable="no" warn="请选择一条记录"><span>编辑图片</span></a></li>
 		
 		</ul>
 	</div>
@@ -71,14 +72,14 @@
      
     $(function(){
 		var url = navTab._getTabUrl();
-		var xmmiGuid=navTab._getParam("xmmiGuid");
-		var xurl="/pages/xmeeting/devmgmt/modify/xmMeetingPictureModify.html?xmmiGuid="+xmmiGuid+"";
+		//var xmmiGuid=navTab._getParam("xmmiGuid");
+		var xurl="/pages/xmeeting/basic/modify/xmMeetingPictureModify.html";
 		findClass("add").attr("href",getURL(CPATH.domain_3,xurl));
 		
-		var editpicdetailurl="/pages/xmeeting/devmgmt/xmMeetingPictureDetail.html?xmmpicGuid={slt_uid}&xmmiGuid="+xmmiGuid; 
+		var editpicdetailurl="/pages/xmeeting/basic/xmMeetingPictureDetail.html?xmmpicGuid={slt_uid}"; 
 		findName("editpicdetail").attr("href",getURL(CPATH.domain_3,editpicdetailurl));
 		//
-		var opts={xmmiGuid:xmmiGuid}; 
+		var opts={}; 
 		xmMeetingPictureSearch(opts);
 	}); 
 	function xmMeetingPictureSearch(opt){

@@ -1,0 +1,71 @@
+ 
+
+<div class="pageContent">
+
+	<div class="panelBar">
+		<ul class="toolBar">
+			<li><a class="add" target="navTab" rel="userNav" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/modify/xmMeetingXpictureModify.html');" title="新增xmMeetingXpicture"  ><span>新增</span></a></li>
+			<li><a class="edit" target="navTab" rel="userNav1" href="javascript:getURL(CPATH.domain_3,'/pages/xmeeting/devmgmt/modify/xmMeetingXpictureModify.html?xmmxpicGuid={slt_uid}');" title="修改xmMeetingXpicture"   multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
+			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_3,'/rs/xmMeetingXpicture')"  rel="xmmxpicGuids"  callBackMethod="xmMeetingXpictureSearch"	title="确认删除?"  ><span>删除</span></a></li> 
+		</ul>
+	</div>
+	
+	<table class="table" layoutH="138" width="100%">
+		<thead>
+			<tr  searchMethod="xmMeetingXpictureSearch"><th width="22"><input type="checkbox" group="xmmxpicGuids" class="checkboxCtrl"></th>
+<!-- 						<th width="60" orderField="xmmiGuid">xmmiGuid</th> -->
+						<th width="60" orderField="xmmpicGuid">图片主题PID</th> 
+						<th width="60" >图片主题</th> 
+			</tr>
+		</thead>
+		<tbody>
+			<tr name="xmMeetingXpictureTrTemplate" target="slt_uid">
+				<td name="xmmxpicGuid" type="check"><input name="xmmxpicGuids" value="" type="checkbox"></td>
+<!-- 						<td name="xmmiGuid"></td> -->
+						<td name="xmmpicGuid"></td>  
+						<td name="xmmpicGuidLabel"></td> 
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span>
+			<select class="combox" name="numPerPage" onchange="xmMeetingXpictureSearch({numPerPage:this.value,pageNum:1})">
+				<option value="10">10</option>
+				<option value="40">40</option>
+				<option value="100">100</option>
+				<option value="200">200</option>
+			</select>
+			<span name="xmMeetingXpictureCountDiv">条，共-条</span>
+		</div>
+		<div name="xmMeetingXpicturePageBar" class="pagination" searchMethod="xmMeetingXpictureSearch" targetType="navTab" totalCount="0" numPerPage="0" pageNumShown="0" currentPage="0"></div>
+	</div>
+</div>
+<script type="text/javascript">
+	//定义默认参数
+	var xmMeetingXpictureArgs={};
+	 //查询方法 
+    $(function(){ 
+		var url = navTab._getTabUrl();
+		var xmmiGuid=navTab._getParam("xmmiGuid");
+		var xurl="/pages/xmeeting/devmgmt/modify/xmMeetingXpictureModify.html?xmmiGuid="+xmmiGuid+"";
+		findClass("add").attr("href",getURL(CPATH.domain_3,xurl));
+		var opts={xmmiGuid:xmmiGuid}; 
+		xmMeetingXpictureSearch(opts);
+	}); 
+	
+	function xmMeetingXpictureSearch(opt){
+		//序列化表单值，并扩展到xmMeetingXpictureArgs对象中
+		$.extend(xmMeetingXpictureArgs,findName('xmMeetingXpictureSearchForm').serializeJson(),opt?opt:{});
+		//执行ajax查询方法
+		doGetAjax(getURL(CPATH.domain_3,"/rs/xmMeetingXpicture"),xmMeetingXpictureArgs,xmMeetingXpictureList);
+	}
+	
+	//拼装
+	function xmMeetingXpictureList(data){
+		var sampleRow=findName('xmMeetingXpictureTrTemplate');
+		pageResponse2Table(sampleRow,data);
+        printPageBarDiv(findName('xmMeetingXpicturePageBar'),findName('xmMeetingXpictureCountDiv'),data.jsonData);
+	}
+</script>

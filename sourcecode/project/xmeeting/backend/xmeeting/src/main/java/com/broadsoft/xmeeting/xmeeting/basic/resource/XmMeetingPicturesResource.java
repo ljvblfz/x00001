@@ -3,7 +3,7 @@
  * 
  */
  
-package com.broadsoft.xmeeting.xmeeting.devmgmt.resource;
+package com.broadsoft.xmeeting.xmeeting.basic.resource;
 
 import net.sf.json.JSON;
 import net.sf.json.JSONSerializer;

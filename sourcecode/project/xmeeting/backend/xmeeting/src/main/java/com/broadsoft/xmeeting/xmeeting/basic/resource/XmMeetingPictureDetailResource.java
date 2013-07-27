@@ -3,7 +3,7 @@
  * 
  */
  
-package com.broadsoft.xmeeting.xmeeting.devmgmt.resource;
+package com.broadsoft.xmeeting.xmeeting.basic.resource;
 
 import java.util.Date;
 
@@ -19,22 +19,22 @@ import org.springframework.stereotype.Component;
 import com.founder.sipbus.common.annotation.RestletResource;
 import com.founder.sipbus.common.resource.BaseResource;
 import com.founder.sipbus.common.util.*;
-import com.broadsoft.xmeeting.xmeeting.devmgmt.dao.XmMeetingPictureDaoImpl;
-import com.broadsoft.xmeeting.xmeeting.devmgmt.po.XmMeetingPicture;
+import com.broadsoft.xmeeting.xmeeting.devmgmt.dao.XmMeetingPictureDetailDaoImpl;
+import com.broadsoft.xmeeting.xmeeting.devmgmt.po.XmMeetingPictureDetail;
 import com.founder.sipbus.syweb.au.base.SyBaseResource;
 
 
 @Component
 @Scope(value="prototype")
-@RestletResource(urls="/xmMeetingPicture/{xmmpicGuid}")
-public class XmMeetingPictureResource extends SyBaseResource{
+@RestletResource(urls="/xmMeetingPictureDetail/{xmmpicdGuid}")
+public class XmMeetingPictureDetailResource extends SyBaseResource{
 	
-	private String xmmpicGuid;
+	private String xmmpicdGuid;
 	
-	private XmMeetingPictureDaoImpl xmMeetingPictureDao;
+	private XmMeetingPictureDetailDaoImpl xmMeetingPictureDetailDao;
 	
-	public void setXmMeetingPictureDao(XmMeetingPictureDaoImpl xmMeetingPictureDao) {
-		this.xmMeetingPictureDao = xmMeetingPictureDao;
+	public void setXmMeetingPictureDetailDao(XmMeetingPictureDetailDaoImpl xmMeetingPictureDetailDao) {
+		this.xmMeetingPictureDetailDao = xmMeetingPictureDetailDao;
 	}
 
 	@Override
@@ -43,26 +43,26 @@ public class XmMeetingPictureResource extends SyBaseResource{
 	
 	@Get
 	public Representation get(Representation entity) {
-		xmmpicGuid=getAttribute("xmmpicGuid");
-		XmMeetingPicture xmMeetingPicture =  xmMeetingPictureDao.findById(xmmpicGuid);
-		if(null==xmMeetingPicture){
+		xmmpicdGuid=getAttribute("xmmpicdGuid");
+		XmMeetingPictureDetail xmMeetingPictureDetail =  xmMeetingPictureDetailDao.findById(xmmpicdGuid);
+		if(null==xmMeetingPictureDetail){
 			getResponse().setStatus(Status.CLIENT_ERROR_NOT_FOUND);   
 			return null;
 		}
-		return getJsonGzipRepresentation(JSONSerializer.toJSON(xmMeetingPicture,config));
+		return getJsonGzipRepresentation(JSONSerializer.toJSON(xmMeetingPictureDetail,config));
 	}
 	@Delete
 	public Representation delete() {
-		xmMeetingPictureDao.delete(xmmpicGuid);
-		return new StringRepresentation(xmmpicGuid);
+		xmMeetingPictureDetailDao.delete(xmmpicdGuid);
+		return new StringRepresentation(xmmpicdGuid);
 	}
 
 	@Put
 	public Representation put(Representation entity)
 			throws ResourceException {
 		form = new Form(entity);
-		xmmpicGuid =  form.getFirstValue("xmmpicGuid");
-		XmMeetingPicture b= xmMeetingPictureDao.findById(xmmpicGuid);
+		xmmpicdGuid =  form.getFirstValue("xmmpicdGuid");
+		XmMeetingPictureDetail b= xmMeetingPictureDetailDao.findById(xmmpicdGuid);
 		PMGridCopyUtil.copyGridToDto(b, form.getValuesMap());
 		JSONObject jo = getDefaultEditReturnJson();
 		return getJsonGzipRepresentation(jo);
