@@ -3,25 +3,20 @@ package com.broadsoft.xmeeting.uihandler;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
-import com.xmeeting.ChatActivity;
+import com.broadsoft.xmeeting.rsservice.RsServiceOnMeetingToDoListSupport;
 import com.xmeeting.ToDoEntity;
 import com.xmeeting.WaiterMainActivity;
 
@@ -50,7 +45,6 @@ public class ToDoUIHandler extends Handler {
 		return notifyUIHandler;
 	}
 
-
 	
 	
 	@Override
@@ -67,9 +61,11 @@ public class ToDoUIHandler extends Handler {
 				toDoEntity.setPosition(jo.getString("fromDisplayName"));
 				toDoEntity.setChecked(false);
 				toDoEntity.setType(jo.getString("msgcontent"));
-				toDoEntity.setTodoId((toDoData.size()+1)+"");
+				toDoEntity.setTodoId(jo.getString("xmmcallGuid"));
 				SimpleDateFormat smp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				toDoEntity.setTimeStr(smp.format(new Date()));
+//				xmmcallTime
+				toDoEntity.setTimeStr(smp.format(new Date(Long.valueOf(jo.getString("xmmcallTime")))));
+//				toDoEntity.setTimeStr(smp.format(new Date()));
 				toDoData.add(0,toDoEntity);
 				act2.notifyAdapter();
 				showDialog("您收到一个新任务");
@@ -80,16 +76,15 @@ public class ToDoUIHandler extends Handler {
 		Log.d(TAG, "handleMessage end");
 	}
 	
-
     private List<ToDoEntity> toDoData = new ArrayList<ToDoEntity>(); 
     
     public List<ToDoEntity> getToDoData(){
     	return toDoData;
     }
     
-    public void setCheck(boolean checked , int positionId){
+    public void setCheck(boolean checked , String todoId){
     	for(ToDoEntity t: toDoData){
-    		if(t.getPosition().equals(positionId+"")){
+    		if(t.getTodoId().equals(todoId)){
     			t.setChecked(checked);
     			break;
     		}
