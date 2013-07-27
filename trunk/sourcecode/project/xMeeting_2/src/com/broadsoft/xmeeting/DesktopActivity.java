@@ -103,8 +103,9 @@ public class DesktopActivity extends Activity implements Runnable  {
 		textViewDisplayName.setText(memberDisplayName);
 		
 		//wifi设置
+		
 		initWifiStatus();
-		handlerCheckingWifi.postDelayed(this, timeOfRetry); 
+//		handlerCheckingWifi.postDelayed(this, timeOfRetry); 
 		//会议指南图标
 		initMeetingGuidIcon();
 		//桌面按钮
@@ -144,6 +145,7 @@ public class DesktopActivity extends Activity implements Runnable  {
 			ivWifiIcon.setVisibility(ivWifiIcon.INVISIBLE);
 		}else{
 			ivWifiIcon.setImageResource(R.drawable.wifi_off_64);  
+			ivWifiIcon.setVisibility(ivWifiIcon.INVISIBLE);
 		}
 		Log.d(TAG, "[initWifiStatus]end.");
 	}
