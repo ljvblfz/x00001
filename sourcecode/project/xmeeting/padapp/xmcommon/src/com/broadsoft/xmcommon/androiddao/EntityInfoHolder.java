@@ -23,6 +23,9 @@ public class EntityInfoHolder {
 		if (null != xmpdGuid) {
 			return xmpdGuid;
 		}  else {
+			if(null==padInfoEntity){
+				return "";
+			}
 			String jsonData = padInfoEntity.getJsonData();
 			JSONObject jsonObject = new JSONObject(jsonData);
 			xmpdGuid = jsonObject.getString("xmpdGuid");
@@ -31,6 +34,9 @@ public class EntityInfoHolder {
 	} // end of getXmpdGuid
 
 	public String getAssetCode() throws JSONException {
+		if(null==padInfoEntity){
+			return "";
+		}
 		String assetCode = padInfoEntity.getAssetCode();
 		return assetCode;
 	}
