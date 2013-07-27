@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import com.broadsoft.common.MulitPointTouchListener;
 import com.broadsoft.xmcommon.androidsdcard.SDCardSupport;
 import com.broadsoft.xmeeting.R;
+import com.broadsoft.xmeeting.util.BitmapUtils;
 
 /**
  * http://blog.csdn.net/sunboy_2050/article/details/7420567 ViewFlipper
@@ -31,7 +32,7 @@ public class ImageGallaryViewPopupActivity extends Activity {
 		String fileName = this.getIntent().getStringExtra("fileName");
 
     	String extStorageDirectory=SDCardSupport.getSDCardDirectory();  
-    	bmImage = BitmapFactory.decodeFile(extStorageDirectory+fileName);  
+    	bmImage = BitmapUtils.getBitmap(extStorageDirectory+fileName,800*800);  
     	
     	//create imageview
 		ImageView imageView=(ImageView) this.findViewById(R.id.ivLeader);

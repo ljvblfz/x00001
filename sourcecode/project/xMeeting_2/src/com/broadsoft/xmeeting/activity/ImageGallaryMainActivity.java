@@ -1,5 +1,6 @@
 package com.broadsoft.xmeeting.activity;
 
+import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,6 +45,7 @@ import com.broadsoft.xmcommon.androiddao.EntityInfoHolder;
 import com.broadsoft.xmcommon.androidsdcard.SDCardSupport;
 import com.broadsoft.xmeeting.DesktopActivity;
 import com.broadsoft.xmeeting.R;
+import com.broadsoft.xmeeting.util.BitmapUtils;
 
 public class ImageGallaryMainActivity extends Activity implements OnPullDownListener, OnItemClickListener{
 
@@ -141,7 +143,8 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
 					String fileDesc=jsonDetail.getString("xmmpicImageDesc"); 
 					Bitmap bitmap =null;
 					try{ 
-						bitmap = BitmapFactory.decodeFile(extStorageDirectory+fileName);  
+						bitmap = BitmapUtils.getBitmap(extStorageDirectory+fileName,400*400);  
+//						bitmap.recycle();
 					}catch (OutOfMemoryError e){
 			            e.printStackTrace();
 			        }
@@ -329,10 +332,17 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
              
             holder.tvName.setText((String)mServerData.get(position).get("name")); 
             String previewPicFilePath=(String)mServerData.get(position).get("previewPicFilePath");
+            Bitmap btmp;
+//            BitmapFactory.Options bfOpt;  
+//            bfOpt =  new BitmapFactory.Options(); 
+//            bfOpt.inSampleSize = 4;
             if(null!=previewPicFilePath&&!"".equals(previewPicFilePath)){
 	            String sdBaseDir=SDCardSupport.getSDCardDirectory();
-	            Uri imgUri=Uri.parse("file://"+sdBaseDir+previewPicFilePath);
-	            holder.ivPhoto.setImageURI(imgUri);
+//	            Uri imgUri=Uri.parse("file://"+sdBaseDir+previewPicFilePath);
+//	            btmp = BitmapFactory.decodeFile(sdBaseDir+previewPicFilePath,bfOpt); 
+	            btmp = BitmapUtils.getBitmap(sdBaseDir+previewPicFilePath,128*128);
+	            holder.ivPhoto.setImageBitmap(new SoftReference<Bitmap>(btmp).get());//setImageURI(imgUri);
+//	            btmp.recycle();
             }
 //          holder.tvDescription.setText((String)mServerData.get(position).get("description")); 
             holder.position=position;
@@ -355,7 +365,7 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
          
     }
     
-    
+   
 	
 	@Override
 	public void onRefresh() {
@@ -438,9 +448,6 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
 		
 
 	}
-	
-	
- 
 	
 	public class BitmapWrapper {
 		private String  fileName;
