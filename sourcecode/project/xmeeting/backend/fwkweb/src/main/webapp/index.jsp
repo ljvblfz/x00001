@@ -11,7 +11,7 @@
 
 
 <%
-	SysUser sysUser =null;
+	SysUser sysUser;
 	String userid ="undefined";
 	try{
 		sysUser = SsoUtil.getLoginUser(request);
@@ -188,8 +188,8 @@ $(function(){
 	
 	var loginName='<%=userid%>';
 	
-	if("undefined"==loginName){
-		doLogout();
+	if("undefined"==loginName){ 
+		window.top.location="login.html";
 		return;
 	} 
 	//websocket
@@ -290,7 +290,10 @@ $(function(){
 	
 	function logoutSuccess(){
 	 	//websocket logout
-	 	downloadLogoutWS();
+	 	
+		if(!loginName){
+	 		downloadLogoutWS();
+	 	}
 		//
 	 	window.top.location="login.html";
 	}
