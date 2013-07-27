@@ -38,15 +38,30 @@ public class BaseService implements IService{
 		String from=context.getString("from");
 		String fromDisplayName=context.getString("fromDisplayName");
 		String to=context.getString("to");
+		int count=0;
 		try { 
+			JSONObject responseContent=null;
 			for (ControllerMessageInbound messageInbound : ControllerMessageInboundHolder.getSocketListByMeetingId(meetingid)) { 
 				//检查消息是否要发给此人
 				if(validateMember(to, messageInbound)){
-					writeResponse(meetingid, msgtype, msgcontent, from,fromDisplayName, to, messageInbound);
+//					writeResponse(meetingid, msgtype, msgcontent, from,fromDisplayName, to, messageInbound);
+					count++;
+					if(count==1){
+						responseContent = logDB(meetingid, msgtype, msgcontent, from, fromDisplayName, to); 
+					}
+					if(null!=responseContent){
+						String resp=responseContent.toString(); 
+						writeResponse(resp,messageInbound); 
+					}
 				} 
 				if(validateMember(from, messageInbound)){
-					writeResponse(meetingid, msgtype, msgcontent, from,fromDisplayName, to, messageInbound);
+//					writeResponse(meetingid, msgtype, msgcontent, from,fromDisplayName, to, messageInbound); 
+					if(null!=responseContent){
+						String resp=responseContent.toString(); 
+						writeResponse(resp,messageInbound); 
+					}
 				} 
+
 			}//end of for
 		} catch (IOException e) { 
 			e.printStackTrace();
@@ -98,17 +113,9 @@ public class BaseService implements IService{
 	 * @throws JSONException
 	 * @throws IOException
 	 */
-	protected void writeResponse(String meetingid, String msgtype,
-			String msgcontent, String from,String fromDisplayName, String to,
+	protected void writeResponse(String resp,   
 			MessageInbound messageInbound) throws JSONException, IOException {
-		JSONObject responseContent=new JSONObject();
-		responseContent.put("meetingid", meetingid);
-		responseContent.put("msgtype", msgtype);
-		responseContent.put("msgcontent", msgcontent);
-		responseContent.put("from", from);
-		responseContent.put("fromDisplayName", fromDisplayName);
-		responseContent.put("to", to);
-		String resp=responseContent.toString();
+
 		if(logger.isTraceEnabled()){
 			logger.trace("发送到客户端的消息是: {}.",resp);
 		}
@@ -116,9 +123,26 @@ public class BaseService implements IService{
 		WsOutbound outbound = messageInbound.getWsOutbound();
 		outbound.writeTextMessage(buffer);
 		outbound.flush();
-		
-		updateDB(responseContent);
 	}//end of writeResponse
+
+
+
+
+
+
+	private JSONObject logDB(String meetingid, String msgtype,
+			String msgcontent, String from, String fromDisplayName, String to)
+			throws JSONException {
+		JSONObject responseContent=new JSONObject();
+		responseContent.put("meetingid", meetingid);
+		responseContent.put("msgtype", msgtype);
+		responseContent.put("msgcontent", msgcontent);
+		responseContent.put("from", from);
+		responseContent.put("fromDisplayName", fromDisplayName);
+		responseContent.put("to", to);
+		updateDB(responseContent);
+		return responseContent;
+	}
 	
 	
 
