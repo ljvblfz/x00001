@@ -96,7 +96,17 @@ public class WsControllerServiceSupport {
 			//try to reconnect
 			if(keepAlive){ 
 				Log.d(TAG, "[onClose]countOfReconnect is:  "+countOfReconnect.incrementAndGet());
-				reconnect(); 
+//				try {
+//					Thread.sleep(1000*countOfReconnect.intValue());
+//				} catch (InterruptedException e) { 
+//					e.printStackTrace();
+//				}
+//				if(countOfReconnect.intValue()<6){
+//					reconnect();  
+//				}else{
+//					keepAlive=false;
+//				}
+				reconnect();  
 			}
 		}
 	};
@@ -136,10 +146,19 @@ public class WsControllerServiceSupport {
 		Log.d(TAG, "reconnect begin."); 
 		if(null!=client){
 			Log.d(TAG, "connect status: "+client.isConnected());  
-			connect();
+//			connect();
+			new Thread(reconnectRunnable).start();
 		}
 		Log.d(TAG, "reconnect end."); 
 	}
+	
+	Runnable reconnectRunnable=  new Runnable() { 
+		@Override
+		public void run() { 
+			connect();
+		}
+
+	}; 
 
 	/**
 	 * 

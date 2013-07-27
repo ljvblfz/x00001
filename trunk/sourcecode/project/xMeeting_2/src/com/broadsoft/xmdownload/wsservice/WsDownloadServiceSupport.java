@@ -78,13 +78,13 @@ public class WsDownloadServiceSupport {
 
 		@Override
 		public void onClose(int code, String reason) {
-			Log.d(TAG, "[onClose]"+code+"--"+reason);
-			DownloadByWsUIHandler.getInstance().sendExitDownloadStatus(); 
-			DownloadOnlineStatusUIHandler.getInstance().sendDownloadOnlineOffMessage();
-//			JSONObject jsonMessage = createOnlineStatusJsonMessage();
-//			DownloadOnlineStatusUIHandler.getInstance().sendDownloadOnlineMessage(jsonMessage.toString());
-			//try to reconnect
+			Log.d(TAG, "[onClose]"+code+"--"+reason+"===> keepAlive:"+keepAlive);
 			if(keepAlive){ 
+				DownloadByWsUIHandler.getInstance().sendExitDownloadStatus(); 
+				DownloadOnlineStatusUIHandler.getInstance().sendDownloadOnlineOffMessage();
+	//			JSONObject jsonMessage = createOnlineStatusJsonMessage();
+	//			DownloadOnlineStatusUIHandler.getInstance().sendDownloadOnlineMessage(jsonMessage.toString());
+				//try to reconnect
 				Log.d(TAG, "[onClose]countOfReconnect is:  "+countOfReconnect.incrementAndGet());
 				reconnect(); 
 			}
@@ -276,6 +276,14 @@ public class WsDownloadServiceSupport {
 
 	public String getPadId() {
 		return padId;
+	}
+
+	public boolean isKeepAlive() {
+		return keepAlive;
+	}
+
+	public void setKeepAlive(boolean keepAlive) {
+		this.keepAlive = keepAlive;
 	}
 	
 
