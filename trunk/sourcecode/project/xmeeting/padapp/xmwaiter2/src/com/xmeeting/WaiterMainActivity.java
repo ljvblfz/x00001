@@ -12,9 +12,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
@@ -86,9 +88,37 @@ public class WaiterMainActivity extends Activity {
 	private ListView toDoListView = null; 
 //    private List<ToDoEntity> toDoData = new ArrayList<ToDoEntity>(); 
 //    private List<String> toDoTagData = new ArrayList<String>(); 
-    
+
+	private ProgressDialog progressDialog;
     private Button btnBack;
+
+	private boolean isShowLoading=false;
     
+    public void createLoadingDialog(){ 
+    	if(!isShowLoading){
+			 progressDialog = new ProgressDialog(this);
+			 progressDialog.setMessage("网络连接中...");
+			 progressDialog.setCancelable(false);
+			 progressDialog.setIndeterminate(true);
+			 progressDialog.show();
+			 isShowLoading=true;
+    	}
+	}
+	
+    public void destroyLoadingDialog(){ 
+		if(null!=progressDialog){
+			progressDialog.dismiss();
+			progressDialog=null; 
+			isShowLoading=false;
+		} 
+	}
+	
+	@Override
+	protected void onDestroy() {
+		destroyLoadingDialog();
+		super.onDestroy();
+	}
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,11 +126,25 @@ public class WaiterMainActivity extends Activity {
 
 
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        OnlineStatusUIHandler.init(this);
+        createLoadingDialog();
+        
+        int sleepTimes=0;
+        System.out.println("*****************************1");
+        while(!isConnected()&&sleepTimes<200){
+            System.out.println("*****************************sleepTimes"+!isConnected());
+        	sleepTimes++;
+        	try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+        }
         
         new AppInitSupport().initApp(getApplicationContext(), getAssets());
 
         ToDoUIHandler.initToDo(this);
-        OnlineStatusUIHandler.init(this);
         InitTopbarAndBack();
         
         InitTab();
@@ -109,8 +153,13 @@ public class WaiterMainActivity extends Activity {
         InitTodoListView();
 
 		((TextView)findViewById(R.id.textView1)).setText("服务工作台_"+AndroidIdSupport.getAndroidID());
-
+//		destroyLoadingDialog();
     }
+    
+    protected boolean isConnected(){
+		ConnectivityManager connMgr = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+		return NetworkSupport.isConnected(connMgr);
+	}
     
 	/*---------------------------InitTab------------------------------------------*/
     

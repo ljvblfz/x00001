@@ -14,39 +14,17 @@ import android.util.Log;
 import android.widget.Button;
 
 import com.founder.enforcer.R;
+import com.xmeeting.WaiterMainActivity;
 
 public class OnlineStatusUIHandler extends Handler {
 	private final String TAG = "DownloadOnlineStatusUIHandler";
 	private Activity act;
 
-	private boolean isShowLoading=false;
-	
 	private static OnlineStatusUIHandler downloadOnlineStatusUIHandler;
 	public OnlineStatusUIHandler(Activity act) {
 		this.act = act;
 	}
 	
-	private ProgressDialog progressDialog;
-	
-	private void createLoadingDialog(){ 
-		if(!isShowLoading){
-			 progressDialog = new ProgressDialog(act);
-			 progressDialog.setMessage("网络连接中...");
-			 progressDialog.setCancelable(false);
-			 progressDialog.setIndeterminate(true);
-			 progressDialog.show();
-			 isShowLoading=true;
-		}
-	}
-	
-	private void destroyLoadingDialog(){ 
-		if(null!=progressDialog){
-			progressDialog.dismiss();
-			progressDialog=null; 
-		} 
-		 isShowLoading=false;
-	}
-
 	
 	public static void init(Activity act){
 		if(null==downloadOnlineStatusUIHandler){
@@ -74,10 +52,10 @@ public class OnlineStatusUIHandler extends Handler {
 				ivOnlineIcon=(Button)act.findViewById(R.id.offlineTip);
 				if("1".equals(status)){//在线  
 					ivOnlineIcon.setBackgroundResource(R.drawable.online_64);
-					destroyLoadingDialog();
+					((WaiterMainActivity)act).destroyLoadingDialog();
 				} else{//离线  
 					ivOnlineIcon.setBackgroundResource(R.drawable.offline_64);
-					createLoadingDialog();
+					((WaiterMainActivity)act).createLoadingDialog();
 					
 				}
 			}//end of if
