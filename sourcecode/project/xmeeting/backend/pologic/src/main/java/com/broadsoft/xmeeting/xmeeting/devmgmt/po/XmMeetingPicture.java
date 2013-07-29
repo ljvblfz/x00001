@@ -26,7 +26,7 @@ public class XmMeetingPicture extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 	public static String XMMPIC_GUID= "xmmpicGuid";
-	public static String XMMI_GUID= "xmmiGuid";
+//	public static String XMMI_GUID= "xmmiGuid";
 	public static String XMMPIC_IMAGE_TITLE= "xmmpicImageTitle";
 	public static String XMMPIC_IMAGE_DESCRIPTION= "xmmpicImageDescription"; 
 
@@ -34,7 +34,7 @@ public class XmMeetingPicture extends BaseEntity {
 	/** PID */
 	private java.lang.String xmmpicGuid;
 	/** 会议PID */
-	private java.lang.String xmmiGuid;
+//	private java.lang.String xmmiGuid;
 	/** 图片主题名称 */
 	private java.lang.String xmmpicImageTitle;
 	/** 图片主题描述 */
@@ -71,21 +71,21 @@ public class XmMeetingPicture extends BaseEntity {
 	public void setXmmpicGuid(java.lang.String xmmpicGuid) {
 		this.xmmpicGuid = xmmpicGuid;
 	}
-		/**
-		 * 取得会议PID
-		 * return 会议PID
-		 */
-	public java.lang.String getXmmiGuid() {
-		return this.xmmiGuid;
-	}
-	
-	/**
-	 * 设置会议PID
-	 * @param xmmiGuid 会议PID
-	 */
-	public void setXmmiGuid(java.lang.String value) {
-		this.xmmiGuid = value;
-	}
+//		/**
+//		 * 取得会议PID
+//		 * return 会议PID
+//		 */
+//	public java.lang.String getXmmiGuid() {
+//		return this.xmmiGuid;
+//	}
+//	
+//	/**
+//	 * 设置会议PID
+//	 * @param xmmiGuid 会议PID
+//	 */
+//	public void setXmmiGuid(java.lang.String value) {
+//		this.xmmiGuid = value;
+//	}
 		/**
 		 * 取得图片主题名称
 		 * return 图片主题名称
