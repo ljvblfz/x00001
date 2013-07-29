@@ -63,7 +63,17 @@ public class WsControllerServiceSupport {
 //		this.wspath="ws://"+serveripport+"/websocket/ws/controller?meetingId=" + meetingId + "&memberId=" + memberId + "&memberDisplayName=" + memberDisplayName;
 	}
   
-	
+	/**
+	 * isConnected
+	 */
+	public boolean isConnected(){
+		Log.d(TAG, "[isConnected]client.isConnected() is: " + client.isConnected()); 
+		if(null!=client){ 
+			return client.isConnected();
+		}else{
+			return false;
+		} 
+	} //end of disconnect
 
 	/**
 	 * 
