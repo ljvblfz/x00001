@@ -137,6 +137,7 @@ public class UploadifyServlet extends HttpServlet {
             		jsonObject.put("fileDirectory", fileDirectory);
             		jsonObject.put("fileContentType", fileContentType); 
             		jsonObject.put("fileSize", fileSize);  
+            		jsonObject.put("originalFileName", originalFileName);  
             		System.out.println("jsonObject-------->"+jsonObject.toString());
                     out.print(jsonObject); 
 				}catch(Exception e){
