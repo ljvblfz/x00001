@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import com.broadsoft.xmeeting.R;
 
 /**
  * 
+ * progress dialog:http://www.mkyong.com/android/android-progress-bar-example/
  * @author lu.zhen
  *
  */
@@ -67,13 +69,23 @@ public class DownloadByWsUIHandler extends Handler {
 			TextView tvDownloadStatus=(TextView)act.findViewById(R.id.textViewDownloadStatus);
 			tvDownloadStatus.setText(statusinfo); 
 			//reload data
-			if(jo.has("isfinish")){
-				String isfinish=jo.getString("isfinish");  
-				if("1".equals(isfinish)){
+			if(jo.has("reload")){
+				String reload=jo.getString("reload");  
+				if("1".equals(reload)){
 					AppInitSupport.reloadEntity();
 					meetingListItemAdapter.reload();   
 				}
 			}//end of isfinish
+			//isfinishx
+			if(jo.has("isfinishx")){
+				String isfinishx=jo.getString("isfinishx");  
+				if("0".equals(isfinishx)){
+					createLoadingDialog();
+				}
+				if("1".equals(isfinishx)){ 
+					destroyLoadingDialog();
+				}
+			}//end of isfinishx
 			//
 			if(jo.has("type")){
 					String type=jo.getString("type");   
@@ -94,7 +106,21 @@ public class DownloadByWsUIHandler extends Handler {
 		}    
 		Log.d(TAG, "handleMessage end");
 	}
-
+	private ProgressDialog progressDialog;
+	private void createLoadingDialog(){ 
+		 progressDialog = new ProgressDialog(act);
+		 progressDialog.setMessage("下载中,请等待...");
+		 progressDialog.setCancelable(false);
+		 progressDialog.setIndeterminate(true);
+		 progressDialog.show();
+	}
+	
+	private void destroyLoadingDialog(){ 
+		if(null!=progressDialog){
+			progressDialog.dismiss();
+			progressDialog=null; 
+		} 
+	}
 
 	private String processMessage(String payload) {
 		String statusinfo="";
@@ -127,7 +153,8 @@ public class DownloadByWsUIHandler extends Handler {
         try {
 			jsonMessage.put("type", "02");
 			jsonMessage.put("statusinfo", "下载会议信息中.");
-			jsonMessage.put("isfinish", "0");
+//			jsonMessage.put("reload", "0");
+			jsonMessage.put("isfinishx", "0");
 		} catch (JSONException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -140,7 +167,8 @@ public class DownloadByWsUIHandler extends Handler {
         try {
 			jsonMessage.put("type", "02");
 			jsonMessage.put("statusinfo", "下载会议信息结束.");
-			jsonMessage.put("isfinish", "1");
+			jsonMessage.put("reload", "1");
+			jsonMessage.put("isfinishx", "1");
 		} catch (JSONException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -153,7 +181,8 @@ public class DownloadByWsUIHandler extends Handler {
         try {
 			jsonMessage.put("type", "01");
 			jsonMessage.put("statusinfo", "下载设备信息中.");
-			jsonMessage.put("isfinish", "0");
+//			jsonMessage.put("reload", "0");
+			jsonMessage.put("isfinishx", "0");
 		} catch (JSONException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -166,7 +195,8 @@ public class DownloadByWsUIHandler extends Handler {
         try {
 			jsonMessage.put("type", "01");
 			jsonMessage.put("statusinfo", "下载设备信息结束.");
-			jsonMessage.put("isfinish", "1");
+			jsonMessage.put("reload", "1");
+			jsonMessage.put("isfinishx", "1");
 		} catch (JSONException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -179,7 +209,7 @@ public class DownloadByWsUIHandler extends Handler {
         try {
 			jsonMessage.put("type", "03");
 			jsonMessage.put("statusinfo", "激活会议完成");
-			jsonMessage.put("isfinish", "1");
+			jsonMessage.put("reload", "1");
 		} catch (JSONException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -192,7 +222,7 @@ public class DownloadByWsUIHandler extends Handler {
         try {
 			jsonMessage.put("type", "05");
 			jsonMessage.put("statusinfo", "删除会议完成");
-			jsonMessage.put("isfinish", "1");
+			jsonMessage.put("reload", "1");
 		} catch (JSONException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
