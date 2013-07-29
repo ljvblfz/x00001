@@ -1,0 +1,94 @@
+<h2 class="contentTitle" name="showTitle">上传图片</h2>
+<form name="pageForm" method="post" class="required-validate pageForm" onsubmit="return validateCallback(this, navTabAjaxDone);">
+	
+		<input type="hidden" name="xmmpicGuid" id="xmmpicGuid"/>
+		<input type="hidden" name="xmmpicJsonData"    />
+		<input type="hidden" name="navTabId" value="xmMeetingPictureDetail" />
+		<input type="hidden" name="callbackType" value="closeCurrent" />
+		<input type="hidden" name="callBackMethod" value="xmMeetingPictureDetailSearch" />
+		
+		
+	<div class="pageFormContent" layoutH="97"> 
+ 
+			 
+			<div id="xmmpicImageFileQueue" class="fileQueue"></div>  
+			<input  type="file"  id="xmmpicImageFileFile" name="xmmpicImageFileFile"  
+				uploader="/fwkweb/styles/uploadify/scripts/uploadify.swf"
+				cancelImg="/fwkweb/styles/uploadify/cancel.png" 
+				script="xmeeting_meetingimage.uploadify"  
+				fileQueue="xmmpicImageFileQueue"  
+				onComplete="xmMeetingPictureDetail_uploadifyAllComplete2"  
+				fileExt="*.jpg;*.jpeg;*.gif;*.png;"
+				fileDesc="*.jpg;*.jpeg;*.gif;*.png;"/>
+			
+			<p></p>
+			<p></p>
+			<p></p> 
+			<div class="unit"> 
+				<img src=""  name="xmmpicImageFilePreview" width="500px" height="600px"  style="display:none"></img> 
+				
+				<table   cellspacing="2" cellpadding="2" border="1"  width="800">
+					<thead>
+						<tr><td>顺序</td><td>预览</td><td>文件名称</td><td>原始文件名称</td></tr>
+					</thead>
+					<tbody name="xmmpicImageFileTBody">
+					</tbody>
+				</table>
+			</div>
+			
+			
+	</div>
+			
+	<div class="formBar">
+		<ul>
+			<li><div class="buttonActive"><div class="buttonContent"><button type="submit" >保存</button></div></div></li>
+			<li><div class="button"><div class="buttonContent"><button type="button" class="close">关闭</button></div></div></li>
+		</ul>
+	</div>
+</form>
+<script type="text/javascript">
+	//通过tab url得到行主键，获取信息，自动填充form表单
+	var fileUploadCounter=0;
+	var jsonArray; 
+	$(function(){
+		fileUploadCounter=0;
+		jsonArray=new Array();
+		var $form = findName("pageForm");
+		var url = navTab._getTabUrl(); 
+		var xmmpicGuid=navTab._getParam("xmmpicGuid");
+// 		var xmmiGuid=navTab._getParam("xmmiGuid");
+		findName('xmmpicGuid').val(xmmpicGuid);
+		$form.attr('action',CPATH.domain_3 + '/rs/xmMeetingPictureMultipleUpload');
+		$("#xmmpicImageFileFile").attr("script","xmeeting_meetingimage.uploadify?xmmpicGuid="+xmmpicGuid);
+ 
+	});
+	
+	
+
+	function xmMeetingPictureDetail_uploadifyAllComplete2(event, queueID, fileObj, reposnse, data){   
+		var jsonResponse=DWZ.jsonEval(reposnse);
+		logger.info("xmMeetingPictureDetail_uploadifyAllComplete2---jsonResponse->"+jsonResponse); 
+// 		findName('xmmpicImageFile').val(jsonResponse.fileUrlPath );   
+// 		findName('xmmpicImageFilePreview').attr('src',jsonResponse.fileUrlPath);
+// 		findName('xmmpicImageFilePreview').css("display","block");
+		fileUploadCounter++;
+		var trHtml="<tr>";
+		trHtml+="<td>"+fileUploadCounter+"</td>";
+		trHtml+="<td><img src='"+jsonResponse.fileUrlPath+"' width='50' height='50'></td>";
+		trHtml+="<td>"+jsonResponse.fileUrlPath+"</td>";
+		trHtml+="<td>"+jsonResponse.originalFileName+"</td>";
+		trHtml+="</tr>";
+		//
+		var  jsonObject=new Object();
+		jsonObject.xmmpicSortno=fileUploadCounter;
+		jsonObject.xmmpicImageFile=jsonResponse.fileUrlPath;
+		jsonObject.xmmpicImageDesc=jsonResponse.originalFileName;
+		jsonArray.push(jsonObject);
+		logger.info("xmMeetingPictureDetail_uploadifyAllComplete2---trHtml->"+trHtml); 
+		logger.info("xmMeetingPictureDetail_uploadifyAllComplete2---jsonData->"+JSON.stringify(jsonArray)); 
+		findName("xmmpicImageFileTBody").append(trHtml);
+		findName("xmmpicJsonData").val(JSON.stringify(jsonArray));
+		
+	}
+
+</script>
