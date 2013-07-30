@@ -19,13 +19,10 @@ public class GeneratorClient {
 		OdysseyGenerator pg = new OdysseyGenerator();
 		pg.clean();     
 		///
-		pg.generateCRUDByTable("PBS_DISPATCH_BUS_ORDER","dispatch","pbs","3");     
-		pg.generateCRUDByTable("PBS_RATING_TIME","dispatch","pbs","3");     
-		pg.generateCRUDByTable("PBS_SCHEDULE_SOLUTION","dispatch","pbs","3");     
-		pg.generateCRUDByTable("PBS_SCHEDULE_SOLUTION_DETAIL","dispatch","pbs","3");     
+		pg.generateCRUDByTable("XM_MEETING_X_PICTURE","xmeeting","devmgmt","3");       
 		 
 		
-		browsePath("d:/codegen/dispatch");
+		browsePath("d:/codegen/xmeeting");
 		
 	}
 

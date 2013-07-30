@@ -346,6 +346,8 @@ public class DbModelHelper {
 			// System.out.println(columnRs.getMetaData().getColumnName(i));
 			String columnDefaultValue = columnRs.getString("COLUMN_DEF");
 			String comments = columnRs.getString("COMMENTS");
+			
+			System.out.println("comments------------->"+comments);
 			// if columnNoNulls or columnNullableUnknown assume "not nullable"
 			boolean isNullable = (DatabaseMetaData.columnNullable == columnRs.getInt("NULLABLE"));
 			int size = columnRs.getInt("COLUMN_SIZE");
