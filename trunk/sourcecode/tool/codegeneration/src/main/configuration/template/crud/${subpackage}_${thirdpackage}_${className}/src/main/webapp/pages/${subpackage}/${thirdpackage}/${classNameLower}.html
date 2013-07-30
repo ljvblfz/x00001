@@ -8,7 +8,7 @@
 		<div class="searchBar">
 			<ul class="searchContent">
 				<li>
-					<label>类型名称：</label>
+					<label>${signlePrmaryKeyLower}名称：</label>
 					<input type="text" name="${signlePrmaryKeyLower}" value=""/>
 				</li>
 <!--				<li>-->
@@ -21,7 +21,9 @@
 			<div class="subBar">
 				<ul>						
 					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="${classNameLower}Search({pageNum:1})">查询</button></div></div></li>
-					<li><a class="button" href="/management/user!advancedSearch.do?userType=TRAINING" target="dialog" title="Advanced Search"><span>高级查询</span></a></li>
+<!-- 					<li><a class="button" href="/management/user!advancedSearch.do?userType=TRAINING" target="dialog" title="Advanced Search"><span>高级查询</span></a></li> -->
+					<li><div class="buttonActive"><div class="buttonContent"><button type="button" onclick="javascript:findName('${classNameLower}SearchForm')[0].reset()">清空</button></div></div></li>
+	
 				</ul>
 			</div>
 		</div>
@@ -34,8 +36,7 @@
 		<ul class="toolBar">
 			<li><a class="add" target="navTab" rel="userNav" href="javascript:getURL(CPATH.domain_${domain},'/pages/${subpackage}/${thirdpackage}/modify/${classNameLower}Modify.html');" title="新增${classNameLower}" authId="testAuth000001"><span>新增</span></a></li>
 			<li><a class="edit" target="navTab" rel="userNav1" href="javascript:getURL(CPATH.domain_${domain},'/pages/${subpackage}/${thirdpackage}/modify/${classNameLower}Modify.html?${signlePrmaryKeyLower}={slt_uid}');" title="修改${classNameLower}" authId="testAuth000002" multiable="no" warn="请选择一条记录"><span>修改</span></a></li>
-			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_${domain},'/rs/${classNameLower}')"  rel="${signlePrmaryKeyLower}s" 
-			callBackMethod="${classNameLower}Search"	title="确认删除?" authId="testAuth000003"><span>删除</span></a></li>
+			<li><a class="delete" target="selectedTodo"  postType="json" doType="DELETE" href="javascript:getURL(CPATH.domain_${domain},'/rs/${classNameLower}')"  rel="${signlePrmaryKeyLower}s" callBackMethod="${classNameLower}Search"	title="确认删除?" authId="testAuth000003"><span>删除</span></a></li>
 <!--			<li class="line">line</li>-->
 <!--			<li><a class="icon" href="/management/user!export.do" target="dwzExport" targetType="navTab" title="确认导出?"><span>导出</span></a></li>-->
 		</ul>
@@ -47,7 +48,8 @@
 				<#list table.columns as column>
 					<#if !column.pk >
 					<#if !column.isCreateOrUpdate >
-						<th width="60" orderField="${column.columnNameLower}">${column.columnNameLower}</th>
+						<th width="60" orderField="${column.columnNameLower}">${column.comments}</th>
+<!-- 						<th width="60" orderField="${column.columnNameLower}">${column.columnNameLower}</th> -->
 					</#if>
 					</#if>
 				</#list>

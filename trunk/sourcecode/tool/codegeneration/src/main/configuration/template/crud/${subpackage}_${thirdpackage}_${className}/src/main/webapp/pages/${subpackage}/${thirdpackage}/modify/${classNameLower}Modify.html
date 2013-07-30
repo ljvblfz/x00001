@@ -13,7 +13,8 @@
 					<#if !column.pk >
 					<#if !column.isCreateOrUpdate >
 			<p>
-				<label>${column.columnNameLower}</label>
+<!-- 				<label>${column.columnNameLower}</label> -->
+				<label>${column.comments}</label>
 				<input type="text" name="${column.columnNameLower}" class="required" size="30" maxlength="20"/>
 			</p>
 					</#if>
