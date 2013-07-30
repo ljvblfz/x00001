@@ -1,0 +1,42 @@
+alter table XM_MEETING_DOCUMENT add XMMD_IS_ALLOWED_SENT VARCHAR2(2);
+
+UPDATE XM_MEETING_DOCUMENT SET XMMD_IS_ALLOWED_SENT='1';
+
+
+ALTER TABLE XM_MEETING_MESSAGE  ADD XMMM_STATUS VARCHAR2(2);
+
+UPDATE XM_MEETING_MESSAGE SET XMMM_STATUS='1';
+
+
+ALTER TABLE XM_MEETING_CALL  ADD XMMCALL_STATUS VARCHAR2(2); 
+
+UPDATE XM_MEETING_CALL SET XMMCALL_STATUS='1';
+
+
+
+alter table XM_MEETING_INFO add xmmi_nav_meeting_guide varchar2(2);
+
+update XM_MEETING_INFO set xmmi_nav_meeting_guide='1';
+
+
+
+CREATE TABLE						XM_MEETING_X_PICTURE									(																	
+	XMMXPIC_GUID						VARCHAR2(40)																primary key									,
+	XMMI_GUID						VARCHAR2(40)																									,
+	XMMPIC_GUID						VARCHAR2(40)																									 ,
+	CREATE_BY						VARCHAR2(40)																									,
+	CREATE_DT						DATE																									,
+	UPDATE_BY						VARCHAR2(40)																						,			
+	UPDATE_DT						DATE																									,
+	DEL_FLAG						INTEGER																									 
+	);																															
+																																
+																																
+																																
+
+
+
+Çå¿ÕÍ¼Æ¬µÄxmmiGuid -----------> alter table XM_MEETING_PICTURE drop column xmmi_guid ;
+
+
+
