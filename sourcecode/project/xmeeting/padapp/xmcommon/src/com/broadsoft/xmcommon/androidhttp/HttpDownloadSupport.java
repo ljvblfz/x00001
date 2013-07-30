@@ -40,7 +40,7 @@ public class HttpDownloadSupport {
 	 * @param docPathFile
 	 * @return  0--下载失败,1--下载成功,2--已经存在,4 --文件不存在
 	 */
-	public static int downloadFile(String serveriport,String docPathFile) { 
+	public static int downloadFile(String serveriport,String docPathFile,HttpDownloadListener httpDownloadListener) { 
 		Log.d(TAG, "downloadFile begin, docPathFile is: "+docPathFile); 
 		if(null==docPathFile||"".equals(docPathFile.trim())){
 			return 4;
@@ -84,7 +84,7 @@ public class HttpDownloadSupport {
 				Log.d(TAG, "localDir is : "+localDir); 
 				file.createNewFile();// 新建文件
 				output = new FileOutputStream(file); 
-				return writeFile(input,output,docPathFile);
+				return writeFile(input,output,docPathFile,httpDownloadListener);
 			}
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
@@ -102,7 +102,7 @@ public class HttpDownloadSupport {
 		return retFlag;
 	}//end of downloadFile 
 	
-	private static  int writeFile(InputStream input,OutputStream output,String fileName){ 
+	private static  int writeFile(InputStream input,OutputStream output,String fileName,HttpDownloadListener httpDownloadListener){ 
 		long totalRead=0;
 		try { 
 			int bytesRead = 0;
@@ -115,7 +115,8 @@ public class HttpDownloadSupport {
 				output.write(data, 0, bytesRead);
 				totalRead += bytesRead;
 				if(index%1000==0){
-					Log.d(TAG,System.currentTimeMillis()+ "-"+(bytesRead/(1024*1024))+" M");
+					Log.d(TAG,System.currentTimeMillis()+ "Download-"+(totalRead/(1024))+" KB");
+					httpDownloadListener.notifyDownloadSize(totalRead);
 				}
 			}
 			int totalReadInKB = (int) (totalRead / 1024);
