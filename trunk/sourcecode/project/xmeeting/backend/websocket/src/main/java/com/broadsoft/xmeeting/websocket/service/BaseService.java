@@ -38,6 +38,7 @@ public class BaseService implements IService{
 		String from=context.getString("from");
 		String fromDisplayName=context.getString("fromDisplayName");
 		String to=context.getString("to");
+
 		int count=0;
 		try { 
 			JSONObject responseContent=null;
@@ -54,11 +55,16 @@ public class BaseService implements IService{
 						writeResponse(resp,messageInbound); 
 					}
 				} 
-				if(validateMember(from, messageInbound)){
-//					writeResponse(meetingid, msgtype, msgcontent, from,fromDisplayName, to, messageInbound); 
+				if(logger.isTraceEnabled()){
+					logger.trace("send message back to from:{} with inbound memberid: {} .",from,messageInbound.getMemberId()); 
+				} 
+				if(validateMember(from, messageInbound)){ 
 					if(null!=responseContent){
 						String resp=responseContent.toString(); 
 						writeResponse(resp,messageInbound); 
+						if(logger.isTraceEnabled()){
+							logger.trace("send message back to from:{} successfully.",from); 
+						} 
 					}
 				} 
 
@@ -81,21 +87,21 @@ public class BaseService implements IService{
 	
 	/**
 	 * 
-	 * @param to
+	 * @param memberId
 	 * @param messageInbound
 	 * @return
 	 */
-	protected boolean validateMember(String to,
+	protected boolean validateMember(String memberId,
 			ControllerMessageInbound messageInbound) {
-		if(to!=null&&!to.isEmpty()){
-			if(to.indexOf(",")>0){
-				String[] arrTo=to.split(",");
+		if(memberId!=null&&!memberId.isEmpty()){
+			if(memberId.indexOf(",")>0){
+				String[] arrTo=memberId.split(",");
 				for(String strTo:arrTo){
 					if(strTo.equals(messageInbound.getMemberId())){
 						return true;
 					}
 				}//end of for 
-			}else if(to.equals(messageInbound.getMemberId())){
+			}else if(memberId.equals(messageInbound.getMemberId())){
 				return true;
 			}
 		}
