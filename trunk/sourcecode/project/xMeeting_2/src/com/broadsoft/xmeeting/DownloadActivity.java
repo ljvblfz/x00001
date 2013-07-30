@@ -11,14 +11,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.broadsoft.xmcommon.androiddao.DownloadInfoEntity;
 import com.broadsoft.xmcommon.androiddao.EntityInfoHolder;
 import com.broadsoft.xmcommon.androidnetwork.NetworkSupport;
 import com.broadsoft.xmcommon.androidutil.AndroidIdSupport;
@@ -97,11 +100,10 @@ public class DownloadActivity extends Activity implements Runnable{
     	Button buttonSyncDeviceInfo=(Button)this.findViewById(R.id.buttonSyncDeviceInfo);
     	buttonSyncDeviceInfo.setOnClickListener(new OnClickListener() {      
             public void onClick(View v) {  
-            	RsServiceOnPadInfoSupport.download();
+            	RsServiceOnPadInfoSupport.download(); 
             	
             }  //end of onClick
-        });      
-
+        });       
     	
 		//会议列表
 		ListView lvMeetingInfo=(ListView)this.findViewById(R.id.lvMeetingList);   
@@ -111,35 +113,25 @@ public class DownloadActivity extends Activity implements Runnable{
 		DownloadByWsUIHandler.init(this,meetingListItemAdapter);
         DownloadByHandUIHandler.init(this, meetingListItemAdapter);
         DownloadOnlineStatusUIHandler.init(this);
-        //
+        //connect
         WsDownloadServiceSupport.getInstance().connect(); 
-        //
-//		toggleBtnDownload = (ToggleButton ) findViewById(R.id.toggleBtnDownload);
-//		toggleBtnDownload.setOnClickListener(new OnClickListener() {      
-//            public void onClick(View v) {    
-//            	if(isConnected()){
-//                    if (toggleBtnDownload.isChecked()) {              
-//                    	WsDownloadServiceSupport.getInstance().connect(); 
-//                    }else {          
-//                        WsDownloadServiceSupport.getInstance().disconnect();    
-//                    }     
-//            	}else{
-//					Toast toast=Toast.makeText(DownloadActivity.this, "网络不通,请检查wifi设置!",Toast.LENGTH_LONG);
-//					toast.setGravity(Gravity.CENTER, 0, 0);
-//					toast.show();
-//				} //end of if else
-//            }  //end of onClick
-//        });     
-		
+        //  
 		Button btnEntryActivateMeeting =(Button)findViewById(R.id.btnEntryActivateMeeting);
 		btnEntryActivateMeeting.setOnClickListener(new OnClickListener() {      
             public void onClick(View v) {       
-            	//TODO:fixme
-        		Intent intent = new Intent();
-        		intent.setClass(DownloadActivity.this, LoginActivity.class); 
-        		intent.setData(Uri.parse("one")); 
-        		startActivityForResult(intent, REQUEST_CODE);// 以传递参数的方式跳转到下一个Activity 
-        		finish();
+            	DownloadInfoEntity downloadInfoEntity=EntityInfoHolder.getInstance().getDownloadInfoEntity();
+            	if(null!=downloadInfoEntity){
+                	//TODO:fixme
+            		Intent intent = new Intent();
+            		intent.setClass(DownloadActivity.this, LoginActivity.class); 
+            		intent.setData(Uri.parse("one")); 
+            		startActivityForResult(intent, REQUEST_CODE);// 以传递参数的方式跳转到下一个Activity 
+            		finish(); 
+            	}else{ 
+					Toast toast=Toast.makeText(DownloadActivity.this, "请先激活的会议!",Toast.LENGTH_LONG);
+					toast.setGravity(Gravity.CENTER, 0, 0);
+					toast.show();
+            	}
             }   
         });    
 		
@@ -171,54 +163,7 @@ public class DownloadActivity extends Activity implements Runnable{
 		}
 		handlerCheckingWifi.postDelayed(this,timeOfRetry );
 	}
-	 
-	
-//	private class CheckWifiStatusTask extends AsyncTask<Void, Void, Void> { 
-// 
-//		@Override
-//		protected void onPreExecute() {
-//			super.onPreExecute();
-//		}
-//
-//		@Override
-//		protected Void doInBackground(Void... params) {
-//			while (flagOnTask) {
-//				Log.d(TAG, "[CheckWifiStatusTask]before send status.");
-//				boolean wifiStatus=isConnected();
-//				Log.d(TAG, "[CheckWifiStatusTask]after send status.");
-//				try {
-//					Thread.sleep(5 * 60*1000);
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
-//				Log.d(TAG, "[CheckOnlineStatusTask]complete sleep.");
-//			}
-//			return null;
-//		}
-//
-//		private JSONObject createJsonMessage(boolean status) {
-//			JSONObject jsonStatus = new JSONObject();
-//			try {
-//				if (status) {
-//					jsonStatus.put("status", "1");
-//				} else {
-//					jsonStatus.put("status", "0"); 
-//				}
-//			} catch (JSONException e) {
-//				e.printStackTrace();
-//			}
-//			return jsonStatus;
-//		}
-//
-//		@Override
-//		protected void onPostExecute(Void result) {
-// 
-//
-//  		}
-//          
-//    }
-	
-	
+	  
 	
 
 	@Override
