@@ -245,13 +245,16 @@ function parseRow(sampleRow, data, i, index) {
 						} else if ($this.attr("type") == 'text') {
 							var obj = ($this.find(":input")).attr("name");
 							$this.find(":input").attr("value", data[obj]);
+						}else if ($this.attr("type") == 'img') {
+							var obj = ($this.find("img")).attr("name");
+							$this.find("img").attr("src", data[obj]);
 						}
 						else if ($this.attr("type") == 'delete') {
 							var obj = ($this.find(":input")).attr("name");
 							$this.find(":input").attr("value", data[obj]);
 						} else
 							$this.text(data[$this.attr("name")]);
-					});
+					});//end of each
 	row.css("display", "");
 	row.attr('name', '');
 	row.appendTo(sampleRow.parent());//添加到模板的容器中
