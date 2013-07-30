@@ -53,30 +53,43 @@ public class DownloadByHandUIHandler extends Handler {
 		super.handleMessage(msg);  
 		Bundle bundle = msg.getData();
 		String payload = bundle.getString("payload");
-		String downloadinfo  = processMessage(payload); 
-		if("begin".equals(downloadinfo)){//下载开始
-			createLoadingDialog(); 
-		}else if("end".equals(downloadinfo)){//下载结束
-			meetingInfoLVButtonAdapter.reload(); 
-			destroyLoadingDialog();
-		}else if("error".equals(downloadinfo)){//下载错误
-			Toast.makeText(act, "会议信息下载失败,请重新下载.", Toast.LENGTH_LONG).show();  
-		}else if("activate".equals(downloadinfo)){//激活会议
-			AppInitSupport.reloadEntity();
-			meetingInfoLVButtonAdapter.reload(); 
-			Toast.makeText(act, "会议信息激活.", Toast.LENGTH_LONG).show();  
-		} else if("delete".equals(downloadinfo)){//激活会议
-			AppInitSupport.reloadEntity();
-			meetingInfoLVButtonAdapter.reload(); 
-			Toast.makeText(act, "会议信息删除.", Toast.LENGTH_LONG).show();  
-		} 
+		JSONObject jo;
+		try {
+			jo = new JSONObject(payload); 
+			String downloadinfo  = jo.getString("statusinfo"); 
+			if("begin".equals(downloadinfo)){//下载开始
+				createLoadingDialog(); 
+			}else if("end".equals(downloadinfo)){//下载结束
+				meetingInfoLVButtonAdapter.reload(); 
+				destroyLoadingDialog();
+			}else if("error".equals(downloadinfo)){//下载错误
+				Toast.makeText(act, "会议信息下载失败,请重新下载.", Toast.LENGTH_LONG).show();   
+				destroyLoadingDialog();
+			}else if("progress".equals(downloadinfo)){//下载中  
+				if(jo.has("kbsize")){
+					String kbsize=jo.getString("kbsize");   
+					progressDialog.setMessage("下载中(已经下载:"+kbsize+" kb),请等待...");
+				}//end of isfinishx 
+			}else if("activate".equals(downloadinfo)){//激活会议
+				AppInitSupport.reloadEntity();
+				meetingInfoLVButtonAdapter.reload(); 
+				Toast.makeText(act, "会议信息激活.", Toast.LENGTH_LONG).show();  
+			} else if("delete".equals(downloadinfo)){//激活会议
+				AppInitSupport.reloadEntity();
+				meetingInfoLVButtonAdapter.reload(); 
+				Toast.makeText(act, "会议信息删除.", Toast.LENGTH_LONG).show();  
+			} 
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}   
 		Log.d(TAG, "handleMessage end");
 	}
  
 	private ProgressDialog progressDialog;
 	private void createLoadingDialog(){ 
 		 progressDialog = new ProgressDialog(act);
-		 progressDialog.setMessage("会议信息下载中,请等待...");
+		 progressDialog.setMessage("下载中,请等待...");
 		 progressDialog.setCancelable(false);
 		 progressDialog.setIndeterminate(true);
 		 progressDialog.show();
@@ -107,16 +120,6 @@ public class DownloadByHandUIHandler extends Handler {
         msg.setData(bundle);    
 		sendMessage(msg);
 	}	
-	public void sendDownloadMessageOnError() {
-        JSONObject jsonMessage=new JSONObject();
-        try {
-			jsonMessage.put("type", "06");
-			jsonMessage.put("statusinfo", "error");
-		} catch (JSONException e1) { 
-			e1.printStackTrace();
-		}
-		sendJsonMessage(jsonMessage);
-	}
 	
 	
 	public void sendDownloadMessageOnBegin() {
@@ -124,6 +127,28 @@ public class DownloadByHandUIHandler extends Handler {
         try {
 			jsonMessage.put("type", "06");
 			jsonMessage.put("statusinfo", "begin");
+		} catch (JSONException e1) { 
+			e1.printStackTrace();
+		}
+		sendJsonMessage(jsonMessage);
+	}
+	public void sendDownloadMessageOnProgress(long kb) {
+        JSONObject jsonMessage=new JSONObject();
+        try {
+			jsonMessage.put("type", "06");
+			jsonMessage.put("statusinfo", "progress");
+			jsonMessage.put("kbsize", ""+kb);
+		} catch (JSONException e1) { 
+			e1.printStackTrace();
+		}
+		sendJsonMessage(jsonMessage);
+	}
+	
+	public void sendDownloadMessageOnError() {
+        JSONObject jsonMessage=new JSONObject();
+        try {
+			jsonMessage.put("type", "06");
+			jsonMessage.put("statusinfo", "error");
 		} catch (JSONException e1) { 
 			e1.printStackTrace();
 		}

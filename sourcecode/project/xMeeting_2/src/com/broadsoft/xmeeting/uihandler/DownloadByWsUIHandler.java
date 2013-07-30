@@ -86,6 +86,14 @@ public class DownloadByWsUIHandler extends Handler {
 					destroyLoadingDialog();
 				}
 			}//end of isfinishx
+			if(jo.has("progress")){
+				String progress=jo.getString("progress");   
+				progressDialog.setMessage("下载中(已经下载:"+progress+" kb),请等待...");
+			}//end of isfinishx
+			if(jo.has("error")){
+				String error=jo.getString("error");   
+				destroyLoadingDialog(); 
+			}//end of isfinishx
 			//
 			if(jo.has("type")){
 					String type=jo.getString("type");   
@@ -122,16 +130,16 @@ public class DownloadByWsUIHandler extends Handler {
 		} 
 	}
 
-	private String processMessage(String payload) {
-		String statusinfo="";
-		try {
-			JSONObject jo = new JSONObject(payload);   
-			statusinfo=jo.getString("statusinfo"); 
-		} catch (JSONException e) { 
-			e.printStackTrace();
-		}
-		return statusinfo;
-	}
+//	private String processMessage(String payload) {
+//		String statusinfo="";
+//		try {
+//			JSONObject jo = new JSONObject(payload);   
+//			statusinfo=jo.getString("statusinfo"); 
+//		} catch (JSONException e) { 
+//			e.printStackTrace();
+//		}
+//		return statusinfo;
+//	}
 
 	protected void showDialog(String msg) {
 		Toast toast = Toast.makeText(act, msg, Toast.LENGTH_LONG);
@@ -153,7 +161,6 @@ public class DownloadByWsUIHandler extends Handler {
         try {
 			jsonMessage.put("type", "02");
 			jsonMessage.put("statusinfo", "下载会议信息中.");
-//			jsonMessage.put("reload", "0");
 			jsonMessage.put("isfinishx", "0");
 		} catch (JSONException e1) {
 			// TODO Auto-generated catch block
@@ -161,6 +168,32 @@ public class DownloadByWsUIHandler extends Handler {
 		}
 		sendJsonMessage(jsonMessage);
 	}
+	
+	public void sendDownloadMeetingMessageOnProgress(long kb) {
+        JSONObject jsonMessage=new JSONObject();
+        try {
+			jsonMessage.put("type", "02");
+			jsonMessage.put("statusinfo", "下载会议信息中."); 
+			jsonMessage.put("progress", ""+kb);
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		sendJsonMessage(jsonMessage);
+	}
+
+	public void sendDownloadMeetingMessageOnError() {
+        JSONObject jsonMessage=new JSONObject();
+        try {
+			jsonMessage.put("type", "02");
+			jsonMessage.put("statusinfo", "下载会议信息错误.");   
+			jsonMessage.put("error", "1");   
+		} catch (JSONException e1) { 
+			e1.printStackTrace();
+		}
+		sendJsonMessage(jsonMessage);
+	}
+	
 	
 	public void sendDownloadMeetingMessageOnEnd() {
         JSONObject jsonMessage=new JSONObject();
