@@ -29,7 +29,10 @@ public class XmMeetingPictureDetailDaoImpl extends DefaultBaseDaoImpl<XmMeetingP
 		if(null!=maxObject){
 			List<Integer> listOfMax =(List<Integer>)super.findByHqlNoEntityType(hql, xmmpicGuid);
 			if(listOfMax.size()>0){
-				return listOfMax.get(0); 
+				Object value=listOfMax.get(0); 
+				if(null!=value){
+					return (Integer)value;
+				}
 			}
 		}
 		return 0;
