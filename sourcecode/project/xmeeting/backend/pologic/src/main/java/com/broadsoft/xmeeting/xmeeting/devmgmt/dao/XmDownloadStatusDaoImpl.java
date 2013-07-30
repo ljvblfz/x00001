@@ -25,7 +25,7 @@ public class XmDownloadStatusDaoImpl extends DefaultBaseDaoImpl<XmDownloadStatus
 	 * @return
 	 */
 	public XmDownloadStatus findByXmpdGuidAndXmmiGuid(String xmpdGuid,String xmmiGuid){ 
-		String hql=" from XmDownloadStatus a where a.xmpdGuid=? and a.xmmiGuid=? and a.delFlag=0  ";
+		String hql=" from XmDownloadStatus a where a.xmpdGuid=? and a.xmmiGuid=? and a.delFlag=0  order by a.createDt desc ";
 		List<XmDownloadStatus> listOfXmDownloadStatus= super.findByHql(hql,xmpdGuid,xmmiGuid);
 		
 		if(null!=listOfXmDownloadStatus){

@@ -16,7 +16,7 @@ public class XmMeetingSigninDaoImpl extends DefaultBaseDaoImpl<XmMeetingSignin,j
 	
 	
 	public int countByXmpiGuidAndXmmiGuid(String xmpiGuid,String xmmiGuid){
-		String hql="select count(*) from XmMeetingSignin a where a.xmmsPersonnel=? and a.xmmiGuid=?";
+		String hql="select count(*) from XmMeetingSignin a where a.xmmsPersonnel=? and a.xmmiGuid=? and trunc(a.xmmsTime)=trunc(sysdate)";
 		Object obj=this.findUniqueByHqlNoEntityType(hql,xmpiGuid,xmmiGuid);
 		if(obj!=null){
 			Long count=Long.parseLong(obj.toString()); 
