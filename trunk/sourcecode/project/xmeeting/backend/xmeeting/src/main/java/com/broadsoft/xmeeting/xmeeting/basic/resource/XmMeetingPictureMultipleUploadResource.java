@@ -43,6 +43,10 @@ public class XmMeetingPictureMultipleUploadResource extends SyBaseResource{
 		String xmmpicGuid=form.getFirstValue("xmmpicGuid");
 		String xmmpicJsonData=form.getFirstValue("xmmpicJsonData");
 		Integer maxNo=xmMeetingPictureDetailDao.getMaxSeqnoByXmmpicGuid(xmmpicGuid);
+		System.out.println("maxNo--------------------->"+maxNo);
+		if(null==maxNo){
+			maxNo=0;
+		}
 		JSONArray jsonArray=JSONArray.fromObject(xmmpicJsonData);
 		for(int i=0;i<jsonArray.size();i++){
 			JSONObject jsonObject=jsonArray.getJSONObject(i);
