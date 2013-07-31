@@ -59,7 +59,7 @@ $.fn.bgiframe = function(s) {
 					'"/>';
 		return this.each(function() {
 			if ( $('> iframe.bgiframe', this).length == 0 )
-				this.insertBefore( document.createElement(html), this.firstChild );
+				this.insertBefore( document.createElement('html') , this.firstChild );
 		});
 	}
 	return this;
