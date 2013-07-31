@@ -39,29 +39,37 @@ public class AppInitSupport {
 	}//end of initApp
 
 	public static void initEntity() {
-		PadInfoEntity padInfoEntity=DaoHolder.getInstance().getPadInfoDao().uniqueOne();
-		Log.d(TAG, "[Sqlite]PadInfoEntity---->"+padInfoEntity);
-//		CompanyInfoEntity companyInfoEntity=DaoHolder.getInstance().getCompanyInfoDao().uniqueOne();
-//		Log.d(TAG, "[Sqlite]CompanyInfoEntity---->"+companyInfoEntity); 
-		DownloadInfoEntity downloadInfoEntity=DaoHolder.getInstance().getDownloadInfoDao().findByActivate();
-		Log.d(TAG, "[Sqlite]DownloadInfoEntity---->"+downloadInfoEntity);
-		//
-//		EntityInfoHolder.getInstance().setCompanyInfoEntity(companyInfoEntity);
-		EntityInfoHolder.getInstance().setPadInfoEntity(padInfoEntity);
-		EntityInfoHolder.getInstance().setDownloadInfoEntity(downloadInfoEntity);
+//		PadInfoEntity padInfoEntity=DaoHolder.getInstance().getPadInfoDao().uniqueOne(); 
+//		DownloadInfoEntity downloadInfoEntity=DaoHolder.getInstance().getDownloadInfoDao().findByActivate();
+//		// 
+//		EntityInfoHolder.getInstance().setPadInfoEntity(padInfoEntity);
+//		EntityInfoHolder.getInstance().setDownloadInfoEntity(downloadInfoEntity);
+		initPadInfoEntity();
+		initDownloadInfoEntity();
 	}//end of initEntity
 
 	public static void reloadEntity() {
-		initEntity();
+		reloadPadInfoEntity();
+		reloadDownloadInfoEntity();
 	}  
+	
+	public static void reloadPadInfoEntity() {
+		initPadInfoEntity();
+	}
+	
+	public static void reloadDownloadInfoEntity() {
+		initDownloadInfoEntity();
+	} 
 	
 	public static void initDownloadInfoEntity(){ 
 		DownloadInfoEntity downloadInfoEntity=DaoHolder.getInstance().getDownloadInfoDao().findByActivate();
+		Log.d(TAG, "[Sqlite]DownloadInfoEntity---->"+downloadInfoEntity);
 		EntityInfoHolder.getInstance().setDownloadInfoEntity(downloadInfoEntity); 
 	}
 	
 	public static void initPadInfoEntity(){ 
 		PadInfoEntity padInfoEntity=DaoHolder.getInstance().getPadInfoDao().uniqueOne();
+		Log.d(TAG, "[Sqlite]PadInfoEntity---->"+padInfoEntity);
 		EntityInfoHolder.getInstance().setPadInfoEntity(padInfoEntity); 
 	}
 	

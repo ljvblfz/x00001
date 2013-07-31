@@ -31,7 +31,7 @@ import com.broadsoft.xmdownload.rsservice.RsServiceOnPadInfoSupport;
 import com.broadsoft.xmdownload.wsservice.WsDownloadServiceSupport;
 import com.broadsoft.xmeeting.uihandler.DownloadByHandUIHandler;
 import com.broadsoft.xmeeting.uihandler.DownloadByWsUIHandler;
-import com.broadsoft.xmeeting.uihandler.DownloadOnlineStatusUIHandler;
+import com.broadsoft.xmeeting.uihandler.DownloadOnlineStatusUIHandler; 
 
 
 /**
@@ -45,7 +45,7 @@ public class DownloadActivity extends Activity implements Runnable{
 
 	private static int REQUEST_CODE = 2; 
 	 
-	private ToggleButton  toggleBtnDownload ;
+//	private ToggleButton  toggleBtnDownload ;
 	
 	 
 
@@ -64,7 +64,7 @@ public class DownloadActivity extends Activity implements Runnable{
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		//
 //		AppInitSupport.initApp(this.getFriendContext(),this.getAssets()); 
-		AppInitSupport.initApp(this.getApplicationContext(),this.getAssets()); 
+		AppInitSupport.initApp(this.getApplicationContext(),this.getAssets());  
 		//设备ID
 		String androidId=AndroidIdSupport.getAndroidID();
 		TextView tvAndroidId=(TextView)this.findViewById(R.id.textViewDeviceId);
@@ -78,9 +78,7 @@ public class DownloadActivity extends Activity implements Runnable{
 				textViewDeviceCode.setTextColor(Color.BLUE);
 			}else{
 				textViewDeviceCode.setText("没有设备编号,请同步设备信息!");
-				textViewDeviceCode.setTextColor(Color.RED);
-				
-				
+				textViewDeviceCode.setTextColor(Color.RED); 
 			}
 		} catch (JSONException e) { 
 			e.printStackTrace();
