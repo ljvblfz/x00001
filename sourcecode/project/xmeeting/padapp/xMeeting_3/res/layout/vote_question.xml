@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/voting_question_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="请对....投票" />
+
+    <RadioGroup
+        android:id="@+id/radiogroup1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="3px"
+        android:orientation="vertical" >
+
+        <RadioButton
+            android:id="@+id/voting_answer_text_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="答案1" />
+
+        <RadioButton
+            android:id="@+id/voting_answer_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="答案2" />
+
+        <RadioButton
+            android:id="@+id/voting_answer_text_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="答案3" />
+
+        <RadioButton
+            android:id="@+id/voting_answer_text_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="答案4" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/voting_question_text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="请对....投票" />
+
+    <CheckBox
+        android:id="@+id/box1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="我是BOX1" />
+
+    <CheckBox
+        android:id="@+id/box2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="我是BOX2" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/voting_submit"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="投    票" />
+
+        <Button
+            android:id="@+id/voting_viewresult"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="查看结果" />
+    </LinearLayout>
+
+</LinearLayout>

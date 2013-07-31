@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/votingsettingdesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="此功能只有会议主讲人所有,其他用户不能发起投票." />
+
+    <Button
+        android:id="@+id/btnstartvoting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:gravity="center"
+        android:text="开始投票" />
+
+</LinearLayout>
