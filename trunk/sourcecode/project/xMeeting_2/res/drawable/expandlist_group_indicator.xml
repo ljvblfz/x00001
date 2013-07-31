@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">    
-    <item android:state_expanded="true" android:drawable="@drawable/arrow_down_expandlist" />    
-    <item android:drawable="@drawable/arrow_right_expandlist"></item>    
-</selector>  
