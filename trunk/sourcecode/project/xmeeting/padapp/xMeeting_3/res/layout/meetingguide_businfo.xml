@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" > 
+    
+    
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/Grey"
+        android:stretchColumns="*" >
+
+        <TableRow
+            android:background="@color/Grey"
+            android:gravity="left" >
+
+            <TextView
+                android:id="@+id/meetingbasic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="4"
+                android:text="一号车" android:textSize="40px"/>
+        </TableRow>
+
+        <TableRow  >
+
+            <TextView android:layout_margin="0.5dip"
+                android:id="@+id/meetingname"  android:background="@color/White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="车牌号"  android:textSize="40px" />
+
+            <TextView android:layout_margin="0.5dip"
+                android:id="@+id/meetingnamevalue"  android:background="@color/White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="3"
+                android:text="苏A00068" android:textSize="40px" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView android:layout_margin="0.5dip" android:background="@color/White"
+                android:id="@+id/meetingorgname1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="人员安排" android:textSize="40px"/>
+
+            <TextView android:layout_margin="0.5dip" android:background="@color/White"
+                android:id="@+id/meetingorgname1value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="上海公司:  冯    军     阮前途   黄良宝   王  路  \n 江苏公司:单业才    胡玉海   签朝阳   黄志高"  android:textSize="40px"/>
+ 
+        </TableRow>
+ 
+ 
+		<!--  -->
+        
+        <TableRow
+            android:background="@color/Grey"
+            android:gravity="left" >
+
+            <TextView
+                android:id="@+id/meetingbasic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="4"
+                android:text="二号车" android:textSize="40px" />
+        </TableRow>
+
+        <TableRow  >
+
+            <TextView android:layout_margin="0.5dip"
+                android:id="@+id/meetingname"  android:background="@color/White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="车牌号"  android:textSize="40px"/>
+
+            <TextView android:layout_margin="0.5dip"
+                android:id="@+id/meetingnamevalue"  android:background="@color/White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="3"
+                android:text="苏A00069" android:textSize="40px"/>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView android:layout_margin="0.5dip" android:background="@color/White"
+                android:id="@+id/meetingorgname1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="人员安排" android:textSize="40px"/>
+
+            <TextView android:layout_margin="0.5dip" android:background="@color/White"
+                android:id="@+id/meetingorgname1value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="上海公司: 冯    军     阮前途   黄良宝   王  路 \n 江苏公司: 单业才    胡玉海   签朝阳   黄志高\n单业才    胡玉海   签朝阳   黄志高 " android:textSize="40px"/>
+ 
+        </TableRow>
+ 
+    </TableLayout>
+
+</LinearLayout>

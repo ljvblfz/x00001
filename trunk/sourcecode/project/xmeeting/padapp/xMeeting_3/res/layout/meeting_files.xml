@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" 
+    android:background="@color/background" >
+    <RelativeLayout 
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:background="@drawable/title"
+        android:paddingRight="10dp" >
+
+        <Button
+            android:id="@+id/btnFun"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/v5_0_1_flipper_head_menu"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/lyBack"
+            android:background="@drawable/v5_0_1_flipper_head_separator" />
+
+        <ImageView
+            android:id="@+id/iV"
+            android:layout_width="5dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/btnFun" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="10dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/btnBack" />
+
+        <RelativeLayout
+            android:id="@+id/lyBack"
+            android:layout_width="47dp"
+            android:layout_height="47dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btnBack"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/btn_back_arr" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tvTitleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="会议文件"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/white" />  
+        
+          <Button
+              android:id="@+id/btnSendMail"
+              android:layout_width="45dp"
+              android:layout_height="45dp" 
+              android:background="@drawable/sendmail_32" 
+              android:layout_alignParentRight="true" 
+              android:layout_centerVertical="true"  /><!-- android:layout_toRightOf="@+id/tvTitleText" -->
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="6"
+        android:orientation="horizontal" >
+
+        <ListView
+            android:id="@+id/meetingfilesList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+            >
+        </ListView>
+    </LinearLayout>
+   
+
+</LinearLayout>

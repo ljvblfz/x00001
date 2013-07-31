@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/Grey"
+        android:stretchColumns="*" >
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/meetingscheduleday1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dip"
+                android:layout_span="2"
+                android:text="餐饮介绍" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/meetingscheduletime1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dip"
+                android:background="@color/White"
+                android:text="餐厅名称" />
+
+            <TextView
+                android:id="@+id/meetingschedulecontent1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dip" 
+                android:background="@color/White"
+                android:text="四季餐厅" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/meetingscheduletime2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dip"
+                android:background="@color/White"
+                android:text="早餐" />
+
+            <TextView
+                android:id="@+id/meetingschedulecontent2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dip" 
+                android:background="@color/White"
+                android:text="07:00~10:00" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/meetingscheduletime3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dip"
+                android:background="@color/White"
+                android:text="午餐" />
+
+            <TextView
+                android:id="@+id/meetingschedulecontent3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dip" 
+                android:background="@color/White"
+                android:text="12:00~13:00" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/meetingscheduletime4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dip"
+                android:background="@color/White"
+                android:text="晚餐" />
+
+            <TextView
+                android:id="@+id/meetingschedulecontent4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dip" 
+                android:background="@color/White"
+                android:text="17:30~21:00" />
+        </TableRow>
+        
+        <TableRow>
+
+            <TextView
+                android:id="@+id/meetingscheduletime4"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="0.5dip"
+                android:layout_span="2"
+                android:background="@color/White"
+                android:text="西式套餐或自助式晚餐，每客NT$720+10%元起。" />
+ 
+        </TableRow>
+        
+        
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/meetingscheduleday1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dip"
+                android:layout_span="2"
+                android:text="住宿介绍" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/meetingscheduletime1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dip"
+                android:background="@color/White"
+                android:text="酒店名称" />
+
+            <TextView
+                android:id="@+id/meetingschedulecontent1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dip" 
+                android:background="@color/White"
+                android:text="西安香格里拉大酒店(五星级)" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/meetingscheduletime2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dip"
+                android:background="@color/White"
+                android:text="地点" />
+
+            <TextView
+                android:id="@+id/meetingschedulecontent2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dip" 
+                android:background="@color/White"
+                android:text="中国西安市科技路38号乙邮政编码 710075" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/meetingscheduletime3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dip"
+                android:background="@color/White"
+                android:text="电话" />
+
+            <TextView
+                android:id="@+id/meetingschedulecontent3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dip" 
+                android:background="@color/White"
+                android:text="(86 29) 8875 8888" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/meetingscheduletime4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dip"
+                android:background="@color/White"
+                android:text="传真" />
+
+            <TextView
+                android:id="@+id/meetingschedulecontent4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dip" 
+                android:background="@color/White"
+                android:text="(86 29) 8875 9999" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/meetingscheduletime4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dip"
+                android:background="@color/White"
+                android:text="电邮" />
+
+            <TextView
+                android:id="@+id/meetingschedulecontent4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dip" 
+                android:background="@color/White"
+                android:text="slxn@shangri-la.com" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/meetingscheduletime4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dip"
+                android:background="@color/White"
+                android:text="入住 / 退房" />
+
+            <TextView
+                android:id="@+id/meetingschedulecontent4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dip" 
+                android:background="@color/White"
+                android:text="入住：下午2时    退房：中午12时" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/meetingscheduletime4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dip"
+                android:background="@color/White"
+                android:text="付款方式" />
+
+            <TextView
+                android:id="@+id/meetingschedulecontent4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="0.5dip" 
+                android:background="@color/White"
+                android:text="本酒店可接受以下信用卡付款：美国运通卡、大莱卡、JCB卡、万事达卡、Visa卡" />
+        </TableRow>
+
+        <TableRow>
+
+<!--             <TextView -->
+<!--                 android:id="@+id/meetingscheduletime4" -->
+<!--                 android:layout_width="wrap_content" -->
+<!--                 android:layout_height="wrap_content" -->
+<!--                 android:layout_margin="0.5dip" -->
+<!--                 android:layout_span="2" -->
+<!--                 android:background="@color/White" -->
+<!--                 android:text="付款方式" /> -->
+ 
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>
