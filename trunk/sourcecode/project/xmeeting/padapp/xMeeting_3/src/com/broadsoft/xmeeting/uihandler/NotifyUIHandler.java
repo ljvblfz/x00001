@@ -17,7 +17,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.broadsoft.common.MyImageView;
@@ -151,9 +153,21 @@ public class NotifyUIHandler extends Handler {
 	}
 
 	protected void showDialog(String msg) {
-		Toast toast = Toast.makeText(act, msg, Toast.LENGTH_LONG);
-		toast.setGravity(Gravity.CENTER, 0, 0);
-		toast.show();
+//		Toast toast = Toast.makeText(act, msg, Toast.LENGTH_LONG);
+//		toast.setGravity(Gravity.CENTER, 0, 0);
+//		toast.show();
+		showCustomToastDialog(msg);
+	}
+	
+	protected void showCustomToastDialog(String msg) {
+		  View toastRoot  = act.getLayoutInflater().inflate(R.layout.toast_dialog, null);
+		  TextView tvMessage=(TextView)toastRoot.findViewById(R.id.tvMessage);
+		  tvMessage.setText(msg);
+		  Toast toastDialog = new Toast(act);
+		  toastDialog.setGravity(Gravity.CENTER | Gravity.CENTER, 0, 0);
+		  toastDialog.setDuration(Toast.LENGTH_LONG);
+		  toastDialog.setView(toastRoot);
+		  toastDialog.show();
 	}
 
 	protected void showDialog2(String msg) {
