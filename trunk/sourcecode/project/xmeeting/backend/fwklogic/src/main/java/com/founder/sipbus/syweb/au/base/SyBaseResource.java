@@ -116,8 +116,10 @@ public class SyBaseResource extends BaseResource {
 	}
 
 	protected JSONObject getDefaultAddReturnJson() {
-		return JsonUtils.genReturnJson("200", "", getNavTabId(),
-				getCallbackType(), "");
+		
+		return getDefaultEditReturnJson();
+//		return JsonUtils.genReturnJson("200", "", getNavTabId(),
+//				getCallbackType(), "");
 	}
 
 	protected JSONObject getDefaultReturnJson() {
