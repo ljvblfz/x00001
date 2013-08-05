@@ -5,6 +5,9 @@
  
 package com.broadsoft.xmeeting.xmeeting.open.resource;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.sf.json.JSONObject;
 
 import org.restlet.representation.Representation;
@@ -40,8 +43,11 @@ public class ServicePersonnelPadResource extends SyBaseResource{
 	
 	@Get
 	public Representation get(Representation entity) throws ResourceException { 
+		String xmpdDeviceId=this.getAttribute("xmpdDeviceId");
+		Map map=new HashMap();
+		map.put("xmpdDeviceId", xmpdDeviceId);
 		JSONObject allInfo=new JSONObject();
-		PageResponse<ServicePersonnelPadIVO> p =xmeetingDao.findServicePersonnelByDeviceId(getPageRequest(), getQueryMap());
+		PageResponse<ServicePersonnelPadIVO> p =xmeetingDao.findServicePersonnelByDeviceId(getPageRequest(), map);
 		allInfo.put("xervicePersonnelPadIVO", p);
 		return getJsonGzipRepresentation(JsonUtils.genSuccessReturnJson(allInfo));    
 	}

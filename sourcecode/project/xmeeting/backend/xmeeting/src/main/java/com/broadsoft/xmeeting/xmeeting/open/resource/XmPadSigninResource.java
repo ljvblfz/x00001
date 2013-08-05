@@ -45,11 +45,12 @@ public class XmPadSigninResource extends SyBaseResource{
 	
 	@Get
 	public Representation get(Representation entity) throws ResourceException {  
-		JSONObject jsonObject=new JSONObject();
-		if(xmMeetingSigninDao.countByXmpiGuidAndXmmiGuid(xmpiGuid, xmmiGuid)>0){
-			jsonObject.put("xmmsGuid", ""); 
-			return getJsonGzipRepresentation(JsonUtils.genSuccessReturnJson(jsonObject));   
-		} 
+		JSONObject jsonObject=new JSONObject(); 
+		
+//		if(xmMeetingSigninDao.countByXmpiGuidAndXmmiGuid(xmpiGuid, xmmiGuid)>0){//一天签到一次
+//			jsonObject.put("xmmsGuid", ""); 
+//			return getJsonGzipRepresentation(JsonUtils.genSuccessReturnJson(jsonObject));   
+//		} 
 		XmMeetingSignin xmMeetingSignin=new XmMeetingSignin();
 		xmMeetingSignin.setXmmiGuid(xmmiGuid);
 		xmMeetingSignin.setXmmsPersonnel(xmpiGuid);
