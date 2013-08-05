@@ -5,16 +5,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.util.Log;
 
 import com.broadsoft.xmcommon.androidconfig.DomAppConfigFactory;
 import com.broadsoft.xmcommon.androiddao.DaoHolder;
 import com.broadsoft.xmdownload.rsservice.RsServiceOnMeetingInfoSupport;
 import com.broadsoft.xmdownload.rsservice.RsServiceOnPadInfoSupport;
-import com.broadsoft.xmeeting.DownloadActivity;
-import com.broadsoft.xmeeting.LoginActivity;
 import com.broadsoft.xmeeting.uihandler.DownloadByWsUIHandler;
 import com.broadsoft.xmeeting.uihandler.DownloadOnlineStatusUIHandler;
 
@@ -35,6 +31,8 @@ public class WsDownloadServiceSupport {
 	private String wspath;  
 	private String padId; //android id
 	//
+
+	private String msgtimestamp="";
 	private boolean keepAlive=true;
 	private static AtomicInteger countOfReconnect=new AtomicInteger(0);
 	private static WsDownloadServiceSupport wsDownloadServiceSupport=new WsDownloadServiceSupport();
@@ -67,7 +65,10 @@ public class WsDownloadServiceSupport {
 			Log.d(TAG, "[onOpen]Status: Connected to " + wspath);
 			DownloadByWsUIHandler.getInstance().sendEntryDownloadStatus();
 			DownloadOnlineStatusUIHandler.getInstance().sendDownloadOnlineOnMessage();
-			new Thread(heartRunnable).start();
+			new Thread(sendHeartRunnable).start();
+			new Thread(checkHeartRunnable).start();
+			
+			
 		}
 
 		@Override
@@ -101,7 +102,7 @@ public class WsDownloadServiceSupport {
 		return jsonStatus;
 	}
 	
-	Runnable heartRunnable = new Runnable() {
+	Runnable sendHeartRunnable = new Runnable() {
 
 		@Override
 		public void run() { 
@@ -109,6 +110,60 @@ public class WsDownloadServiceSupport {
 		}
 
 	};
+	public void sendHearbeat(){
+		while(keepAlive){  
+			Log.d(TAG, "[sendHearbeat]client.isConnected() is: " + client.isConnected()); 
+			if(null!=client&&client.isConnected()){ 
+				JSONObject jsonObject=new JSONObject();
+				try {
+					jsonObject.put("msgtype", "10");
+					jsonObject.put("msgtimestamp", System.currentTimeMillis()+"");
+				} catch (JSONException e) { 
+					e.printStackTrace();
+				}
+				sendMessage(jsonObject.toString()); 
+				try {
+					Thread.sleep(60*1000);
+				} catch (InterruptedException e) { 
+					e.printStackTrace();
+				}
+			}else{ 
+				break;
+			}
+		}
+	}//end of sendHearbeat
+	
+	Runnable checkHeartRunnable = new Runnable() {
+
+		@Override
+		public void run() { 
+			checkHearbeat();
+		}
+
+	};
+	
+
+	public void checkHearbeat(){
+		Log.d(TAG, "[checkHearbeat]msgtimestamp="+msgtimestamp); 
+		while(keepAlive){  
+			if(!"".equals(msgtimestamp)){
+				long currenttimestamp=System.currentTimeMillis(); 
+				long lasttimestamp=Long.valueOf(msgtimestamp);
+				Log.d(TAG, "[checkHearbeat] lasttimestamp is: "+lasttimestamp); 
+	
+				if(currenttimestamp-lasttimestamp>3*60*1000){ 
+					Log.d(TAG, "[checkHearbeat]the websocket need to reconnect."); 
+					this.reconnect();
+				}
+			}
+			//sleep 1 minute
+			try {
+				Thread.sleep(60*1000);
+			} catch (InterruptedException e) { 
+				e.printStackTrace();
+			}
+		}//end of while
+	}//end of checkHearbeat
 	 
 	
 	/**
@@ -140,28 +195,7 @@ public class WsDownloadServiceSupport {
 	}
 	
 	
-	public void sendHearbeat(){
-		while(keepAlive){  
-			Log.d(TAG, "[sendHearbeat]client.isConnected() is: " + client.isConnected()); 
-			if(null!=client&&client.isConnected()){ 
-				JSONObject jsonObject=new JSONObject();
-				try {
-					jsonObject.put("msgtype", "10");
-					jsonObject.put("msgtimestamp", System.currentTimeMillis()+"");
-				} catch (JSONException e) { 
-					e.printStackTrace();
-				}
-				sendMessage(jsonObject.toString()); 
-				try {
-					Thread.sleep(100*1000);
-				} catch (InterruptedException e) { 
-					e.printStackTrace();
-				}
-			}else{ 
-				break;
-			}
-		}
-	}//end of sendHearbeat
+	
 	
 	
  
@@ -179,13 +213,16 @@ public class WsDownloadServiceSupport {
 		}
 		Log.d(TAG, "reconnect end."); 
 	}
+	
+	
 	private void processMessage(String message) {
 		try {
 			
 			JSONObject jsonObject=new JSONObject(message);
 			String msgtype=jsonObject.getString("msgtype");
 			if("10".equals(msgtype)){ 
-				 Log.d(TAG, "收到心跳");
+				 Log.d(TAG, "[Download]收到心跳--->"+jsonObject.toString());
+				 msgtimestamp=jsonObject.getString("msgtimestamp");
 				 return;
 			}
 			String meetingid="";

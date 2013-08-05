@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -19,8 +20,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
+import com.broadsoft.xmcommon.androidconfig.DomAppConfigFactory;
 import com.broadsoft.xmcommon.androiddao.DownloadInfoEntity;
 import com.broadsoft.xmcommon.androiddao.EntityInfoHolder;
 import com.broadsoft.xmcommon.androidnetwork.NetworkSupport;
@@ -31,11 +32,12 @@ import com.broadsoft.xmdownload.rsservice.RsServiceOnPadInfoSupport;
 import com.broadsoft.xmdownload.wsservice.WsDownloadServiceSupport;
 import com.broadsoft.xmeeting.uihandler.DownloadByHandUIHandler;
 import com.broadsoft.xmeeting.uihandler.DownloadByWsUIHandler;
-import com.broadsoft.xmeeting.uihandler.DownloadOnlineStatusUIHandler; 
+import com.broadsoft.xmeeting.uihandler.DownloadOnlineStatusUIHandler;
 
 
 /**
  * 测试下载数据
+ * http://kb.cnblogs.com/page/70125/  activity生命周期
  * @author lu.zhen
  *
  */
@@ -134,9 +136,46 @@ public class DownloadActivity extends Activity implements Runnable{
         });    
 		
 //		new CheckOnlineStatusTask().execute();
+		//版本信息 
+		TextView textViewVersionValue=(TextView)this.findViewById(R.id.textViewVersionValue);
+		textViewVersionValue.setText(DomAppConfigFactory.getAppConfig().getVersion());
+		
+		if(null==EntityInfoHolder.getInstance().getPadInfoEntity()){
+			RsServiceOnPadInfoSupport.download(); 
+		}
 		Log.d(TAG, "onCreate end");
 		
 	}//end of onCreate  
+	
+	
+//	//执行异步的操作
+//  	private class DownloadPadActivityTask extends AsyncTask<String, Void, String[]> {
+//  		private int flag = 0;
+//
+//		@Override
+//		protected void onPreExecute() {
+//			super.onPreExecute();
+//		}
+//
+//		@Override
+//		protected String[] doInBackground(String... params) {
+//			// Simulates a background job.
+//			
+//
+//			RsServiceOnPadInfoSupport.download();
+//			
+//			return null;
+//		}
+//
+//		@Override
+//		protected void onPostExecute(String[] result) {
+//
+//			 
+//
+//  		}
+//          
+//    }
+
 	
 	
 	private boolean flagOnHandler=true;
@@ -176,6 +215,49 @@ public class DownloadActivity extends Activity implements Runnable{
         DownloadByHandUIHandler.destroy();
         DownloadOnlineStatusUIHandler.destroy();
 		Log.d(TAG, "[onDestroy]end.");
+		
+	}// 
+
+	/**
+	 * Disable back key
+	 */
+	@Override 
+	public boolean onKeyDown(int keyCode, KeyEvent event) { 
+		if (keyCode == KeyEvent.KEYCODE_BACK) { 
+			return false;
+		} else if (keyCode == KeyEvent.KEYCODE_HOME) { 
+			return false;
+		} 
+		return super.onKeyDown(keyCode, event);  
+	}
+	
+
+	@Override
+	protected void onPause(){
+		Log.d(TAG, "[onPause]begin.");
+		super.onPause();
+		Log.d(TAG, "[onPause]end.");
+		
+	}
+	@Override
+	protected void onResume(){
+		Log.d(TAG, "[onResume]begin.");
+		super.onResume();
+		Log.d(TAG, "[onResume]end.");
+		
+	}
+	@Override
+	protected void onRestart(){
+		Log.d(TAG, "[onRestart]begin.");
+		super.onRestart();
+		Log.d(TAG, "[onRestart]end.");
+		
+	}
+	@Override
+	protected void onStart(){
+		Log.d(TAG, "[onStart]begin.");
+		super.onStart();
+		Log.d(TAG, "[onStart]end.");
 		
 	}
 }//end of MainActivity

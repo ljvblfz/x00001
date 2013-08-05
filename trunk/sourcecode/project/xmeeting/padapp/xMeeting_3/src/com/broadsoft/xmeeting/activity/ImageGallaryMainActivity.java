@@ -134,7 +134,8 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
         	String position=params[0]; 
         	String extStorageDirectory=SDCardSupport.getSDCardDirectory(); 
         	JSONArray jsonArrayDetail=(JSONArray)mServerData.get(Integer.parseInt(position)).get("jsonArrayDetail");
-        	BitmapWrapper[] bitmapWrappers=new BitmapWrapper[jsonArrayDetail.length()];
+        	List<BitmapWrapper> listOfBitmapWrapper=new ArrayList<BitmapWrapper>();
+        	int count=0;
 			for(int j=0;j<jsonArrayDetail.length();j++){
 				JSONObject jsonDetail;
 				try {
@@ -148,14 +149,21 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
 					}catch (OutOfMemoryError e){
 			            e.printStackTrace();
 			        }
-					BitmapWrapper bitmapWrapper=new BitmapWrapper();
-					bitmapWrapper.setFileName(fileName);
-					bitmapWrapper.setBitmap(bitmap);
-					bitmapWrappers[j]=bitmapWrapper;
+					if(null!=bitmap){
+						BitmapWrapper bitmapWrapper=new BitmapWrapper();
+						bitmapWrapper.setFileName(fileName);
+						bitmapWrapper.setBitmap(bitmap);
+						listOfBitmapWrapper.add(bitmapWrapper);
+						count++;
+					}
 				} catch (JSONException e) { 
 					e.printStackTrace();
 				}
 			}//end of for j
+			BitmapWrapper[] bitmapWrappers=new BitmapWrapper[count];
+        	for(int i=0;i<count;i++){
+    			bitmapWrappers[i]=listOfBitmapWrapper.get(i);
+        	}
             
             imageAdapter = new ImageAdapter(ImageGallaryMainActivity.this,bitmapWrappers);
             imageAdapter.createImageGallery();

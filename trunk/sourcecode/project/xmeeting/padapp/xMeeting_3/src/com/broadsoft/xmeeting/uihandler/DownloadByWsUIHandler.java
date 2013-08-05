@@ -89,8 +89,10 @@ public class DownloadByWsUIHandler extends Handler {
 			}//end of isfinishx
 			if(jo.has("progress")){
 				String progress=jo.getString("progress");   
-				progressDialog.setMessage("下载中(已经下载:"+progress+" kb),请等待...");
-				Log.d(TAG, "[handleMessage]"+"下载中(已经下载:"+progress+" kb),请等待...");
+				if(null!=progressDialog){
+					progressDialog.setMessage("下载中(已经下载:"+progress+" kb),请等待...");
+					Log.d(TAG, "[handleMessage]"+"下载中(已经下载:"+progress+" kb),请等待...");
+				}
 			}//end of isfinishx
 			if(jo.has("error")){
 				String error=jo.getString("error");   
@@ -105,12 +107,17 @@ public class DownloadByWsUIHandler extends Handler {
 		        		intent.setData(Uri.parse("one")); 
 		        		act.startActivityForResult(intent, REQUEST_CODE);// 以传递参数的方式跳转到下一个Activity 
 		        		act.finish();
-					}else if("01".equals(type)){ //更新设备资产编号 
-						AppInitSupport.reloadPadInfoEntity();
-						String padAssetCode=EntityInfoHolder.getInstance().getAssetCode(); 
-						TextView textViewDeviceCode=(TextView)act.findViewById(R.id.textViewDeviceCode);
-						textViewDeviceCode.setText(padAssetCode); 
-						textViewDeviceCode.setTextColor(Color.BLUE);
+					}else if("01".equals(type)){ //更新设备资产编号  
+						if(jo.has("reload")){
+							String reload=jo.getString("reload");  
+							if("1".equals(reload)){  
+								AppInitSupport.reloadPadInfoEntity();
+								String padAssetCode=EntityInfoHolder.getInstance().getAssetCode(); 
+								TextView textViewDeviceCode=(TextView)act.findViewById(R.id.textViewDeviceCode);
+								textViewDeviceCode.setText(padAssetCode); 
+								textViewDeviceCode.setTextColor(Color.BLUE);
+							}
+						}//end of isfinish
 					} //end of if on 01
 			} //end of type
 		} catch (JSONException e) { 
@@ -221,6 +228,18 @@ public class DownloadByWsUIHandler extends Handler {
 			jsonMessage.put("statusinfo", "下载设备信息中.");
 //			jsonMessage.put("reload", "0");
 			jsonMessage.put("isfinishx", "0");
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		sendJsonMessage(jsonMessage);
+	}
+	public void sendDownloadPadInfoOnError() {
+        JSONObject jsonMessage=new JSONObject();
+        try {
+			jsonMessage.put("type", "01");
+			jsonMessage.put("statusinfo", "下载设备信息错误,请重试."); 
+			jsonMessage.put("isfinishx", "1");
 		} catch (JSONException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
