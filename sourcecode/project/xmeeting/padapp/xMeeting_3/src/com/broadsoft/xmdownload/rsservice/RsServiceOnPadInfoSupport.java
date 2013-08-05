@@ -57,20 +57,36 @@ class  DownloadPadInfoRunnable implements Runnable{
 	}
 
 	
+	private int downloadCount=0;
 	
 	@Override
 	public void run() { 
 		Log.d(TAG, "[run]begin.");
+		downloadCount=0;
+		boolean success=false;
 		DownloadByWsUIHandler.getInstance().sendDownloadPadInfoOnBegin();
-		try {
-			JSONObject jsonPadInfo=HttpRestSupport.getByHttpClientWithGzip(rspathPadInfoResult);
-			PadInfoEntity padInfoEntity=createPadInfoEntity(jsonPadInfo);
-			//更新数据库
-			saveDBForPadInfo(padInfoEntity);
-		} catch (Exception e) { 
-			e.printStackTrace();
-		} 
-		DownloadByWsUIHandler.getInstance().sendDownloadPadInfoOnEnd();
+		
+		while(downloadCount<6){
+			Log.d(TAG, "[run]downloadCount="+downloadCount);
+			try {
+				JSONObject jsonPadInfo=HttpRestSupport.getByHttpClientWithGzip(rspathPadInfoResult);
+				PadInfoEntity padInfoEntity=createPadInfoEntity(jsonPadInfo);
+				//更新数据库
+				saveDBForPadInfo(padInfoEntity);
+				success=true;
+				break;
+			} catch (Exception e) {  
+				downloadCount++;
+				if(downloadCount==5){
+					DownloadByWsUIHandler.getInstance().sendDownloadPadInfoOnError();
+					break;
+				}
+				e.printStackTrace();
+			}  
+		}//end of while
+		if(success){
+			DownloadByWsUIHandler.getInstance().sendDownloadPadInfoOnEnd();
+		}
 		Log.d(TAG, "[run]end.");
 	 
 	}

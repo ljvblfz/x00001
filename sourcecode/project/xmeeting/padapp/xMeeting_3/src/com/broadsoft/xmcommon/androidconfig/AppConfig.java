@@ -11,6 +11,7 @@ public class AppConfig {
 	public String databaseversion;
 	public String serverenable;
 	public String serveripport;
+	public String version;
 
 	public String getAppname() {
 		return appname;
@@ -60,12 +61,21 @@ public class AppConfig {
 		this.serverenable = serverenable;
 	}
 
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
 	@Override
 	public String toString() {
 		return "AppConfig [appname=" + appname + ", sdcarddir=" + sdcarddir
 				+ ", databasename=" + databasename + ", databaseversion="
 				+ databaseversion + ", serverenable=" + serverenable
-				+ ", serveripport=" + serveripport + "]";
+				+ ", serveripport=" + serveripport + ", version=" + version
+				+ "]";
 	}
 
 }

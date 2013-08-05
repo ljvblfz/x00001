@@ -83,6 +83,7 @@ public class WsControllerServiceSupport {
 					NotifyUIHandler.getInstance().sendControllerMessage(payload); 
 				}else if("10".equals(msgtype)){//心跳消息  
 //					lastConnectedTime=System.currentTimeMillis();
+					Log.d(TAG, "[Controller]收到心跳--->"+jsonObject.toString());
 				}
 			} catch (JSONException e) { 
 				e.printStackTrace();

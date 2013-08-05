@@ -1,6 +1,7 @@
 package com.broadsoft.xmdownload.rsservice;
 
 import java.io.File;
+import java.net.SocketException;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 
@@ -141,18 +142,19 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 			DownloadByWsUIHandler.getInstance().sendDownloadMeetingMessageOnBegin();
 		}else{
 			DownloadByHandUIHandler.getInstance().sendDownloadMessageOnBegin();
-		}  
+		}   
+		JSONObject jsonDataMeetingInfo = downloadJsonData(); 
+		
+		if(null==jsonDataMeetingInfo){ // 下载失败
+			if(type==RsServiceOnMeetingInfoSupport.TYPE_DEFAULT){
+				DownloadByWsUIHandler.getInstance().sendDownloadMeetingMessageOnError();
+			}else{
+				DownloadByHandUIHandler.getInstance().sendDownloadMessageOnError();
+			}
+			return;
+		}//end of if
+		//下载文件
 		try {
-			JSONObject jsonMeetingInfo=HttpRestSupport.getByHttpClientWithGzip(rspathMeetingInfoResult); 
-			JSONObject jsonMeetingPersonnel=HttpRestSupport.getByHttpClientWithGzip(rspathMeetingPersonnelResult); 
-			//更新数据库  
-			JSONObject jsonDataMeetingInfo=jsonMeetingInfo.getJSONObject("jsonData");
-			JSONObject jsonDataPersonnelInfo=jsonMeetingPersonnel.getJSONObject("jsonData");
-			Log.d(TAG, "[run]jsonDataMeetingInfo--->"+jsonDataMeetingInfo);
-			Log.d(TAG, "[run]jsonDataPersonnelInfo--->"+jsonDataPersonnelInfo);
-			DownloadInfoEntity downloadInfoEntityParam=this.createDownloadInfoEntity(jsonDataMeetingInfo,jsonDataPersonnelInfo );
-			this.saveDBForDownloadInfo(downloadInfoEntityParam); 
-			//下载文件
 			if(type==RsServiceOnMeetingInfoSupport.TYPE_DOWNLOAD_WITH_FILE||type==RsServiceOnMeetingInfoSupport.TYPE_DEFAULT){
 				long begintime=System.currentTimeMillis();
 				cleanFileForDownloadInfo(jsonDataMeetingInfo);
@@ -160,37 +162,65 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 				long endtime=System.currentTimeMillis();
 				Log.d(TAG, "[run]download elapsed time is : "+(endtime-begintime)/1000  +" s");
 			}//end of if
-			//更新下载状态
-			postMeetingInfoDownloadStatus();
-		} catch (Exception e) { 
+			//更新UI下载状态
+			if(type==RsServiceOnMeetingInfoSupport.TYPE_DEFAULT){
+				DownloadByWsUIHandler.getInstance().sendDownloadMeetingMessageOnEnd();
+			}else{
+				DownloadByHandUIHandler.getInstance().sendDownloadMessageOnEnd();
+			} 
+		}catch (Exception e) { 
 			e.printStackTrace();
-			Log.d(TAG, "[run]Raise the error is : "+e.getMessage()); 
+			Log.d(TAG, "[run]Raise the Exception is : "+e.getMessage()); 
 //			DownloadByHandUIHandler.getInstance().sendDownloadMessageOnError();
 			if(type==RsServiceOnMeetingInfoSupport.TYPE_DEFAULT){
 				DownloadByWsUIHandler.getInstance().sendDownloadMeetingMessageOnError();
 			}else{
 				DownloadByHandUIHandler.getInstance().sendDownloadMessageOnError();
 			}
-		} finally{
-			if(type==RsServiceOnMeetingInfoSupport.TYPE_DEFAULT){
-				DownloadByWsUIHandler.getInstance().sendDownloadMeetingMessageOnEnd();
-			}else{
-				DownloadByHandUIHandler.getInstance().sendDownloadMessageOnEnd();
-			}
-		}
+		}  
+		//更新状态
+		try {
+			postMeetingInfoDownloadStatus();
+		} catch (Exception e) { 
+			e.printStackTrace();
+		} 
 		Log.d(TAG, "[run]end.");
+	}
+
+	private JSONObject downloadJsonData() {
+		JSONObject jsonDataMeetingInfo=null;
+		int downloadCount=0;
+		while(downloadCount<5){ 
+			try{
+				JSONObject jsonMeetingInfo=HttpRestSupport.getByHttpClientWithGzip(rspathMeetingInfoResult); 
+				JSONObject jsonMeetingPersonnel=HttpRestSupport.getByHttpClientWithGzip(rspathMeetingPersonnelResult); 
+				//更新数据库  
+				jsonDataMeetingInfo=jsonMeetingInfo.getJSONObject("jsonData");
+				JSONObject jsonDataPersonnelInfo=jsonMeetingPersonnel.getJSONObject("jsonData");
+				Log.d(TAG, "[run]jsonDataMeetingInfo--->"+jsonDataMeetingInfo);
+				Log.d(TAG, "[run]jsonDataPersonnelInfo--->"+jsonDataPersonnelInfo);
+				DownloadInfoEntity downloadInfoEntityParam=this.createDownloadInfoEntity(jsonDataMeetingInfo,jsonDataPersonnelInfo );
+				this.saveDBForDownloadInfo(downloadInfoEntityParam);
+				break;
+			}catch (Exception e) { 
+				downloadCount++;
+				e.printStackTrace();
+				Log.d(TAG, "[run]Raise the Exception is : "+e.getMessage());   
+			}  
+		}
+		return jsonDataMeetingInfo;
 	}
 
 	
 	
-	private void updateProgress(long kb){
-		if(type==RsServiceOnMeetingInfoSupport.TYPE_DEFAULT){
-			DownloadByWsUIHandler.getInstance().sendDownloadMeetingMessageOnProgress(kb);
-		}else{
-			DownloadByHandUIHandler.getInstance().sendDownloadMessageOnProgress(kb);
-		}
-		
-	}
+//	private void updateProgress(long kb){
+//		if(type==RsServiceOnMeetingInfoSupport.TYPE_DEFAULT){
+//			DownloadByWsUIHandler.getInstance().sendDownloadMeetingMessageOnProgress(kb);
+//		}else{
+//			DownloadByHandUIHandler.getInstance().sendDownloadMessageOnProgress(kb);
+//		}
+//		
+//	}
 
 
  
