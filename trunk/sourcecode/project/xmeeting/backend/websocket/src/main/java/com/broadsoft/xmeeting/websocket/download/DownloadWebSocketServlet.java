@@ -113,7 +113,7 @@ public class DownloadWebSocketServlet extends WebSocketServlet {
 		public void run() {
 			while (true) { 
 				try {
-					Thread.sleep(100 * 1000);
+					Thread.sleep(60 * 1000);
 				} catch (InterruptedException e) {
 					 e.printStackTrace();
 				}
@@ -124,7 +124,7 @@ public class DownloadWebSocketServlet extends WebSocketServlet {
 					long lastUpdatedTimestamp=inbound.getLastUpdatedTimestamp();
 					long currentTimestamp=System.currentTimeMillis();
 					//超过600秒要删除
-					if((currentTimestamp-lastUpdatedTimestamp)>600*1000){
+					if((currentTimestamp-lastUpdatedTimestamp)>2*60*1000){
 						String padId=inbound.getPadId();
 						String roleName=inbound.getRoleName();
 						if("DEVICE".equals(roleName)){
