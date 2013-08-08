@@ -9,22 +9,131 @@
 <meta http-equiv="Content-Type" content="text/html; charset=GBK" />
 
 <title>江苏省电力公司</title>
+<style>
+    
+    #slides {
+      display: none
+    }
 
+    #slides .slidesjs-navigation {
+      margin-top:5px;
+    }
+
+    a.slidesjs-next,
+    a.slidesjs-previous,
+    a.slidesjs-play,
+    a.slidesjs-stop {
+      background-image: url(img/btns-next-prev.png);
+      background-repeat: no-repeat;
+      display:block;
+      width:12px;
+      height:18px;
+      overflow: hidden;
+      text-indent: -9999px;
+      float: left;
+      margin-right:5px;
+    }
+
+    a.slidesjs-next {
+      margin-right:10px;
+      background-position: -12px 0;
+    }
+
+    a:hover.slidesjs-next {
+      background-position: -12px -18px;
+    }
+
+    a.slidesjs-previous {
+      background-position: 0 0;
+    }
+
+    a:hover.slidesjs-previous {
+      background-position: 0 -18px;
+    }
+
+    a.slidesjs-play {
+      width:15px;
+      background-position: -25px 0;
+    }
+
+    a:hover.slidesjs-play {
+      background-position: -25px -18px;
+    }
+
+    a.slidesjs-stop {
+      width:18px;
+      background-position: -41px 0;
+    }
+
+    a:hover.slidesjs-stop {
+      background-position: -41px -18px;
+    }
+
+    .slidesjs-pagination {
+      margin: 7px 0 0;
+      float: right;
+      list-style: none;
+    }
+
+    .slidesjs-pagination li {
+      float: left;
+      margin: 0 1px;
+    }
+
+    .slidesjs-pagination li a {
+      display: block;
+      width: 13px;
+      height: 0;
+      padding-top: 13px;
+      background-image: url(img/pagination.png);
+      background-position: 0 0;
+      float: left;
+      overflow: hidden;
+    }
+
+    .slidesjs-pagination li a.active,
+    .slidesjs-pagination li a:hover.active {
+      background-position: 0 -13px
+    }
+
+    .slidesjs-pagination li a:hover {
+      background-position: 0 -26px
+    }
+
+    #slides a:link,
+    #slides a:visited {
+      color: #333
+    }
+
+    #slides a:hover,
+    #slides a:active {
+      color: #9e2020
+    }
+
+    .navbar {
+      overflow: hidden
+    }}
+  </style>
 <link href="sg_cms/sites/main/css/index.css" rel="stylesheet" type="text/css" media="all" />
 
-<script type="text/javascript" src="sg_cms/sites/main/js/jquery-1.6.1.min.js"></script>
+<script type="text/javascript" src="sg_cms/sites/main/js/jquery-1.9.1.min.js"></script>
 
-<script type="text/javascript" src="sg_cms/sites/main/js/js.js"></script>
+ 
+<script type="text/javascript" src="styles/Slides-SlidesJS-3/source/jquery.slides.min.js"></script>
 
 <script type="text/javascript">
 
 	$(function() {
-
-		clickSwitch('.newsbox .tab li','.newsbox .tabbox > .list ','0',1);//新闻中心
-
-		clickSwitch('.videonews .tab li','.videonews .tabbox > .item ','0',1);//视频新闻
-
-		clickSwitch('.dy .tab li','.dy .tabbox > .item ','0',1);//服务动态
+		 $('#slides').slidesjs({
+				width: 940,
+				height: 300,
+				play: {
+				  active: true,
+				  auto: true,
+				  interval: 4000,
+				  swap: true
+				}
+		});
 
 	});
 
@@ -101,9 +210,15 @@
 
 		</div>
 
-		 <!--内容-->
-
+		 <!--content begin-->
+		<div id="slides">
+		  <img src="img/example-slide-1.jpg" alt="Photo by: Missy S Link: http://www.flickr.com/photos/listenmissy/5087404401/">
+		  <img src="img/example-slide-2.jpg" alt="Photo by: Daniel Parks Link: http://www.flickr.com/photos/parksdh/5227623068/">
+		  <img src="img/example-slide-3.jpg" alt="Photo by: Mike Ranweiler Link: http://www.flickr.com/photos/27874907@N04/4833059991/">
+		  <img src="img/example-slide-4.jpg" alt="Photo by: Stuart SeegerLink: http://www.flickr.com/photos/stuseeger/97577796/">
+		</div>
 		
+		 <!--content end-->
 
 		<div objid="6054"  id="footer">
 
