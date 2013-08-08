@@ -1,0 +1,42 @@
+@charset "utf-8";
+@import url("css.css");
+/* CSS Document */
+#container{}
+.banner{ height:160px; width:960px; margin-bottom:10px;}
+.sidebar{ float:left; width:235px;}
+.sidebar h1{ height:35px; width:125px; margin-bottom:8px; background:url(../images/list001.jpg) no-repeat; color:#0b6c75; font-size:22px; font-weight:normal; font-family:黑体; padding:20px 0 0 110px;}
+.subnav{border:1px solid #93d3d8; border-bottom:none; margin-bottom:10px;}
+.subnav dl{}
+.subnav dt{ border-bottom:1px solid #93d3d8; height:33px; line-height:33px; padding-left:60px;background:url(../images/list002.jpg) no-repeat; position:relative; }
+.subnav dt a{ color:#007a77; font-size:14px; font-weight:bold;}
+.subnav dt span{ display:block; background:url(../images/list006.jpg) no-repeat; height:18px; width:18px; overflow:hidden; position: absolute; right:35px; top:7px;}
+.sidebar dd { background:#fff; display:none; margin-bottom:1px;}
+.sidebar dd a{ color:#0b6c75; display:block; height:33px; line-height:33px; border-bottom:1px dashed #c9e9eb; padding-left:80px;}
+.sidebar dd a.select{ background:#d7f5f2; border-bottom:1px solid #93D3D8; font-weight:bold; color:#2f8965;}
+.sidebar dl a:hover{ text-decoration:none; color:#f80000;}
+.subnav dl.on dd{ display:block;}
+.subnav dl.on dt span{ background:url(../images/list028.gif) no-repeat;}
+
+
+
+.rightarea{ float:right; width:717px;}
+.txtcon { margin:30px;}
+.txtcon h1 {color:#2f8965; font-family:"黑体";font-weight:normal;font-size:18px; text-align:center; margin-bottom:10px;}
+.txtcon .subtitle{ border-bottom:1px dotted #ccc; padding-bottom:10px; font-size:14px; font-weight:bold; text-align:center; margin-bottom:10px;}
+.txtcon .info { color:#666; text-align:center; padding-bottom:30px;}
+.txtcon .info a{ margin:0 2px;}
+.txtcon .info span{ margin:0 10px;}
+.txtcon .info .fontsize{color:#0079CE; margin:0 2px; cursor:pointer;}
+.txtcon p{ font-size:14px; line-height:30px;}
+.txtcon .cont{}
+.txtcon .cont div{line-height:24px; height:24px; clear:both; text-align:left;}
+.txtcon .tool{ text-align:right; margin:20px 0;}
+.txtcon .tool .correction{ float:left; color:#ff0000;}
+.related{ clear:both;}
+.related .title{ height:40px; line-height:40px; border-bottom:1px dotted #93d3d8;}
+.related .title h3{ color:#007773; font-weight:bold; margin-left:10px;}
+.related ul{ padding:10px; font-size:14px;}
+.related ul li{ background:url(../images/index005.jpg) no-repeat 0 12px; height:24px; line-height:24px; padding-left:12px; overflow:hidden; text-align:right;}
+.related ul li a{ float:left;}
+.related ul li span{ font-size:12px;}
+.txtcon img{max-width:617px; margin:20px;_width:expression(this.width > 610 ? 610: true);}

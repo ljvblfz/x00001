@@ -1,0 +1,133 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=GBK" />
+
+<title>江苏省电力公司</title>
+
+<link href="sg_cms/sites/main/css/index.css" rel="stylesheet" type="text/css" media="all" />
+
+<script type="text/javascript" src="sg_cms/sites/main/js/jquery-1.6.1.min.js"></script>
+
+<script type="text/javascript" src="sg_cms/sites/main/js/js.js"></script>
+
+<script type="text/javascript">
+
+	$(function() {
+
+		clickSwitch('.newsbox .tab li','.newsbox .tabbox > .list ','0',1);//新闻中心
+
+		clickSwitch('.videonews .tab li','.videonews .tabbox > .item ','0',1);//视频新闻
+
+		clickSwitch('.dy .tab li','.dy .tabbox > .item ','0',1);//服务动态
+
+	});
+
+</script> 
+
+</head>
+
+<body tag="_PAGEINDEX"  objid="6001" >
+
+
+
+
+
+
+	<div objid="6002"  id="wraper">
+
+		<!--header-->
+
+		<div objid="6003"  id="header"> 
+
+			<div objparam="jspfile:top_1.jsp,isincludefile:yes"  tag="_setinclude"  objid="6004"  class="top">
+
+				<a href="#" id="logo">国家电网</a>
+
+				<ul objid="6055"  class="mininav">
+
+					<li><a objparam="columnid:4,columnname:客户服务" target="_blank" tag="_column"  objid="6085"  href="sg_cms/html/main/col4/column_4_1.html">消费者</a></li>
+
+					<li><a objparam="columnid:80,columnname:人才招聘" target="_blank" tag="_column"  objid="6086"  href="http://zhaopin.sgcc.com.cn/">求职者</a></li>
+
+					<li><a objparam="columnid:3,columnname:新闻中心" target="_blank" tag="_column"  objid="6087"  href="sg_cms/html/main/col3/column_3_1.html">传媒者</a></li>
+
+					<li class="last"><a objparam="columnid:5,columnname:商务服务" target="_blank" tag="_column"  objid="6088"  href="sg_cms/html/main/col5/column_5_1.html">合作者</a></li>
+ 
+				</ul>
+
+			</div>
+
+			
+
+			<div objid="6005"  class="nav">
+
+				<ul objid="6056" >
+
+
+					<li ><a target="_blank"  href="#">首页</a></li>    
+
+	 
+
+					<li ><a target="_blank"  href="#">关于我们</a></li>    
+
+	 
+
+					<li ><a target="_blank"  href="#">新闻中心</a></li>    
+
+	 
+
+					<li ><a target="_blank"  href="#">客户服务</a></li>    
+
+	 
+
+					<li ><a target="_blank"  href="#">商务服务</a></li>    
+
+	 
+
+					<li ><a target="_blank"  href="#">互动交流</a></li>    
+
+				   
+				</ul>
+
+				<form action=""><input vtype="string"  vmode="not null"  name="q"  vdisp="关键字"  objparam="fieldname:keyword"  tag="_websearchinput"  objid="6256"  type="text" class="inp" onblur="if (this.value ==''){this.value=this.defaultValue}" onFocus="if(this.value==this.defaultValue)this.value=''"value="请输入关键词" /><input onclick="doWebSearch()"  objparam="buttonname:search"  tag="_websearchbutton"  objid="6257"  type="button" value="" class="btn" /></form>
+
+			</div>
+
+		</div>
+
+		 <!--内容-->
+
+		
+
+		<div objid="6054"  id="footer">
+
+			<p class="links"><a objparam="columnname:版权声明,columnid:111"  tag="_column"  objid="6185"  href="http://www.miitbeian.gov.cn/"target="_blank" >版权声明</a>|<a objparam="columnname:法律声明,columnid:110"  tag="_column"  objid="6186"  href="sg_cms/html/main/col110/column_110_1.html">法律声明</a>|<a objparam="columnid:52,columnname:联系我们"  tag="_column"  objid="6187"  href="sg_cms/html/main/col52/2012-09/06/20120906194124802246921_1.html">联系我们</a>|<a objparam="columnid:51,columnname:常见问题"  tag="_column"  objid="6188"  href="sg_cms/sites/main/hdjl_list.jsp.html">网站帮助</a>|<a objparam="columnid:112,columnname:网站标识"  tag="_column"  objid="6189"  href="sg_cms/html/main/col112/column_112_1.html">网站标识</a>|<a objparam="columnid:51,columnname:常见问题"  tag="_column"  objid="6190"  href="sg_cms/html/main/col51/column_51_1.html">常见问题</a></p>
+
+			<p class="visits">自2012年5月31日起,本网站访问量：<span id="browseCount" objparam="field:totalbrowsecount"  tag="_sitefield"  objid="6244" ></span>次</p>
+
+			<p class="copyright"><span objparam="field:copyright"  tag="_sitefield"  objid="6233" ><P>江苏省电力公司 版权所有 (C) Copyright 2009 js.sgcc.com.cn</P><P>京ICP备09055871号</P></span></p>
+
+		</div>
+		<script type="text/javascript">
+			$.ajaxSetup ({ 
+				cache: false 
+			});  
+			
+			$.get("/sg_cms/sites/main/count.jsp?strSiteID=main",function(data){
+				$("#browseCount").html(data)
+			})  
+		</script>
+
+	</div>
+
+</body>
+
+    
+	
+</html>
