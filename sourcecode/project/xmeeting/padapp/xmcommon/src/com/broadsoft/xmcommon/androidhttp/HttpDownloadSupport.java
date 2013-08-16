@@ -56,8 +56,15 @@ public class HttpDownloadSupport {
 			URL url = new URL(urlStr);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();  
 
-			conn.setConnectTimeout(30000);//ms
-			conn.setReadTimeout(30000);//ms
+			conn.setConnectTimeout(60*1000);//ms
+			conn.setReadTimeout(60*1000);//ms
+			System.out.println("--------set timeout----------");
+//			System.setProperty("sun.net.client.defaultConnectTimeout", String
+//					.valueOf(10000));// （单位：毫秒）
+//			System.setProperty("sun.net.client.defaultReadTimeout", String
+//					.valueOf(10000)); // （单位：毫秒）
+			
+//			conn.set("http.socket.timeout", new Integer(30000)); 
 			//
 			String localDir = sdcardDir + docPathFile;// 文件存储路径 
 			File file = new File(localDir);
@@ -116,15 +123,19 @@ public class HttpDownloadSupport {
 				totalRead += bytesRead;
 				if(index%1000==0){
 					Log.d(TAG,System.currentTimeMillis()+ "Download-"+(totalRead/(1024))+" KB");
-					httpDownloadListener.notifyDownloadSize(totalRead);
+					httpDownloadListener.notifyDownloadSize(totalRead/1024);
 				}
 			}
+			httpDownloadListener.notifyDownloadSize(totalRead/1024);
 			int totalReadInKB = (int) (totalRead / 1024);
 			Log.d(TAG, "[File("+fileName+") Download] totalReadInKB--->"+totalReadInKB+"  KB");
 		} catch (FileNotFoundException e) { 
 			e.printStackTrace();
 			return 0;
 		} catch (IOException e) { 
+			e.printStackTrace();
+			return 0;
+		} catch (Exception e) { 
 			e.printStackTrace();
 			return 0;
 		}finally{
