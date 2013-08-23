@@ -35,7 +35,7 @@ public class PadInfoDao extends PadInfoConstant implements
 		values.put(COLUMN_ASSET_CODE, entity.getAssetCode());
 		values.put(COLUMN_JSON_DATA, entity.getJsonData());
 		db.insert(TABLE_PADINFO, null, values);
-		db.close();
+//		db.close();
 		return true;
 	}
 
