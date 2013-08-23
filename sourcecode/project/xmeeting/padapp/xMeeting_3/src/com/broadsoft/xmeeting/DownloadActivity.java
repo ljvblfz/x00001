@@ -62,6 +62,10 @@ public class DownloadActivity extends Activity implements Runnable{
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.d(TAG, "onCreate begin");
 		super.onCreate(savedInstanceState);
+		//
+//		System.setProperty("http.keepAlive", "false");
+		System.setProperty("http.keepAlive", "false");
+		//
 		setContentView(R.layout.download_activity_main); 
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		//

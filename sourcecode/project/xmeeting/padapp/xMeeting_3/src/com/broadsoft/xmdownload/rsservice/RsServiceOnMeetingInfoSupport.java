@@ -155,7 +155,8 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 		}//end of if
 		//下载文件
 		try {
-			if(type==RsServiceOnMeetingInfoSupport.TYPE_DOWNLOAD_WITH_FILE||type==RsServiceOnMeetingInfoSupport.TYPE_DEFAULT){
+			Log.d(TAG, "[run]type is : "+type);
+			if(type==RsServiceOnMeetingInfoSupport.TYPE_DEFAULT){
 				long begintime=System.currentTimeMillis();
 				cleanFileForDownloadInfo(jsonDataMeetingInfo);
 				saveFileForDownloadInfo(jsonDataMeetingInfo); 
@@ -164,17 +165,21 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 			}//end of if
 			//更新UI下载状态
 			if(type==RsServiceOnMeetingInfoSupport.TYPE_DEFAULT){
+
+				Log.d(TAG, "[run]type is sendDownloadMeetingMessageOnEnd.");
 				DownloadByWsUIHandler.getInstance().sendDownloadMeetingMessageOnEnd();
 			}else{
+				Log.d(TAG, "[run]type is sendDownloadMessageOnEnd.");
 				DownloadByHandUIHandler.getInstance().sendDownloadMessageOnEnd();
 			} 
 		}catch (Exception e) { 
 			e.printStackTrace();
 			Log.d(TAG, "[run]Raise the Exception is : "+e.getMessage()); 
-//			DownloadByHandUIHandler.getInstance().sendDownloadMessageOnError();
 			if(type==RsServiceOnMeetingInfoSupport.TYPE_DEFAULT){
+				Log.d(TAG, "[run]type is sendDownloadMeetingMessageOnError.");
 				DownloadByWsUIHandler.getInstance().sendDownloadMeetingMessageOnError();
 			}else{
+				Log.d(TAG, "[run]type is sendDownloadMessageOnError.");
 				DownloadByHandUIHandler.getInstance().sendDownloadMessageOnError();
 			}
 		}  
