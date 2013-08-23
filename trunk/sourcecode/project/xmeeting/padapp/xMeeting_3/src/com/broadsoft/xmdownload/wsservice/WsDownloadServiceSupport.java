@@ -231,6 +231,7 @@ public class WsDownloadServiceSupport {
 			}
 			String to=jsonObject.getString("to");
 
+			Log.d(TAG, "------msgtype is: "+msgtype+"------------>to is: "+to); 
 			if(null!=to){
 				String[] toList=null;
 				if(to.indexOf(",")>0){

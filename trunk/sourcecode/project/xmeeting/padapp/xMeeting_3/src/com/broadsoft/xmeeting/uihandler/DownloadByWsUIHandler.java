@@ -127,18 +127,24 @@ public class DownloadByWsUIHandler extends Handler {
 	}
 	private ProgressDialog progressDialog;
 	private void createLoadingDialog(){ 
-		 progressDialog = new ProgressDialog(act);
-		 progressDialog.setMessage("下载中,请等待...");
-		 progressDialog.setCancelable(false);
-		 progressDialog.setIndeterminate(true);
-		 progressDialog.show();
+		Log.d(TAG, "createLoadingDialog begin");
+		if(null!=progressDialog){
+			 progressDialog = new ProgressDialog(act);
+			 progressDialog.setMessage("下载中,请等待...");
+			 progressDialog.setCancelable(false);
+			 progressDialog.setIndeterminate(true);
+			 progressDialog.show();
+		}
+		Log.d(TAG, "createLoadingDialog end");
 	}
 	
 	private void destroyLoadingDialog(){ 
+		Log.d(TAG, "destroyLoadingDialog begin");
 		if(null!=progressDialog){
 			progressDialog.dismiss();
 			progressDialog=null; 
 		} 
+		Log.d(TAG, "destroyLoadingDialog end");
 	}
 
 //	private String processMessage(String payload) {
