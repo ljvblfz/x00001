@@ -25,7 +25,7 @@ import org.apache.http.protocol.HTTP;
  * @author lu.zhen
  *
  */
-public class HttpClientSupport {
+public class DefaultHttpClientSupport {
 	private static final int DEFAULT_MAX_CONNECTIONS = 30;
     private static final int DEFAULT_SOCKET_TIMEOUT = 20 * 1000;
     private static final int DEFAULT_SOCKET_BUFFER_SIZE = 8192;

@@ -1,7 +1,7 @@
 package com.broadsoft.xmcommon.androidhttp;
 
+import java.io.BufferedInputStream; 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,6 +11,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import android.util.Log;
+import org.apache.commons.io.output.ByteArrayOutputStream;
 
 import com.broadsoft.xmcommon.androidsdcard.SDCardSupport;
 
@@ -48,27 +49,35 @@ public class HttpDownloadSupport {
 		String urlStr = "http://" + serveriport + docPathFile;  
 		Log.d(TAG, "Download the file url ---->"+urlStr);
 		OutputStream output = null;
+		InputStream input =null;
+//		InputStream byteArrayOutputStream=null;
+		HttpURLConnection conn=null;
 		int retFlag=0;
  
 		String sdcardDir = SDCardSupport.getSDCardDirectory(); 
 		
 		try {
 			URL url = new URL(urlStr);
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();  
+			conn = (HttpURLConnection) url.openConnection();  
 
 			conn.setConnectTimeout(60*1000);//ms
-			conn.setReadTimeout(60*1000);//ms
-			System.out.println("--------set timeout----------");
-//			System.setProperty("sun.net.client.defaultConnectTimeout", String
-//					.valueOf(10000));// （单位：毫秒）
-//			System.setProperty("sun.net.client.defaultReadTimeout", String
-//					.valueOf(10000)); // （单位：毫秒）
-			
-//			conn.set("http.socket.timeout", new Integer(30000)); 
+			conn.setReadTimeout(1000*60*1000);//ms==>100minute
+			conn.setRequestMethod("GET"); 
+//			conn.connect();
+//			System.out.println("--------set timeout----------"); 
+			System.out.println("--------change3----------"); 
+			if(conn.getResponseCode()!=200){
+				System.out.println("--------ResponseCode----------"+conn.getResponseCode());  
+//				throw new RuntimeException("请求url失败-->ResponseCode:"+conn.getResponseCode());
+				if(null!=conn){
+					conn.disconnect();
+				}
+				return 0;
+			}
 			//
 			String localDir = sdcardDir + docPathFile;// 文件存储路径 
 			File file = new File(localDir);
-			InputStream input = conn.getInputStream();
+			input = conn.getInputStream();
 			if (file.exists()) { 
 				Log.d(TAG, "File exists: "+localDir);
 				retFlag= 2;
@@ -87,11 +96,33 @@ public class HttpDownloadSupport {
 						Log.d(TAG, "File dir created: "+newLocalDir);
 						fileDir.mkdir();
 					} 
-				} 
+				}//end of for 
 				Log.d(TAG, "localDir is : "+localDir); 
 				file.createNewFile();// 新建文件
-				output = new FileOutputStream(file); 
-				return writeFile(input,output,docPathFile,httpDownloadListener);
+				output = new FileOutputStream(file);  
+				long totalRead=0; 
+				int bytesRead = 0;
+				byte[] dataRead = new byte[1024*10];
+
+//				Log.d(TAG, "下载中.");
+				int index=0;
+				// 
+//				byteArrayOutputStream=ByteArrayOutputStream.toBufferedInputStream(input);
+				//写入文件
+//				while((bytesRead = byteArrayOutputStream.read(dataRead))!=-1){
+				while((bytesRead = input.read(dataRead))!=-1){
+					index++;
+					output.write(dataRead, 0, bytesRead);
+					totalRead += bytesRead;
+					if(index%1000==0){
+						Log.d(TAG,System.currentTimeMillis()+ "Download-"+(totalRead/(1024))+" KB");
+						httpDownloadListener.notifyDownloadSize(totalRead/1024);
+					}
+				}//end of while
+				httpDownloadListener.notifyDownloadSize(totalRead/1024);
+				int totalReadInKB = (int) (totalRead / 1024);
+				Log.d(TAG, "[File("+docPathFile+") Download] totalReadInKB--->"+totalReadInKB+"  KB"); 
+				retFlag= 1;
 			}
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
@@ -102,52 +133,28 @@ public class HttpDownloadSupport {
 			retFlag= 0;
 			return retFlag;
 		} finally {
-			 
+			try {
+				if(null!=output){
+					output.flush();
+					output.close();
+				}
+				if(null!=input){
+					input.close();
+				}
+				if(null!=conn){
+					conn.disconnect();
+				}
+			} catch (IOException e) { 
+				e.printStackTrace();
+			}  
 		}
 		Log.d(TAG, "downloadFile end");
 		retFlag= 1;
 		return retFlag;
 	}//end of downloadFile 
 	
-	private static  int writeFile(InputStream input,OutputStream output,String fileName,HttpDownloadListener httpDownloadListener){ 
-		long totalRead=0;
-		try { 
-			int bytesRead = 0;
-			byte[] data = new byte[1024*10];
 
-			Log.d(TAG, "下载中.");
-			int index=0;
-			while((bytesRead = input.read(data))!=-1){
-				index++;
-				output.write(data, 0, bytesRead);
-				totalRead += bytesRead;
-				if(index%1000==0){
-					Log.d(TAG,System.currentTimeMillis()+ "Download-"+(totalRead/(1024))+" KB");
-					httpDownloadListener.notifyDownloadSize(totalRead/1024);
-				}
-			}
-			httpDownloadListener.notifyDownloadSize(totalRead/1024);
-			int totalReadInKB = (int) (totalRead / 1024);
-			Log.d(TAG, "[File("+fileName+") Download] totalReadInKB--->"+totalReadInKB+"  KB");
-		} catch (FileNotFoundException e) { 
-			e.printStackTrace();
-			return 0;
-		} catch (IOException e) { 
-			e.printStackTrace();
-			return 0;
-		} catch (Exception e) { 
-			e.printStackTrace();
-			return 0;
-		}finally{
-			try {
-				output.flush();
-				output.close();
-				input.close();
-			} catch (IOException e) { 
-				e.printStackTrace();
-			} 
-		} 
-		return 1;
-	}
+ 
+	 
 
 }//end of HttpDownloadSupport
