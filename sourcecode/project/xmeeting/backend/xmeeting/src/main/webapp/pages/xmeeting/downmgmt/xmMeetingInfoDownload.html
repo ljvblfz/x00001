@@ -114,23 +114,47 @@
 	
 	function xmMeetingInfoDownloadDownload(){ 
 		logger.info("xmMeetingInfoDownloadDownload begin");
-		
-		$("input[name='xmmiGuids']").each(function() {
-		
-			  var attrChecked=$(this).attr("checked");
-			  var meetingGuid=$(this).attr("value");
-			   logger.info("each ......attrChecked===>"+attrChecked+"    meetingGuid===>"+meetingGuid); 
-			  if(attrChecked=='checked'){
-				 	xmMeetingInfoDownloadPadAndroidID(meetingGuid);
-			  }//end of if
-			  
-		}); 
-		logger.info("xmMeetingInfoDownloadDownload end");
+		if(checkFun()){
+			$("input[name='xmmiGuids']").each(function() {
+					var attrChecked=$(this).attr("checked");				 
+					var meetingGuid=$(this).attr("value");
+				   logger.info("each ......attrChecked===>"+attrChecked+"    meetingGuid===>"+meetingGuid);
+					//alert(attrChecked);
+				  if(attrChecked=='checked' && $(this).attr("value")!=''){
+					alert(meetingGuid);
+				 //xmMeetingInfoDownloadPadAndroidID(meetingGuid);
+				   //logger.info("each ......selected meetingGuid===>"+meetingGuid);
+							//xmMeetingInfoDownloadPadAndroidID(meetingGuid);
+				  }//end of if
+				  
+			}); 
+			
+			logger.info("xmMeetingInfoDownloadDownload end");
+		}
 		
 		
 	}
 	
-	
+	function checkFun(){
+		var i=0; 
+		$("input[name='xmmiGuids']").each(function() {
+			var attrChecked=$(this).attr("checked");
+			  if(attrChecked=='checked' && $(this).attr("value")!=''){			
+				meetingGuid=$(this).attr("value");
+				i++;
+			  }//end of if 
+			  
+		}); 
+		if(i==0){
+					alert('请选择一条记录!');
+					return false;		
+		}else if(i>1){
+					alert('请只选择一条记录!');
+					return false;
+		}else{
+			return true;
+		}
+	}
 
 	function xmMeetingInfoDownloadPadAndroidID(meetingGuid){
 		logger.info("xmMeetingInfoDownloadPadAndroidID begin  meetingGuid====>"+meetingGuid);
@@ -170,16 +194,17 @@
 	//xmMeetingInfoDownloadActivate 
 	function xmMeetingInfoDownloadActivate(){ 
 		logger.info("xmMeetingInfoDownloadActivate begin");
-		
-		$("input[name='xmmiGuids']").each(function() {
-			  var attrChecked=$(this).attr("checked");
-			  var meetingGuid=$(this).attr("value");
-			   logger.info("each ......attrChecked===>"+attrChecked+"    meetingGuid===>"+meetingGuid);
-			  if(attrChecked=='checked'){
-				  xmMeetingInfoActivatePadAndroidID(meetingGuid);
-			  }//end of if
-			  
-		}); 
+		if(checkFun()){
+			$("input[name='xmmiGuids']").each(function() {
+				  var attrChecked=$(this).attr("checked");
+				  var meetingGuid=$(this).attr("value");
+				   logger.info("each ......attrChecked===>"+attrChecked+"    meetingGuid===>"+meetingGuid);
+				  if(attrChecked=='checked'){
+					  xmMeetingInfoActivatePadAndroidID(meetingGuid);
+				  }//end of if
+				  
+			}); 
+		}
 		logger.info("xmMeetingInfoDownloadActivate end"); 
 	}
 	
@@ -187,16 +212,18 @@
 	//xmMeetingInfoDownloadActivate 
 	function xmMeetingInfoDownloadDelete(){ 
 		logger.info("xmMeetingInfoDownloadDelete begin");
-		
-		$("input[name='xmmiGuids']").each(function() {
-			  var attrChecked=$(this).attr("checked");
-			  var meetingGuid=$(this).attr("value");
-			  //logger.info("each ......attrChecked===>"+attrChecked+"    meetingGuid===>"+meetingGuid);
-			  if(attrChecked=='checked'){
-				  xmMeetingInfoDeletePadAndroidID(meetingGuid);
-			  }//end of if
-			  
-		}); 
+	
+		if(checkFun()){	
+			$("input[name='xmmiGuids']").each(function() {
+				  var attrChecked=$(this).attr("checked");
+				  var meetingGuid=$(this).attr("value");
+				  //logger.info("each ......attrChecked===>"+attrChecked+"    meetingGuid===>"+meetingGuid);
+				  if(attrChecked=='checked' && $(this).attr("value")!=''){
+					  xmMeetingInfoDeletePadAndroidID(meetingGuid);
+				  }//end of if
+				  
+			}); 
+		}
 		logger.info("xmMeetingInfoDownloadDelete end"); 
 	}
 	
@@ -240,15 +267,17 @@
 	function xmMeetingInfoDownloadEntry(){ 
 		logger.info("xmMeetingInfoDownloadEntry begin");
 		
-		$("input[name='xmmiGuids']").each(function() {
-			  var attrChecked=$(this).attr("checked");
-			  var meetingGuid=$(this).attr("value");
-			   logger.info("each ......attrChecked===>"+attrChecked+"    meetingGuid===>"+meetingGuid);
-			  if(attrChecked=='checked'){
-				  xmMeetingInfoEntryPadAndroidID(meetingGuid);
-			  }//end of if
-			  
-		}); 
+		if(checkFun()){	
+			$("input[name='xmmiGuids']").each(function() {
+				  var attrChecked=$(this).attr("checked");
+				  var meetingGuid=$(this).attr("value");
+				   logger.info("each ......attrChecked===>"+attrChecked+"    meetingGuid===>"+meetingGuid);
+				  if(attrChecked=='checked' && $(this).attr("value")!=''){
+					  xmMeetingInfoEntryPadAndroidID(meetingGuid);
+				  }//end of if
+				  
+			}); 
+		}
 		logger.info("xmMeetingInfoDownloadEntry end"); 
 	}
 	
