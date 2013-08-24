@@ -123,8 +123,8 @@ public class DownloadWebSocketServlet extends WebSocketServlet {
 					DownloadMessageInbound inbound=iterOfInbound.next();
 					long lastUpdatedTimestamp=inbound.getLastUpdatedTimestamp();
 					long currentTimestamp=System.currentTimeMillis();
-					//超过600秒要删除
-					if((currentTimestamp-lastUpdatedTimestamp)>2*60*1000){
+					//超过5分钟要删除
+					if((currentTimestamp-lastUpdatedTimestamp)>5*60*1000){
 						String padId=inbound.getPadId();
 						String roleName=inbound.getRoleName();
 						if("DEVICE".equals(roleName)){
