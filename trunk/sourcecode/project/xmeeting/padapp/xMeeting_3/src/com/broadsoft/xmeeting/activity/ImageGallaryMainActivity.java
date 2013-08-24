@@ -11,13 +11,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,7 +27,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -39,7 +37,6 @@ import android.widget.TextView;
 
 import com.broadsoft.common.MyPullDownLayoutView;
 import com.broadsoft.common.MyPullDownLayoutView.OnPullDownListener;
-import com.broadsoft.common.util.BitmapSupport;
 import com.broadsoft.xmcommon.androiddao.DownloadInfoEntity;
 import com.broadsoft.xmcommon.androiddao.EntityInfoHolder;
 import com.broadsoft.xmcommon.androidsdcard.SDCardSupport;
@@ -70,7 +67,7 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
 	
 	private GalleryFlow galleryFlow;
 	
-	private int currentSelectedPosition = 0;
+//	private int lastSelectedPosition = 0;
 	
 	private ImageAdapter imageAdapter;
 	
@@ -94,21 +91,20 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
 		mItemListAdapter = new ItemListAdapter(this);
         new GetDataTask().execute();
         
-        //关闭popupwindow用的 
-        receiver = new BroadcastReceiver() {
-  			public void onReceive(Context context, Intent intent) { 
-  				if (menu_display == true){
-  					menuWindow.dismiss();
-  					menu_display = false;
-  				} 
-  			}//end of onReceive
-  		};
-        
-        
-//       new RefreshImageTask().execute();
+//        //关闭popupwindow用的 
+//        receiver = new BroadcastReceiver() {
+//  			public void onReceive(Context context, Intent intent) { 
+//  				if (menu_display == true){
+//  					menuWindow.dismiss();
+//  					menu_display = false;
+//  				} 
+//  			}//end of onReceive
+//  		};
+//        
+         
 
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-       InitTopbarAndBack();
+        InitTopbarAndBack();
     }
 
 	private int backCount=0;
@@ -171,24 +167,58 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
             imageAdapter.createImageGallery();
             return null;
         }//end of doInBackground
-
+        
+//        protected long lastSelectedTimestamp=System.currentTimeMillis();
+        private ProgressDialog dialog;
+        
 		@Override
-        protected void onPostExecute(String[] result) {
+        protected void onPreExecute() {
 
+			dialog = new ProgressDialog(ImageGallaryMainActivity.this);
+            dialog.setMessage("相册加载中,请等待...");
+            dialog.setCancelable(false);
+            dialog.setIndeterminate(true);
+            dialog.show();
+        }
+        
+		@Override
+        protected void onPostExecute(String[] result) { 
+			if(null!=dialog){
+				dialog.dismiss();
+				dialog=null; 
+			} 
 			galleryFlow = (GalleryFlow) findViewById(R.id.gallery_flow);
 	        galleryFlow.setAdapter(imageAdapter);
 	        
 	        galleryFlow.setOnItemClickListener(new OnItemClickListener() {
 	            public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-	            	if (position == currentSelectedPosition) {
-	            		Intent intent = new Intent();
-	        			intent.setClass(ImageGallaryMainActivity.this, ImageGallaryViewPopupActivity.class);  
-	        			BitmapWrapper bitmapWrapper=(BitmapWrapper)imageAdapter.getItem(position); 
-	        			intent.putExtra("fileName", bitmapWrapper.getFileName());
-	        			startActivity(intent);//  
-	            	} else{
-	            		currentSelectedPosition = position; 
-	            	} 
+//	            	if (position == lastSelectedPosition) {
+//	            		Intent intent = new Intent();
+//	        			intent.setClass(ImageGallaryMainActivity.this, ImageGallaryViewPopupActivity.class);  
+//	        			BitmapWrapper bitmapWrapper=(BitmapWrapper)imageAdapter.getItem(position); 
+//	        			intent.putExtra("fileName", bitmapWrapper.getFileName());
+//	        			startActivity(intent);//  
+//	            	} else{
+//	            		lastSelectedPosition = position; 
+//	            	} 
+	            	long currentTimestamp=System.currentTimeMillis();
+		        	if(currentTimestamp-ImageGallaryLastClickTimestamp.getInstance().getLastSelectedTimestamp()<1*1000){//两次点击小于0.5秒,返回
+		        		ImageGallaryLastClickTimestamp.getInstance().setLastSelectedTimestamp(currentTimestamp);
+		        		return;
+		        	} 
+	        		ImageGallaryLastClickTimestamp.getInstance().setLastSelectedTimestamp(currentTimestamp);
+	        		
+            		Intent intent = new Intent();
+        			intent.setClass(ImageGallaryMainActivity.this, ImageGallaryViewPopupActivity.class);  
+        			
+        			BitmapWrapper bitmapWrapper=(BitmapWrapper)imageAdapter.getItem(position); 
+//        			if(!bitmapWrapper.getBitmap().isRecycled()){
+//	        			intent.putExtra("fileName", bitmapWrapper.getFileName());
+//	        			startActivity(intent);//  
+//        			}
+
+        			intent.putExtra("fileName", bitmapWrapper.getFileName());
+        			startActivity(intent);//  
 	            }//end of onItemClick 
 	        });
 	        galleryFlow.setCallbackDuringFling(false);
@@ -365,6 +395,14 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
             convertView.setOnClickListener(new View.OnClickListener() { 
 				@Override
 				public void onClick(View v) { 
+
+					long currentTimestamp=System.currentTimeMillis();
+		        	if(currentTimestamp-ImageGallaryLastClickTimestamp.getInstance().getLastSelectedTimestamp()<1*1000){//两次点击小于0.5秒,返回
+		        		ImageGallaryLastClickTimestamp.getInstance().setLastSelectedTimestamp(currentTimestamp);
+		        		return;
+		        	} 
+	        		ImageGallaryLastClickTimestamp.getInstance().setLastSelectedTimestamp(currentTimestamp);
+					//
 					ViewHolder holder =(ViewHolder)v.getTag(); 
 					TextView textViewOnComments=(TextView)ImageGallaryMainActivity.this.findViewById(R.id.textViewOnComments);
 					textViewOnComments.setText(holder.tvName.getText()); 
@@ -376,6 +414,8 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
         }
          
     }
+    
+ 
     
    
 	
