@@ -30,26 +30,26 @@
 	}); 
 	 
     
-	function createControllerMonitorForTable(controllerList){
+// 	function createControllerMonitorForTable(controllerList){
 
-		var html=""; 
-		for(var i=0;i<controllerList.length;i++){
-			var controllerinfo=controllerList[i];
-			var memberList=controllerinfo.memberList;
-			for(var j=0;j<memberList.length;j++){
-				var memberInfo=memberList[j];
-				html+="<tr> ";
-				html+="		<td >"+controllerinfo.meetingId+"</td> ";
-				html+="		<td >"+memberInfo.meetingName+"</td> ";
-				html+="		<td >"+memberInfo.memberId+"</td> ";
-				html+="		<td >"+memberInfo.memberDisplayName+"</td>  ";
-				html+="</tr> ";
-			}
+// 		var html=""; 
+// 		for(var i=0;i<controllerList.length;i++){
+// 			var controllerinfo=controllerList[i];
+// 			var memberList=controllerinfo.memberList;
+// 			for(var j=0;j<memberList.length;j++){
+// 				var memberInfo=memberList[j];
+// 				html+="<tr> ";
+// 				html+="		<td >"+controllerinfo.meetingId+"</td> ";
+// 				html+="		<td >"+memberInfo.meetingName+"</td> ";
+// 				html+="		<td >"+memberInfo.memberId+"</td> ";
+// 				html+="		<td >"+memberInfo.memberDisplayName+"</td>  ";
+// 				html+="</tr> ";
+// 			}
 			
-		}
+// 		}
 		
-		findName("xmMeetingControllerTbody").html(html);
-	}
+// 		findName("xmMeetingControllerTbody").html(html);
+// 	}
 	  
 	
 	function createDownloadMonitorForTable(downloadList){
@@ -59,6 +59,7 @@
 			var downloadinfo=downloadList[i];
 
 			html+="<tr> ";
+			html+="		<td >"+(i+1)+"</td> ";
 			html+="		<td >"+downloadinfo.padId+"</td> ";
 			html+="		<td >"+downloadinfo.padCode+"</td> ";
 			html+="		<td >"+convertDownloadMonitorForRoleName(downloadinfo.roleName)+"</td>  ";
@@ -120,11 +121,11 @@
 			 	
 			<table class="table" layoutH="138" width="100%">
 				<thead>
-					<tr >
-					 
-								<th width="60"  >设备ID</th>
-								<th width="60"  >设备资产编号</th>
-								<th width="60"  >角色</th> 
+					<tr > 
+							<th width="60"  >序号</th>
+							<th width="60"  >设备ID</th>
+							<th width="60"  >设备资产编号</th>
+							<th width="60"  >角色</th> 
 					</tr>
 				</thead>
 				<tbody name="xmMeetingDownloadTbody">
