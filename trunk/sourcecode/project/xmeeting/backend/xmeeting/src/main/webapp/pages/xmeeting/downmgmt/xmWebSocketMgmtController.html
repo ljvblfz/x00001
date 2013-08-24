@@ -39,6 +39,7 @@
 			for(var j=0;j<memberList.length;j++){
 				var memberInfo=memberList[j];
 				html+="<tr> ";
+				html+="		<td >"+((i+1)*(j+1))+"</td> ";
 				html+="		<td >"+controllerinfo.meetingId+"</td> ";
 				html+="		<td >"+memberInfo.meetingName+"</td> ";
 				html+="		<td >"+memberInfo.memberId+"</td> ";
@@ -52,22 +53,22 @@
 	}
 	  
 	
-	function createDownloadMonitorForTable(downloadList){
+// 	function createDownloadMonitorForTable(downloadList){
 
-		var html=""; 
-		for(var i=0;i<downloadList.length;i++){
-			var downloadinfo=downloadList[i];
+// 		var html=""; 
+// 		for(var i=0;i<downloadList.length;i++){
+// 			var downloadinfo=downloadList[i];
 
-			html+="<tr> ";
-			html+="		<td >"+downloadinfo.padId+"</td> ";
-			html+="		<td >"+downloadinfo.padCode+"</td> ";
-			html+="		<td >"+convertDownloadMonitorForRoleName(downloadinfo.roleName)+"</td>  ";
-			html+="</tr> ";
+// 			html+="<tr> ";
+// 			html+="		<td >"+downloadinfo.padId+"</td> ";
+// 			html+="		<td >"+downloadinfo.padCode+"</td> ";
+// 			html+="		<td >"+convertDownloadMonitorForRoleName(downloadinfo.roleName)+"</td>  ";
+// 			html+="</tr> ";
 			
-		}
+// 		}
 		
-		findName("xmMeetingDownloadTbody").html(html);
-	}
+// 		findName("xmMeetingDownloadTbody").html(html);
+// 	}
  
 	
 	
@@ -97,6 +98,7 @@
 				<thead>
 					<tr >
 					 
+								<th width="60" >序号</th>
 								<th width="60" >会议ID</th>
 								<th width="60" >会议名称</th>
 								<th width="60" >人员ID</th>
