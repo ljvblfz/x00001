@@ -60,6 +60,7 @@ public class DownloadByHandUIHandler extends Handler {
 			if("begin".equals(downloadinfo)){//下载开始
 				createLoadingDialog(); 
 			}else if("end".equals(downloadinfo)){//下载结束
+				AppInitSupport.reloadEntity();
 				meetingInfoLVButtonAdapter.reload(); 
 				destroyLoadingDialog();
 			}else if("error".equals(downloadinfo)){//下载错误
@@ -88,11 +89,13 @@ public class DownloadByHandUIHandler extends Handler {
  
 	private ProgressDialog progressDialog;
 	private void createLoadingDialog(){ 
-		 progressDialog = new ProgressDialog(act);
-		 progressDialog.setMessage("下载中,请等待...");
-		 progressDialog.setCancelable(false);
-		 progressDialog.setIndeterminate(true);
-		 progressDialog.show();
+		if(null==progressDialog){
+			 progressDialog = new ProgressDialog(act);
+			 progressDialog.setMessage("下载中,请等待...");
+			 progressDialog.setCancelable(false);
+			 progressDialog.setIndeterminate(true);
+			 progressDialog.show(); 			
+		}
 	}
 	
 	private void destroyLoadingDialog(){ 

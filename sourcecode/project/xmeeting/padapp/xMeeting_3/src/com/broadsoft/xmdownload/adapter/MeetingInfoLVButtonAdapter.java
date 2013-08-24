@@ -164,10 +164,10 @@ public class MeetingInfoLVButtonAdapter extends BaseAdapter {
 			Log.d(TAG, "type is :  " + strType + " ----meeting id is: " + strMeetingId);
 			if ("1".equals(strType)) {
 				//download json info
-				RsServiceOnMeetingInfoSupport.downloadByType(RsServiceOnMeetingInfoSupport.TYPE_DOWNLOAD_WITHOUT_FILE,strMeetingId); 
+				RsServiceOnMeetingInfoSupport.downloadByType(RsServiceOnMeetingInfoSupport.HAND_TYPE_DOWNLOAD_WITHOUT_FILE,strMeetingId); 
 			} else if ("2".equals(strType)) {
 				//download all info
-				RsServiceOnMeetingInfoSupport.downloadByType(RsServiceOnMeetingInfoSupport.TYPE_DOWNLOAD_WITH_FILE,strMeetingId); 
+				RsServiceOnMeetingInfoSupport.downloadByType(RsServiceOnMeetingInfoSupport.HAND_TYPE_DOWNLOAD_WITH_FILE,strMeetingId); 
 			} else if ("3".equals(strType)) { 
 				//activate  
 				DaoHolder.getInstance().getDownloadInfoDao().activate(strMeetingId); 

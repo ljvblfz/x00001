@@ -29,9 +29,9 @@ public class RsServiceOnMeetingInfoSupport {
 	private final static String rspathDownloadStatusSave="http://{0}/xmeeting/rs/open/downloadstatus/save";
 	
 
-	public final static int TYPE_DEFAULT=0;
-	public final static int TYPE_DOWNLOAD_WITHOUT_FILE=1;
-	public final static int TYPE_DOWNLOAD_WITH_FILE=2;
+	public final static int WS_TYPE_DEFAULT=0;
+	public final static int HAND_TYPE_DOWNLOAD_WITHOUT_FILE=1;
+	public final static int HAND_TYPE_DOWNLOAD_WITH_FILE=2;
 	
 	/**
 	 * type=TYPE_DEFAULT
@@ -40,6 +40,14 @@ public class RsServiceOnMeetingInfoSupport {
 	public static void download(String meetingId){
 		Log.d(TAG, String.format("download begin, meetingId:  %s", meetingId));
 		// 
+		int counter=RsServiceOnMeetingInfoCounter.getInstance().getCounter().intValue();
+		Log.d(TAG, "counter is: "+counter);
+		if(counter>0){
+			Log.d(TAG, String.format("=============>download end(noting to do), meetingId:  %s", meetingId));
+			return;
+		}else{
+			RsServiceOnMeetingInfoCounter.getInstance().getCounter().incrementAndGet();
+		}
 		String serveriport=DomAppConfigFactory.getAppConfig().getServeripport();
 		String[] arguments={serveriport,meetingId};
 		String[] arguments2={serveriport};
@@ -138,7 +146,7 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 	public void run() {  
 		Log.d(TAG, "[run]begin.");
 
-		if(type==RsServiceOnMeetingInfoSupport.TYPE_DEFAULT){
+		if(type==RsServiceOnMeetingInfoSupport.WS_TYPE_DEFAULT){
 			DownloadByWsUIHandler.getInstance().sendDownloadMeetingMessageOnBegin();
 		}else{
 			DownloadByHandUIHandler.getInstance().sendDownloadMessageOnBegin();
@@ -146,7 +154,7 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 		JSONObject jsonDataMeetingInfo = downloadJsonData(); 
 		
 		if(null==jsonDataMeetingInfo){ // 下载失败
-			if(type==RsServiceOnMeetingInfoSupport.TYPE_DEFAULT){
+			if(type==RsServiceOnMeetingInfoSupport.WS_TYPE_DEFAULT){
 				DownloadByWsUIHandler.getInstance().sendDownloadMeetingMessageOnError();
 			}else{
 				DownloadByHandUIHandler.getInstance().sendDownloadMessageOnError();
@@ -156,7 +164,7 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 		//下载文件
 		try {
 			Log.d(TAG, "[run]type is : "+type);
-			if(type==RsServiceOnMeetingInfoSupport.TYPE_DEFAULT){
+			if(type==RsServiceOnMeetingInfoSupport.WS_TYPE_DEFAULT||type==RsServiceOnMeetingInfoSupport.HAND_TYPE_DOWNLOAD_WITH_FILE){
 				long begintime=System.currentTimeMillis();
 				cleanFileForDownloadInfo(jsonDataMeetingInfo);
 				saveFileForDownloadInfo(jsonDataMeetingInfo); 
@@ -164,8 +172,7 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 				Log.d(TAG, "[run]download elapsed time is : "+(endtime-begintime)/1000  +" s");
 			}//end of if
 			//更新UI下载状态
-			if(type==RsServiceOnMeetingInfoSupport.TYPE_DEFAULT){
-
+			if(type==RsServiceOnMeetingInfoSupport.WS_TYPE_DEFAULT){ 
 				Log.d(TAG, "[run]type is sendDownloadMeetingMessageOnEnd.");
 				DownloadByWsUIHandler.getInstance().sendDownloadMeetingMessageOnEnd();
 			}else{
@@ -175,7 +182,7 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 		}catch (Exception e) { 
 			e.printStackTrace();
 			Log.d(TAG, "[run]Raise the Exception is : "+e.getMessage()); 
-			if(type==RsServiceOnMeetingInfoSupport.TYPE_DEFAULT){
+			if(type==RsServiceOnMeetingInfoSupport.WS_TYPE_DEFAULT){
 				Log.d(TAG, "[run]type is sendDownloadMeetingMessageOnError.");
 				DownloadByWsUIHandler.getInstance().sendDownloadMeetingMessageOnError();
 			}else{
@@ -189,6 +196,7 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 		} catch (Exception e) { 
 			e.printStackTrace();
 		} 
+		RsServiceOnMeetingInfoCounter.getInstance().getCounter().set(0);
 		Log.d(TAG, "[run]end.");
 	}
 
@@ -340,14 +348,15 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 	
 	
 	public void saveFileForDownloadInfo(JSONObject jsonMeetingInfo) throws JSONException{
-		String serveriport=DomAppConfigFactory.getAppConfig().getServeripport();
+//		String serveriport=DomAppConfigFactory.getAppConfig().getServeripport();
+		String downloadipport=DomAppConfigFactory.getAppConfig().getDownloadipport();
 		//
 		//公司简介
 		JSONArray listOfXmCompanyInfo=jsonMeetingInfo.getJSONArray("listOfXmCompanyInfo"); 
 		for(int i=0;i<listOfXmCompanyInfo.length();i++){
 			JSONObject docJson=listOfXmCompanyInfo.getJSONObject(i);
 			String docFile=docJson.getString("xmciAttachment");
-			int retFlagCompInfo=HttpDownloadSupport.downloadFile(serveriport, docFile,listener);
+			int retFlagCompInfo=HttpDownloadSupport.downloadFile(downloadipport, docFile,listener);
 			if(0==retFlagCompInfo){
 				jsonDownloadStatus.put("xmdsCompany", "0"); 
 			} 
@@ -357,7 +366,7 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 		for(int i=0;i<listOfXmMeetingDocument.length();i++){
 			JSONObject docJson=listOfXmMeetingDocument.getJSONObject(i);
 			String docFile=docJson.getString("xmmdFile");
-			int retFlagDocInfo=HttpDownloadSupport.downloadFile(serveriport, docFile,listener);
+			int retFlagDocInfo=HttpDownloadSupport.downloadFile(downloadipport, docFile,listener);
 			if(0==retFlagDocInfo){
 				jsonDownloadStatus.put("xmdsDocument", "0"); 
 			}
@@ -371,7 +380,7 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 			for(int j=0;j<listOfXmMeetingPictureDetail.length();j++){
 				JSONObject picJson=listOfXmMeetingPictureDetail.getJSONObject(j);
 				String picFile=picJson.getString("xmmpicImageFile");
-				int retFlagPicInfo=HttpDownloadSupport.downloadFile(serveriport, picFile,listener); 
+				int retFlagPicInfo=HttpDownloadSupport.downloadFile(downloadipport, picFile,listener); 
 				if(0==retFlagPicInfo){
 					jsonDownloadStatus.put("xmdsImage", "0"); 
 				}
@@ -383,7 +392,7 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 		for(int i=0;i<listOfXmMeetingVideo.length();i++){
 			JSONObject videoJson=listOfXmMeetingVideo.getJSONObject(i);
 			String videoFile=videoJson.getString("xmmvFile");
-			int retFlagVideoInfo=HttpDownloadSupport.downloadFile(serveriport, videoFile,listener);  
+			int retFlagVideoInfo=HttpDownloadSupport.downloadFile(downloadipport, videoFile,listener);  
 			if(0==retFlagVideoInfo){
 				jsonDownloadStatus.put("xmdsVideo", "0"); 
 			}

@@ -25,7 +25,7 @@ public class RsServiceOnMeetingInfoListener implements HttpDownloadListener {
 	}
 
 	private void updateProgress(long kb) {
-		if (type == RsServiceOnMeetingInfoSupport.TYPE_DEFAULT) {
+		if (type == RsServiceOnMeetingInfoSupport.WS_TYPE_DEFAULT) {
 			DownloadByWsUIHandler.getInstance()
 					.sendDownloadMeetingMessageOnProgress(kb);
 		} else {

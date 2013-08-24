@@ -164,7 +164,9 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
         	for(int i=0;i<count;i++){
     			bitmapWrappers[i]=listOfBitmapWrapper.get(i);
         	}
-            
+            if(null!=imageAdapter){
+    	        imageAdapter.releaseImageGallery();
+            }
             imageAdapter = new ImageAdapter(ImageGallaryMainActivity.this,bitmapWrappers);
             imageAdapter.createImageGallery();
             return null;
@@ -191,16 +193,18 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
 	        });
 	        galleryFlow.setCallbackDuringFling(false);
 	        
-	        galleryFlow.setOnItemSelectedListener(new OnItemSelectedListener() {    // 设置选择事件监听     
-	            @Override
-	            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {     
-	            	currentSelectedPosition = position;
-	            }     
-	              
-	            @Override
-	            public void onNothingSelected(AdapterView<?> parent) {     
-	            }     
-	        });     
+	        
+	        
+//	        galleryFlow.setOnItemSelectedListener(new OnItemSelectedListener() {// 设置选择事件监听     
+//	            @Override
+//	            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {     
+//	            	currentSelectedPosition = position;
+//	            }     
+//	              
+//	            @Override
+//	            public void onNothingSelected(AdapterView<?> parent) {     
+//	            }     
+//	        });     
 	                 
             super.onPostExecute(result);
         }//end of onPostExecute
@@ -497,22 +501,24 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
 
 	         for (BitmapWrapper bitmapWrapper : mBitmapWrappers)
 	         { 
-	        	 Bitmap bitmap=bitmapWrapper.getBitmap();  
-//		         Bitmap bitmapWithReflection = BitmapSupport.drawBitmap(bitmap); 
-		         Bitmap bitmapWithReflection = BitmapSupport.createBitmap(bitmap); 
+	        	 Bitmap bitmap=bitmapWrapper.getBitmap();   
+//		         Bitmap bitmapWithReflection = BitmapSupport.createBitmap(bitmap); 
+//		         Bitmap bitmapWithReflection = bitmap;
 		         //create imageview
 	             final ImageView imageView = new ImageView(mContext);
-	             imageView.setImageBitmap(bitmapWithReflection);
+	             imageView.setImageBitmap(bitmap);
 	             imageView.setLayoutParams(new GalleryFlow.LayoutParams(250, 340));
 	             imageView.setScaleType(ScaleType.FIT_XY);
 	             mImageViews[index++] = imageView; 
-//	             bitmapWithReflection.recycle();
 	         }  
 	     }//end of createReflectedImages
 
 
-	     public void releaseImageGallery() {
-	    	 
+	     public void releaseImageGallery() { 
+	         for (BitmapWrapper bitmapWrapper : mBitmapWrappers){ 
+	        	 Bitmap bitmap=bitmapWrapper.getBitmap();  
+	        	 bitmap.recycle();
+	         } 
 	     }
 
 	     private Resources getResources() 
