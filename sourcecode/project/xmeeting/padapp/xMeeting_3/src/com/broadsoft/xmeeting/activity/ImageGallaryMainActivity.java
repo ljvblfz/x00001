@@ -126,8 +126,11 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
 
 //		Bitmap[] images;
         @Override
-        protected String[] doInBackground(String... params) {  
+        protected String[] doInBackground(String... params) {   
         	String position=params[0]; 
+            if(null!=imageAdapter){
+    	        imageAdapter.releaseImageGallery();
+            }
         	String extStorageDirectory=SDCardSupport.getSDCardDirectory(); 
         	JSONArray jsonArrayDetail=(JSONArray)mServerData.get(Integer.parseInt(position)).get("jsonArrayDetail");
         	List<BitmapWrapper> listOfBitmapWrapper=new ArrayList<BitmapWrapper>();
@@ -160,9 +163,6 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
         	for(int i=0;i<count;i++){
     			bitmapWrappers[i]=listOfBitmapWrapper.get(i);
         	}
-            if(null!=imageAdapter){
-    	        imageAdapter.releaseImageGallery();
-            }
             imageAdapter = new ImageAdapter(ImageGallaryMainActivity.this,bitmapWrappers);
             imageAdapter.createImageGallery();
             return null;
@@ -558,6 +558,7 @@ public class ImageGallaryMainActivity extends Activity implements OnPullDownList
 	         for (BitmapWrapper bitmapWrapper : mBitmapWrappers){ 
 	        	 Bitmap bitmap=bitmapWrapper.getBitmap();  
 	        	 bitmap.recycle();
+	        	 bitmap=null;
 	         } 
 	     }
 
