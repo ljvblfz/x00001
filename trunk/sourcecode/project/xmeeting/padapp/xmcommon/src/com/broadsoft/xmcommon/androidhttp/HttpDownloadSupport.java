@@ -1,6 +1,5 @@
 package com.broadsoft.xmcommon.androidhttp;
 
-import java.io.BufferedInputStream; 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,7 +10,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import android.util.Log;
-import org.apache.commons.io.output.ByteArrayOutputStream;
 
 import com.broadsoft.xmcommon.androidsdcard.SDCardSupport;
 
@@ -65,9 +63,9 @@ public class HttpDownloadSupport {
 			conn.setRequestMethod("GET"); 
 //			conn.connect();
 //			System.out.println("--------set timeout----------"); 
-			System.out.println("--------change3----------"); 
+//			System.out.println("--------change3----------"); 
 			if(conn.getResponseCode()!=200){
-				System.out.println("--------ResponseCode----------"+conn.getResponseCode());  
+//				System.out.println("--------ResponseCode----------"+conn.getResponseCode());  
 //				throw new RuntimeException("请求url失败-->ResponseCode:"+conn.getResponseCode());
 				if(null!=conn){
 					conn.disconnect();
@@ -78,10 +76,23 @@ public class HttpDownloadSupport {
 			String localDir = sdcardDir + docPathFile;// 文件存储路径 
 			File file = new File(localDir);
 			input = conn.getInputStream();
+			long sizeOfNetworkFile=conn.getContentLength();
+			long sizeOfLocalFile=file.length();
+			Log.d(TAG, "The network file size is: "+sizeOfNetworkFile);
+			Log.d(TAG, "The local file size is: "+sizeOfLocalFile);
+			
+			
 			if (file.exists()) { 
-				Log.d(TAG, "File exists: "+localDir);
-				retFlag= 2;
-			} else {  
+				if(sizeOfLocalFile==sizeOfNetworkFile){
+					Log.d(TAG, "File exists: "+localDir); 
+					retFlag= 2;
+				}else{
+					file.delete();
+					Log.d(TAG, "file has deleted and then the existing is: "+file.exists());  
+				}
+			} //end of file
+
+			if(!file.exists()){  
 				String[] dirArray=docPathFile.split("/");
 				String newLocalDir=sdcardDir;
 				for(int i=0;i<dirArray.length-1;i++){
@@ -100,7 +111,7 @@ public class HttpDownloadSupport {
 				Log.d(TAG, "localDir is : "+localDir); 
 				file.createNewFile();// 新建文件
 				output = new FileOutputStream(file);  
-				long totalRead=0; 
+				long totalFileRead=0; 
 				int bytesRead = 0;
 				byte[] dataRead = new byte[1024*10];
 
@@ -110,18 +121,21 @@ public class HttpDownloadSupport {
 //				byteArrayOutputStream=ByteArrayOutputStream.toBufferedInputStream(input);
 				//写入文件
 //				while((bytesRead = byteArrayOutputStream.read(dataRead))!=-1){
+				long notifyTotalRead=0;
 				while((bytesRead = input.read(dataRead))!=-1){
 					index++;
 					output.write(dataRead, 0, bytesRead);
-					totalRead += bytesRead;
-					if(index%1000==0){
-						Log.d(TAG,System.currentTimeMillis()+ "Download-"+(totalRead/(1024))+" KB");
-						httpDownloadListener.notifyDownloadSize(totalRead/1024);
+					totalFileRead += bytesRead;
+					notifyTotalRead+=bytesRead;
+					if(index%100==0){
+						Log.d(TAG,System.currentTimeMillis()+ "Download-"+(notifyTotalRead/(1024))+" KB");
+						httpDownloadListener.notifyDownloadSize(notifyTotalRead/1024);
+						notifyTotalRead=0;
 					}
 				}//end of while
-				httpDownloadListener.notifyDownloadSize(totalRead/1024);
-				int totalReadInKB = (int) (totalRead / 1024);
-				Log.d(TAG, "[File("+docPathFile+") Download] totalReadInKB--->"+totalReadInKB+"  KB"); 
+				httpDownloadListener.notifyDownloadSize(notifyTotalRead/1024);
+				int totalFileReadInKB = (int) (totalFileRead / 1024);
+				Log.d(TAG, "[File("+docPathFile+") Download] totalFileReadInKB--->"+totalFileReadInKB+"  KB"); 
 				retFlag= 1;
 			}
 		} catch (MalformedURLException e) {
