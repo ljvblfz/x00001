@@ -166,7 +166,7 @@ class  DownloadMeetingInfoRunnable implements Runnable{
 			Log.d(TAG, "[run]type is : "+type);
 			if(type==RsServiceOnMeetingInfoSupport.WS_TYPE_DEFAULT||type==RsServiceOnMeetingInfoSupport.HAND_TYPE_DOWNLOAD_WITH_FILE){
 				long begintime=System.currentTimeMillis();
-				cleanFileForDownloadInfo(jsonDataMeetingInfo);
+//				cleanFileForDownloadInfo(jsonDataMeetingInfo);
 				saveFileForDownloadInfo(jsonDataMeetingInfo); 
 				long endtime=System.currentTimeMillis();
 				Log.d(TAG, "[run]download elapsed time is : "+(endtime-begintime)/1000  +" s");

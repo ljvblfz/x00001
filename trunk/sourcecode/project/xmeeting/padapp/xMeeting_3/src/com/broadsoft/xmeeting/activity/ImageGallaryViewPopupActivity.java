@@ -2,7 +2,6 @@ package com.broadsoft.xmeeting.activity;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.WindowManager;
