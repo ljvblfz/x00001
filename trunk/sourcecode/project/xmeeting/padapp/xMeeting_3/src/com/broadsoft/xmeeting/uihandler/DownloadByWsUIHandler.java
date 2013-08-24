@@ -128,7 +128,7 @@ public class DownloadByWsUIHandler extends Handler {
 	private ProgressDialog progressDialog;
 	private void createLoadingDialog(){ 
 		Log.d(TAG, "createLoadingDialog begin");
-		if(null!=progressDialog){
+		if(null==progressDialog){
 			 progressDialog = new ProgressDialog(act);
 			 progressDialog.setMessage("下载中,请等待...");
 			 progressDialog.setCancelable(false);

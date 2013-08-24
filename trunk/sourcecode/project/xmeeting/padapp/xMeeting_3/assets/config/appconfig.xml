@@ -6,7 +6,9 @@
   <databaseversion>1</databaseversion>
 <!--   <serveripport>172.29.135.151:8080</serveripport> -->
   <serveripport>192.168.1.2</serveripport>
+<!--   <downloadipport>192.168.1.100:8009</downloadipport> -->
+  <downloadipport>192.168.1.2:9000</downloadipport>
   <serverenable>1</serverenable>
-  <version>1.0.2</version>
+  <version>1.0.6</version>
 <!--   <serverenable>1</serverenable> -->
 </androidconfig>
