@@ -70,8 +70,14 @@ public class DownloadMessageInbound extends MessageInbound {
 			//心跳
 			if("10".equals(msgType)){  
 				if(logger.isTraceEnabled()){
-					logger.trace("onTextMessage--->心跳消息"); 
+					logger.trace("onTextMessage--->心跳消息--->"+this.getPadCode()); 
 				} 
+				if(!DownloadMessageInboundHolder.checkIfExist(this)){
+					if(logger.isTraceEnabled()){
+						logger.trace("onTextMessage--->重新添加到连接队列--->"+this.getPadCode()); 
+					} 
+					DownloadMessageInboundHolder.add(this);
+				}
 				getWsOutbound().writeTextMessage(msg);  
 				return;
 			}//end of if
@@ -122,6 +128,12 @@ public class DownloadMessageInbound extends MessageInbound {
             String roleName=messageInbound.getRoleName();
             String padId=messageInbound.getPadId(); 
             if(roleName.toUpperCase().equals(ROLE_NAME_DEVICE)&&isExist(padId,toList)){//只有设备下发 
+				try {
+					//等待3秒
+					Thread.sleep(3 * 1000);
+				} catch (InterruptedException e) { 
+					e.printStackTrace();
+				} 
                 WsOutbound outbound = messageInbound.getWsOutbound();  
                 outbound.writeTextMessage(buffer);  
                 outbound.flush();   
